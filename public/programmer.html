@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+<textarea id="code" rows="20" cols="80">
+    size(500,500);
+    background(0,0);
+    rect(50,50,150,130);
+</textarea>
+<button id="bouton">click</button>
+<script>
+io = io.connect()
+document.getElementById('bouton').addEventListener('click',function(){
+  io.emit('ready', document.getElementById('code').value);
+});
+</script>
+</body>
+</html>

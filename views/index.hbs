@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="processing.js" type="text/javascript"></script>
+<script src="/socket.io/socket.io.js"></script>
+<style>
+canvas { position:absolute; }
+#id { position:relative; border: 1px dotted black; }
+</style>
+</head>
+<body>
+<div id="container">
+</div>
+<script>
+var sketch;
+var io = io.connect()
+
+// Listen for the new visitor event.
+io.on('new visitor', function(data) {
+    //if(sketch) {
+    //  sketch.exit();
+    //  sketch = null;
+    //}
+    var canvas = document.createElement('canvas');
+    document.getElementById('container').appendChild(canvas);
+    var sketch = new Processing(canvas, data);
+})
+</script>
+</body>
+</html>
