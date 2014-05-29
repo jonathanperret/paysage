@@ -38,7 +38,7 @@ Just like writing on Etherpad or Google Docs, users have to evolve their own soc
 
 In a sandbox (a real one at the park :-) a kid can destroy the castle another built, and it's the role of other kids and adults to build their own rules about what is allowed and what is not.
 
-In that sensem Paysage is also a playground to learn and explore open collaboration.
+In that sense Paysage is also a playground to learn and explore open collaboration.
 
 
 
