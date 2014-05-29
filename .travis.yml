@@ -1,0 +1,7 @@
+deploy:
+  provider: heroku
+  api_key:
+    secure: QpaeyIAI5/FCHfGZVZ4BvNheL7k3xM6aBWOTRitdqkGPCnjiVWSww2KcghXczXvMaA+dhxP31ISZ6l2/zZFoqiTvFFvDQgmE62n3fdKjN1ZypLyDiX2ziDocXRz03zhTSG7BNNo5l19R954yNbfdiUWlm+h+vWu5XjuS3Ri/8f4=
+  app: paysage
+  on:
+    repo: jonathanperret/paysage
