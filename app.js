@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
-var app = require('express.io')()
+var app = require('express.io')();
 
 var cons = require('consolidate');
 // view engine setup
@@ -58,12 +58,12 @@ app.use(function(err, req, res, next) {
     });
 });
 
-app.http().io()
+app.http().io();
 
-// Broadcast the new visitor event on ready route.
+// Broadcast the code update event on ready route.
 app.io.route('ready', function(req) {
   console.log(req.data);
-  req.io.broadcast('new visitor', req.data);
+  req.io.broadcast('code update', req.data);
 });
 
 
