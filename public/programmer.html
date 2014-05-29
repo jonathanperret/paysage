@@ -149,10 +149,9 @@ document.getElementById('bouton').addEventListener('click',
     function(){
       var codeid = document.getElementById('codeid').value;
       var code = document.getElementById('code').value;
-      io.emit('ready', 
-        {id: codeid,
-        code: code}
-        );
+      var data = {id: codeid, code: code}
+      io.emit('ready', data);
+    })
 </script>
 </body>
 </html>

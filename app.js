@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
-var app = require('express.io')()
+var app = require('express.io')();
 
 var cons = require('consolidate');
 // view engine setup
