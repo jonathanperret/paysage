@@ -4,6 +4,7 @@
 <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
+<textarea id="codeid"rows="1" cols="80">1</textarea>
 <textarea id="code" rows="20" cols="80">
 // See also : http://itunes.com/app/Number32
 
@@ -145,8 +146,11 @@ void drawAtom(int bits) {
 <script>
 io = io.connect()
 document.getElementById('bouton').addEventListener('click',function(){
-  io.emit('ready', document.getElementById('code').value);
-});
+  localcodeid = document.getElementById('codeid').value;
+  localcode = document.getElementById('code').value;
+  io.emit('ready', 
+    {id: localcodeid,
+    code: localcode});
 </script>
 </body>
 </html>
