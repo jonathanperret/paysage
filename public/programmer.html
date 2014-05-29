@@ -145,12 +145,14 @@ void drawAtom(int bits) {
 <button id="bouton">click</button>
 <script>
 io = io.connect()
-document.getElementById('bouton').addEventListener('click',function(){
-  localcodeid = document.getElementById('codeid').value;
-  localcode = document.getElementById('code').value;
-  io.emit('ready', 
-    {id: localcodeid,
-    code: localcode});
+document.getElementById('bouton').addEventListener('click',
+    function(){
+      var codeid = document.getElementById('codeid').value;
+      var code = document.getElementById('code').value;
+      io.emit('ready', 
+        {id: codeid,
+        code: code}
+        );
 </script>
 </body>
 </html>
