@@ -58,12 +58,12 @@ app.use(function(err, req, res, next) {
     });
 });
 
-app.http().io()
+app.http().io();
 
-// Broadcast the new visitor event on ready route.
+// Broadcast the code update event on ready route.
 app.io.route('ready', function(req) {
   console.log(req.data);
-  req.io.broadcast('new visitor', req.data);
+  req.io.broadcast('code update', req.data);
 });
 
 

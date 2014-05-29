@@ -15,8 +15,8 @@ canvas { position:absolute; }
 var sketch;
 var io = io.connect()
 
-// Listen for the new visitor event.
-io.on('new visitor', function(data) {
+// Listen for the code update event.
+io.on('code update', function(data) {
     //if(sketch) {
     //  sketch.exit();
     //  sketch = null;
