@@ -1,6 +1,6 @@
 Paysage (alpha - contributors welcome)
 =======
-***Paysage** is a visual shared playground for code.* 
+***Paysage*** *is a visual shared playground for code.* 
 
 ![image](paysage-mood-sketch.jpg)
 
