@@ -36,7 +36,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', playground);
 
 
-
 // /// catch 404 and forward to error handler
 // app.use(function(req, res, next) {
 //     var err = new Error('Not Found');
@@ -68,16 +67,26 @@ app.use('/', playground);
 //     });
 // });
 
-
-
-
+// attach socket.io to the http server
 app.http().io();
 
-// Broadcast the code update event on ready route.
-app.io.route('ready', function(req) {
-  console.log(req.data);
-  req.io.broadcast('code update', req.data);
+// Broadcast the code update event on the playground up route, only to the room (playground) concerned.
+
+app.io.route('playground up', function(req) {
+    console.log(req.data + " from playground renderer");
+    req.io.join(req.data);
 });
 
+app.io.route('code update', function(req) {
+    console.log(req.data.playgroundid + " from programmer");
+    req.io.join(req.data.playgroundid); // it seems we need to join the room to broadcast
+    req.io.room(req.data.playgroundid).broadcast('code update', req.data);
+});
+
+// Broadcast the code update event on ready route.
+// app.io.route('ready', function(req) {
+//   console.log(req.data);
+//   req.io.broadcast('code update', req.data);
+// });
 
 module.exports = app;

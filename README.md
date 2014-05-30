@@ -14,7 +14,7 @@ We aim is to solve a very specific use case:
 ========
 ###Demo
 
-[http://paysage.herokuapp.com](http://paysage.herokuapp.com) (playground)
+[http://paysage.herokuapp.com/boumsplash](http://paysage.herokuapp.com/boumsplash) (playground)
 [http://paysage.herokuapp.com/programmer.html](http://paysage.herokuapp.com/programmer.html) (test code editor)
 
 Open both pages (on different computers for more fun), write Processing.js code on the programmer, click the button to send the code to the playground. The code is assigned a unique ID (the editor default to 1). Change the ID to create a new object, or to update a given object.

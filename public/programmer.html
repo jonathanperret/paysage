@@ -5,6 +5,7 @@
 </head>
 <body>
 <textarea id="codeid"rows="1" cols="80">1</textarea>
+<textarea id="playgroundid"rows="1" cols="80">boumsplash</textarea>
 <textarea id="code" rows="20" cols="80">
 // See also : http://itunes.com/app/Number32
 
@@ -148,9 +149,10 @@ io = io.connect()
 document.getElementById('bouton').addEventListener('click',
     function(){
       var codeid = document.getElementById('codeid').value;
+      var playgroundid = document.getElementById('playgroundid').value;
       var code = document.getElementById('code').value;
-      var data = {id: codeid, code: code}
-      io.emit('ready', data);
+      var data = {codeid: codeid, playgroundid: playgroundid, code: code}
+      io.emit('code update', data);
     })
 </script>
 </body>

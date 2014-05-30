@@ -17,13 +17,15 @@ var renderplaygroundpage = function(req, res) {
   var codelist = allplaygrounds[id].code;
   numberofcodeobjects = Object.keys(codelist).length;
   
-  res.render('playground', { title: id, code: numberofcodeobjects });
+  res.render('playground', { title: id, code: numberofcodeobjects, playgroundid: id });
 
 };
 
 
+
 /* GET any page. */
 router.get('/:pagename', renderplaygroundpage);
+
 
 
 /* GET home page. */

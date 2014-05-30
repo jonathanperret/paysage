@@ -2,9 +2,6 @@
 <html>
   <head>
     <title>Paysage home page</title>
-    <script src="processing.js" type="text/javascript"></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="paysagerenderer.js"></script>
     <style>
       canvas { position:absolute; }
       #id { position:relative; border: 1px dotted black; }
@@ -13,7 +10,10 @@
 
   <body>
    
-    <div id="container"></div>
+    <div id="container" data-playgroundid=""></div>
 
+   <script src="processing.js" type="text/javascript"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="paysagerenderer.js"></script>
   </body>
 </html>

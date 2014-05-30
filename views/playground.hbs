@@ -2,9 +2,8 @@
 <html>
   <head>
     <title>Paysage Playground {{title}} - {{code}} code objects</title>
-    <script src="processing.js" type="text/javascript"></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="paysagerenderer.js"></script>
+    <meta name="playgroundid" content="{{playgroundid}}"/>
+  
     <style>
       canvas { position:absolute; }
       #id { position:relative; border: 1px dotted black; }
@@ -13,7 +12,11 @@
 
   <body>
    
-    <div id="container"></div>
+    <div id="container" data-playgroundid="{{playgroundid}}"></div>
 
+    <script src="processing.js" type="text/javascript"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="paysagerenderer.js"></script>
+    
   </body>
 </html>
