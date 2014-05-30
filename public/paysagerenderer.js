@@ -29,4 +29,12 @@ io.on('code update', function(data) {
 
     sketch[id] = new Processing(canvas[id], code);
 
+    // trying to force a transparent background
+    //The Internetz say: "To enable transparent backgrounds for a js-built sketch, you must set the sketch transparency property to true.""
+    sketch[id].externals.sketch.options.isTransparent = true; // But not sure it's necessary... 
+    // because this set the background transparent for the sketch as well:
+    sketch[id].background(0,0); // works just for a frame, then is changed back by the loop to the original value :-(
+
+
 });
+
