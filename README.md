@@ -1,6 +1,8 @@
-Paysage (alpha)
+Paysage (alpha - contributors welcome)
 =======
-*Paysage is a visual shared playground for code.* 
+***Paysage** is a visual shared playground for code.* 
+
+![image](paysage-mood-sketch.jpg)
 
 With Paysage, kids (and adults!) live code from their own computer, laptops, tablets, phones, with a variety of IDE and editors. Each program is shared and rendered live on a visual playground. The playground accessible via an URL.
 
@@ -10,27 +12,38 @@ We aim is to solve a very specific use case:
 **Let 10 kids in the same room, with a few more kids online, code together on the same visual playground.**
 
 ========
-The Paysage server is at the moment NodeJs / Express. A Python implementation would be interesting for easy local installation.
+###Demo
 
-The Paysage playground (renderer) is a JS HTML CSS page using Processing.js
+[http://paysage.herokuapp.com](http://paysage.herokuapp.com) (playground)
+[http://paysage.herokuapp.com/programmer.html](http://paysage.herokuapp.com/programmer.html) (test code editor)
 
-Paysage editors implementations will be in a variety of languages, and can be purely textual editors or visual editors or anything in between. For example Snap! BYOB could be extended to be a Paysage live code editor.
-A Paysage editor for babies, using only shapes to touch would be very cool, too. A watcher for text editors could push code to the Paysage server at each save.
-*At the moment, we use a simple HTML form as the test editor.*
+Open both pages (on different computers for more fun), write Processing.js code on the programmer, click the button to send the code to the playground. The code is assigned a unique ID (the editor default to 1). Change the ID to create a new object, or to update a given object.
+
+The demo is continuously deployed from the GitHub repository, so your pull requests are welcome, and will be live in minutes once accepted :-)
+
+========
+#### Server, Playground, Editor(s)
+The **Paysage server** is at the moment NodeJs / Express that listen to the programmer page and send code to the renderer using socket.io.
+A Python implementation would be interesting for easy local installation.
+
+The **Paysage playground** (renderer) is a JS HTML CSS page using Processing.js
+
+**Paysage editors** implementations will be in a variety of languages, and can be purely textual editors or visual editors or anything in between. For example Snap! BYOB could be extended to be a Paysage live code editor.  A watcher for text editors could push code to the Paysage server at each save. A Paysage editor for babies, using only shapes to touch would be very cool, too. *At the moment, we use a simple HTML form as the alpha test editor: programmer.html*
 
 =======
 
-TO DO:
+####TO DO
 
 - creating a random unique playground for a group when accessing the home (like etherpad)
 - the editor can edit a specific playground
 - each code object is uniquely identified
+- code objects for a playground are persistent and reloaded from the server
 - the editor can request a list of current active object, and then edit one
 - any client editor can communicate with the server using a simple HTTP API 
 
 ======
 
-Note on the collaborative vision of Paysage:
+####Note on the collaborative vision of Paysage:
 
 Paysage do not impose social rules on the users. Anyone can edit everything if they want to! 
 
