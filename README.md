@@ -14,10 +14,15 @@ We aim is to solve a very specific use case:
 ========
 ###Demo
 
-[http://paysage.herokuapp.com/boumsplash](http://paysage.herokuapp.com/boumsplash) (playground)
-[http://paysage.herokuapp.com/programmer.html](http://paysage.herokuapp.com/programmer.html) (test code editor)
+[http://paysage.herokuapp.com/boumsplash](http://paysage.herokuapp.com/boumsplash) (playground)  
+[http://paysage.herokuapp.com/programmer.html](http://paysage.herokuapp.com/programmer.html) (test code editor) 
 
-Open both pages (on different computers for more fun), write Processing.js code on the programmer, click the button to send the code to the playground. The code is assigned a unique ID (the editor default to 1). Change the ID to create a new object, or to update a given object.
+- Open both pages (on different computers for more fun), 
+- Write Processing.js code on the programmer, click the button to send the code to the playground. Your code is assigned a unique ID (the editor default to 1).
+- Change the ID to create a new object, or to update a given object.
+- Ask a friend to open another programmer page to code together on the same playground 
+
+(all code is lost on close, no persistence for now, just live send)
 
 The demo is continuously deployed from the GitHub repository, so your pull requests are welcome, and will be live in minutes once accepted :-)
 
