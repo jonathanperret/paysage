@@ -19,7 +19,6 @@
     "less-middleware": "1.0.x",
     "express.io": "~1.1.13",
     "handlebars": "~2.0.0-alpha.4",
-    "consolidate": "~0.10.0",
-    "mongodb": "~1.4.6"
+    "consolidate": "~0.10.0"
   }
 }
