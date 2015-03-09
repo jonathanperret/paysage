@@ -13,8 +13,6 @@ var app = require('express.io')();
 
 var cons = require('consolidate');
 
-// bad bad bad but I'm tired of fighting app.locals, require anc exports…
-global.allplaygrounds = {};
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

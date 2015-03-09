@@ -9,16 +9,7 @@ var renderplaygroundpage = function(req, res) {
   // if the playground was never accessed, we create an object for it the llplaygrounds object, based on the URL 
   // [which will fail horribly for a lot of URLs, so we need to sanitize/hash that. How Etherpad is doing it?]
 
-  if (!allplaygrounds[id]) {
-    allplaygrounds[id] = {};
-    allplaygrounds[id].code = {};
-  }
-
-  var codelist = allplaygrounds[id].code;
-  numberofcodeobjects = Object.keys(codelist).length;
-  
-  res.render('playground', { title: id, code: numberofcodeobjects, playgroundid: id });
-
+  res.render('playground', { title: id, playgroundid: id });
 };
 
 
