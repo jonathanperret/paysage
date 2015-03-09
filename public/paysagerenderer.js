@@ -15,6 +15,16 @@ io.on('code update', function(data) {
   var code = data.code;
   console.log('code received '+id, data);
 
+  updateObject(id, code);
+});
+
+io.on('full update', function (data) {
+  Object.keys(data).forEach(function (k) {
+    updateObject(k, data[k]);
+  });
+});
+
+var updateObject = function (id, code) {
   if (!canvas[id]) {
     canvas[id] = document.createElement('canvas');
     canvas[id].setAttribute('id', id);
@@ -27,5 +37,4 @@ io.on('code update', function(data) {
     delete sketch[id];
   }
   sketch[id] = new Processing(canvas[id], code);
-});
-
+};

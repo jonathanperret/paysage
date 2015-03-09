@@ -70,14 +70,24 @@ app.http().io();
 
 // Broadcast the code update event on the playground up route, only to the room (playground) concerned.
 
+var codeObjects = {};
+
 app.io.route('playground up', function(req) {
     console.log(req.data + " from playground renderer");
     req.io.join(req.data);
+
+    if (!codeObjects[req.data]) return;
+
+    req.io.emit('full update', codeObjects[req.data]);
 });
 
 app.io.route('code update', function(req) {
     console.log(req.data.playgroundid + " from programmer");
     req.io.join(req.data.playgroundid); // it seems we need to join the room to broadcast
+
+    if (!codeObjects[req.data.playgroundid]) codeObjects[req.data.playgroundid] = {};
+    codeObjects[req.data.playgroundid][req.data.codeid] = req.data.code;
+
     req.io.room(req.data.playgroundid).broadcast('code update', req.data);
 });
 
