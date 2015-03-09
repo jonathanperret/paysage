@@ -82,13 +82,15 @@ app.io.route('playground up', function(req) {
 });
 
 app.io.route('code update', function(req) {
-    console.log(req.data.playgroundid + " from programmer");
-    req.io.join(req.data.playgroundid); // it seems we need to join the room to broadcast
+    var playground = req.data.playgroundid;
 
-    if (!codeObjects[req.data.playgroundid]) codeObjects[req.data.playgroundid] = {};
-    codeObjects[req.data.playgroundid][req.data.codeid] = req.data.code;
+    console.log(playground + " from programmer");
+    req.io.join(playground); // it seems we need to join the room to broadcast
 
-    req.io.room(req.data.playgroundid).broadcast('code update', req.data);
+    if (!codeObjects[playground]) codeObjects[playground] = {};
+    codeObjects[playground][req.data.codeid] = req.data.code;
+
+    req.io.room(playground).broadcast('code update', req.data);
 });
 
 // Broadcast the code update event on ready route.
