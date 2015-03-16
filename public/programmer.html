@@ -145,15 +145,15 @@ void drawAtom(int bits) {
 </textarea>
 <button id="bouton">click</button>
 <script>
-io = io.connect()
+io = io.connect();
 document.getElementById('bouton').addEventListener('click',
-    function(){
-      var codeid = document.getElementById('codeid').value;
-      var playgroundid = document.getElementById('playgroundid').value;
-      var code = document.getElementById('code').value;
-      var data = {codeid: codeid, playgroundid: playgroundid, code: code}
-      io.emit('code update', data);
-    })
+  function(){
+    var codeid = document.getElementById('codeid').value;
+    var playgroundid = document.getElementById('playgroundid').value;
+    var code = document.getElementById('code').value;
+    var data = {codeid: codeid, playgroundid: playgroundid, code: code}
+    io.emit('code update', data);
+  });
 </script>
 </body>
 </html>
