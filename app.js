@@ -70,6 +70,18 @@ app.http().io();
 
 var codeObjects = {};
 
+app.io.route('programmer up', function (req) { // server gets notified when programmer.html page is loaded
+  var playground = req.data,
+      objectIds;
+
+  req.io.join(req.data); // have client (req) join the room named after Playground Id
+
+  if (codeObjects[playground]) {
+    objectIds = Object.keys(codeObjects[playground]);
+    req.io.emit('objects full update', objectIds);
+  }
+});
+
 app.io.route('playground up', function(req) {
     console.log(req.data + " from playground renderer");
     req.io.join(req.data);
@@ -79,8 +91,10 @@ app.io.route('playground up', function(req) {
     req.io.emit('playground full update', codeObjects[req.data]);
 });
 
+
 app.io.route('code update', function(req) { // Broadcast the code update event on the playground up route, only to the room (playground) concerned.
-    var playground = req.data.playgroundid;
+    var playground = req.data.playgroundid,
+        objectIds;
 
     console.log(playground + " from programmer");
     req.io.join(playground); // it seems we need to join the room to broadcast
@@ -89,12 +103,9 @@ app.io.route('code update', function(req) { // Broadcast the code update event o
     codeObjects[playground][req.data.codeid] = req.data.code;
 
     req.io.room(playground).broadcast('code update', req.data);
-});
 
-// Broadcast the code update event on ready route.
-// app.io.route('ready', function(req) {
-//   console.log(req.data);
-//   req.io.broadcast('code update', req.data);
-// });
+    objectIds = Object.keys(codeObjects[playground]);
+    app.io.room(playground).broadcast('objects full update', objectIds);
+});
 
 module.exports = app;

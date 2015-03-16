@@ -2,6 +2,7 @@
 <html>
 <head>
 <script src="/socket.io/socket.io.js"></script>
+<script src="jquery-2.1.3.js"></script>
 </head>
 <body>
 <textarea id="codeid"rows="1" cols="80">1</textarea>
@@ -144,6 +145,7 @@ void drawAtom(int bits) {
 }
 </textarea>
 <button id="bouton">click</button>
+<ul id="objects"></ul>
 <script>
 io = io.connect();
 document.getElementById('bouton').addEventListener('click',
@@ -154,6 +156,19 @@ document.getElementById('bouton').addEventListener('click',
     var data = {codeid: codeid, playgroundid: playgroundid, code: code}
     io.emit('code update', data);
   });
+
+var playgroundid = document.getElementById('playgroundid').value;
+
+io.emit('programmer up', playgroundid);
+
+io.on('objects full update', function (data) {
+  var $objectIds = $("#objects");
+  $objectIds.empty();
+  data.forEach(function (objectId) {
+    $objectIds.append("<li>" + objectId + "</li>");
+  });
+});
+
 </script>
 </body>
 </html>
