@@ -68,8 +68,6 @@ app.use('/', playground);
 // attach socket.io to the http server
 app.http().io();
 
-// Broadcast the code update event on the playground up route, only to the room (playground) concerned.
-
 var codeObjects = {};
 
 app.io.route('playground up', function(req) {
@@ -81,7 +79,7 @@ app.io.route('playground up', function(req) {
     req.io.emit('playground full update', codeObjects[req.data]);
 });
 
-app.io.route('code update', function(req) {
+app.io.route('code update', function(req) { // Broadcast the code update event on the playground up route, only to the room (playground) concerned.
     var playground = req.data.playgroundid;
 
     console.log(playground + " from programmer");
