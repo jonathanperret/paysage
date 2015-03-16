@@ -78,7 +78,7 @@ app.io.route('playground up', function(req) {
 
     if (!codeObjects[req.data]) return;
 
-    req.io.emit('full update', codeObjects[req.data]);
+    req.io.emit('playground full update', codeObjects[req.data]);
 });
 
 app.io.route('code update', function(req) {

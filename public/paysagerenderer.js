@@ -18,7 +18,7 @@ io.on('code update', function(data) {
   updateObject(id, code);
 });
 
-io.on('full update', function (data) {
+io.on('playground full update', function (data) {
   Object.keys(data).forEach(function (k) {
     updateObject(k, data[k]);
   });
