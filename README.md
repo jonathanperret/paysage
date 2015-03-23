@@ -39,10 +39,10 @@ The **Paysage playground** (renderer) is a JS HTML CSS page using Processing.js
 
 ####TO DO
 
-- [creating a random unique playground for a group when accessing the home (like etherpad)](https://github.com/jonathanperret/paysage/issues/3)
-- [properly destroy Processing.js instances on code update](https://github.com/jonathanperret/paysage/issues/4)
+
 - [code objects for a playground should be persistent and reloaded from the server](https://github.com/jonathanperret/paysage/issues/5)
 - [the alpha editor should be able to request a list of current active object, and load one](https://github.com/jonathanperret/paysage/issues/6)
+- [creating a random unique playground for a group when accessing the home (like etherpad)](https://github.com/jonathanperret/paysage/issues/3)
 - [any client editor should be able communicate with the server using a simple HTTP API](https://github.com/jonathanperret/paysage/issues/7)
 
 ======
