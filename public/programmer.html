@@ -1,151 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="/socket.io/socket.io.js"></script>
-<script src="jquery-2.1.3.js"></script>
+  <link href="stylesheets/programmer.css" rel="stylesheet">
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="jquery-2.1.3.js"></script>
 </head>
 <body>
 <textarea id="codeid"rows="1" cols="80">1</textarea>
 <textarea id="playgroundid" rows="1" cols="80">boumsplash</textarea>
-<textarea id="code" rows="20" cols="80">
-// See also : http://itunes.com/app/Number32
-
-Creature c;
-
-void setup() {
-  size(500, 500);
-
-  smooth();
-
-  background(0);
-  noStroke();
-
-
-  c = new Type1(int(random(255)), 0x55);
-  c.position = new JVector(width/2,height/2);
-}
-
-void draw() {
-  background(0,0);
-  fill(0);
-
-  c.think();
-
-  c.draw();
-}
-
-
-static int rotl(int x, int n) {
-  return ((x << n) | ((x >>> (8-n)) & 0xff)) & 0xff;
-}
-
-
-class JVector {
-  public float x, y;
-
-  JVector(float x, float y) {
-    this.x = x;
-    this.y = y;
-  }
-
-  void add(JVector v) {
-    this.x += v.x;
-    this.y += v.y;
-  }
-
-  void mult(float f) {
-    this.x *= f;
-    this.y *= f;
-  }
-
-  float mag() {
-    return sqrt(this.x * this.x + this.y * this.y);
-  }
-}
-
-class Creature {
-  public int mwidth;
-  public int mheight;
-  public int[] bitmasks;
-  public float skale;
-  public float angle;
-  public JVector position;
-  public JVector speed;
-
-  Creature(int mwidth, int mheight, int[] bitmasks) {
-    this.skale = 10;
-
-    this.mwidth = mwidth;
-    this.mheight = mheight;
-
-    this.angle = 0;
-
-    this.position = new JVector(0, 0);
-
-    this.speed = new JVector(0, 0);
-
-    this.bitmasks = bitmasks;
-  }
-
-  void think() {
-    if(this.speed.mag() < 0.1) {
-      this.speed = new JVector(random(-10,10),random(-10,10));
-
-      if((this.position.x < 0 &&  this.speed.x < 0)
-        || (this.position.x > width && this.speed.x > 0)
-        )
-        this.speed.x *= -1;
-
-      if((this.position.y < 0 && this.speed.y < 0)
-        || (this.position.y > height && this.speed.y > 0)
-        )
-        this.speed.y *= -1;
-    }
-
-    this.position.add(this.speed);
-    this.speed.mult(0.95);
-    this.angle += 0.02 * this.speed.x;
-  }
-
-  void draw() {
-    pushMatrix();
-    translate(this.position.x, this.position.y);
-    scale(this.skale);
-    rotate(this.angle);
-    for(int y=0; y<mheight; y++)
-      for(int x=0; x<mwidth; x++) {
-        int bits = this.bitmasks[y*mwidth + x];
-        pushMatrix();
-        translate(1 + 2*x - mwidth, 1 + 2*y - mheight);
-        drawAtom(bits);
-        popMatrix();
-      }
-    popMatrix();
-  }
-}
-
-class Type1 extends Creature {
-  Type1(int a, int b) {
-    super(3, 3, new int[] { 
-      a,0,rotl(a,6), 0,b,0, rotl(a,2),0,rotl(a,4)
-    } 
-    );
-  }
-}
-
-void drawAtom(int bits) {
-    if(0 != (bits & 1)) triangle(0.029289335,0.07071072,0.029289335,0.97071064,0.92928934,0.97071064);
-    if(0 != (bits & 2)) triangle(0.07071072,0.029289335,0.97071064,0.92928934,0.97071064,0.029289335);
-    if(0 != (bits & 4)) triangle(0.07071072,-0.029289335,0.97071064,-0.029289335,0.97071064,-0.92928934);
-    if(0 != (bits & 8)) triangle(0.029289335,-0.07071072,0.92928934,-0.97071064,0.029289335,-0.97071064);
-    if(0 != (bits & 16)) triangle(-0.029289335,-0.07071072,-0.029289335,-0.97071064,-0.92928934,-0.97071064);
-    if(0 != (bits & 32)) triangle(-0.07071072,-0.029289335,-0.97071064,-0.92928934,-0.97071064,-0.029289335);
-    if(0 != (bits & 64)) triangle(-0.07071072,0.029289335,-0.97071064,0.029289335,-0.97071064,0.92928934);
-    if(0 != (bits & 128)) triangle(-0.029289335,0.07071072,-0.92928934,0.97071064,-0.029289335,0.97071064);
-}
-</textarea>
+<textarea id="code" rows="20" cols="80"></textarea>
 <button id="bouton">click</button>
 <ul id="objects"></ul>
+<div class="examples">
+  <div class="example number-32"></div>
+  <div class="example eye"></div>
+</div>
 <script>
 io = io.connect();
 
@@ -180,6 +49,174 @@ io.on('source code', function (data) {
 });
 
 io.emit('programmer up', document.getElementById('playgroundid').value);
+
+$('.number-32').click(function () {
+  $('#codeid').val(Math.floor(Math.random()*100000));
+  $('#code').val(
+'// See also : http://itunes.com/app/Number32 \n' +
+' \n' +
+'Creature c; \n' +
+' \n' +
+'void setup() { \n' +
+'  size(500, 500); \n' +
+' \n' +
+'  smooth(); \n' +
+' \n' +
+'  background(0); \n' +
+'  noStroke(); \n' +
+' \n' +
+' \n' +
+'  c = new Type1(int(random(255)), 0x55); \n' +
+'  c.position = new JVector(width/2,height/2); \n' +
+'} \n' +
+' \n' +
+'void draw() { \n' +
+'  background(0,0); \n' +
+'  fill(0); \n' +
+' \n' +
+'  c.think(); \n' +
+' \n' +
+'  c.draw(); \n' +
+'} \n' +
+' \n' +
+' \n' +
+'static int rotl(int x, int n) { \n' +
+'  return ((x << n) | ((x >>> (8-n)) & 0xff)) & 0xff; \n' +
+'} \n' +
+' \n' +
+' \n' +
+'class JVector { \n' +
+'  public float x, y; \n' +
+' \n' +
+'  JVector(float x, float y) { \n' +
+'    this.x = x; \n' +
+'    this.y = y; \n' +
+'  } \n' +
+' \n' +
+'  void add(JVector v) { \n' +
+'    this.x += v.x; \n' +
+'    this.y += v.y; \n' +
+'  } \n' +
+' \n' +
+'  void mult(float f) { \n' +
+'    this.x *= f; \n' +
+'    this.y *= f; \n' +
+'  } \n' +
+' \n' +
+'  float mag() { \n' +
+'    return sqrt(this.x * this.x + this.y * this.y); \n' +
+'  } \n' +
+'} \n' +
+' \n' +
+'class Creature { \n' +
+'  public int mwidth; \n' +
+'  public int mheight; \n' +
+'  public int[] bitmasks; \n' +
+'  public float skale; \n' +
+'  public float angle; \n' +
+'  public JVector position; \n' +
+'  public JVector speed; \n' +
+' \n' +
+'  Creature(int mwidth, int mheight, int[] bitmasks) { \n' +
+'    this.skale = 10; \n' +
+' \n' +
+'    this.mwidth = mwidth; \n' +
+'    this.mheight = mheight; \n' +
+' \n' +
+'    this.angle = 0; \n' +
+' \n' +
+'    this.position = new JVector(0, 0); \n' +
+' \n' +
+'    this.speed = new JVector(0, 0); \n' +
+' \n' +
+'    this.bitmasks = bitmasks; \n' +
+'  } \n' +
+' \n' +
+'  void think() { \n' +
+'    if(this.speed.mag() < 0.1) { \n' +
+'      this.speed = new JVector(random(-10,10),random(-10,10)); \n' +
+' \n' +
+'      if((this.position.x < 0 &&  this.speed.x < 0) \n' +
+'        || (this.position.x > width && this.speed.x > 0) \n' +
+'        ) \n' +
+'        this.speed.x *= -1; \n' +
+' \n' +
+'      if((this.position.y < 0 && this.speed.y < 0) \n' +
+'        || (this.position.y > height && this.speed.y > 0) \n' +
+'        ) \n' +
+'        this.speed.y *= -1; \n' +
+'    } \n' +
+' \n' +
+'    this.position.add(this.speed); \n' +
+'    this.speed.mult(0.95); \n' +
+'    this.angle += 0.02 * this.speed.x; \n' +
+'  } \n' +
+' \n' +
+'  void draw() { \n' +
+'    pushMatrix(); \n' +
+'    translate(this.position.x, this.position.y); \n' +
+'    scale(this.skale); \n' +
+'    rotate(this.angle); \n' +
+'    for(int y=0; y<mheight; y++) \n' +
+'      for(int x=0; x<mwidth; x++) { \n' +
+'        int bits = this.bitmasks[y*mwidth + x]; \n' +
+'        pushMatrix(); \n' +
+'        translate(1 + 2*x - mwidth, 1 + 2*y - mheight); \n' +
+'        drawAtom(bits); \n' +
+'        popMatrix(); \n' +
+'      } \n' +
+'    popMatrix(); \n' +
+'  } \n' +
+'} \n' +
+' \n' +
+'class Type1 extends Creature { \n' +
+'  Type1(int a, int b) { \n' +
+'    super(3, 3, new int[] {  \n' +
+'      a,0,rotl(a,6), 0,b,0, rotl(a,2),0,rotl(a,4) \n' +
+'    }  \n' +
+'    ); \n' +
+'  } \n' +
+'} \n' +
+' \n' +
+'void drawAtom(int bits) { \n' +
+'    if(0 != (bits & 1)) triangle(0.029289335,0.07071072,0.029289335,0.97071064,0.92928934,0.97071064); \n' +
+'    if(0 != (bits & 2)) triangle(0.07071072,0.029289335,0.97071064,0.92928934,0.97071064,0.029289335); \n' +
+'    if(0 != (bits & 4)) triangle(0.07071072,-0.029289335,0.97071064,-0.029289335,0.97071064,-0.92928934); \n' +
+'    if(0 != (bits & 8)) triangle(0.029289335,-0.07071072,0.92928934,-0.97071064,0.029289335,-0.97071064); \n' +
+'    if(0 != (bits & 16)) triangle(-0.029289335,-0.07071072,-0.029289335,-0.97071064,-0.92928934,-0.97071064); \n' +
+'    if(0 != (bits & 32)) triangle(-0.07071072,-0.029289335,-0.97071064,-0.92928934,-0.97071064,-0.029289335); \n' +
+'    if(0 != (bits & 64)) triangle(-0.07071072,0.029289335,-0.97071064,0.029289335,-0.97071064,0.92928934); \n' +
+'    if(0 != (bits & 128)) triangle(-0.029289335,0.07071072,-0.92928934,0.97071064,-0.029289335,0.97071064); \n' +
+'} \n' 
+  );
+});
+
+$('.eye').click(function () {
+  $('#codeid').val(Math.floor(Math.random()*100000));
+  $('#code').val(
+'void setup() {\n' +
+'  size (800, 600)\n' +
+'}\n' +
+'\n' +
+'void draw() {\n' +
+'  background(0,0);\n' +
+'\n' +
+'  translate(200 + 100 * Math.cos(millis()/800), 200 + 100 * Math.sin(millis() / 750))\n' +
+'\n' +
+'  fill(200, 80, 80)\n' +
+'  ellipse(0,0,120,120)\n' +
+'\n' +
+'  fill(60, 60, 123)\n' +
+'  ellipse(0,0,100,100)\n' +
+'\n' +
+'  fill(130, 130, 140)\n' +
+'  ellipse(0,0,70,70)\n' +
+'\n' +
+'  fill(0, 220, 120)\n' +
+'  ellipse(0,0,40,40)\n' +
+'}\n'
+  );
+});
 </script>
 </body>
 </html>

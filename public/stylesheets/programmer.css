@@ -1,0 +1,15 @@
+.example {
+  width: 110px;
+  height: 110px;
+  margin: 10px;
+  border: solid black 1px;
+  display: inline-block;
+}
+
+.number-32 {
+  background: url('/images/number_32.png');
+}
+
+.eye {
+  background: url('/images/eye.png');
+}
