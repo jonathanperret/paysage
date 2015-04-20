@@ -59,5 +59,5 @@ In that sense Paysage is also a playground to learn and explore open collaborati
 - [code objects for a playground should be persistent and reloaded from the server](https://github.com/jonathanperret/paysage/issues/5)
 - [creating a random unique playground for a group when accessing the home (like etherpad)](https://github.com/jonathanperret/paysage/issues/3)
 - [any client editor should be able communicate with the server using a simple HTTP API](https://github.com/jonathanperret/paysage/issues/7)
+  - for example [a local script could sync objects and local files](https://github.com/jonathanperret/paysage/issues/14) 
 - [a set of 2-4 example 'creatures' that can be added from the alpha editor](https://github.com/jonathanperret/paysage/issues/12)
-
