@@ -38,7 +38,7 @@ The **Paysage playground** (renderer) is a JS HTML CSS page using Processing.js
  - Snap!, Blocky from Google or BlockLanguages could be used to create block-based editors.  
  - A local watcher app for text editors could push code to the Paysage server at each save. 
  - A Paysage editor for babies on tablets, using only shapes to touch would be very cool, too. 
- -
+ 
 *At the moment, we use a simple HTML page as the alpha test editor: programmer.html*, communicating with the server using socket.io 
 
 ======
