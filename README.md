@@ -35,9 +35,10 @@ A Python implementation would be interesting for easy local installation.
 The **Paysage playground** (renderer) is a JS HTML CSS page using Processing.js
 
 **Paysage editors** implementations will ideally be in a variety of languages, and could be purely textual editors or visual editors or anything in between. For example :
- - Snap!, Blocky from Google or BlockLanguages could be used to create block-based editors.  
- - A local watcher app for text editors could push code to the Paysage server at each save. 
- - A Paysage editor for babies on tablets, using only shapes to touch would be very cool, too. 
+ - A block-based editor based on Snap!, Blocky from Google or BlockLanguages.  
+ - A local folder-watcher app for text editors could push code to the Paysage server at each file save. 
+ - An Etherpad based editor could allow several persons to code together on the same code object.
+ - An editor for babies on tablets, using only shapes to touch would be very cool, too. 
  
 *At the moment, we use a simple HTML page as the alpha test editor: [programmer.html](http://paysage.herokuapp.com/programmer.html)*, communicating with the server using socket.io 
 
