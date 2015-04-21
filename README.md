@@ -4,12 +4,12 @@ Paysage (alpha - contributors welcome)
 
 ![image](paysage-mood-sketch.jpg)
 
-With Paysage, kids (and adults!) live code from their own computer, laptops, tablets, phones, with a variety of IDE and editors. 
-Piece of code are send and rendered live on a visual playground, accessible via an URL.
+With Paysage kids –and adults!– live code from their own computer, laptops, tablets, phones, using a variety of IDE and editors. 
+Pieces of code that we call 'code objects' are send and rendered live on a visual playground, accessible via an URL.
 
 The Paysage project do not try to invent a new IDE or code editor for kids. There is already many editors, with more launching everyday.
 
-Paysage is about a very specific vision: 
+Paysage is about making possible a very specific coding experience: 
 **Let 10 kids in the same room, with a few more kids online, code together on the same visual playground.**
 
 ========
@@ -18,10 +18,10 @@ Paysage is about a very specific vision:
 [http://paysage.herokuapp.com/boumsplash](http://paysage.herokuapp.com/boumsplash) (a playground named "boumsplash"!)  
 [http://paysage.herokuapp.com/programmer.html](http://paysage.herokuapp.com/programmer.html) (the test code editor. It defaults on editing "boumsplash") 
 
-- Open both pages (on different computers for more fun), 
+- Open both pages (on several different computers for more fun), 
 - Write ProcessingJS code on the programmer, click the button to send the code to the playground. Your code is assigned a unique ID (the editor defaults to 1, but you can change it to anything you want).
 - Change the ID to create a new object, or to update a given object.
-- Ask a friend to open another programmer page to code together on the same playground 
+- Ask a friend to open another [programmer page](http://paysage.herokuapp.com/programmer.html) to code together on the same [playground](http://paysage.herokuapp.com/boumsplash)
 
 (code is saved server-side but only in-memory. No disk or database persistence for now, so code is lost when server is updated)
 
@@ -39,7 +39,7 @@ The **Paysage playground** (renderer) is a JS HTML CSS page using Processing.js
  - A local watcher app for text editors could push code to the Paysage server at each save. 
  - A Paysage editor for babies on tablets, using only shapes to touch would be very cool, too. 
  
-*At the moment, we use a simple HTML page as the alpha test editor: programmer.html*, communicating with the server using socket.io 
+*At the moment, we use a simple HTML page as the alpha test editor: [programmer.html](http://paysage.herokuapp.com/programmer.html)*, communicating with the server using socket.io 
 
 ======
 
