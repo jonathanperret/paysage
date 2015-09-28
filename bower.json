@@ -1,0 +1,21 @@
+{
+  "name": "paysage",
+  "version": "0.0.0",
+  "homepage": "https://github.com/jonathanperret/paysage",
+  "description": "",
+  "main": "",
+  "moduleType": [
+    "globals"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "chance": "~0.8.0"
+  }
+}
