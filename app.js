@@ -1,3 +1,4 @@
+var codeObjects = {};
 var express = require('express');
 var path = require('path');
 var favicon = require('static-favicon');
@@ -5,14 +6,12 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
+var home = require('./routes/index')(codeObjects);
 var playground = require('./routes/playground');
 
 var app = require('express.io')();
 
 var cons = require('consolidate');
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -27,14 +26,10 @@ app.use(cookieParser());
 app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-
-// app.use('/users', users);
-
-// for any URL other than static route use routes/playground.js
-app.use('/', playground);
+app.use('/playground', playground);
+app.use('/', home);
 
 
-// /// catch 404 and forward to error handler
 // app.use(function(req, res, next) {
 //     var err = new Error('Not Found');
 //     err.status = 404;
@@ -67,8 +62,6 @@ app.use('/', playground);
 
 // attach socket.io to the http server
 app.http().io();
-
-var codeObjects = {};
 
 app.io.route('programmer up', function (req) { // server gets notified when programmer.html page is loaded
   var playground = req.data,
@@ -126,4 +119,4 @@ var getCode = function (playground, objectId) {
   return codeObjects[playground][objectId];
 };
 
-module.exports = app;
+  module.exports = app;

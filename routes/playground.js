@@ -3,7 +3,7 @@ var router = express.Router();
 
 
 var renderplaygroundpage = function(req, res) {
-  
+
   var id = req.params.pagename;
 
   // if the playground was never accessed, we create an object for it the llplaygrounds object, based on the URL 
@@ -16,13 +16,5 @@ var renderplaygroundpage = function(req, res) {
 
 /* GET any page. */
 router.get('/:pagename', renderplaygroundpage);
-
-
-
-/* GET home page. */
-router.get('/', function(req, res) {
-  res.render('index', { title: 'Paysage Index' });
-});
-
 
 module.exports = router;

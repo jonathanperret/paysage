@@ -7,13 +7,16 @@
       #id { position:relative; border: 1px dotted black; }
     </style>
   </head>
-
   <body>
-   
-    <div id="container" data-playgroundid=""></div>
-
-   <script src="processing.js" type="text/javascript"></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="paysagerenderer.js"></script>
+    <ul>
+      <li>
+        <a href="programmer.html">code</a>
+      </li>
+      {{#each playgrounds}}
+      <li>
+        <a href="playground/{{@key}}">view playground {{@key}}</a>
+      </li>
+      {{/each}}
+    </ul>
   </body>
 </html>
