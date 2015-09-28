@@ -7,9 +7,11 @@
   <script src="/bower_components/chance/chance.js"></script>
 </head>
 <body>
-<textarea id="codeid" rows="1" cols="80">1</textarea>
-<textarea id="playgroundid" rows="1" cols="80">{{playgroundid}}</textarea>
-<textarea id="code" rows="20" cols="80"></textarea>
+<form action="">
+  <textarea id="codeid" rows="1" cols="80">1</textarea>
+  <input type="hidden" id="playgroundid" value="{{playgroundid}}"></input>
+  <textarea id="code" rows="20" cols="80"></textarea>
+</form>
 <button id="bouton">click</button>
 <ul id="objects"></ul>
 <div class="examples">
