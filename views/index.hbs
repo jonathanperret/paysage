@@ -9,12 +9,11 @@
   </head>
   <body>
     <ul>
-      <li>
-        <a href="programmer.html">code</a>
-      </li>
       {{#each playgrounds}}
       <li>
-        <a href="playground/{{@key}}">view playground {{@key}}</a>
+        {{@key}}:
+        <a href="playground/{{@key}}/view">view</a>,
+        <a href="playground/{{@key}}/programmer">code</a>
       </li>
       {{/each}}
     </ul>
