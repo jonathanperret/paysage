@@ -8,3 +8,4 @@ deploy:
   app: paysage
   on:
     repo: jonathanperret/paysage
+sudo: false
