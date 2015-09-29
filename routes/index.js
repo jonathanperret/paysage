@@ -3,7 +3,10 @@ module.exports = function(codeObjects) {
   var router = express.Router();
 
   router.get('/', function(req, res) {
-     res.render('index', { title: 'Paysage', playgrounds: codeObjects });
+    if (Object.keys(codeObjects).length === 0) {
+      codeObjects = {boumsplash: null};
+    }
+    res.render('index', { title: 'Paysage', playgrounds: codeObjects });
   });
 
   return router;
