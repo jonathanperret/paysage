@@ -1,4 +1,4 @@
-Paysage (alpha - contributors welcome)
+Paysage (it both works and need works ;-) so please log issues and send pull requests!)
 =======
 ### ***Paysage*** *is a visual shared playground for code.* 
 
@@ -15,13 +15,13 @@ Paysage is about making possible a very specific coding experience:
 ========
 ###Demo
 
-[http://paysage.herokuapp.com/boumsplash](http://paysage.herokuapp.com/boumsplash) (a playground named "boumsplash"!)  
-[http://paysage.herokuapp.com/programmer.html](http://paysage.herokuapp.com/programmer.html) (the test code editor. It defaults on editing "boumsplash") 
+[http://paysage.herokuapp.com/playground/boumsplash/view](http://paysage.herokuapp.com/playground/boumsplash/view) (a playground named "boumsplash"!)  
+[http://paysage.herokuapp.com/playground/boumsplash/programmer](http://paysage.herokuapp.com/playground/boumsplash/programmer) (a basic default code editor for the boumsplash playground. The plans is to allow any other editor, including desktop editors or apps.) 
 
-- Open both pages (on several different computers for more fun), 
+- Open both pages (on several different computers for more fun. You of course can open the playground view on a phone or tablet too.), 
 - Write ProcessingJS code on the programmer, click the button to send the code to the playground. Your code is assigned a unique ID (the editor defaults to 1, but you can change it to anything you want).
 - Change the ID to create a new object, or to update a given object.
-- Ask a friend to open another [programmer page](http://paysage.herokuapp.com/programmer.html) to code together on the same [playground](http://paysage.herokuapp.com/boumsplash)
+- Ask a friend to open another [programmer page for boumsplash](http://paysage.herokuapp.com/playground/boumsplash/programmer) to code together on the same [playground](http://paysage.herokuapp.com/playground/boumsplash/view)
 
 (code is saved server-side but only in-memory. No disk or database persistence for now, so code is lost when server is updated)
 
@@ -32,15 +32,16 @@ The demo is continuously deployed from the GitHub repository, so your pull reque
 The **Paysage server** is a NodeJs / Express app that listen to the programmer page and send code to the renderer using socket.io.
 A Python implementation would be interesting for easy local installation. 
 
-The **Paysage playground** (renderer) is a JS HTML CSS page using Processing.js
+The **Paysage playground** (renderer) is a JS HTML CSS page using Processing.js. 
+Each code object is run as one separated Processing.js instance.
 
-**Paysage editors** implementations will ideally be in a variety of languages, and could be purely textual editors or visual editors or anything in between. For example :
+**Paysage code editors** implementations will ideally be in a variety of languages that compile or interpret to javascript, and could be purely textual editors or visual editors or anything in between. For example :
  - A block-based editor based on Snap!, Blocky from Google or BlockLanguages.  
  - A local folder-watcher app for text editors could push code to the Paysage server at each file save. 
  - An Etherpad based editor could allow several persons to code together on the same code object.
  - An editor for babies on tablets, using only shapes to touch would be very cool, too. 
  
-*At the moment, we use a simple HTML page as the alpha test editor: [programmer.html](http://paysage.herokuapp.com/programmer.html)*, communicating with the server using socket.io 
+*At the moment, we use a simple HTML page as the test editor: [http://paysage.herokuapp.com/playground/boumsplash/programmer](http://paysage.herokuapp.com/playground/boumsplash/programmer)*, communicating with the server using socket.io 
 
 ======
 
