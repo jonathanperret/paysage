@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 
 var home = require('./routes/index')(codeObjects);
 var playground = require('./routes/playground');
+var create = require('./routes/create');
 
 var app = require('express.io')();
 
@@ -27,8 +28,8 @@ app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/playground/', playground);
-app.use('/', home);
-
+app.use('/list', home);
+app.use('/', create);
 
 // app.use(function(req, res, next) {
 //     var err = new Error('Not Found');

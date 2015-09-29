@@ -6,7 +6,7 @@ router.get('/:playground/programmer', function(req, res){
   res.render('programmer', { playgroundid: id });
 });
 
-router.get('/:playground/view', function(req, res){
+router.get('/:playground', function(req, res){
   var id = req.params.playground;
   res.render('playground', { playgroundid: id });
 });
