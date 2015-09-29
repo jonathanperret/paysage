@@ -14,7 +14,7 @@
       <input type="text" id="codeid"></input>
     </div>
     <textarea id="code" rows="20" cols="80"></textarea>
-    <button id="bouton">click</button>
+    <button id="bouton">go live!</button>
   </form>
   <ul id="objects"></ul>
   <div class="examples">
@@ -174,9 +174,12 @@ void draw() {
     </div>
   </div>
 </div>
+<div>
+  <a href="#" id="previewonoff">preview on/off</a> 
+  <a href="/playground/{{playgroundid}}" target="_blank">open {{playgroundid}} in new window &#x279a;</a>
+</div>
 <div class="viewer-part">
   <iframe class="viewer" src="/playground/{{playgroundid}}"></iframe>
-  <a href="/playground/{{playgroundid}}" target="_blank">open {{playgroundid}} in new window</a>
 </div>
 <script>
 io = io.connect();
@@ -219,6 +222,10 @@ $('.example').click(function () {
 });
 
 $(function() { $('#codeid').val(chance.word()); });
+
+$('#previewonoff').click(function (){
+  $('.viewer-part').toggle(100);
+});
 </script>
 </body>
 </html>
