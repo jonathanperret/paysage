@@ -64,44 +64,41 @@ app.use('/', create);
 // attach socket.io to the http server
 app.http().io();
 
+function makeFullUpdate(playground) {
+  var objectIds = Object.keys(codeObjects[playground]);
+  return {playgroundId: playground, objectIds: objectIds};
+}
+
 app.io.route('programmer up', function (req) { // server gets notified when programmer.html page is loaded
-  var playground = req.data,
-      objectIds;
+  var playground = req.data;
 
   req.io.join(req.data); // have client (req) join the room named after Playground Id
 
   if (codeObjects[playground]) {
-    objectIds = Object.keys(codeObjects[playground]);
-    req.io.emit('objects full update', objectIds);
+    req.io.emit('objects full update', makeFullUpdate(playground));
   }
 });
 
 app.io.route('playground up', function(req) {
-    console.log(req.data + " from playground renderer");
-    req.io.join(req.data);
+  console.log(req.data + " from playground renderer");
+  req.io.join(req.data);
 
-    if (!codeObjects[req.data]) return;
+  if (!codeObjects[req.data]) return;
 
-    req.io.emit('playground full update', codeObjects[req.data]);
+  req.io.emit('playground full update', codeObjects[req.data]);
 });
 
-
 app.io.route('code update', function(req) { // Broadcast the code update event on the playground up route, only to the room (playground) concerned.
-    var playground = req.data.playgroundid,
-        objectIds,
-        data;
+  var playground = req.data.playgroundid;
 
-    console.log(playground + " from programmer");
-    req.io.join(playground); // it seems we need to join the room to broadcast
+  console.log(playground + " from programmer");
+  req.io.join(playground); // it seems we need to join the room to broadcast
 
-    if (!codeObjects[playground]) codeObjects[playground] = {};
-    codeObjects[playground][req.data.codeid] = req.data.code;
+  if (!codeObjects[playground]) codeObjects[playground] = {};
+  codeObjects[playground][req.data.codeid] = req.data.code;
 
-    req.io.room(playground).broadcast('code update', req.data);
-
-    objectIds = Object.keys(codeObjects[playground]);
-    data = {playgroundId: playground, objectIds: objectIds};
-    app.io.room(playground).broadcast('objects full update', data);
+  req.io.room(playground).broadcast('code update', req.data);
+  app.io.room(playground).broadcast('objects full update', makeFullUpdate(playground));
 });
 
 app.io.route('request code', function (req) {
@@ -120,4 +117,4 @@ var getCode = function (playground, objectId) {
   return codeObjects[playground][objectId];
 };
 
-  module.exports = app;
+module.exports = app;
