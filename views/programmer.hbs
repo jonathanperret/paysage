@@ -14,8 +14,8 @@
       <input type="text" id="codeid"></input>
     </div>
     <textarea id="code" rows="20" cols="80"></textarea>
+    <button id="bouton">click</button>
   </form>
-  <button id="bouton">click</button>
   <ul id="objects"></ul>
   <div class="examples">
     <div class="example number-32">
@@ -25,13 +25,7 @@
 Creature c;
 
 void setup() {
-  size(500, 500);
-
-  smooth();
-
-  background(0);
   noStroke();
-
 
   c = new Type1(int(random(255)), 0x55);
   c.position = new JVector(width/2,height/2);
@@ -159,10 +153,6 @@ void drawAtom(int bits) {
     </div>
     <div class="example eye">
     <script type="text/processing">
-void setup() {
-  size (800, 600)
-}
-
 void draw() {
   background(0,0);
 

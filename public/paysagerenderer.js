@@ -24,6 +24,10 @@ io.on('playground full update', function (data) {
   });
 });
 
+var resize = function (sketch) {
+  sketch.size(window.innerWidth, window.innerHeight);
+};
+
 var updateObject = function (id, code) {
   if (!canvas[id]) {
     canvas[id] = document.createElement('canvas');
@@ -37,4 +41,16 @@ var updateObject = function (id, code) {
     delete sketch[id];
   }
   sketch[id] = new Processing(canvas[id], code);
+  resize(sketch[id]);
 };
+
+var resizeTimeout;
+
+window.addEventListener('resize', function () {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(function () {
+    Object.keys(sketch).forEach(function (id) {
+      resize(sketch[id]);
+    });
+  }, 1000);
+});
