@@ -1,4 +1,4 @@
-Paysage (it works, and needs work ;-) please log issues and send pull requests!)
+Paysage (it works, and need works ;-) please log issues and send pull requests!)
 =======
 ### ***Paysage*** *is a visual shared playground for code.* 
 
