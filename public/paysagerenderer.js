@@ -37,7 +37,9 @@ var updateObject = function (id, code) {
     console.log('canvas created');
   } else {
     console.log('canvas reused');
-    sketch[id].exit();
+    try {
+      sketch[id].exit();
+    } catch(e) { }
     delete sketch[id];
   }
   sketch[id] = new Processing(canvas[id], code);
