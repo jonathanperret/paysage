@@ -13,3 +13,56 @@
 .eye {
   background: url('/images/eye.png');
 }
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin:0;
+  padding:0;
+}
+
+.programmer-part {
+  display:block;
+  float:left;
+  position:relative;
+  width:50%;
+  overflow-x: hidden;
+}
+
+.programmer-part form {
+  padding: 5px;
+}
+
+.programmer-part textarea {
+  width: 100%;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+.viewer-part {
+  display:block;
+  float:left;
+  position:relative;
+  width: 50%;
+  height: 100%;
+  overflow: visible;
+  border-left: 1px solid black;
+  margin-left: -1px;
+  overflow: visible;
+}
+
+.viewer-part a {
+  display: block;
+  text-align: right;
+  position: relative;
+}
+
+.viewer {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  border: 0;
+}

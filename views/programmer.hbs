@@ -7,16 +7,18 @@
   <script src="/bower_components/chance/chance.js"></script>
 </head>
 <body>
-<a href="/playground/{{playgroundid}}" target="_blank">view playground {{playgroundid}}</a>
-<form action="">
-  <textarea id="codeid" rows="1" cols="80">1</textarea>
-  <input type="hidden" id="playgroundid" value="{{playgroundid}}">
-  <textarea id="code" rows="20" cols="80"></textarea>
-</form>
-<button id="bouton">click</button>
-<ul id="objects"></ul>
-<div class="examples">
-  <div class="example number-32">
+<div class="programmer-part">
+  <form action="">
+    <input type="hidden" id="playgroundid" value="{{playgroundid}}">
+    <div>
+      <input type="text" id="codeid"></input>
+    </div>
+    <textarea id="code" rows="20" cols="80"></textarea>
+  </form>
+  <button id="bouton">click</button>
+  <ul id="objects"></ul>
+  <div class="examples">
+    <div class="example number-32">
     <script type="text/processing">
 // See also : http://itunes.com/app/Number32
 
@@ -154,8 +156,8 @@ void drawAtom(int bits) {
     if(0 != (bits & 128)) triangle(-0.029289335,0.07071072,-0.92928934,0.97071064,-0.029289335,0.97071064);
 }
     </script>
-  </div>
-  <div class="example eye">
+    </div>
+    <div class="example eye">
     <script type="text/processing">
 void setup() {
   size (800, 600)
@@ -179,7 +181,12 @@ void draw() {
   ellipse(0,0,40,40)
 }
     </script>
+    </div>
   </div>
+</div>
+<div class="viewer-part">
+  <iframe class="viewer" src="/playground/{{playgroundid}}"></iframe>
+  <a href="/playground/{{playgroundid}}" target="_blank">open {{playgroundid}} in new window</a>
 </div>
 <script>
 io = io.connect();
