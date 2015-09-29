@@ -2,7 +2,7 @@
   "name": "paysage",
   "version": "0.0.1",
   "engines": {
-    "node": "~0.10.28"
+    "node": "~4.1.1"
   },
   "private": true,
   "scripts": {
