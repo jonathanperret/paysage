@@ -6,7 +6,8 @@
   },
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "postinstall": "bower install"
   },
   "dependencies": {
     "express": "~4.2.0",
@@ -19,9 +20,7 @@
     "less-middleware": "1.0.x",
     "express.io": "~1.1.13",
     "handlebars": "~2.0.0-alpha.4",
-    "consolidate": "~0.10.0"
-  },
-  "devDependencies": {
+    "consolidate": "~0.10.0",
     "bower": "^1.5.3"
   }
 }
