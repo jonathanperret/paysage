@@ -176,10 +176,10 @@ void draw() {
 </div>
 <div>
   <a href="#" id="previewonoff">preview on/off</a> 
-  <a href="/playground/{{playgroundid}}" target="_blank">open {{playgroundid}} in new window &#x279a;</a>
+  <a href="/playground/{{playgroundid}}" target="_blank" id="openinnewwindow">open {{playgroundid}} in new window &#x279a;</a>
 </div>
-<div class="viewer-part">
-  <iframe class="viewer" src="/playground/{{playgroundid}}"></iframe>
+<div class="viewer-part" id="viewercontainer">
+  <iframe class="viewer" id="viewerframe" src="/playground/{{playgroundid}}"></iframe>
 </div>
 <script>
 io = io.connect();
@@ -223,9 +223,29 @@ $('.example').click(function () {
 
 $(function() { $('#codeid').val(chance.word()); });
 
-$('#previewonoff').click(function (){
-  $('.viewer-part').toggle(100);
-});
+var frozenpreview = null;
+
+var switchframe = function () {
+  if (frozenpreview) {
+    $('.viewer-part').show(150);
+    frozenpreview.appendTo('#viewercontainer');
+    frozenpreview = null;
+  } else {
+    frozenpreview = $( '#viewerframe' ).detach();
+    $('.viewer-part').hide(150);
+  }
+}
+
+var frameoff = function () {
+  if (frozenpreview === null) {
+    frozenpreview = $('#viewerframe').detach();
+    $('.viewer-part').hide(150);
+  }
+}
+
+$('#previewonoff').click(switchframe);
+$('#openinnewwindow').click(frameoff);
+
 </script>
 </body>
 </html>
