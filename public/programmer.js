@@ -17,14 +17,15 @@
         objectIds = data.objectIds,
         $objects = $("#objects");
     $objects.empty();
-    objectIds.forEach(function (objectId) {
-      var $item = $("<li><a href='#'>" + objectId + "</a></li>");
-      $item.click(function () {
+    $objects.append(objectIds.map(function (objectId) {
+      var $item = $("<a href='#'>").text(objectId);
+      $item.click(function (event) {
+        event.preventDefault();
         var data = {playgroundId: playgroundId, objectId: objectId};
         io.emit('request code', data);
       });
-      $objects.append($item);
-    });
+      return $('<li>').append($item);
+    }));
   });
 
   io.on('source code', function (data) {
@@ -44,7 +45,8 @@
 
   var frozenpreview = null;
 
-  var switchframe = function () {
+  var switchframe = function (event) {
+    event.preventDefault();
     if (frozenpreview) {
       $('.viewer-part').show(150);
       frozenpreview.appendTo('#viewercontainer');
