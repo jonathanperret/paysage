@@ -31,7 +31,7 @@ body {
   overflow-x: hidden;
 }
 
-.programmer-part form {
+.programmer-part .controls {
   padding: 5px;
 }
 
