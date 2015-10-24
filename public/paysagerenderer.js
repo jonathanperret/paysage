@@ -28,6 +28,17 @@ var resize = function (sketch) {
   sketch.size(window.innerWidth, window.innerHeight);
 };
 
+// If background() is in draw(), it's redrawn each frame
+// setting it to transparent using the instance method sketch[].background(0.0) doesn't stick
+// so we rewrite the code:
+ 
+var rewriteBackgroundTransparent = function(code) {
+  // thanks http://www.regexr.com/
+  var match = /background\s*(\(.*?\))/g;
+  var transparent = "background(0, 0)";
+  return code.replace(match, transparent);
+};
+
 var updateObject = function (id, code) {
   if (!canvas[id]) {
     canvas[id] = document.createElement('canvas');
@@ -42,6 +53,7 @@ var updateObject = function (id, code) {
     } catch(e) { }
     delete sketch[id];
   }
+  code = rewriteBackgroundTransparent(code);
   sketch[id] = new Processing(canvas[id], code);
   resize(sketch[id]);
 };
