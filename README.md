@@ -27,6 +27,15 @@ Paysage is about making possible a very specific coding experience:
 
 The demo is continuously deployed from the GitHub repository, so your pull requests are welcome, and will be live in minutes once accepted :-)
 
+To install and run locally:
+
+    git clone https://github.com/jonathanperret/paysage.git
+    cd paysage
+    npm install
+    npm start
+
+Then browse <http://http://127.0.0.1:3000/>.
+
 ========
 #### Server, Playground, Editor(s)
 The **Paysage server** is a NodeJs / Express app that listen to the programmer page and send code to the renderer using socket.io.
