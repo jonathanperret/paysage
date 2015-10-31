@@ -30,7 +30,6 @@ The demo is continuously deployed from the GitHub repository, so your pull reque
 ========
 #### Server, Playground, Editor(s)
 The **Paysage server** is a NodeJs / Express app that listen to the programmer page and send code to the renderer using socket.io.
-A Python (re)implementation would be interesting for easy local installation. 
 
 The **Paysage playground** (renderer) is a JS HTML CSS page using Processing.js. 
 Each code object is run as one separated Processing.js instance.
