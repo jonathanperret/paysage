@@ -29,13 +29,13 @@ var resize = function (sketch) {
 };
 
 // If background() is in draw(), it's redrawn each frame
-// setting it to transparent using the instance method sketch[].background(0.0) doesn't stick
+// setting it to transparent using the instance method sketch[].background(255, 255, 255.0) doesn't stick
 // so we rewrite the code:
  
 var rewriteBackgroundTransparent = function(code) {
   // thanks http://www.regexr.com/
   var match = /background\s*(\(.*?\))/g;
-  var transparent = "background(0, 0)";
+  var transparent = "background(255, 255, 255, 0)";
   return code.replace(match, transparent);
 };
 
