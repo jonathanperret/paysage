@@ -1,4 +1,4 @@
-Paysage (it works, and needs work ;-) please log issues and send pull requests!)
+Paysage
 =======
 ### ***Paysage*** *is a visual shared playground for code.* 
 
@@ -7,7 +7,7 @@ Paysage (it works, and needs work ;-) please log issues and send pull requests!)
 With Paysage kids –and adults!– live code from their own computer, laptops, tablets, phones, using a variety of IDE and editors. 
 Pieces of code that we call 'code objects' are send and rendered live on a visual playground, accessible via an URL.
 
-The Paysage project do not try to invent a new IDE or code editor for kids. There is already many editors, with more launching everyday.
+The Paysage project do not try to invent a new IDE or code editor for kids. There are already many editors, with more launching everyday.
 
 Paysage is about making possible a very specific coding experience: 
 **Let 10 kids in the same room, with a few more kids online, code together on the same visual playground.**
@@ -19,15 +19,19 @@ Paysage is about making possible a very specific coding experience:
 [http://paysage.herokuapp.com/playground/boumsplash/programmer](http://paysage.herokuapp.com/playground/boumsplash/programmer) (a basic default code editor for the boumsplash playground. The plans is to allow any other editor, including desktop editors or apps.) 
 
 - Open both pages (on several different computers for more fun. You of course can open the playground view on a phone or tablet too.), 
-- Write ProcessingJS code on the programmer, click the button to send the code to the playground. Your code is assigned a unique name (the editor defaults to a random word, but you can change it to anything you want).
-- Change the name to create a new object, click the link to load update an existing object, click a thumbnail to load an example.
+
+ - Write ProcessingJS code on the programmer, click the [Go live!] button to send your code to the playground. Your code is assigned a unique name (the editor defaults to a random word, but you can change it to anything you want).
+ - Or, click a thumbnail to load an example, and click the [Go live!] button to send your code to the playground. 
+ - Code objects are listed: click the links to load an existing object, change its name to create a new object derived from it.
+
 - Ask a friend to open another [programmer page for boumsplash](http://paysage.herokuapp.com/playground/boumsplash/programmer) to code together on the same [playground](http://paysage.herokuapp.com/playground/boumsplash/)
 
-(code is saved server-side but only in-memory. No disk or database persistence for now, so code is lost when server is updated)
+(Code objects are saved server-side but only in-memory. No disk or database persistence for now, so code is lost when server is shutdown, for example by Heroku for inactivity)
 
 The demo is continuously deployed from the GitHub repository, so your pull requests are welcome, and will be live in minutes once accepted :-)
 
-To install and run locally:
+========
+### Install and run locally
 
     git clone https://github.com/jonathanperret/paysage.git
     cd paysage
@@ -38,7 +42,7 @@ Then browse <http://http://127.0.0.1:3000/>.
 
 ========
 #### Server, Playground, Editor(s)
-The **Paysage server** is a NodeJs / Express app that listen to the programmer page and send code to the renderer using socket.io.
+The **Paysage server** is a NodeJs / Express app that both listen to the programmer page for new code and send code to the renderer using socket.io.
 
 The **Paysage playground** (renderer) is a JS HTML CSS page using Processing.js. 
 Each code object is run as one separated Processing.js instance.
