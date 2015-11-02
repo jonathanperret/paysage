@@ -14,6 +14,10 @@
   background: url('/images/eye.png');
 }
 
+.serpent {
+  background: url('/images/serpent.png');
+}
+
 html, body {
   height: 100%;
 }
