@@ -97,13 +97,13 @@ class Creature {
     if(this.speed.mag() < 0.1) {
       this.speed = new JVector(random(-10,10),random(-10,10));
 
-      if((this.position.x < 0 &&  this.speed.x < 0)
-        || (this.position.x > width && this.speed.x > 0)
+      if((this.position.x < 150 &&  this.speed.x < 0)
+        || (this.position.x > width - 150 && this.speed.x > 0)
         )
         this.speed.x *= -1;
 
-      if((this.position.y < 0 && this.speed.y < 0)
-        || (this.position.y > height && this.speed.y > 0)
+      if((this.position.y < 150 && this.speed.y < 0)
+        || (this.position.y > height - 150 && this.speed.y > 0)
         )
         this.speed.y *= -1;
     }
