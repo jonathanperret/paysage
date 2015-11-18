@@ -16,6 +16,10 @@
     "tests"
   ],
   "dependencies": {
-    "chance": "~0.8.0"
-  }
+    "chance": "~0.8.0",
+    "Processing.js": "~1.4.16"
+  },
+
+  "license": "AGPL v3"
+
 }
