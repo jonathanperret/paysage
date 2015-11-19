@@ -1,0 +1,73 @@
+.example {
+  width: 110px;
+  height: 110px;
+  margin: 10px;
+  border: solid black 1px;
+  display: inline-block;
+}
+
+.creature {
+  background: url('creature.png');
+  height: 90px;
+  width: 90px;
+}
+
+html, body {
+  height: 90%;
+}
+
+body {
+  margin:0;
+  padding:5%;
+}
+
+.programmer-part {
+  display:block;
+  float:left;
+  position:relative;
+  width:50%;
+  /*overflow-x: hidden;*/
+}
+
+.programmer-part .controls {
+  padding: 5px;
+}
+
+.programmer-part textarea {
+  width: 90%;
+  overflow: auto;
+  resize: vertical;
+  font-size: 150%;
+
+
+}
+
+.programmer-part button {
+  font-size: 200%;
+}
+
+.viewer-part {
+  display:block;
+  float:left;
+  position:relative;
+  width: 50%;
+  height: 100%;
+  overflow: visible;
+  border-left: 1px solid black;
+  margin-left: -1px;
+  overflow: visible;
+}
+
+.viewer-part a {
+  display: block;
+  text-align: right;
+  position: relative;
+}
+
+.viewer {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  border: 0;
+}
