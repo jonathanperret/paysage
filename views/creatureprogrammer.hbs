@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="/workshopfiles/creature/creatureprogrammer.css" rel="stylesheet">
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/jquery-2.1.3.js"></script>
+
+</head>
+<body>
+<div class="programmer-part">
+  <div class="controls">
+    <input type="hidden" id="playgroundid" value="codecreatureliveparty">
+    <div>
+      <input type="text" id="codeid"></input>
+    </div>
+    <textarea id="code" rows="10" cols="80" wrap="on"></textarea>
+    <button id="bouton">go live!</button>
+  </div>
+  <ul id="objects"></ul>
+  <div class="examples">
+    <div class="creature">
+    <script type="application/x-creature"> macreature
+   .corps(serpent)
+   .nombredebras(humain)
+   .taillebras(patte)
+   .main(etoile)
+   .tete(horrible)
+   .couleurs(eau)
+    </script>
+    </div>
+  </div>
+</div>
+<div>
+  <!-- <a href="#" id="previewonoff">preview on/off</a>  -->
+  <a href="/playground/codecreatureliveparty" target="_blank" id="openinnewwindow">ouvre Code Créature dans une nouvelle fenêtre &#x279a;</a>
+</div>
+
+<!-- <div class="viewer-part" id="viewercontainer">
+  <iframe class="viewer" id="viewerframe" src="/playground/codecreatureliveparty"></iframe>
+</div> -->
+<script src="/workshopfiles/creature/creaturenamefromhash.js"></script>
+<script src="/workshopfiles/creature/creaturesourcebuilder.js"></script>
+<script src="/programmerjs/receptiontransmission.js"></script>
+<script src="/programmerjs/previewmanagement.js"></script>
+</body>
+</html>
