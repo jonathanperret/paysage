@@ -15,6 +15,8 @@ Paysage is about making possible a very specific coding experience:
 ========
 ###Demo
 
+![image](paysage-mini.gif)
+
 [http://paysage.herokuapp.com/playground/boumsplash/](http://paysage.herokuapp.com/playground/boumsplash/) (a playground named "boumsplash"!)  
 [http://paysage.herokuapp.com/playground/boumsplash/programmer](http://paysage.herokuapp.com/playground/boumsplash/programmer) (a basic default code editor for the boumsplash playground. The plans is to allow any other editor, including desktop editors or apps.) 
 
@@ -65,7 +67,7 @@ Just like writing on Etherpad or Google Docs, users have to evolve their own soc
 
 In a sandbox (the real one at the park :-) a kid can destroy the castle another built, and it's the role of other kids and adults to build their own rules about what is allowed and what is not.
 
-In that sense Paysage is also a playground to learn and explore open collaboration.
+In that sense **Paysage is a playground to learn and explore open collaboration.**
 
 =======
 
