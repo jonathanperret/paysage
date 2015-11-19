@@ -1,4 +1,5 @@
 var codeObjects = {};
+
 var express = require('express');
 var path = require('path');
 var favicon = require('static-favicon');
@@ -6,12 +7,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var home = require('./routes/index')(codeObjects);
-var playground = require('./routes/playground');
-var create = require('./routes/create');
-
 var app = require('express.io')();
-
 var cons = require('consolidate');
 
 // view engine setup
@@ -27,9 +23,17 @@ app.use(cookieParser());
 app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/playground/', playground);
-app.use('/list', home);
+// routes setup 
+
+var list = require('./routes/list')(codeObjects);
+var playground = require('./routes/playground');
+var create = require('./routes/create');
+var workshop = require('./routes/workshop');
+
 app.use('/', create);
+app.use('/playground/', playground);
+app.use('/list', list);
+app.use('/workshop', workshop);
 
 // app.use(function(req, res, next) {
 //     var err = new Error('Not Found');
