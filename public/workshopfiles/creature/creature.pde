@@ -10,6 +10,7 @@ int crystal = 3;
 int losange = 0;
 int cercle = 1;
 int pyramide = 2;
+int piramide = pyramide;
 int etoile = 3;
 
 //ARM SIZE
@@ -25,11 +26,11 @@ int insecte = 6;
 int poulpe = 8;
 
 //COLOR PALETTES
-int eau = 220;
-int exotique = 12;
-int foret = 95;
-int nuit = 280;
-int soleil = 50;
+int eau = 60;
+int exotique = 1;
+int foret = 25;
+int nuit = 75;
+int soleil = 14;
 int gris = 0;
 
 //TETE
@@ -119,11 +120,11 @@ class Creature {
     //VARIABLES INIT
     if (width > height) {
       strokeW = height/200;
-      coeffsize = height/12.5;
+      coeffsize = height/13.5;
       basespeed = height/100;
     } else {
       strokeW = width/200;
-      coeffsize = width/12.5;
+      coeffsize = width/13.5;
       basespeed = width/100;
     }
     strokeWeight(strokeW);
@@ -218,7 +219,7 @@ class Creature {
       coFull = color(co, 85, 80, 90);
       coFullS = color(co, 100, 80, 90);
       coFullB = color(co, 100, 40, 100);
-      coHalf = color(co, 55, 100, 90);
+      coHalf = color(co, 55, 100, 75);
       coLow = color(co, 30, 100, 90);
       coWhite = color(co, 14, 100, 75);
       return false;
@@ -460,7 +461,7 @@ class Creature {
   }
 
   // ARMSIZE
-  public Creature taillebras(float tb_) {
+  public Creature tailledebras(float tb_) {
     tb = tb_;
     if (updated()) {
     }
@@ -476,7 +477,7 @@ class Creature {
         att.connect(arms[ii]);
         att.constrainLength(arms[ii], tbl, tbl, 0.69);
         arms[ii].update();
-        strokeWeight(strokeW/3);
+        strokeWeight(strokeW/2);
         stroke(coHalf);
         line(epaule[ii].x, epaule[ii].y, arms[ii].loca.x, arms[ii].loca.y);
       }
@@ -531,6 +532,10 @@ class Creature {
     if (updated()) {
     }
     return this;
+  }
+  
+  public Creature couleur(int co_) {
+    return couleurs(co_);
   }
 
   public Creature tete(int te_) {
@@ -665,34 +670,26 @@ class Child {
 }
 
 Creature macreature;
-Creature macreature2;
-Creature macreature3;
-Creature macreature4;
 
 void setup() {
-  size(800, 600);
+  //size(800, 600);
+  size(document.body.clientWidth, document.body.clientHeight);
   stroke(0);
   strokeWeight(4);
 
   frameRate(30);
 
-  colorMode(HSB, 360, 100, 100, 100);
+  colorMode(HSB, 100, 100, 100, 100);
 
   ellipseMode(CENTER);
   rectMode(CENTER);
   macreature = new Creature();
-  macreature2 = new Creature();
-  macreature3 = new Creature();
-  macreature4 = new Creature();
 }
 
 void draw() {
   background(0, 0, 100, 0);
 
-
-  //kids code here
-  
-   ;
+//kids code here;
 
   loop++;
 }
