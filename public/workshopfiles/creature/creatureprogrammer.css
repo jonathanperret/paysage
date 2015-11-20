@@ -2,18 +2,24 @@
   width: 110px;
   height: 110px;
   margin: 10px;
-  border: solid black 1px;
-  display: inline-block;
+  display: block;
 }
 
 .tortue {
-  background: url('assets/tortue.svg');
-  height: 90px;
-  width: 90px;
+  background: url('assets/tortue.svg') no-repeat center center;
+}
+.libellule {
+  background: url('assets/libellule.svg') no-repeat center center;
+}
+.herisson {
+  background: url('assets/herisson.svg') no-repeat center center;
+}
+.anguille {
+  background: url('assets/anguille.svg') no-repeat center center;
 }
 
 html, body {
-  height: 90%;
+
 }
 
 body {
