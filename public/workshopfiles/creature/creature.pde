@@ -673,7 +673,7 @@ Creature macreature;
 
 void setup() {
   //size(800, 600);
-  size(document.body.clientWidth, document.body.clientHeight);
+  size(window.innerWidth, window.innerHeight);
   stroke(0);
   strokeWeight(4);
 
