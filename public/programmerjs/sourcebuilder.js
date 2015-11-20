@@ -1,7 +1,7 @@
-getCompleteSource = function() {
+getCompleteSource = function(callback) {
 
   sourcecode = document.getElementById('code').value;
   console.log(sourcecode);
-  return sourcecode;
+  callback();
 
 };

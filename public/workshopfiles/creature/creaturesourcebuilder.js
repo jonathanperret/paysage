@@ -1,8 +1,6 @@
-getCompleteSource = function() {
+getCompleteSource = function(callback) {
 
 var sourcecode = "";
-
-var cleancode = "";
 
  $.get(
 
@@ -16,13 +14,10 @@ var cleancode = "";
       var match = /\/\/kids code here/;
 
       sourcecode = template.replace(match, usercode);
-      console.log(sourcecode);
+      callback(sourcecode);
 
     },
 
     "text");
-
-console.log(sourcecode);
-return sourcecode;
 
 };
