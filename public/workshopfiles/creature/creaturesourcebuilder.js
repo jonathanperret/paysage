@@ -2,9 +2,11 @@ getCompleteSource = function() {
 
 var sourcecode = "";
 
+var cleancode = "";
+
  $.get(
 
-    "/workshopfiles/creature/creatureclass.pde",
+    "/workshopfiles/creature/creature.pde",
 
     function(originalsource) {
 
@@ -15,12 +17,12 @@ var sourcecode = "";
 
       sourcecode = template.replace(match, usercode);
       console.log(sourcecode);
+
     },
 
     "text");
 
- console.log(sourcecode);
-
- return sourcecode;
+console.log(sourcecode);
+return sourcecode;
 
 };
