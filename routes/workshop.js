@@ -5,6 +5,4 @@ var router = express.Router();
     res.render('creatureprogrammer');
   });
 
-console.log("routing workshop");
-
 module.exports = router;
