@@ -672,8 +672,8 @@ class Child {
 Creature macreature;
 
 void setup() {
-  size(800, 600);
-  //size(document.body.clientWidth, document.body.clientHeight);
+  //size(800, 600);
+  size(document.body.clientWidth, document.body.clientHeight);
   stroke(0);
   strokeWeight(4);
 
