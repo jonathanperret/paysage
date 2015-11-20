@@ -538,7 +538,7 @@ class Creature {
     return couleurs(co_);
   }
 
-  public Creature tete(int te_) {
+  public Creature yeux(int te_) {
     tt = te_;
 
     if (updated()) {
