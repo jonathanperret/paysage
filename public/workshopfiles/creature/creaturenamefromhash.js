@@ -8,5 +8,5 @@
   });
 
   $(function() {
-    $('#codeid').val(creaturename);
+    $('#codeid').html(creaturename);
   });

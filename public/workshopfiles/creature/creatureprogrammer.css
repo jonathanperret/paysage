@@ -1,57 +1,148 @@
-.example {
-  width: 110px;
-  height: 110px;
-  margin: 10px;
-  display: block;
-}
-
-.tortue {
-  background: url('assets/tortue.svg') no-repeat center center;
-}
-.libellule {
-  background: url('assets/libellule.svg') no-repeat center center;
-}
-.herisson {
-  background: url('assets/herisson.svg') no-repeat center center;
-}
-.anguille {
-  background: url('assets/anguille.svg') no-repeat center center;
-}
-
 html, body {
+  font-size:1em;
+}
 
+/*CLEARFIX MICRO HACK / thanks http://nicolasgallagher.com/micro-clearfix-hack/ */
+.cf:before,
+.cf:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.cf:after {
+    clear: both;
+}
+
+/**
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+.cf {
+    *zoom: 1;
 }
 
 body {
+  position:relative;
+  width:92%;
   margin:0;
-  padding:5%;
+  padding:2% 4%;
+  font-family: Roboto;
+  color:#333;
+}
+
+h1, h2, h3, h4, h5, textarea {
+  font-family: "Roboto Mono";
+}
+
+header {
+  clear: both;
+  height:100px;
+}
+
+header h1 {
+  width:50%;
+  float:left;
+}
+
+h2 {
+  line-height: 2em;
+  border-bottom: 10px solid #333;
+}
+
+#openinnewwindow, #bouton {
+  padding:12.5px;
+  float:right;
+  margin-top:15px;
+  text-decoration: none;
+  border: 1px solid #333;
+  color:#FFF;
+  background-color:#333;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  margin-left:15px;
+  -webkit-transition: all 300ms ease;
+  -moz-transition: all 300ms ease;
+  -o-transition: all 300ms ease;
+  transition: all 300ms ease;
+}
+
+#openinnewwindow {
+  background-color:#888;
+  border-color: #888;
+}
+
+#openinnewwindow:hover, #bouton:hover {
+  cursor: pointer;
+  color:#333;
+  background-color:#FFF;
+}
+
+.examples {
+  float:left;
+  width:20%;
+  margin-left:3%;
+}
+
+.tortue {
+  background: url('assets/tortue.svg') no-repeat left center;
+}
+.libellule {
+  background: url('assets/libellule.svg') no-repeat left center;
+}
+.herisson {
+  background: url('assets/herisson.svg') no-repeat left center;
+}
+.anguille {
+  background: url('assets/anguille.svg') no-repeat left center;
+}
+
+.example {
+  width: 100%;
+  margin: 2% 0;
+  line-height:5em;
+  height: 5em;
+  display: block;
+  background-size:5em 5em;
+  cursor:pointer;
+  -webkit-transition: all 500ms ease;
+    -moz-transition: all 500ms ease;
+    -o-transition: all 500ms ease;
+    transition: all 500ms ease;
+    position:relative;
+    z-index:10;
+}
+
+.example:hover {
+  margin-left:-25%;
+}
+
+.example .list-item {
+  font-weight: 500;
+  margin-left: 6em;
 }
 
 .programmer-part {
-  display:block;
   float:left;
   position:relative;
-  width:50%;
+  width:76%;
   /*overflow-x: hidden;*/
 }
 
-.programmer-part .controls {
-  padding: 5px;
-}
-
 .programmer-part textarea {
-  width: 90%;
+  width: 100%;
   overflow: auto;
   resize: vertical;
   font-size: 150%;
-
-
+  border: dashed #CCC 1px;
+  padding:25px;
+  box-sizing: border-box;
 }
 
-.programmer-part button {
-  font-size: 200%;
+.programmer-part #bouton {
+  
 }
-
+/*
 .viewer-part {
   display:block;
   float:left;
@@ -76,4 +167,4 @@ body {
   position: absolute;
   top: 0;
   border: 0;
-}
+}*/

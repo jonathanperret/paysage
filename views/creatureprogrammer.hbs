@@ -2,23 +2,39 @@
 <html>
 <head>
   <link href="/workshopfiles/creature/creatureprogrammer.css" rel="stylesheet">
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Mono:700,700italic,400italic,400' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
   <script src="/socket.io/socket.io.js"></script>
   <script src="/jquery-2.1.3.js"></script>
 
 </head>
 <body>
+<header class="cf">
+<h1>Code Créatures</h1>
+
+<p id="codeid"></p>
+</header>
 <div class="programmer-part">
+<h2>CODE</h2>
   <div class="controls">
     <input type="hidden" id="playgroundid" value="codecreatureliveparty">
-    <div>
-      <input type="text" id="codeid"></input>
-    </div>
-    <textarea id="code" rows="10" cols="80" wrap="on"></textarea>
-    <button id="bouton">go live!</button>
+    <textarea id="code" rows="10" cols="80" wrap="on" placeholder="Écris ton code ici..." spellcheck="false"></textarea>
+    
+    <a id="bouton">Envoyer la créature</a>
+    <a href="/playground/codecreatureliveparty" target="_blank" id="openinnewwindow">Ouvrir le paysage de la créature &nbsp; &#x279a;</a>
+    
   </div>
-  <ul id="objects"></ul>
-  <div class="examples">
+  <!--<ul id="objects"></ul>-->
+  
+    </div>
+
+    <div class="examples">
+    <h2>EXEMPLES</h2>
     <div class="example tortue">
+    <div class="list-item">
+      <p>TORTUE</p>
+    </div>
+
       <script type="application/x-creature">macreature
    .corps(cristal)
    .yeux(1)
@@ -29,6 +45,9 @@
       </script>
     </div>
     <div class="example libellule">
+    <div class="list-item">
+      <p>LIBELLULE</p>
+    </div>
       <script type="application/x-creature">macreature
    .corps(duo)
    .yeux(2)
@@ -39,6 +58,9 @@
       </script>
     </div>
     <div class="example herisson">
+    <div class="list-item">
+      <p>HÉRISSON</p>
+    </div>
       <script type="application/x-creature">macreature
    .corps(atome)
    .yeux(1)
@@ -49,6 +71,9 @@
       </script>
     </div>
     <div class="example anguille">
+    <div class="list-item">
+      <p>ANGUILLE</p>
+    </div>
       <script type="application/x-creature">macreature
    .corps(serpent)
    .yeux(8)
@@ -57,17 +82,13 @@
    .main(pyramide)
    .couleurs(60)
       </script>
+      </div>
     </div>
-  </div>
-</div>
-<div>
-  <!-- <a href="#" id="previewonoff">preview on/off</a>  -->
-  <a href="/playground/codecreatureliveparty" target="_blank" id="openinnewwindow">ouvre Code Créature dans une nouvelle fenêtre &#x279a;</a>
-</div>
 
 <!-- <div class="viewer-part" id="viewercontainer">
   <iframe class="viewer" id="viewerframe" src="/playground/codecreatureliveparty"></iframe>
 </div> -->
+<div class="cf"></div>
 <script src="/workshopfiles/creature/creaturenamefromhash.js"></script>
 <script src="/workshopfiles/creature/creaturesourcebuilder.js"></script>
 <script src="/programmerjs/receptiontransmission.js"></script>
