@@ -17,8 +17,8 @@ Paysage is about making possible a very specific coding experience:
 
 ![image](paysage-mini.gif)
 
-[http://paysage.herokuapp.com/playground/boumsplash/](http://paysage.herokuapp.com/playground/boumsplash/) (a playground named "boumsplash"!)  
-[http://paysage.herokuapp.com/playground/boumsplash/programmer](http://paysage.herokuapp.com/playground/boumsplash/programmer) (a basic default code editor for the boumsplash playground. The plans is to allow any other editor, including desktop editors or apps.) 
+[http://paysage.xyz/playground/boumsplash/](http://paysage.xyz/playground/boumsplash/) (a playground named "boumsplash"!)  
+[http://paysage.xyz/playground/boumsplash/programmer](http://paysage.xyz/playground/boumsplash/programmer) (a basic default code editor for the boumsplash playground. The plans is to allow any other editor, including desktop editors or apps.) 
 
 - Open both pages (on several different computers for more fun. You of course can open the playground view on a phone or tablet too.), 
 
@@ -26,7 +26,7 @@ Paysage is about making possible a very specific coding experience:
  - Or, click a thumbnail to load an example, and click the [Go live!] button to send your code to the playground. 
  - Code objects are listed: click the links to load an existing object, change its name to create a new object derived from it.
 
-- Ask a friend to open another [programmer page for boumsplash](http://paysage.herokuapp.com/playground/boumsplash/programmer) to code together on the same [playground](http://paysage.herokuapp.com/playground/boumsplash/)
+- Ask a friend to open another [programmer page for boumsplash](http://paysage.xyz/playground/boumsplash/programmer) to code together on the same [playground](http://paysage.xyz/playground/boumsplash/)
 
 (Code objects are saved server-side but only in-memory. No disk or database persistence for now, so code is lost when server is shutdown, for example by Heroku for inactivity)
 
@@ -55,7 +55,7 @@ Each code object is run as one separated Processing.js instance.
  - An Etherpad based editor could allow several persons to code together on the same code object.
  - An editor for babies on tablets, using only shapes to touch would be very cool, too. 
  
-*At the moment, we use a simple HTML page as the test editor: [http://paysage.herokuapp.com/playground/boumsplash/programmer](http://paysage.herokuapp.com/playground/boumsplash/programmer)*, communicating with the server using socket.io 
+*At the moment, we use a simple HTML page as the test editor: [http://paysage.xyz/playground/boumsplash/programmer](http://paysage.xyz/playground/boumsplash/programmer)*, communicating with the server using socket.io 
 
 ======
 
