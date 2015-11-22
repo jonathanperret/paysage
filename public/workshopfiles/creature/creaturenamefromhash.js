@@ -1,5 +1,11 @@
   // thanks https://gist.github.com/jlong/2428561
   var creaturename = window.location.hash.slice(1);
+
+  if (!creaturename) {
+    creaturename = chance.word();
+    window.location.hash = creaturename;
+  }
+
   console.log(creaturename);
 
    $('.example').click(function () {
