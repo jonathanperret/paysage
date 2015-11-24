@@ -5,3 +5,9 @@ getCompleteSource = function(callback) {
   callback(sourcecode);
 
 };
+
+function setCodeId(codeId) {
+  $('#codeid').val(codeId);
+  window.location.hash=codeId;
+}
+

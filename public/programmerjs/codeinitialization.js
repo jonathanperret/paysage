@@ -1,13 +1,21 @@
 // on load generating a random name for new empty code
 
 $(function() {
-  $('#codeid').val(chance.word());
+  if (window.location.hash) {
+    requestCode(window.location.hash.substring(1));
+  } else {
+    createCodeId();
+  }
 });
 
-// laoding code from an example and generating a random name
+// loading code from an example and generating a random name
+//
+function createCodeId() {
+  setCodeId(chance.word());
+}
 
 $('.example').click(function() {
-  $('#codeid').val(chance.word());
+  createCodeId();
   $('#code').val($('script', this).html());
 });
 
@@ -23,7 +31,7 @@ function handleFileSelect(evt) {
   var reader = new FileReader();
   reader.onload = function(event) {
        document.getElementById('code').value = event.target.result;
-       $('#codeid').val(chance.word());
+       createCodeId();
   };
   reader.readAsText(files[0],"UTF-8");
 }

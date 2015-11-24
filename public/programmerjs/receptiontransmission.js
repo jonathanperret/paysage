@@ -1,3 +1,5 @@
+var requestCode;
+
 (function() {
   "use strict";
 
@@ -6,8 +8,8 @@
   io = io.connect();
 
   document.getElementById('bouton').addEventListener('click',
+
     function() {
-      
       var emitData = function(code) {
         var codeid = document.getElementById('codeid').value;
         var playgroundid = document.getElementById('playgroundid').value;
@@ -16,12 +18,25 @@
           playgroundid: playgroundid,
           code: code
         };
+        setCodeId(codeid);
         console.log(data);
         io.emit('code update', data);
       };
 
       getCompleteSource(emitData);
     });
+
+  requestCode = function(playgroundId, objectId) {
+      if (typeof objectId == "undefined") {
+        objectId = playgroundId;
+        playgroundId = document.getElementById('playgroundid').value;
+      }
+      var data = {
+        playgroundId: playgroundId,
+        objectId: objectId
+      };
+      io.emit('request code', data);
+  }
 
   io.on('objects full update', function(data) {
     var playgroundId = data.playgroundId,
@@ -32,11 +47,7 @@
       var $item = $("<a href='#'>").text(objectId);
       $item.click(function(event) {
         event.preventDefault();
-        var data = {
-          playgroundId: playgroundId,
-          objectId: objectId
-        };
-        io.emit('request code', data);
+        requestCode(playgroundId, objectId);
       });
       return $('<li>').append($item);
     }));
@@ -44,7 +55,7 @@
 
   io.on('source code', function(data) {
     $("#playgroundid").val(data.playgroundId);
-    $("#codeid").val(data.objectId);
+    setCodeId(data.objectId);
     $("#code").val(data.code);
   });
 
