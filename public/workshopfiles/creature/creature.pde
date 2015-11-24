@@ -62,6 +62,7 @@ class Creature {
   float basespeed; //Base speed
   float finalspeed; // Final speed once multiplied by Creature's mass 
   float mass; // Mass - influenced by arms count and length
+  float usermass; // Coeff mass defined by user
   float coeffsize; //Overall size of Creatures
   float theta; // Heading angle vector
   float maxforce; //Max force when applying on main velocity to avoid weird moves
@@ -131,6 +132,7 @@ class Creature {
 
     //INIT MASS AND FORCE MAX
     mass = 1; 
+    usermass = 0;
     maxforce = 0.5;
 
     // Init edges with coeffsize
@@ -163,8 +165,7 @@ class Creature {
 
   //LET'S MAKE SURE THAT WE READ THE CODE OF THE USER BEFORE TRYING TO RENDER ANYTHING (To avoid arrays out of bounds for example)
   boolean updated() { 
-    if (loop < 1) {
-      //console.log(frameCount);
+    if (loop < 2) {
 
       //DEFAULTS
       //armsize influence on coeffspeed / the larger arms = the more speed
@@ -179,10 +180,16 @@ class Creature {
       }
       nbbtmp = nbb;
       //Finalspeed initialization - default one with mass = 1 
+      
+      if(usermass > 0 && usermasstmp != usermass){
+        mass += usermass/2;
+      }
+      usermasstmp = usermass;
+
       finalspeed = basespeed*mass;
 
       //UPDATE ARM SIZE
-      tbl = tb*((coeffsize*coeffsize)/100);
+      tbl = tb*((coeffsize*coeffsize)/80);
 
       //temporary vector to get the right angle for arms
       vtmp = new PVector(0, 0);
@@ -230,7 +237,7 @@ class Creature {
 
   public Creature corps(int c_) { //decide here global moves / speed pattern / body shape
     if (frameCount%360 == 0) {
-      //console.log(frameRate);
+      console.log(frameRate);
     }
 
     c = c_;
@@ -540,6 +547,10 @@ class Creature {
 
   public Creature yeux(int te_) {
     tt = te_;
+    float eyesize = coeffsize/6;
+    if(tt>6){
+      eyesize = coeffsize/tt;
+    }
 
     if (updated()) {
       pushMatrix();
@@ -550,38 +561,51 @@ class Creature {
       ellipse(0, 0, coeffsize/2, coeffsize/2);
       fill(coFullB);
       noStroke();
+
       for (int k = 0; k < tt; k++) {
         //strokeWeight(strokeW/2/tt);
 
-        ellipse(oeil[k].x, oeil[k].y, coeffsize/6, coeffsize/6);
+        ellipse(oeil[k].x, oeil[k].y, eyesize, eyesize);
       }
       popMatrix();
     }
     return this;
   }
 
+  public Creature poids(float um_){
+    usermass = um_; 
+
+    return this;
+  }
+
   public Creature rebondis() {
     PVector nogo;
-    PVector out = new PVector(0, 0);
+    PVector out = null;
+    
     //REPULSIVE WALLS
-    //stroke(0, 100, 100);
-    //rect(width/2, height/2, widthedge, heightedge);
-    if (((this.loc.x < coeffsize &&  this.vel.x < coeffsize)
-      || (this.loc.x > width + coeffsize && this.vel.x > 0))
-      || ((this.loc.y < -coeffsize && this.vel.y < 0)
-      || (this.loc.y > height + coeffsize && this.vel.y > 0))) {
-      if ((this.loc.x < coeffsize &&  this.vel.x < coeffsize)
-        || (this.loc.x > width + coeffsize && this.vel.x > 0)) {
-        out = new PVector(finalspeed, vel.y);
-      }
-      if ((this.loc.y < -coeffsize && this.vel.y < 0)
-        || (this.loc.y > height + coeffsize && this.vel.y > 0)
-        ) {
-        out = new PVector(vel.x, finalspeed);
-      }
-      maxforce = 1;
+    /*stroke(0, 100, 100);
+    noFill();
+    rect(width/2, height/2, widthedge, heightedge);*/
+    if (loc.x < coeffsize) {
+      out = new PVector(finalspeed, vel.y);
+    }
+    else if (loc.x > width-coeffsize) {
+      out = new PVector(-finalspeed, vel.y);
+    }
+        
+    if (loc.y < coeffsize) {
+      out = new PVector(vel.x, finalspeed);
+    }
+    else if(loc.y > height-coeffsize) {
+      out = new PVector(vel.x, -finalspeed);
+    }
+      
+    if(out != null){
+      out.normalize();
+      out.mult(finalspeed);
       nogo = PVector.sub(out, vel);
-      nogo.limit(maxforce*2);
+      float maxf = 1;
+      nogo.limit(maxf);
       applyForce(nogo);
     }
 
@@ -673,7 +697,7 @@ Creature macreature;
 
 void setup() {
   //size(800, 600);
-  size(window.innerWidth, window.innerHeight);
+  size(document.body.clientWidth, document.body.clientHeight);
   stroke(0);
   strokeWeight(4);
 
