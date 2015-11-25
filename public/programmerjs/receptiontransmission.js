@@ -11,7 +11,7 @@ var requestCode;
 
     function() {
       var emitData = function(code) {
-        var codeid = document.getElementById('codeid').value;
+        var codeid = document.getElementById('codeid').value||document.getElementById('codeid').textContent;
         var playgroundid = document.getElementById('playgroundid').value;
         var data = {
           codeid: codeid,
@@ -36,7 +36,7 @@ var requestCode;
         objectId: objectId
       };
       io.emit('request code', data);
-  }
+  };
 
   io.on('objects full update', function(data) {
     var playgroundId = data.playgroundId,
