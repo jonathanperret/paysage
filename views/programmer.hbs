@@ -19,8 +19,7 @@
   <ul id="objects"></ul>
   <div class="examples">
     <div class="example number-32">
-    <script type="text/processing">
-// See also : http://itunes.com/app/Number32
+    <script type="text/processing">// See also : http://itunes.com/app/Number32
 
 Creature c;
 
@@ -152,8 +151,7 @@ void drawAtom(int bits) {
     </script>
     </div>
     <div class="example eye">
-    <script type="text/processing">
-void draw() {
+    <script type="text/processing">void draw() {
   background(0,0);
 
   translate(200 + 100 * Math.cos(millis()/800), 200 + 100 * Math.sin(millis() / 750))
@@ -172,9 +170,8 @@ void draw() {
 }
     </script>
     </div>
-      <div class="example serpent">
-    <script type="text/processing">
-class Creature {
+    <div class="example serpent">
+    <script type="text/processing">class Creature {
   PVector loc;
   PVector vel;
   PVector acc; 
@@ -297,12 +294,16 @@ void draw() {
     </div>
   </div>
 </div>
-<div>
-  <a href="#" id="previewonoff">preview on/off</a> 
-  <a href="/playground/{{playgroundid}}" target="_blank" id="openinnewwindow">open {{playgroundid}} in new window &#x279a;</a>
-</div>
-<div class="viewer-part" id="viewercontainer">
-  <iframe class="viewer" id="viewerframe" src="/playground/{{playgroundid}}"></iframe>
+
+<div class="viewer-part">
+    <div class="viewercontrols">
+        <a href="#" id="previewonoff">preview on/off</a>
+        <a href="/playground/{{playgroundid}}" target="_blank" id="openinnewwindow">open {{playgroundid}} in new window &#x279a;</a>
+    </div>
+
+    <div id="viewercontainer">
+        <iframe class="viewer" id="viewerframe" src="/playground/{{playgroundid}}"></iframe>
+    </div>
 </div>
 <script src="/programmerjs/sourcebuilder.js"></script>
 <script src="/programmerjs/receptiontransmission.js"></script>

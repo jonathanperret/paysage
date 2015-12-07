@@ -1,60 +1,178 @@
-.example {
-  width: 110px;
-  height: 110px;
-  margin: 10px;
-  border: solid black 1px;
-  display: inline-block;
-}
-
-.number-32 {
-  background: url('/images/number_32.png');
-}
-
-.eye {
-  background: url('/images/eye.png');
-}
-
-.serpent {
-  background: url('/images/serpent.png');
-}
-
 html, body {
-  height: 100%;
+  font-size:1em;
+}
+
+/*CLEARFIX MICRO HACK / thanks http://nicolasgallagher.com/micro-clearfix-hack/ */
+.cf:before,
+.cf:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.cf:after {
+    clear: both;
+}
+
+/**
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+.cf {
+    *zoom: 1;
 }
 
 body {
-  margin:0;
-  padding:0;
+  position:absolute;
+  width:96%;
+  height: 96%;
+  padding:2% 2%;
+  font-family: sans-serif;
+  color:#333;
+}
+
+
+#codeid {
+    font-size: 2em; 
+    width:75%;
+margin-bottom: 0.5em;
 }
 
 .programmer-part {
-  display:block;
   float:left;
   position:relative;
-  width:50%;
-  overflow-x: hidden;
+  width:44%;
 }
 
-.programmer-part .controls {
-  padding: 5px;
+.controls {
+    width: 90%;
 }
 
-.programmer-part textarea {
+.controls textarea {
   width: 100%;
-  box-sizing: border-box;
+  overflow: auto;
   resize: vertical;
+  font-size: 100%;
+  border: dashed #CCC 1px;
+  padding:0.5em;
+    margin-bottom: 1em;
+
 }
+
+
+#objects {
+  font-weight: 400;
+  margin-top: 0;
+    font-size: 1.1em;
+    
+}
+
+
+#bouton, #previewonoff, #openinnewwindow {
+font-size: 1em;
+  padding:12.5px;
+float: right;
+  text-decoration: none;
+  border: 1px solid #333;
+  color:#FFF;
+  background-color:#333;
+    
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+
+  -webkit-transition: all 300ms ease;
+  -moz-transition: all 300ms ease;
+  -o-transition: all 300ms ease;
+  transition: all 300ms ease;
+    
+  user-select: none;
+}
+
+#openinnewwindow {
+  background-color:#888;
+  border-color: #888;
+  
+}
+
+#previewonoff {
+     float:left;
+
+}
+
+
+#openinnewwindow:hover, #bouton:hover, #previewonoff:hover {
+  cursor: pointer;
+  color:#333;
+  background-color:#FFF;
+}
+
+.examples {
+     position: relative;
+}
+
+.number-32 {background: url('/images/number_32.png');}
+.eye {background: url('/images/eye.png');}
+.serpent {background: url('/images/serpent.png');}
+
+.example {
+    width: 5em;
+    margin: 2%;
+    border-style: solid;
+    height: 5em;
+    display: inline-flex;
+    background-size: 5em 5em;
+    background-repeat: no-repeat;
+    background-position: left;
+    cursor: pointer;
+    -webkit-transition: all 500ms ease;
+    -moz-transition: all 500ms ease;
+    -o-transition: all 500ms ease;
+    transition: all 500ms ease;
+    position: relative;
+    z-index: 10;
+}
+
+.example:hover {
+  width: 5.5em;
+    height: 5.5em;
+    background-size: 5.5em;
+}
+
+
+.viewer-part {
+  float: right;
+  width: 50%;
+  height: 100%;
+ 
+}
+
+#viewercontainer {
+
+  float: right;
+  width: 100%;
+  height: 90%;
+  overflow: visible;
+  border-left: 1px solid black;
+  margin-top: 10px;
+}
+
+.viewer {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/*
 
 .viewer-part {
   display:block;
   float:left;
-  position:relative;
-  width: 50%;
+
+  width: 4%;
   height: 100%;
   overflow: visible;
   border-left: 1px solid black;
   margin-left: -1px;
-  overflow: visible;
 }
 
 .viewer-part a {
@@ -63,10 +181,5 @@ body {
   position: relative;
 }
 
-.viewer {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  border: 0;
-}
+*/
+
