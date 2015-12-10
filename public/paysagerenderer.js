@@ -45,9 +45,9 @@ var updateObject = function (id, code) {
     canvas[id].setAttribute('id', id);
 
     document.getElementById('container').appendChild(canvas[id]);
-    console.log('canvas created');
+    console.log('canvas created for '+id);
   } else {
-    console.log('canvas reused');
+    console.log('canvas reused for '+id);
     try {
       sketch[id].exit();
     } catch(e) { }
