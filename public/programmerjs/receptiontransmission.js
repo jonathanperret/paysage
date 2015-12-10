@@ -3,27 +3,18 @@ var requestCode;
 (function() {
   "use strict";
 
-  // Require a sourcebuilder script defining getCompleteSource()
+  // Require a sourcebuilder script defining getCompleteData()
+  // Require a codeinitialization script defining setCodeId()
 
   io = io.connect();
 
   document.getElementById('bouton').addEventListener('click',
-
-    function() {
-      var emitData = function(code) {
-        var codeid = document.getElementById('codeid').value||document.getElementById('codeid').textContent;
-        var playgroundid = document.getElementById('playgroundid').value;
-        var data = {
-          codeid: codeid,
-          playgroundid: playgroundid,
-          code: code
-        };
-        setCodeId(codeid);
+    function sendCode () {
+      var emitData = function(data) {
         console.log(data);
         io.emit('code update', data);
       };
-
-      getCompleteSource(emitData);
+      getCompleteCodeObject(emitData);
     });
 
   requestCode = function(playgroundId, objectId) {
@@ -38,28 +29,31 @@ var requestCode;
       io.emit('request code', data);
   };
 
-  io.on('objects full update', function(data) {
-    var playgroundId = data.playgroundId,
-      objectIds = data.objectIds,
-      $objects = $("#objects");
-    $objects.empty();
-    $objects.append(objectIds.map(function(objectId) {
-      var $item = $("<a href='#'>").text(objectId);
-      $item.click(function(event) {
-        event.preventDefault();
-        requestCode(playgroundId, objectId);
-      });
-      return $('<li>').append($item);
-    }));
-  });
+  io.on('objects list',
+     function buildObjectsList(data) {
+         var playgroundId = data.playgroundId,
+             objectIds = data.objectIds,
+             $objects = $("#objects");
+         $objects.empty();
+         $objects.append(objectIds.map(
+             function buildObjectLink (objectId) {
+                 var $item = $("<a href='#'>").text(objectId);
+                 $item.click(
+                     function attachRequestCodeToLink(event) {
+                         event.preventDefault();
+                         requestCode(playgroundId, objectId);
+                     });
+                 return $('<li>').append($item);
+             }));
+     });
 
-  io.on('source code', function(data) {
-    $("#playgroundid").val(data.playgroundId);
-    setCodeId(data.objectId);
-    $("#code").val(data.code);
-  });
+  io.on('source code',
+     function showCodeReceived (data) {
+         $("#playgroundid").val(data.playgroundId);
+         setCodeId(data.objectId);
+         $("#code").val(data.code);
+     });
 
   io.emit('programmer up', document.getElementById('playgroundid').value);
-
 
 }());
