@@ -1,3 +1,5 @@
+// Require receptiontransmission script defining requestCode function
+
 function setCodeId(codeId) {
   $('#codeid').val(codeId);
   window.location.hash=codeId;
