@@ -88,6 +88,10 @@ float: right;
   user-select: none;
 }
 
+#bouton { 
+
+}
+
 #openinnewwindow {
   background-color:#888;
   border-color: #888;
@@ -108,6 +112,9 @@ float: right;
 
 .examples {
      position: relative;
+    float: left;
+    width: 95%;
+    margin-top: 1em;
 }
 
 .number-32 {background: url('/images/number_32.png');}
@@ -130,7 +137,7 @@ float: right;
     -o-transition: all 500ms ease;
     transition: all 500ms ease;
     position: relative;
-    z-index: 10;
+
 }
 
 .example:hover {
