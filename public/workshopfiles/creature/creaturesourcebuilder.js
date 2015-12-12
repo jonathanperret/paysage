@@ -8,7 +8,7 @@
 
 getCompleteCodeObject = function (callback) {
 
-    var codeid = document.getElementById('codeid').value || document.getElementById('codeid').textContent;
+    var objectid = document.getElementById('codeid').value || document.getElementById('codeid').textContent;
     var playgroundid = document.getElementById('playgroundid').value;
     var mediatype = "text/processing";
     var client = "creature";
@@ -26,8 +26,8 @@ getCompleteCodeObject = function (callback) {
             completecode = template.replace(match, code);
 
             var data = {
-                codeid: codeid,
-                playgroundid: playgroundid,
+                playgroundId: playgroundid,
+                objectId: objectid,
                 mediatype: mediatype,
                 client: client,
                 code: completecode

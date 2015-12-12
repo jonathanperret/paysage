@@ -8,15 +8,15 @@
 
 getCompleteCodeObject = function (callback) {
 
-    var codeid = document.getElementById('codeid').value || document.getElementById('codeid').textContent;
+    var objectid = document.getElementById('codeid').value || document.getElementById('codeid').textContent;
     var playgroundid = document.getElementById('playgroundid').value;
     var mediatype = "text/processing";
     var client = "programmer";
     var code = document.getElementById('code').value;
     
     var data = {
-        codeid: codeid,
-        playgroundid: playgroundid,
+        playgroundId: playgroundid,
+        objectId: objectid, 
         mediatype: mediatype,
         client: client,
         code: code

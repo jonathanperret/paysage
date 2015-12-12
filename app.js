@@ -24,7 +24,6 @@ app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // routes setup 
-
 var list = require('./routes/list')(codeObjects);
 var playground = require('./routes/playground');
 var create = require('./routes/create');
@@ -35,7 +34,7 @@ app.use('/playground/', playground);
 app.use('/list', list);
 app.use('/workshop', workshop);
 
-// app.use(function(req, res, next) {
+/* app.use(function(req, res, next) {
 //     var err = new Error('Not Found');
 //     err.status = 404;
 //     next(err);
@@ -63,62 +62,93 @@ app.use('/workshop', workshop);
 //         message: err.message,
 //         error: {}
 //     });
-// });
+// }); */
 
 // attach socket.io to the http server
 app.http().io();
 
-function makeFullUpdate(playground) {
-  var objectIds = Object.keys(codeObjects[playground]);
-  return {playgroundId: playground, objectIds: objectIds};
-}
-
-app.io.route('programmer up', function (req) { // server gets notified when programmer.html page is loaded
-  var playground = req.data;
-
-  req.io.join(req.data); // have client (req) join the room named after Playground Id
-
-  if (codeObjects[playground]) {
-    req.io.emit('objects full update', makeFullUpdate(playground));
-  }
-});
-
-app.io.route('playground up', function(req) {
-  console.log(req.data + " from playground renderer");
-  req.io.join(req.data);
-
-  if (!codeObjects[req.data]) return;
-
-  req.io.emit('playground full update', codeObjects[req.data]);
-});
-
-app.io.route('code update', function(req) { // Broadcast the code update event on the playground up route, only to the room (playground) concerned.
-  var playground = req.data.playgroundid;
-
-  console.log(playground + " from programmer");
-  req.io.join(playground); // it seems we need to join the room to broadcast
-
-  if (!codeObjects[playground]) codeObjects[playground] = {};
-  codeObjects[playground][req.data.codeid] = req.data.code;
-
-  req.io.room(playground).broadcast('code update', req.data);
-  app.io.room(playground).broadcast('objects full update', makeFullUpdate(playground));
-});
-
-app.io.route('request code', function (req) {
-  var playground = req.data.playgroundId,
-      objectId = req.data.objectId,
-      code = getCode(playground, objectId),
-      data = {playgroundId: playground, objectId: objectId, code: code};
-
-  req.io.emit('source code', data);
-});
 
 var getCode = function (playground, objectId) {
-  if (! codeObjects[playground]) return "";
-  if (! codeObjects[playground][objectId]) return "";
+    if (!codeObjects[playground]) return "";
+    if (!codeObjects[playground][objectId]) return "";
 
-  return codeObjects[playground][objectId];
+    return codeObjects[playground][objectId].code;
 };
+
+
+
+var getListOfAllObjects = function (playground) {
+    var objectIds = Object.keys(codeObjects[playground]);
+    return {playgroundId: playground, objectIds: objectIds};
+};
+
+var getListOfObjectsFromClient = function (playground, client) {
+
+    var allObjects = codeObjects[playground];
+    var selectedObjects = {playgroundId: playground, objectIds: [] };
+
+    for (var object in allObjects) {
+        if (object.client == client) {
+            var ID = Object.keys(object)[0];
+            selectedObjects.objectIds.push(ID);
+        }
+    }
+    return selectedObjects;
+};
+
+
+app.io.route('programmer up',
+    function sendProgrammerTheObjectsList(req) {
+        var playground = req.data;
+        console.log("a new programmer is up for " + playground);
+
+        req.io.join(req.data); // have client (req) join the room named after Playground Id
+
+        if (codeObjects[playground]) {
+            req.io.emit('objects list', getListOfAllObjects(playground));
+        }
+    });
+
+app.io.route('playground up',
+    function sendPlaygroundAllCodeObjects (req) {
+        console.log(req.data + " playground: a new renderer page is up");
+        req.io.join(req.data);
+
+        if (!codeObjects[req.data]) return;
+
+        req.io.emit('playground full update', codeObjects[req.data]);
+    });
+
+app.io.route('code update',
+    function saveNewCodeThenBroadcastCodeAndList(req) {
+        var playgroundId = req.data.playgroundId;
+        var objectId = req.data.objectId;
+
+        console.log(objectId + " for " + playgroundId + " from " + req.data.client);
+        req.io.join(playgroundId); // we join the room to broadcast
+
+        if (!codeObjects[playgroundId]) codeObjects[playgroundId] = {};
+        
+        codeObjects[playgroundId][objectId] = {};
+        codeObjects[playgroundId][objectId].mediatype = req.data.mediatype;
+        codeObjects[playgroundId][objectId].client = req.data.client;
+        codeObjects[playgroundId][objectId].code = req.data.code;
+
+        req.io.room(playgroundId).broadcast('code update', req.data);
+        app.io.room(playgroundId).broadcast('objects list', getListOfAllObjects(playgroundId));
+    });
+
+app.io.route('request code',
+    function sendProgrammerTheCodeObject(req) { 
+        var playground = req.data.playgroundId;
+        var objectId = req.data.objectId;
+        var code = getCode(playground, objectId);
+    
+        var data = { playgroundId: playground, objectId: objectId, code: code };
+    
+        console.log(objectId + " for " + playground + " programmer" ) ;
+
+        req.io.emit('source code', data);
+    });
 
 module.exports = app;

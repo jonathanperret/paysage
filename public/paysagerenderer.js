@@ -11,7 +11,7 @@ io.emit('playground up', playgroundid);
 
 // Listen for the 'code update' event.
 io.on('code update', function(data) {
-  var id = data.codeid;
+  var id = data.objectId;
   var code = data.code;
   console.log('code received '+id, data);
 
@@ -19,9 +19,11 @@ io.on('code update', function(data) {
 });
 
 io.on('playground full update', function (data) {
-  Object.keys(data).forEach(function (k) {
-    updateObject(k, data[k]);
-  });
+  Object.keys(data).forEach(
+      function (objectId) { 
+          updateObject(objectId, data[objectId].code); 
+      } 
+  );
 });
 
 var resize = function (sketch) {
