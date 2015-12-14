@@ -3,7 +3,7 @@ var requestCode;
 (function() {
   "use strict";
 
-  // Require a sourcebuilder script defining getCompleteData()
+  // Require a sourcebuilder script defining getCompleteCodeObject()
   // Require a codeinitialization script defining setCodeId()
 
   io = io.connect();
