@@ -1,4 +1,6 @@
-// Require receptiontransmission script defining requestCode function
+var Paysage = Paysage || {};
+
+// Require receptiontransmission script defining Paysage.requestCode function
 
 function setCodeId(codeId) {
   $('#codeid').val(codeId);
@@ -13,7 +15,7 @@ function createCodeId() {
 
 $(function() {
   if (window.location.hash) {
-    requestCode(window.location.hash.substring(1));
+    Paysage.requestCode(window.location.hash.substring(1));
   } else {
     createCodeId();
   }

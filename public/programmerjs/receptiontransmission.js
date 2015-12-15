@@ -1,4 +1,4 @@
-var requestCode;
+var Paysage = Paysage || {};
 
 (function() {
   "use strict";
@@ -17,7 +17,7 @@ var requestCode;
       getCompleteCodeObject(emitData);
     });
 
-  requestCode = function(playgroundId, objectId) {
+  Paysage.requestCode = function(playgroundId, objectId) {
       if (typeof objectId == "undefined") {
         objectId = playgroundId;
         playgroundId = document.getElementById('playgroundid').value;
@@ -41,7 +41,7 @@ var requestCode;
                  $item.click(
                      function attachRequestCodeToLink(event) {
                          event.preventDefault();
-                         requestCode(playgroundId, objectId);
+                         Paysage.requestCode(playgroundId, objectId);
                      });
                  return $('<li>').append($item);
              }));
