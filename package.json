@@ -23,5 +23,8 @@
     "less-middleware": "1.0.x",
     "morgan": "~1.0.0",
     "static-favicon": "~1.0.0"
+  },
+  "devDependencies": {
+    "testem": "^0.9.11"
   }
 }

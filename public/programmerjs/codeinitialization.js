@@ -13,13 +13,15 @@ function createCodeId() {
 
 // on load generating a random name if no name is passed via the URL Fragmemt identifier
 
-$(function() {
+Paysage.programmerInit = function () {
   if (window.location.hash) {
     Paysage.requestCode(window.location.hash.substring(1));
   } else {
     createCodeId();
   }
-});
+
+  setupDragAndDropListeners();
+};
 
 
 // loading code from an example and generating a random name
@@ -37,22 +39,21 @@ function handleFileSelect(evt) {
   evt.stopPropagation();
   evt.preventDefault();
 
-  var files = evt.dataTransfer.files; // FileList object.
+  var files = evt.originalEvent.dataTransfer.files; // FileList object.
   var reader = new FileReader();
   reader.onload = function(event) {
        document.getElementById('code').value = event.target.result;
        createCodeId();
   };
-  reader.readAsText(files[0],"UTF-8");
+  reader.readAsText(files[0], "UTF-8");
 }
 
 function handleDragOver(evt) {
   evt.stopPropagation();
   evt.preventDefault();
-  evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+  evt.originalEvent.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
 }
 
-// Setup the drag and drop listeners.
-var dropZone = document.getElementById('code');
-dropZone.addEventListener('dragover', handleDragOver, false);
-dropZone.addEventListener('drop', handleFileSelect, false);
+function setupDragAndDropListeners() {
+  $('#code').on('dragover', handleDragOver).on('drop', handleFileSelect);
+}

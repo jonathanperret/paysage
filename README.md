@@ -43,6 +43,11 @@ The demo is continuously deployed from the GitHub repository, so your pull reque
 Then browse <http://http://127.0.0.1:3000/>.
 
 ========
+### Running frontend tests
+
+    node_modules/.bin/testem
+
+========
 #### Server, Playground, Editor(s)
 The **Paysage server** is a NodeJs / Express app that both listen to the programmer page for new code and send code to the renderer using socket.io.
 
