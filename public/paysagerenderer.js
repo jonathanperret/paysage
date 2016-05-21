@@ -20,9 +20,9 @@ io.on('code update', function(data) {
 
 io.on('playground full update', function (data) {
   Object.keys(data).forEach(
-      function (objectId) { 
-          updateObject(objectId, data[objectId].code); 
-      } 
+      function (objectId) {
+          updateObject(objectId, data[objectId].code);
+      }
   );
 });
 
