@@ -20,7 +20,6 @@
     "express": "~4.13.4",
     "express.io": "~1.1.13",
     "handlebars": "~4.0.5",
-    "jade": "^1.11.0",
     "less-middleware": "2.1.x",
     "morgan": "~1.7.0",
     "static-favicon": "~2.0.0-alpha"
