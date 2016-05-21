@@ -1,0 +1,41 @@
+{
+  "masterPicture": "assets/images/icon.png",
+    "iconsPath": "/",
+    "design": {
+      "ios": {
+        "pictureAspect": "backgroundAndMargin",
+        "backgroundColor": "#ffffff",
+        "margin": "14%",
+        "appName": "Paysage"
+      },
+      "desktopBrowser": {},
+      "windows": {
+        "pictureAspect": "whiteSilhouette",
+        "backgroundColor": "#da532c",
+        "onConflict": "override",
+        "appName": "Paysage"
+      },
+      "androidChrome": {
+        "pictureAspect": "backgroundAndMargin",
+        "margin": "17%",
+        "backgroundColor": "#ffffff",
+        "themeColor": "#ffffff",
+        "manifest": {
+          "name": "Paysage",
+          "startUrl": "http://paysage.xyz",
+          "display": "standalone",
+          "orientation": "notSet",
+          "onConflict": "override",
+          "declared": true
+        }
+      },
+      "safariPinnedTab": {
+        "pictureAspect": "silhouette",
+        "themeColor": "#5bbad5"
+      }
+    },
+    "settings": {
+      "scalingAlgorithm": "Mitchell",
+      "errorOnImageTooSmall": false
+    }
+}
