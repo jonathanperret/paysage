@@ -6,7 +6,9 @@
 
 // the sourcebuilder only concern is to build and give a code object ready to be sent to the paysage server
 
-getCompleteCodeObject = function (callback) {
+var Paysage = Paysage || {};
+
+Paysage.getCompleteCodeObject = function (callback) {
 
     var objectid = document.getElementById('codeid').value || document.getElementById('codeid').textContent;
     var playgroundid = document.getElementById('playgroundid').value;

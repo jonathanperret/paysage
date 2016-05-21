@@ -2,12 +2,12 @@ var Paysage = Paysage || {};
 
 // Require receptiontransmission script defining Paysage.requestCode function
 
-function setCodeId(codeId) {
+Paysage.setCodeId = function (codeId) {
   $('#codeid').val(codeId);
   window.location.hash=codeId;
 }
 
-function createCodeId() {
+Paysage.createCodeId = function () {
   setCodeId(chance.word());
 }
 

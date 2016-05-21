@@ -14,7 +14,7 @@ var Paysage = Paysage || {};
         console.log(data);
         io.emit('code update', data);
       };
-      getCompleteCodeObject(emitData);
+      Paysage.getCompleteCodeObject(emitData);
     });
 
   Paysage.requestCode = function(playgroundId, objectId) {
