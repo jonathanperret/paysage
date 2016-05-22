@@ -1,7 +1,9 @@
+var Paysage = Paysage || {};
+
 // thanks https://gist.github.com/jlong/2428561
 var creaturename = window.location.hash.slice(1);
 
-function setCodeId(codeId) {
+Paysage.setCodeId = function(codeId) {
   window.location.hash=codeId;
   $('#codeid').html(creaturename);
 }

@@ -1,3 +1,5 @@
+var Paysage = Paysage || {};
+
 // A separate sourcebuilder.js script allow different Programmer pages 
 // (for example the dedicated programmer page for a workshop like Code Creatures) 
 // to reuse the receptiontransmission.js script
@@ -6,7 +8,7 @@
 
 // the sourcebuilder only concern is to build and give a code object ready to be sent to the paysage server
 
-getCompleteCodeObject = function (callback) {
+Paysage.getCompleteCodeObject = function (callback) {
 
     var objectid = document.getElementById('codeid').value || document.getElementById('codeid').textContent;
     var playgroundid = document.getElementById('playgroundid').value;

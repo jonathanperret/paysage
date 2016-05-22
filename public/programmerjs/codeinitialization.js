@@ -8,7 +8,7 @@ Paysage.setCodeId = function (codeId) {
 }
 
 Paysage.createCodeId = function () {
-  setCodeId(chance.word());
+  Paysage.setCodeId(chance.word());
 }
 
 // on load generating a random name if no name is passed via the URL Fragmemt identifier
@@ -17,7 +17,7 @@ Paysage.programmerInit = function () {
   if (window.location.hash) {
     Paysage.requestCode(window.location.hash.substring(1));
   } else {
-    createCodeId();
+    Paysage.createCodeId();
   }
 
   setupDragAndDropListeners();
@@ -27,7 +27,7 @@ Paysage.programmerInit = function () {
 // loading code from an example and generating a random name
 
 $('.example').click(function() {
-  createCodeId();
+  Paysage.createCodeId();
   $('#code').val($('script', this).html());
 });
 
@@ -43,7 +43,7 @@ function handleFileSelect(evt) {
   var reader = new FileReader();
   reader.onload = function(event) {
        document.getElementById('code').value = event.target.result;
-       createCodeId();
+       Paysage.createCodeId();
   };
   reader.readAsText(files[0], "UTF-8");
 }

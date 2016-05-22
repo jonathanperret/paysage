@@ -3,8 +3,8 @@ var Paysage = Paysage || {};
 (function() {
   "use strict";
 
-  // Require a sourcebuilder script defining getCompleteCodeObject()
-  // Require a codeinitialization script defining setCodeId()
+  // Require a sourcebuilder script defining Paysage.getCompleteCodeObject()
+  // Require a codeinitialization script defining Paysage.setCodeId()
 
   io = io.connect();
 
@@ -50,7 +50,7 @@ var Paysage = Paysage || {};
   io.on('source code',
      function showCodeReceived (data) {
          $("#playgroundid").val(data.playgroundId);
-         setCodeId(data.objectId);
+         Paysage.setCodeId(data.objectId);
          $("#code").val(data.code);
      });
 
