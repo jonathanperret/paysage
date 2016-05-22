@@ -20,8 +20,7 @@
     "express-handlebars": "^3.0.0",
     "express.io": "~1.1.13",
     "less-middleware": "2.1.x",
-    "morgan": "~1.7.0",
-    "static-favicon": "~2.0.0-alpha"
+    "morgan": "~1.7.0"
   },
   "devDependencies": {
     "phantomjs-prebuilt": "^2.1.7",
