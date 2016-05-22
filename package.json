@@ -8,7 +8,8 @@
   "scripts": {
     "start": "node ./bin/www",
     "postinstall": "bower install",
-    "test": "testem ci -l phantomjs"
+    "test": "testem ci -l phantomjs",
+    "update-favicon": "real-favicon generate faviconDescription.json faviconData.json public"
   },
   "dependencies": {
     "body-parser": "^1.15.1",
@@ -23,6 +24,7 @@
     "morgan": "~1.7.0"
   },
   "devDependencies": {
+    "cli-real-favicon": "0.0.6",
     "phantomjs-prebuilt": "^2.1.7",
     "testem": "^1.7.1"
   }
