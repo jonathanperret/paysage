@@ -11,7 +11,10 @@ var app = require('express.io')();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.engine('hbs', exphbs());
+app.engine('hbs', exphbs({
+  extname: '.hbs',
+  partialsDir: path.join(__dirname, 'views/partials'),
+}));
 app.set('view engine', 'hbs');
 
 app.use(logger('dev'));
