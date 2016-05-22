@@ -30,8 +30,13 @@
 			"sizes": "144x144",
 			"type": "image\/png",
 			"density": 3
+		},
+		{
+			"src": "\/android-chrome-192x192.png",
+			"sizes": "192x192",
+			"type": "image\/png",
+			"density": 4
 		}
 	],
-	"start_url": "http:\/\/paysage.xyz",
 	"display": "standalone"
 }
