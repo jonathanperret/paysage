@@ -14,12 +14,11 @@
     "body-parser": "^1.15.1",
     "bower": "^1.5.3",
     "chance": "^1.0.3",
-    "consolidate": "~0.14.1",
     "cookie-parser": "~1.4.2",
     "debug": "~2.2.0",
     "express": "~4.13.4",
+    "express-handlebars": "^3.0.0",
     "express.io": "~1.1.13",
-    "handlebars": "~4.0.5",
     "less-middleware": "2.1.x",
     "morgan": "~1.7.0",
     "static-favicon": "~2.0.0-alpha"
