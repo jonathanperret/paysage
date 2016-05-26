@@ -1,5 +1,6 @@
+framework: jasmine2
 src_files:
-- "public/jquery-2.1.3.js"
+- "public/bower_components/jquery/dist/jquery.js"
 - "public/bower_components/chance/chance.js"
 - "public/programmerjs/codeinitialization.js"
 - "spec/public/**/*.js"

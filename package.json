@@ -9,6 +9,7 @@
     "start": "node ./bin/www",
     "postinstall": "bower install",
     "test": "testem ci -l phantomjs",
+    "testem": "testem -l phantomjs",
     "update-favicon": "real-favicon generate faviconDescription.json faviconData.json public && node -e \"require('fs').writeFileSync('./views/partials/favicon.hbs', require('./faviconData.json').favicon.html_code)\""
   },
   "dependencies": {
