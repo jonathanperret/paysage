@@ -12,12 +12,4 @@ var switchframe = function(event) {
   }
 };
 
-var frameoff = function() {
-  if (frozenpreview === null) {
-    frozenpreview = $('#viewerframe').detach();
-    $('#viewercontainer').hide(150);
-  }
-};
-
 $('#previewonoff').click(switchframe);
-$('#openinnewwindow').click(frameoff);
