@@ -10,18 +10,20 @@
 </head>
 <body>
 <div class="programmer-part">
-  <div class="controls">
+  <div class="programmertop">
     <input type="hidden" id="playgroundid" value="{{playgroundid}}">
-    <div>
-      <input type="text" id="codeid"></input>
-    </div>
+    <input type="text" id="codeid"></input>
+  </div>
+  <div class="codewrapper">
     <textarea id="code" rows="20" cols="30"></textarea>
+  </div>
+  <div class="programmercontrols">
     <div>
       <button id="bouton">go live!</button>
       <a target="_blank" href="{{reference_url}}" id="openreference">reference ➚</a>
     </div>
+    <ul id="objects"></ul>
   </div>
-  <ul id="objects"></ul>
   <div class="examples">
     <div class="example number-32">
     <script type="text/processing">// See also : http://itunes.com/app/Number32
