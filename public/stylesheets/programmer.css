@@ -30,6 +30,8 @@ body {
   height: 100%;
   font-family: sans-serif;
   color:#333;
+  min-width: 800px;
+  min-height: 600px;
 }
 
 .programmertop {
@@ -61,8 +63,11 @@ body {
   overflow: auto;
   resize: none;
   font-size: 100%;
-  border: dashed #CCC 1px;
   padding: 5px 5px 0px 5px;
+}
+
+#code, #viewercontainer>iframe, #objects {
+  border: dashed #CCC 1px;
 }
 
 .programmercontrols {
@@ -121,7 +126,7 @@ body {
 
 .examples {
   display: table-row;
-  height: 6em;
+  height: 0;
 }
 
 .number-32 {background: url('/images/number_32.png');}
@@ -130,12 +135,13 @@ body {
 .creature {background: url('/images/creature.png');}
 
 .example {
-  width: 5em;
   margin: 1em 0 1em 1em;
   border-style: solid;
-  height: 5em;
+  width: 10%;
+  height: 0;
+  padding-bottom: 10%; /* trick to set height from width */
   display: inline-block;
-  background-size: 5em 5em;
+  background-size: 100%;
   background-repeat: no-repeat;
   background-position: left;
   cursor: pointer;
@@ -148,7 +154,7 @@ body {
 
 .example:hover {
   background-position: -0.3em;
-  background-size: 5.5em;
+  background-size: 110%;
 }
 
 .viewer-part {
