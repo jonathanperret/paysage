@@ -151,6 +151,7 @@ body {
   float: right;
   height: 100%;
   border-left: 2px solid black;
+  display: table;
 }
 
 .viewer-part, .programmer-part {
@@ -159,10 +160,17 @@ body {
   box-sizing: border-box;
 }
 
+.viewercontrols, #viewercontainer {
+  display: table-row;
+}
+
+.viewercontrols {
+  height: 50px;
+}
+
 #viewercontainer {
-  float: right;
   width: 100%;
-  height: 90%;
+  height: auto;
   overflow: visible;
   margin-top: 5px;
 }
