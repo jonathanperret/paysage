@@ -24,6 +24,8 @@ app.use(cookieParser());
 app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.locals.reference_url = process.env.REFERENCE_URL || "http://processingjs.org/reference/";
+
 // routes setup 
 var list = require('./routes/list')(codeObjects);
 var playground = require('./routes/playground');
