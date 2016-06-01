@@ -4,13 +4,13 @@ Paysage
 
 ![image](paysage-mood-sketch.jpg)
 
-With Paysage kids –and adults!– live code from their own computer, laptops, tablets, phones, using a variety of IDE and editors. 
-Pieces of code that we call 'code objects' are send and rendered live on a visual playground, accessible via an URL.
+With Paysage kids, beginners and creative coders can live code from their own computer, laptops, tablets, phones, using a variety of IDE and editors. 
+Pieces of code that we call 'code objects' are send and rendered live on a visual playground accessible via an URL.
 
-The Paysage project do not try to invent a new IDE or code editor for kids. There are already many editors, with more launching everyday.
+The Paysage project do not try to invent a new IDE or code editor for creative coding or beginners, nor a new programming language. There are already many editors and languages, with more launching everyday.
 
 Paysage is about making possible a very specific coding experience: 
-**Let 10 kids in the same room, with a few more kids online, code together on the same visual playground.**
+**Let 10 people of any level or age code together in the same room –with a few more online– on the same visual playground.**
 
 ========
 ###Demo
@@ -28,12 +28,14 @@ Paysage is about making possible a very specific coding experience:
 
 - Ask a friend to open another [programmer page for boumsplash](http://paysage.xyz/playground/boumsplash/programmer) to code together on the same [playground](http://paysage.xyz/playground/boumsplash/)
 
-(Code objects are saved server-side but only in-memory. No disk or database persistence for now, so code is lost when server is shutdown, for example by Heroku for inactivity)
+(Code objects are saved server-side but only in-memory. No disk or database persistence for now. As we are using free Heroku instance, code is lost whenever the server is shutdown by Heroku for inactivity)
 
 The demo is continuously deployed from the GitHub repository, so your pull requests are welcome, and will be live in minutes once accepted :-)
 
+A list of active Playgrounds to join can be found at http://paysage.xyz/list
+
 ========
-### Install and run locally
+#### Install and run locally
 
     git clone https://github.com/jonathanperret/paysage.git
     cd paysage
@@ -43,16 +45,17 @@ The demo is continuously deployed from the GitHub repository, so your pull reque
 Then browse <http://localhost:3000/>.
 
 ========
-### Running frontend tests
+#### Running frontend tests
 
     node_modules/.bin/testem
 
 ========
-#### Server, Playground, Editor(s)
-The **Paysage server** is a NodeJs / Express app that both listen to the programmer page for new code and send code to the renderer using socket.io.
+#### Server, Playground, Editor(s)  
+
+The **Paysage server** is a NodeJs / Express app that both listen to the programmer page for new code and send code to the renderer using socket.io. Fallbacks from WebSockets to older techniques are really useful here, because sadly WebSockets are blocked on many institutions's networks where we tried Paysage: museums, universities…
 
 The **Paysage playground** (renderer) is a JS HTML CSS page using Processing.js. 
-Each code object is run as one separated Processing.js instance.
+Each code object is run as one separated Processing.js instance. As Processing.js leave js code alone, a code object can load and use other rendering libraries like two.js, d3.js, allowing participants mix and matcj, and to code their objects using their favorite library.
 
 **Paysage code editors** implementations will ideally be in a variety of languages that compile or interpret to javascript, and could be purely textual editors or visual editors or anything in between. For example :
  - A block-based editor based on Snap!, Blocky from Google or BlockLanguages.  
@@ -60,7 +63,7 @@ Each code object is run as one separated Processing.js instance.
  - An Etherpad based editor could allow several persons to code together on the same code object.
  - An editor for babies on tablets, using only shapes to touch would be very cool, too. 
  
-*At the moment, we use a simple HTML page as the test editor: [http://paysage.xyz/playground/boumsplash/programmer](http://paysage.xyz/playground/boumsplash/programmer)*, communicating with the server using socket.io 
+*At the moment, we use a simple HTML page as the test editor: [http://paysage.xyz/playground/boumsplash/programmer](http://paysage.xyz/playground/boumsplash/programmer)*, communicating with the server using socket.io
 
 ======
 
@@ -78,7 +81,8 @@ In that sense **Paysage is a playground to learn and explore open collaboration.
 
 ####TO DO
 
-- Create beautiful and simple *code creatures* to serve as examples and starting points for users. 
+- Create **simpler code creatures** to serve as examples and starting points for users. 
 - [code objects for a playground should be persistent and reloaded from the server](https://github.com/jonathanperret/paysage/issues/5)
 - [any client editor should be able communicate with the server using a simple HTTP API](https://github.com/jonathanperret/paysage/issues/7)
   - for example [a local script could sync objects and local files](https://github.com/jonathanperret/paysage/issues/14) 
+  - more on the issue tracker:  https://github.com/jonathanperret/paysage/issues
