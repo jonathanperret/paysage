@@ -67,6 +67,12 @@ Each code object is run as one separated Processing.js instance. As Processing.j
 
 ======
 
+####Protocol and data exchange
+
+https://github.com/jonathanperret/paysage/wiki/Technical-documentation
+
+======
+
 ####Note on the collaborative vision of Paysage:
 
 Paysage do not impose social rules on the users. Anyone can edit everything if they want to! 
