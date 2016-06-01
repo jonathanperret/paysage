@@ -91,4 +91,4 @@ In that sense **Paysage is a playground to learn and explore open collaboration.
 - [code objects for a playground should be persistent and reloaded from the server](https://github.com/jonathanperret/paysage/issues/5)
 - [any client editor should be able communicate with the server using a simple HTTP API](https://github.com/jonathanperret/paysage/issues/7)
   - for example [a local script could sync objects and local files](https://github.com/jonathanperret/paysage/issues/14) 
- - more on the issue tracker:  https://github.com/jonathanperret/paysage/issues
+- more on the issue tracker:  https://github.com/jonathanperret/paysage/issues
