@@ -7,13 +7,23 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var exphbs = require('express-handlebars');
 
-var app = require('express.io')();
+var expressio = require('express.io');
+var app = expressio();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.engine('hbs', exphbs({
   extname: '.hbs',
   partialsDir: path.join(__dirname, 'views/partials'),
+  helpers: {
+    socketioClient: function() {
+      if(process.env.NODE_ENV == 'production') {
+        return 'https://cdnjs.cloudflare.com/ajax/libs/socket.io/' + expressio.io.version + '/socket.io.min.js';
+      } else {
+        return '/socket.io/socket.io.js';
+      }
+    },
+  },
 }));
 app.set('view engine', 'hbs');
 
