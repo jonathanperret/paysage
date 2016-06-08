@@ -15,10 +15,12 @@ Paysage.getCompleteCodeObject = function (callback) {
     var mediatype = "text/processing";
     var client = "creature";
     var code = document.getElementById('code').value;
+    
+    var originalsourceURL = "/workshopfiles/"+playgroundid+"/creature.pde";
 
     $.get(
 
-        "/workshopfiles/creature/creature.pde",
+        originalsourceURL,
 
         function (originalsource) {
 
