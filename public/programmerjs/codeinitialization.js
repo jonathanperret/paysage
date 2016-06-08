@@ -28,7 +28,9 @@ Paysage.programmerInit = function () {
 
 $('.example').click(function() {
   Paysage.createCodeId();
-  $('#code').val($('script', this).html());
+  $.get($(this).data('src'), function(data) {
+    $('#code').val(data);
+  });
 });
 
 // drag and dropping a text file and naming the code from the file name

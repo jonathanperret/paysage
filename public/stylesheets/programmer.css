@@ -129,11 +129,6 @@ body {
   height: 0;
 }
 
-.number-32 {background: url('/images/number_32.png');}
-.eye {background: url('/images/eye.png');}
-.serpent {background: url('/images/serpent.png');}
-.creature {background: url('/images/creature.png');}
-
 .example {
   margin: 1em 0 1em 1em;
   border-style: solid;
@@ -151,6 +146,12 @@ body {
   transition: all 500ms ease;
   position: relative;
 }
+
+.number-32 {background: url('/images/number_32.png');}
+.eye {background: url('/images/eye.png');}
+.serpent {background: url('/images/serpent.png');}
+.creature {background: url('/images/creature.png');}
+.horizon {background: url('/images/horizon.png'); background-size: 105%;}
 
 .example:hover {
   background-position: -0.3em;
