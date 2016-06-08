@@ -1,3 +1,12 @@
+// setting multiscreen variables
+// usage: http://www.paysage.xyz/playground/test#w=1000&h=500&x=500&y=250 to render the lower right part of the virtual canvas
+var width=externals.canvas.width ; 
+var height=externals.canvas.height ;   
+var area = {};
+// end multiscreen variables
+
+
+
 float duree = 5000;
 
 color[] journee = {
@@ -6,13 +15,6 @@ color[] journee = {
   color(31, 167, 255), //JOUR
   color(255, 31, 102)  //COUCHER
 };
-
-/*
-color nuit = color(11, 74, 150);
- color lever = color(245, 152, 59);
- color jour = color(31, 167, 255);
- color coucher = color(255, 31, 102);
- */
 
 color result;
 float pourc = 0;
@@ -27,7 +29,6 @@ float rayon;
 PVector sun, moon, centre;
 
 void setup() {
-  size(displayWidth, displayHeight);
   background(0);
   noStroke();
 
@@ -41,6 +42,18 @@ void setup() {
 }
 
 void draw() {
+
+// multiscreen management 
+  window.location.hash
+     .slice(1).split('&').forEach(
+       function(pair){var keyValue=pair.split('='); area[keyValue[0]]=keyValue[1];});
+
+ width = area.w || externals.canvas.width;
+ height = area.h || externals.canvas.height;
+ 
+ translate(-area.x || 0,-area.y || 0);
+// end multiscreen management 
+  
   course = -map(millis(), 0, duree, 0, PI/4)+(PI*1.5);
 
   if (millis() > current+duree) {
@@ -71,7 +84,6 @@ void draw() {
 
   sky(result);
   sunmoon();
-  debug();
 }
 
 void sunmoon() {
@@ -92,10 +104,4 @@ void sunmoon() {
 void sky(color c) {
   fill(c);
   rect(0, 0, width, height);
-}
-
-void debug () {
-  //stroke(255, 0, 0);
-  //line(0, height/2, width, height/2);
-  surface.setTitle(str(floor(frameRate))+" - "+str(millis()/100)+" - "+degrade+" - "+(round(pourc*100)));
 }
