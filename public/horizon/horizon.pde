@@ -1,14 +1,9 @@
 // setting multiscreen variables
 // usage: http://www.paysage.xyz/playground/test#w=1000&h=500&x=500&y=250 to render the lower right part of the virtual canvas
 var area = {};
-window.location.hash
-     .slice(1).split('&').forEach(
-       function(pair){var keyValue=pair.split('='); area[keyValue[0]]=keyValue[1];});
-var width = area.w || externals.canvas.width;
-var height = area.h || externals.canvas.height;
+var width = externals.canvas.width;
+var height = externals.canvas.height;
 // end multiscreen variables
-
-
 
 float duree = 5000;
 
@@ -19,77 +14,50 @@ color[] journee = {
   color(255, 31, 102)  //COUCHER
 };
 
-color result;
-float pourc = 0;
-int i = 0;
-int j = i+1;
-
-float course = 0;
-boolean degrade = false;
-float current = 0;
-
-float rayon;
-PVector sun, moon, centre;
-
 void setup() {
   background(0);
   noStroke();
 
   ellipseMode(CENTER);
-
-  sun = new PVector(0, 0);
-  moon = new PVector(0, 0);
-  centre = new PVector(width/3, height);
-  rayon = width/2;
-  course = 0;
 }
 
 void draw() {
-
-// multiscreen management 
+  // multiscreen management
   window.location.hash
-     .slice(1).split('&').forEach(
-       function(pair){var keyValue=pair.split('='); area[keyValue[0]]=keyValue[1];});
+    .slice(1).split('&').forEach(
+        function(pair){var keyValue=pair.split('='); area[keyValue[0]]=keyValue[1];});
 
- width = area.w || externals.canvas.width;
- height = area.h || externals.canvas.height;
- 
- translate(-area.x || 0,-area.y || 0);
-// end multiscreen management 
-  
-  course = -map(millis(), 0, duree, 0, PI/4)+(PI*1.5);
+  width = area.w || externals.canvas.width;
+  height = area.h || externals.canvas.height;
 
-  if (millis() > current+duree) {
-    if (degrade) {
-      if (i < journee.length-2) {
-        i++;
-        j = i+1;
-      } else if(i<journee.length-1) {
-        i++;
-        j = 0;
-      } else {
-        i = 0;
-        j = i+1;
-      }
-      degrade = false;
-    } else { 
-      degrade = true;
-    }
-    current = millis();
-  }
+  translate(-area.x || 0,-area.y || 0);
+  // end multiscreen management
 
+  int t = millis();
+
+  int i = Math.round(-0.5+t/(duree*2)) % journee.length;
+  bool degrade = t%(2*duree) > duree;
+
+  color skyColor;
   if (degrade) {
-    pourc = map(millis(), current, current+duree, 0, 1);
-    result = lerpColor(journee[i], journee[j], pourc);
+    int j = (i+1)%journee.length;
+    float pourc = (t % duree)/duree;
+    skyColor = lerpColor(journee[i], journee[j], pourc);
   } else {
-    result = journee[i];
+    skyColor = journee[i];
   }
 
-  sky(result);
-  sunmoon();
+  sky(skyColor);
+  float course = -map(t, 0, duree, 0, PI/4)+(PI*1.5);
+  sunmoon(course);
 }
 
-void sunmoon() {
+void sunmoon(float course) {
+  PVector sun = new PVector(0, 0);
+  PVector moon = new PVector(0, 0);
+  PVector centre = new PVector(width/2, height/2);
+  float rayon = width/2;
+
   //SUN
 
   fill(255, 40);
