@@ -6,7 +6,7 @@ var creaturename = window.location.hash.slice(1);
 Paysage.setCodeId = function(codeId) {
   window.location.hash=codeId;
   $('#codeid').html(creaturename);
-}
+};
 
 if (!creaturename) {
   creaturename = chance.word();

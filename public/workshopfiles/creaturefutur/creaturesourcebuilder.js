@@ -18,7 +18,7 @@ Paysage.getCompleteCodeObject = function (callback) {
 
     $.get(
 
-        "/workshopfiles/creature/creature.pde",
+        "/workshopfiles/creature-futur/creature.pde",
 
         function (originalsource) {
 
