@@ -1,8 +1,11 @@
 // setting multiscreen variables
 // usage: http://www.paysage.xyz/playground/test#w=1000&h=500&x=500&y=250 to render the lower right part of the virtual canvas
-var width=externals.canvas.width ; 
-var height=externals.canvas.height ;   
 var area = {};
+window.location.hash
+     .slice(1).split('&').forEach(
+       function(pair){var keyValue=pair.split('='); area[keyValue[0]]=keyValue[1];});
+var width = area.w || externals.canvas.width;
+var height = area.h || externals.canvas.height;
 // end multiscreen variables
 
 
