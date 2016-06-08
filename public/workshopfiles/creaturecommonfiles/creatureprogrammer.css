@@ -85,19 +85,6 @@ h2 {
   margin-left:3%;
 }
 
-.tortue {
-  background: url('assets/tortue.svg') no-repeat left center;
-}
-.libellule {
-  background: url('assets/libellule.svg') no-repeat left center;
-}
-.herisson {
-  background: url('assets/herisson.svg') no-repeat left center;
-}
-.anguille {
-  background: url('assets/anguille.svg') no-repeat left center;
-}
-
 .example {
   width: 100%;
   margin: 2% 0;
