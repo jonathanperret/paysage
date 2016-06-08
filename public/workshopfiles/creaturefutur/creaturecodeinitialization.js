@@ -16,7 +16,9 @@ if (!creaturename) {
 // loading code from an example
 
 $('.example').click(function () {
-  $('#code').val( $('script', this).html() );
+   $.get($(this).data('src'), function putExampleInField (data) {
+    $('#code').val(data);
+   });
 });
 
 

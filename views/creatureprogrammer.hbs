@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link href="/workshopfiles/creature/creatureprogrammer.css" rel="stylesheet">
+  <link href="/workshopfiles/{{workshop}}/creatureprogrammer.css" rel="stylesheet">
   <link href='https://fonts.googleapis.com/css?family=Roboto+Mono:700,700italic,400italic,400' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
   {{> favicon}}
@@ -17,11 +17,11 @@
 <div class="programmer-part">
 <h2>CODE</h2>
   <div class="controls">
-    <input type="hidden" id="playgroundid" value="codecreatureliveparty">
+    <input type="hidden" id="playgroundid" value="{{workshop}}">
     <textarea id="code" rows="10" cols="80" wrap="on" placeholder="Écris ton code ici..." spellcheck="false"></textarea>
     
     <a id="bouton">Envoyer la créature</a>
-    <a href="/playground/codecreatureliveparty" target="_blank" id="openinnewwindow">Ouvrir le paysage de la créature &nbsp; &#x279a;</a>
+    <a href="/playground/{{workshop}}" target="_blank" id="openinnewwindow" class="hasplaygroundlink{{hasplaygroundlink}}">Ouvrir le paysage de la créature &nbsp; &#x279a;</a>
     
   </div>
   <!--<ul id="objects"></ul>-->
@@ -30,67 +30,38 @@
 
     <div class="examples">
     <h2>EXEMPLES</h2>
-    <div class="example tortue">
+        
+    <div class="example tortue" data-src="/workshopfiles/{{workshop}}/examples/tortue.txt">
     <div class="list-item">
       <p>TORTUE</p>
     </div>
-
-      <script type="application/x-creature">macreature
-   .corps(cristal)
-   .yeux(1)
-   .nombredebras(humain)
-   .tailledebras(antenne)
-   .main(losange)
-   .couleurs(14)
-      </script>
     </div>
-    <div class="example libellule">
+        
+        
+    <div class="example libellule" data-src="/workshopfiles/{{workshop}}/examples/libellule.txt">
     <div class="list-item">
       <p>LIBELLULE</p>
+        </div>
     </div>
-      <script type="application/x-creature">macreature
-   .corps(duo)
-   .yeux(2)
-   .nombredebras(alien)
-   .tailledebras(tentacule)
-   .main(cercle)
-   .couleurs(75)
-      </script>
-    </div>
-    <div class="example herisson">
+        
+        
+    <div class="example herisson" data-src="/workshopfiles/{{workshop}}/examples/herisson.txt">
     <div class="list-item">
       <p>HÉRISSON</p>
     </div>
-      <script type="application/x-creature">macreature
-   .corps(atome)
-   .yeux(1)
-   .nombredebras(insecte)
-   .tailledebras(patte)
-   .main(etoile)
-   .couleurs(25)
-      </script>
     </div>
-    <div class="example anguille">
+        
+    <div class="example anguille" data-src="/workshopfiles/{{workshop}}/examples/anguille.txt">
     <div class="list-item">
       <p>ANGUILLE</p>
     </div>
-      <script type="application/x-creature">macreature
-   .corps(serpent)
-   .yeux(8)
-   .nombredebras(poulpe)
-   .tailledebras(bosse)
-   .main(pyramide)
-   .couleurs(60)
-      </script>
-      </div>
+    </div>
+    
     </div>
 
-<!-- <div class="viewer-part" id="viewercontainer">
-  <iframe class="viewer" id="viewerframe" src="/playground/codecreatureliveparty"></iframe>
-</div> -->
 <div class="cf"></div>
-<script src="/workshopfiles/creature/creaturecodeinitialization.js"></script>
-<script src="/workshopfiles/creature/creaturesourcebuilder.js"></script>
+<script src="/workshopfiles/{{workshop}}/creaturecodeinitialization.js"></script>
+<script src="/workshopfiles/{{workshop}}/creaturesourcebuilder.js"></script>
 <script src="/programmerjs/receptiontransmission.js"></script>
 <script src="/programmerjs/previewmanagement.js"></script>
 </body>

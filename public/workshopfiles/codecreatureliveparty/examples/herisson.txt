@@ -1,0 +1,7 @@
+macreature
+   .corps(atome)
+   .yeux(1)
+   .nombredebras(insecte)
+   .tailledebras(patte)
+   .main(etoile)
+   .couleurs(25)

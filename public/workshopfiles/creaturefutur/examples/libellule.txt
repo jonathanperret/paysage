@@ -1,0 +1,6 @@
+macreature
+   .corps(duo)
+   .yeux(2)
+   .nombredebras(alien)
+   .tailledebras(tentacule)
+   .main(cercle)

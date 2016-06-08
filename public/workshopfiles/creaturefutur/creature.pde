@@ -730,7 +730,7 @@ void draw() {
 
   translate(-area.x || 0,-area.y || 0);
 
-/\/\/kids code here/
+//kids code here;
 
 
   loop++;

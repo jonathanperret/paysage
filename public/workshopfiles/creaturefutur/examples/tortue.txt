@@ -1,0 +1,6 @@
+macreature
+   .corps(cristal)
+   .yeux(1)
+   .nombredebras(humain)
+   .tailledebras(antenne)
+   .main(losange)
