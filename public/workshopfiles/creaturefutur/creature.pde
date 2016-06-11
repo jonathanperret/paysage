@@ -22,7 +22,7 @@ int duo = 2;
 int cristal = 3;
 int crystal = 3;
 
-// HAND 
+// HAND
 int losange = 0;
 int cercle = 1;
 int pyramide = 2;
@@ -76,7 +76,7 @@ class Creature {
 
   //GLOBALS
   float basespeed; //Base speed
-  float finalspeed; // Final speed once multiplied by Creature's mass 
+  float finalspeed; // Final speed once multiplied by Creature's mass
   float mass; // Mass - influenced by arms count and length
   float usermass; // Coeff mass defined by user
   float coeffsize; //Overall size of Creatures
@@ -108,7 +108,7 @@ class Creature {
   //HEAD
   PVector visage;
   PVector[] oeil;
-  float[] angleoeil; 
+  float[] angleoeil;
 
   //COLORS
   color coFull;
@@ -147,7 +147,7 @@ class Creature {
     strokeWeight(strokeW);
 
     //INIT MASS AND FORCE MAX
-    mass = 1; 
+    mass = 1;
     usermass = 0;
     maxforce = 0.5;
 
@@ -157,7 +157,7 @@ class Creature {
 
     //Random location starting point
     loc = new PVector(
-      random(coeffsize, widthedge), 
+      random(coeffsize, widthedge),
       random(coeffsize, heightedge)
       );
 
@@ -167,7 +167,7 @@ class Creature {
 
     //Random first target
     target = new PVector(
-      random(coeffsize, widthedge), 
+      random(coeffsize, widthedge),
       random(coeffsize, heightedge)
       );
 
@@ -180,7 +180,7 @@ class Creature {
   }
 
   //LET'S MAKE SURE THAT WE READ THE CODE OF THE USER BEFORE TRYING TO RENDER ANYTHING (To avoid arrays out of bounds for example)
-  boolean updated() { 
+  boolean updated() {
     if (loop < 2) {
 
       //DEFAULTS
@@ -195,8 +195,8 @@ class Creature {
         mass -= float(nbb/30);
       }
       nbbtmp = nbb;
-      //Finalspeed initialization - default one with mass = 1 
-      
+      //Finalspeed initialization - default one with mass = 1
+
       if(usermass > 0 && usermasstmp != usermass){
         mass += usermass/2;
       }
@@ -246,23 +246,15 @@ class Creature {
       coLow = color(co, 0, 100, 90);
       coWhite = color(co, 0, 100, 75);
       return false;
-    } else { 
+    } else {
       return true;
     }
   }
 
   public Creature corps(int c_) { //decide here global moves / speed pattern / body shape
-    if (frameCount%360 == 0) {
-      console.log(frameRate);
-    }
-
     c = c_;
     finalspeed = basespeed*mass;
     if (updated()) {
-      strokeWeight(strokeW);
-      stroke(coFullS);
-      fill(coHalf);
-
       float theta = vel.heading();
       dir = PVector.sub(target, loc);
 
@@ -276,7 +268,7 @@ class Creature {
 
         //if we arrive, just slow down
         if (dd < coeffsize*2) {
-          float ralenti = map(dd, 0, coeffsize*2, 0, finalspeed);  
+          float ralenti = map(dd, 0, coeffsize*2, 0, finalspeed);
           dir.mult(ralenti);
         } else {
           dir.mult(finalspeed);
@@ -285,14 +277,11 @@ class Creature {
         //Search for a new target when approach is done
         if (dd <= coeffsize/10) {
           target = new PVector(
-            random(coeffsize, widthedge), 
+            random(coeffsize, widthedge),
             random(coeffsize, heightedge)
-            ); 
+            );
           //ellipse(target.x, target.y, 100, 100);
         }
-
-        //Draw the body
-        ellipse(loc.x, loc.y, coeffsize, coeffsize);
 
         //Get coordinates for arms attach
         float angle=TWO_PI/nbb;
@@ -305,7 +294,7 @@ class Creature {
           vtmp.normalize();
           vtmp.mult(1.1);
           arms[iii].acce.add(vtmp);
-        } 
+        }
 
         //Get face coordinates
         visage = new PVector(loc.x, loc.y);
@@ -314,21 +303,17 @@ class Creature {
 
       case 1: //SERPENT
         maxforce = 0.1;
-        noFill();
         float dddd = dir.mag();
         dir.normalize();
         if (dddd < coeffsize*6) {
           target = new PVector(
-            random(0, width), 
+            random(0, width),
             random(0, height)
             );
           //rect(target.x, target.y, 100, 100);
-        } 
+        }
         dir.mult(finalspeed);
 
-        beginShape();
-        curveVertex(loc.x, loc.y);
-        curveVertex(loc.x, loc.y);
         for (int j = 0; j < sizeSnake; j++) {
 
           if (j == 0) {
@@ -341,7 +326,6 @@ class Creature {
           snake[j].applyForce(snake[j].acce);
           snake[j].update();
 
-          curveVertex(snake[j].loca.x, snake[j].loca.y);
           epaule[j] = new PVector(snake[j].loca.x, snake[j].loca.y);
           vtmp = new PVector(0, 0);
           vtmp = vel.get();
@@ -358,8 +342,6 @@ class Creature {
             arms[j].acce.add(vtmp);
           }
         }
-        curveVertex(snake[sizeSnake-1].loca.x, snake[sizeSnake-1].loca.y);
-        endShape();
 
         //Get face coordinates
         visage = new PVector(loc.x, loc.y);
@@ -376,7 +358,7 @@ class Creature {
 
         if (du < coeffsize*2) {
           dir.normalize();
-          float ralenti = map(du, 0, coeffsize*2, 0, finalspeed);  
+          float ralenti = map(du, 0, coeffsize*2, 0, finalspeed);
           dir.mult(ralenti);
         } else {
           //console.log(dir);
@@ -387,7 +369,7 @@ class Creature {
 
         if (du <= coeffsize/2) {
           target = new PVector(
-            random(coeffsize, widthedge), 
+            random(coeffsize, widthedge),
             random(coeffsize, heightedge)
             );
           //ellipse(target.x, target.y, 100, 100);
@@ -395,20 +377,6 @@ class Creature {
 
         float thetad = -theta;
         float radd = coeffsize*0.8;
-        beginShape();
-        line(
-          radd*sin(thetad+(11*PI)/12)+loc.x, 
-          radd*cos(thetad+(11*PI)/12)+loc.y, 
-          radd*sin(thetad+(PI)/12)+loc.x, 
-          radd*cos(thetad+(PI)/12)+loc.y
-          );
-        line(
-          radd*sin(thetad+(13*PI)/12)+loc.x, 
-          radd*cos(thetad+(13*PI)/12)+loc.y, 
-          radd*sin(thetad+(23*PI)/12)+loc.x, 
-          radd*cos(thetad+(23*PI)/12)+loc.y
-          );
-        endShape(CLOSE);
 
         for (int jj=0; jj<nbb; jj++)
         {
@@ -428,22 +396,15 @@ class Creature {
         dir.normalize();
         if (ddd < coeffsize*2) {
           target = new PVector(
-            random(coeffsize, widthedge), 
+            random(coeffsize, widthedge),
             random(coeffsize, heightedge)
             );
           //rect(target.x, target.y, 100, 100);
-        } 
+        }
         dir.mult(finalspeed);
-
 
         float thetac = -theta;
         float rad = coeffsize*0.8;
-        beginShape();
-        vertex(rad*sin(thetac+TWO_PI/3)+loc.x, rad*cos(thetac+TWO_PI/3)+loc.y);
-        vertex(rad*sin(thetac+PI/4)+loc.x, rad*cos(thetac+PI/4)+loc.y);
-        vertex((0.75*rad)*sin(thetac+(10*PI)/6)+loc.x, (0.75*rad)*cos(thetac+(10*PI)/6)+loc.y);
-        vertex(rad*sin(thetac+(3*PI)/2)+loc.x, rad*cos(thetac+(3*PI)/2)+loc.y);
-        endShape(CLOSE);
 
         for (int jj=0; jj<nbb; jj++)
         {
@@ -469,7 +430,7 @@ class Creature {
       //stroke(0, 100, 100);
       //point(target.x, target.y);
 
-      st = PVector.sub(dir, vel); 
+      st = PVector.sub(dir, vel);
       st.limit(maxforce);
 
       applyForce(st);
@@ -483,11 +444,78 @@ class Creature {
     return this;
   }
 
+  public Creature drawCorps() {
+    if (frameCount%360 == 0) {
+      console.log(frameRate);
+    }
+
+    strokeWeight(strokeW);
+    stroke(coFullS);
+    fill(coHalf);
+
+    float theta = vel.heading();
+
+    switch(c) {
+
+      case 0: //ATOME
+        //Draw the body
+        ellipse(loc.x, loc.y, coeffsize, coeffsize);
+
+        break;
+
+      case 1: //SERPENT
+        noFill();
+
+        beginShape();
+        curveVertex(loc.x, loc.y);
+        curveVertex(loc.x, loc.y);
+        for (int j = 0; j < sizeSnake; j++) {
+          curveVertex(snake[j].loca.x, snake[j].loca.y);
+        }
+        curveVertex(snake[sizeSnake-1].loca.x, snake[sizeSnake-1].loca.y);
+        endShape();
+
+        break;
+
+      case 2: //DUO
+        float thetad = -theta;
+        float radd = coeffsize*0.8;
+        beginShape();
+        line(
+          radd*sin(thetad+(11*PI)/12)+loc.x,
+          radd*cos(thetad+(11*PI)/12)+loc.y,
+          radd*sin(thetad+(PI)/12)+loc.x,
+          radd*cos(thetad+(PI)/12)+loc.y
+          );
+        line(
+          radd*sin(thetad+(13*PI)/12)+loc.x,
+          radd*cos(thetad+(13*PI)/12)+loc.y,
+          radd*sin(thetad+(23*PI)/12)+loc.x,
+          radd*cos(thetad+(23*PI)/12)+loc.y
+          );
+        endShape(CLOSE);
+
+        break;
+      case 3: //CRISTAL
+        strokeCap(ROUND);
+
+        float thetac = -theta;
+        float rad = coeffsize*0.8;
+        beginShape();
+        vertex(rad*sin(thetac+TWO_PI/3)+loc.x, rad*cos(thetac+TWO_PI/3)+loc.y);
+        vertex(rad*sin(thetac+PI/4)+loc.x, rad*cos(thetac+PI/4)+loc.y);
+        vertex((0.75*rad)*sin(thetac+(10*PI)/6)+loc.x, (0.75*rad)*cos(thetac+(10*PI)/6)+loc.y);
+        vertex(rad*sin(thetac+(3*PI)/2)+loc.x, rad*cos(thetac+(3*PI)/2)+loc.y);
+        endShape(CLOSE);
+
+        break;
+      }
+    return this;
+  }
+
   // ARMSIZE
   public Creature tailledebras(float tb_) {
     tb = tb_;
-    if (updated()) {
-    }
     return this;
   }
 
@@ -500,24 +528,114 @@ class Creature {
         att.connect(arms[ii]);
         att.constrainLength(arms[ii], tbl, tbl, 0.69);
         arms[ii].update();
-        strokeWeight(strokeW/2);
-        stroke(coHalf);
-        line(epaule[ii].x, epaule[ii].y, arms[ii].loca.x, arms[ii].loca.y);
       }
-    }  
+    }
     return this;
   }
 
   public Creature main(int m_) {
     m = m_;
-    float handsize = coeffsize/5; 
-    if (updated()) {
-      
+    return this;
+  }
+
+  public Creature couleurs(int co_) {
+    co = co_;
+    return this;
+  }
+
+  public Creature couleur(int co_) {
+    return couleurs(co_);
+  }
+
+  public Creature yeux(int te_) {
+    tt = te_;
+    return this;
+  }
+
+  public Creature poids(float um_){
+    usermass = um_;
+
+    return this;
+  }
+
+  public Creature rebondis() {
+    PVector nogo;
+    PVector out = null;
+
+    //REPULSIVE WALLS
+    /*stroke(0, 100, 100);
+    noFill();
+    rect(width/2, height/2, widthedge, heightedge);*/
+    if (loc.x < coeffsize) {
+      out = new PVector(finalspeed, vel.y);
+    }
+    else if (loc.x > width-coeffsize) {
+      out = new PVector(-finalspeed, vel.y);
+    }
+
+    if (loc.y < coeffsize) {
+      out = new PVector(vel.x, finalspeed);
+    }
+    else if(loc.y > height-coeffsize) {
+      out = new PVector(vel.x, -finalspeed);
+    }
+
+    if(out != null){
+      out.normalize();
+      out.mult(finalspeed);
+      nogo = PVector.sub(out, vel);
+      float maxf = 1;
+      nogo.limit(maxf);
+      applyForce(nogo);
+    }
+
+    return this;
+  }
+
+  void applyForce(PVector force) {
+    PVector f = PVector.div(force, mass);
+    acc.add(f);
+  }
+
+  void drawYeux() {
+    float eyesize = coeffsize/6;
+    if(tt>6){
+      eyesize = coeffsize/tt;
+    }
+
+    pushMatrix();
+    translate(visage.x, visage.y);
+    rotate((noise(loop*0.01)*TWO_PI));
+    fill(0, 0, 100);
+    strokeWeight(strokeW/1.5);
+    ellipse(0, 0, coeffsize/2, coeffsize/2);
+    fill(coFullB);
+    noStroke();
+
+    for (int k = 0; k < tt; k++) {
+      //strokeWeight(strokeW/2/tt);
+      ellipse(oeil[k].x, oeil[k].y, eyesize, eyesize);
+    }
+    popMatrix();
+    return this;
+  }
+
+  void drawBras() {
+    for (int ii = 0; ii < nbb; ii++) {
       strokeWeight(strokeW/2);
-      stroke(coFull);
-      fill(coWhite);
-      for (int ii = 0; ii < nbb; ii++) {
-        switch(m) {
+      stroke(coHalf);
+      line(epaule[ii].x, epaule[ii].y, arms[ii].loca.x, arms[ii].loca.y);
+    }
+    return this;
+  }
+
+  void drawMain() {
+    float handsize = coeffsize/5;
+    strokeWeight(strokeW/2);
+    stroke(coFull);
+    fill(coWhite);
+    for (int ii = 0; ii < nbb; ii++) {
+      switch(m) {
         case 0:
           pushMatrix();
           translate(arms[ii].loca.x, arms[ii].loca.y);
@@ -545,98 +663,22 @@ class Creature {
           }
           break;
         }
-      }
     }
     return this;
   }
 
-  public Creature couleurs(int co_) {
-    co = co_;
-    if (updated()) {
-    }
-    return this;
-  }
-  
-  public Creature couleur(int co_) {
-    return couleurs(co_);
-  }
-
-  public Creature yeux(int te_) {
-    tt = te_;
-    float eyesize = coeffsize/6;
-    if(tt>6){
-      eyesize = coeffsize/tt;
-    }
-
-    if (updated()) {
-      pushMatrix();
-      translate(visage.x, visage.y);
-      rotate((noise(frameCount*0.01)*TWO_PI));
-      fill(0, 0, 100);
-      strokeWeight(strokeW/1.5);
-      ellipse(0, 0, coeffsize/2, coeffsize/2);
-      fill(coFullB);
-      noStroke();
-
-      for (int k = 0; k < tt; k++) {
-        //strokeWeight(strokeW/2/tt);
-
-        ellipse(oeil[k].x, oeil[k].y, eyesize, eyesize);
-      }
-      popMatrix();
-    }
-    return this;
-  }
-
-  public Creature poids(float um_){
-    usermass = um_; 
-
-    return this;
-  }
-
-  public Creature rebondis() {
-    PVector nogo;
-    PVector out = null;
-    
-    //REPULSIVE WALLS
-    /*stroke(0, 100, 100);
-    noFill();
-    rect(width/2, height/2, widthedge, heightedge);*/
-    if (loc.x < coeffsize) {
-      out = new PVector(finalspeed, vel.y);
-    }
-    else if (loc.x > width-coeffsize) {
-      out = new PVector(-finalspeed, vel.y);
-    }
-        
-    if (loc.y < coeffsize) {
-      out = new PVector(vel.x, finalspeed);
-    }
-    else if(loc.y > height-coeffsize) {
-      out = new PVector(vel.x, -finalspeed);
-    }
-      
-    if(out != null){
-      out.normalize();
-      out.mult(finalspeed);
-      nogo = PVector.sub(out, vel);
-      float maxf = 1;
-      nogo.limit(maxf);
-      applyForce(nogo);
-    }
-
-    return this;
-  }
-
-  void applyForce(PVector force) {
-    PVector f = PVector.div(force, mass);
-    acc.add(f);
+  void draw() {
+    this
+     .drawCorps()
+     .drawYeux()
+     .drawBras()
+     .drawMain();
   }
 }
 
 // THANKS Daniel Shiffman for his Spring class - https://github.com/shiffman/The-Nature-of-Code-Examples/blob/master/chp03_oscillation/NOC_3_11_spring/Spring.pde
 class Attach {
-  PVector anchor; 
+  PVector anchor;
   PVector ext; // extremity
 
   float len; // Length
@@ -695,7 +737,7 @@ class Child {
   }
 
   // Standard Euler integration
-  void update() { 
+  void update() {
     velo.add(acce);
     velo.mult(fric);
     loca.add(velo);
@@ -740,7 +782,9 @@ void draw() {
   var expectedFrameCount = Math.round(targetFramerate * millis() / 1000);
 
   if(debugSync) {
+    fill(255);
     text(millis() + " " + frameCount + "/" + loop + "/" + expectedFrameCount + " " + width + "x" + height + " " + actualFramerate.toFixed(2), 15,55);
+    strokeWeight(1);
     line(0, frameCount % 200, width, frameCount % 200);
     stroke(0);
     line(0, loop % 200, width, loop % 200);
@@ -752,6 +796,7 @@ void draw() {
 
 //kids code here;
 
-
   loop++;
+
+  macreature.draw();
 }
