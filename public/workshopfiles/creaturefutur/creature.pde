@@ -240,12 +240,12 @@ class Creature {
       }
 
       //COLORS
-      coFull = color(co, 0, 100, 90);
-      coFullS = color(co, 0, 100, 90);
-      coFullB = color(co, 0, 100, 100);
-      coHalf = color(co, 0, 100, 75);
-      coLow = color(co, 0, 100, 90);
-      coWhite = color(co, 0, 100, 75);
+      coFull = color(0, 0, 100, 90);
+      coFullS = color(0, 0, 100, 80);
+      coFullB = color(0, 0, 0, 100);
+      coHalf = color(0, 0, 100, 30);
+      coLow = color(0, 0, 100, 100);
+      coWhite = color(0, 0, 100, 100);
       return false;
     } else {
       return true;
@@ -607,7 +607,7 @@ class Creature {
     pushMatrix();
     translate(visage.x, visage.y);
     rotate((noise(loop*0.01)*TWO_PI));
-    fill(0, 0, 100);
+    fill(coWhite);
     strokeWeight(strokeW/1.5);
     ellipse(0, 0, coeffsize/2, coeffsize/2);
     fill(coFullB);
