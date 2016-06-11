@@ -1,6 +1,8 @@
 // multiscreen variables
-var width, height; // hide pjs "real" width and height variables
-var area = {};
+int width, height; // hide pjs "real" width and height variables
+Object area = {};
+float targetFramerate = 30;
+bool debugSync = false;
 
 void readUrl() {
   window.location.hash
@@ -733,6 +735,18 @@ void draw() {
   background(0, 0, 100, 0);
 
   readUrl();
+
+  var actualFramerate = 1000*frameCount/millis();
+  var expectedFrameCount = Math.round(targetFramerate * millis() / 1000);
+
+  if(debugSync) {
+    text(millis() + " " + frameCount + "/" + loop + "/" + expectedFrameCount + " " + width + "x" + height + " " + actualFramerate.toFixed(2), 15,55);
+    line(0, frameCount % 200, width, frameCount % 200);
+    stroke(0);
+    line(0, loop % 200, width, loop % 200);
+    stroke(0,0,255);
+    line(0, expectedFrameCount % 200, width, expectedFrameCount % 200);
+  }
 
   translate(-area.x || 0,-area.y || 0);
 
