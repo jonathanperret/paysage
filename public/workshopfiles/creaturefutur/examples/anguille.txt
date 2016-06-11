@@ -1,6 +1,6 @@
 macreature
-   .corps(cristal)
-   .yeux(1)
-   .nombredebras(humain)
-   .tailledebras(antenne)
-   .main(losange)
+   .corps(serpent)
+   .yeux(3)
+   .nombredebras(poulpe)
+   .tailledebras(bosse)
+   .main(pyramide)
