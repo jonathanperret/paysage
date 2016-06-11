@@ -1,8 +1,9 @@
 // multiscreen variables
 int width, height; // hide pjs "real" width and height variables
 Object area = {};
-float targetFramerate = 30;
+float targetFramerate = 30; // simulated frames per second
 bool debugSync = false;
+int maxExtraFrames = 6; // how many extra frames to simulate for one rendered frame when lagging (how fast to catch up)
 
 void readUrl() {
   window.location.hash
@@ -354,7 +355,7 @@ class Creature {
 
         float r = 40;
         float amp = 12;
-        PVector oscillate = new PVector(r*cos(TWO_PI * frameCount/amp), r*sin(TWO_PI * frameCount/amp));
+        PVector oscillate = new PVector(r*cos(TWO_PI * loop/amp), r*sin(TWO_PI * loop/amp));
 
         if (du < coeffsize*2) {
           dir.normalize();
@@ -597,7 +598,7 @@ class Creature {
     acc.add(f);
   }
 
-  void drawYeux() {
+  void drawTete() {
     float eyesize = coeffsize/6;
     if(tt>6){
       eyesize = coeffsize/tt;
@@ -668,9 +669,10 @@ class Creature {
   }
 
   void draw() {
+    if (loop < 2) return;
     this
      .drawCorps()
-     .drawYeux()
+     .drawTete()
      .drawBras()
      .drawMain();
   }
@@ -782,21 +784,25 @@ void draw() {
   var expectedFrameCount = Math.round(targetFramerate * millis() / 1000);
 
   if(debugSync) {
-    fill(255);
-    text(millis() + " " + frameCount + "/" + loop + "/" + expectedFrameCount + " " + width + "x" + height + " " + actualFramerate.toFixed(2), 15,55);
+    fill(50, 100, 100);
+    text(millis() + " " + frameCount + "/" + loop + "/" + expectedFrameCount + " " + width + "x" + height + " " + actualFramerate.toFixed(2) + " " + (expectedFrameCount - loop), 15, 15);
     strokeWeight(1);
+    stroke(0, 100, 100);
     line(0, frameCount % 200, width, frameCount % 200);
-    stroke(0);
+    stroke(30, 100, 100);
     line(0, loop % 200, width, loop % 200);
-    stroke(0,0,255);
+    stroke(60, 100, 100);
     line(0, expectedFrameCount % 200, width, expectedFrameCount % 200);
   }
 
   translate(-area.x || 0,-area.y || 0);
+  int extraFrames = 0;
+  while(loop < expectedFrameCount && extraFrames++ < maxExtraFrames) {
 
 //kids code here;
 
-  loop++;
+    loop++;
+  }
 
   macreature.draw();
 }
