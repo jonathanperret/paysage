@@ -1,7 +1,16 @@
-// setting multiscreen variables
-var width=externals.canvas.width ; 
-var height=externals.canvas.height ;   
+// multiscreen variables
+var width, height; // hide pjs "real" width and height variables
 var area = {};
+
+void readUrl() {
+  window.location.hash
+     .slice(1).split('&').forEach(
+       function(pair){var keyValue=pair.split('='); area[keyValue[0]]=keyValue[1];});
+  width = area.w || externals.canvas.width;
+  height = area.h || externals.canvas.height;
+}
+
+readUrl();
 
 // Global Variables //<>//
 // BODY
@@ -702,6 +711,7 @@ Creature macreature;
 
 void setup() {
   //size(800, 600);
+  readUrl();
   stroke(0);
   strokeWeight(4);
 
@@ -712,21 +722,12 @@ void setup() {
   ellipseMode(CENTER);
   rectMode(CENTER);
   macreature = new Creature();
-
-
 }
 
 void draw() {
   background(0, 0, 100, 0);
 
-
-// multiscreen management 
-  window.location.hash
-     .slice(1).split('&').forEach(
-       function(pair){var keyValue=pair.split('='); area[keyValue[0]]=keyValue[1];});
-
- width = area.w || externals.canvas.width;
- height = area.h || externals.canvas.height;
+  readUrl();
 
   translate(-area.x || 0,-area.y || 0);
 
@@ -735,4 +736,3 @@ void draw() {
 
   loop++;
 }
-    
