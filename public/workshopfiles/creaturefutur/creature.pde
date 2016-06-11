@@ -709,9 +709,14 @@ class Child {
 
 Creature macreature;
 
+function hashCode(s){
+  return s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);
+}
+
 void setup() {
   //size(800, 600);
   readUrl();
+  randomSeed(hashCode(externals.canvas.id));
   stroke(0);
   strokeWeight(4);
 
