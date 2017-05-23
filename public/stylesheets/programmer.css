@@ -181,7 +181,7 @@ body {
 
 #viewercontainer {
   width: 100%;
-  height: auto;
+  height: 100%;
   overflow: visible;
   margin-top: 5px;
 }
