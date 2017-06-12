@@ -7,7 +7,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var exphbs = require('express-handlebars');
 
-var expressio = require('express.io');
+var expressio = require('./express.io');
 var app = expressio();
 
 // view engine setup
