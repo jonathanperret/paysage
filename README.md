@@ -13,7 +13,7 @@ Paysage is about making possible a very specific coding experience:
 **Let 10 people of any level or age code together in the same room –with a few more online– on the same visual playground.**
 
 ========
-###Demo
+### Demo
 
 ![image](paysage-mini.gif)
 
@@ -67,13 +67,13 @@ Each code object is run as one separated Processing.js instance. As Processing.j
 
 ======
 
-####Protocol and data exchange
+#### Protocol and data exchange
 
 https://github.com/jonathanperret/paysage/wiki/Technical-documentation
 
 ======
 
-####Note on the collaborative vision of Paysage:
+#### Note on the collaborative vision of Paysage:
 
 Paysage do not impose social rules on the users. Anyone can edit everything if they want to! 
 
@@ -85,7 +85,7 @@ In that sense **Paysage is a playground to learn and explore open collaboration.
 
 =======
 
-####TO DO
+#### TO DO
 
 - Create **simpler code creatures** to serve as examples and starting points for users. 
 - [code objects for a playground should be persistent and reloaded from the server](https://github.com/jonathanperret/paysage/issues/5)
