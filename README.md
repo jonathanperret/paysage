@@ -12,7 +12,6 @@ The Paysage project do not try to invent a new IDE or code editor for creative c
 Paysage is about making possible a very specific coding experience: 
 **Let 10 people of any level or age code together in the same room –with a few more online– on the same visual playground.**
 
-========
 ### Demo
 
 ![image](paysage-mini.gif)
@@ -30,11 +29,20 @@ Paysage is about making possible a very specific coding experience:
 
 (Code objects are saved server-side but only in-memory. No disk or database persistence for now. As we are using free Heroku instance, code is lost whenever the server is shutdown by Heroku for inactivity)
 
-The demo is continuously deployed from the GitHub repository, so your pull requests are welcome, and will be live in minutes once accepted :-)
-
 A list of active Playgrounds to join can be found at http://paysage.xyz/list
 
-========
+### Note on the collaborative vision of Paysage:
+
+Paysage do not impose social rules on the users. Anyone can edit everything if they want to! 
+
+Just like writing on Etherpad or Google Docs, users have to evolve their own social rules according to their goals and needs. Yes, pranks and edit wars will happen :-) but it’s part of the process. 
+
+In a sandbox (the real one at the park :-) a kid can destroy the castle another built, and it's the role of other kids and adults to build their own rules about what is allowed and what is not.
+
+In that sense **Paysage is a playground to learn and explore open collaboration.**
+
+### Contributing
+
 #### Install and run locally
 
     git clone https://github.com/jonathanperret/paysage.git
@@ -44,12 +52,14 @@ A list of active Playgrounds to join can be found at http://paysage.xyz/list
 
 Then browse <http://localhost:3000/>.
 
-========
 #### Running frontend tests
 
     node_modules/.bin/testem
+    
+#### Deployement on www.paysage.xyz
 
-========
+The demo is continuously deployed from the GitHub repository, so your pull requests are welcome, and will be live in minutes once accepted :-)
+
 #### Server, Playground, Editor(s)  
 
 The **Paysage server** is a NodeJs / Express app that both listen to the programmer page for new code and send code to the renderer using socket.io. Fallbacks from WebSockets to older techniques are really useful here, because sadly WebSockets are blocked on many institutions's networks where we tried Paysage: museums, universities…
@@ -65,25 +75,10 @@ Each code object is run as one separated Processing.js instance. As Processing.j
  
 *At the moment, we use a simple HTML page as the test editor: [http://paysage.xyz/playground/boumsplash/programmer](http://paysage.xyz/playground/boumsplash/programmer)*, communicating with the server using socket.io
 
-======
 
 #### Protocol and data exchange
 
 https://github.com/jonathanperret/paysage/wiki/Technical-documentation
-
-======
-
-#### Note on the collaborative vision of Paysage:
-
-Paysage do not impose social rules on the users. Anyone can edit everything if they want to! 
-
-Just like writing on Etherpad or Google Docs, users have to evolve their own social rules according to their goals and needs. Yes, pranks and edit wars will happen :-) but it’s part of the process. 
-
-In a sandbox (the real one at the park :-) a kid can destroy the castle another built, and it's the role of other kids and adults to build their own rules about what is allowed and what is not.
-
-In that sense **Paysage is a playground to learn and explore open collaboration.**
-
-=======
 
 #### TO DO
 
