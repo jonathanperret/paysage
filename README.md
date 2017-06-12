@@ -75,10 +75,18 @@ Each code object is run as one separated Processing.js instance. As Processing.j
  
 *At the moment, we use a simple HTML page as the test editor: [http://paysage.xyz/playground/boumsplash/programmer](http://paysage.xyz/playground/boumsplash/programmer)*, communicating with the server using socket.io
 
+#### Additional informations on the wiki 
+https://github.com/jonathanperret/paysage/wiki
 
-#### Protocol and data exchange
-
+##### Protocol and data exchange
 https://github.com/jonathanperret/paysage/wiki/Technical-documentation
+
+##### Workshops
+https://github.com/jonathanperret/paysage/wiki/Workshops
+
+#### Multi-screens
+https://github.com/jonathanperret/paysage/wiki/Multi-screen
+
 
 #### TO DO
 
