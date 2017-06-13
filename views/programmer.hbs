@@ -10,6 +10,8 @@
   <script src="/bower_components/codemirror/lib/codemirror.js"></script>
   <link rel="stylesheet" href="/bower_components/codemirror/lib/codemirror.css">
   <script src="/bower_components/codemirror/mode/javascript/javascript.js"></script>
+  <link href="/stylesheets/codemirror_override.css" rel="stylesheet">
+
 </head>
 <body>
 <div class="programmer-part">
@@ -56,7 +58,10 @@ $(Paysage.programmerInit);
 </script>
 <script>
   var myTextArea = document.getElementById("code");
-  var myCodeMirror = CodeMirror.fromTextArea(myTextArea);
+  var myCodeMirror = CodeMirror.fromTextArea(myTextArea, {
+    lineNumbers: true,
+    lineWrapping:true
+  });
 </script>
 </body>
 </html>
