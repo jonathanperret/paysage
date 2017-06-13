@@ -1,6 +1,4 @@
-var RoomIO;
-
-RoomIO = require('./room').RoomIO;
+var RoomIO = require('./room').RoomIO;
 
 exports.RequestIO = (function() {
   function RequestIO(socket, request, io) {
