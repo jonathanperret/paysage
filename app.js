@@ -18,7 +18,7 @@ app.engine('hbs', exphbs({
   helpers: {
     socketioClient: function() {
       if(process.env.NODE_ENV == 'production') {
-        return 'https://cdnjs.cloudflare.com/ajax/libs/socket.io/' + require('socket.io-client/package').version + '/socket.io.js';
+        return 'https://cdnjs.cloudflare.com/ajax/libs/socket.io/' + require('socket.io/package').version + '/socket.io.js';
       } else {
         return '/socket.io/socket.io.js';
       }
