@@ -1,11 +1,11 @@
-#ExpressIO for Paysage
+# ExpressIO for Paysage
 
 This is a module copied from [ExpressIO](https://github.com/techpines/express.io).
 It has been modified to:
-- work with node 4;
+- work with node 6;
 - be lighter to aintain as Paysage only use a subset or ExpressIO's original features.
 
-##License for ExpressIO
+## License for ExpressIO
 
 It's free! Party with the MIT!
 
