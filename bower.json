@@ -18,7 +18,8 @@
   "dependencies": {
     "chance": "~0.8.0",
     "Processing.js": "~1.4.16",
-    "jquery": "~2.2.4"
+    "jquery": "~2.2.4",
+    "codemirror": "^5.26.0"
   },
   "devDependencies": {
     "jasmine-jquery": "~2.1.1"
