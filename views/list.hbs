@@ -10,6 +10,7 @@
   </head>
   <body>
     <h1>Playgrounds:</h1>
+    {{#if hasPlayground}}
     <p>Please, chose a playground you want to join. Choose 'view' to admire, or 'code' to participate</p>
     <ul>
       {{#each playgrounds}}
@@ -20,5 +21,7 @@
       </li>
       {{/each}}
     </ul>
+    {{/if}}
+    <p>Click <a href="/">here</a> to start a new playground</p>
   </body>
 </html>
