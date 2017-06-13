@@ -1,51 +1,32 @@
 var express = require('express');
 var http = require('http');
-io = require ('socket.io');
-_ = require ('underscore');
-expressLayer = require ('express/lib/router/layer');
-expressSession = require('express-session')
-async = require ('async');
-middleware = require ('./middleware');
+var io = require ('socket.io');
+var _ = require ('underscore');
+var expressLayer = require ('express/lib/router/layer');
+var expressSession = require('express-session')
+var async = require ('async');
+var middleware = require ('./middleware');
+var RequestIO = require('./request').RequestIO;
+var RoomIO = require('./room').RoomIO;
 
 express.io = io;
 
-var RequestIO;
-RequestIO = require('./request').RequestIO;
+var key, value;
 
-var RoomIO;
-RoomIO = require('./room').RoomIO;
-
-var key, session, sessionConfig, value;
-
-session = expressSession;
+var session = expressSession;
 
 delete express.session;
 
-sessionConfig = new Object;
+var sessionConfig = new Object;
 
 express.session = function(options) {
-  if (options == null) {
-    options = new Object;
-  }
-  if (options.key == null) {
-    options.key = 'express.sid';
-  }
-  if (options.store == null) {
-    options.store = new session.MemoryStore;
-  }
-  if (options.cookie == null) {
-    options.cookie = new Object;
-  }
-  sessionConfig = options;
-  return session(options);
+  return session();
 };
-
 
 express.application.http = function() {
   this.server = http.createServer(this);
   return this;
 };
-
 
 express.application.io = function(options) {
   var defaultOptions, layer;
@@ -59,35 +40,23 @@ express.application.io = function(options) {
   this.io = io.listen(this.server, options);
   this.io.router = new Object;
   this.io.middleware = [];
-  this.io.route = function(route, next, options) {
-    var key, results, split, value;
-    if ((options != null ? options.trigger : void 0) === true) {
-      if (route.indexOf(':' === -1)) {
-        this.router[route](next);
-      } else {
-        split = route.split(':');
-        this.router[split[0]][split[1]](next);
-      }
-    }
-    if (_.isFunction(next)) {
+  // This responds to the route called by app.js
+  this.io.route = function(route, next) {
       return this.router[route] = next;
-    } else {
-      results = [];
-      for (key in next) {
-        value = next[key];
-        results.push(this.router[route + ":" + key] = value);
-      }
-      return results;
-    }
-  };
+    };
+
   this.io.configure = (function(_this) {
+    console.log("this is configuration")
     return function() {
+      console.log("this is configuration 2")
       return _this.io.set('authorization', function(data, next) {
+        console.log("this is configuration 3")
         var cookieParser;
         if (sessionConfig.store == null) {
           return async.forEachSeries(_this.io.middleware, function(callback, next) {
             return callback(data, next);
           }, function(error) {
+            console.log("this is configuration donction error 1")
             if (error != null) {
               return next(error);
             }
@@ -96,6 +65,7 @@ express.application.io = function(options) {
         }
         cookieParser = cookieParser();
         return cookieParser(data, null, function(error) {
+          console.log("this is configuration donction error ")
           var rawCookie, request, sessionId;
           if (error != null) {
             return next(error);
@@ -201,13 +171,12 @@ express.application.io = function(options) {
   return this;
 };
 
-var initRoutes, listen;
-
-listen = express.application.listen;
+var listen = express.application.listen;
 
 express.application.listen = function() {
-  var args;
-  args = Array.prototype.slice.call(arguments, 0);
+
+  var args = Array.prototype.slice.call(arguments, 0);
+
   if (this.server != null) {
     return this.server.listen.apply(this.server, args);
   } else {
@@ -215,9 +184,9 @@ express.application.listen = function() {
   }
 };
 
-initRoutes = function(socket, io) {
-  var key, ref, results, setRoute, value;
-  setRoute = function(key, callback) {
+var initRoutes = function(socket, io) {
+  var key, ref, results, value;
+  var setRoute = function(key, callback) {
     return socket.on(key, function(data, respond) {
       var base, request, session;
       if (typeof data === 'function') {
