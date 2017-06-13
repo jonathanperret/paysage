@@ -7,6 +7,9 @@
   <script src="{{socketioClient}}"></script>
   <script src="/bower_components/jquery/dist/jquery.min.js"></script>
   <script src="/bower_components/chance/chance.js"></script>
+  <script src="/bower_components/codemirror/lib/codemirror.js"></script>
+  <link rel="stylesheet" href="/bower_components/codemirror/lib/codemirror.css">
+  <script src="/bower_components/codemirror/mode/javascript/javascript.js"></script>
 </head>
 <body>
 <div class="programmer-part">
@@ -50,6 +53,10 @@
 <script src="/programmerjs/previewmanagement.js"></script>
 <script>
 $(Paysage.programmerInit);
+</script>
+<script>
+  var myTextArea = document.getElementById("code");
+  var myCodeMirror = CodeMirror.fromTextArea(myTextArea);
 </script>
 </body>
 </html>
