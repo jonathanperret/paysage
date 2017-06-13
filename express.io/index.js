@@ -60,7 +60,6 @@ express.application.io = function(options) {
   this.io.router = new Object;
   this.io.middleware = [];
   this.io.route = function(route, next, options) {
-  	console.log(route);
     var key, results, split, value;
     if ((options != null ? options.trigger : void 0) === true) {
       if (route.indexOf(':' === -1)) {
