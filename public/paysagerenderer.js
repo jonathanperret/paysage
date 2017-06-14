@@ -37,7 +37,8 @@ var resize = function (sketch) {
 var rewriteBackgroundTransparent = function(code) {
   // thanks http://www.regexr.com/
   var match = /background\s*(\(.*?\))/g;
-  var transparent = "background(255, 255, 255, 0)";
+  var transparent = "background(255, 255, 255)";
+
   return code.replace(match, transparent);
 };
 

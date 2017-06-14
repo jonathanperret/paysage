@@ -127,7 +127,14 @@ app.io.route('playground up',
         console.log(req.data + " playground: a new renderer page is up");
         req.io.join(req.data);
 
-        if (!codeObjects[req.data]) return;
+        if (!codeObjects[req.data]) {
+        codeObjects[req.data] = {};
+        codeObjects[req.data]["horizon"] = {};
+        codeObjects[req.data]["horizon"].mediatype = "text/processing";
+        codeObjects[req.data]["horizon"].client = "server";
+        codeObjects[req.data]["horizon"].code = "void draw() { background(0,0); fill(200, 80, 80); ellipse(0,0,120,120); }"   }
+
+        
 
         req.io.emit('playground full update', codeObjects[req.data]);
     });
