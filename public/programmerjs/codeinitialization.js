@@ -12,8 +12,7 @@ Paysage.createCodeId = function () {
   Paysage.setCodeId(chance.word());
 }
 
-// On load, generating a random name if no name is passed via the URL Fragmemt identifier,
-// and displaying code editor
+// On load, generating a random name if no name is passed via the URL Fragmemt identifier
 
 Paysage.programmerInit = function () {
   if (window.location.hash) {
@@ -23,14 +22,17 @@ Paysage.programmerInit = function () {
   }
 
   setupDragAndDropListeners();
+}
 
+// On load, displaying code editor
+
+Paysage.codeEditorInit = function () {
   var myTextArea = document.getElementById("code");
   myCodeMirror = CodeMirror.fromTextArea(myTextArea, {
     lineNumbers: true,
     lineWrapping:true
   });
-};
-
+}
 
 // Loading code from an example and generating a random name
 
