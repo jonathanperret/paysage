@@ -1,4 +1,5 @@
 var Paysage = Paysage || {};
+var myCodeMirror;
 
 // Require receptiontransmission script defining Paysage.requestCode function
 
@@ -11,7 +12,8 @@ Paysage.createCodeId = function () {
   Paysage.setCodeId(chance.word());
 }
 
-// on load generating a random name if no name is passed via the URL Fragmemt identifier
+// On load, generating a random name if no name is passed via the URL Fragmemt identifier,
+// and displaying code editor
 
 Paysage.programmerInit = function () {
   if (window.location.hash) {
@@ -21,10 +23,16 @@ Paysage.programmerInit = function () {
   }
 
   setupDragAndDropListeners();
+
+  var myTextArea = document.getElementById("code");
+  myCodeMirror = CodeMirror.fromTextArea(myTextArea, {
+    lineNumbers: true,
+    lineWrapping:true
+  });
 };
 
 
-// loading code from an example and generating a random name
+// Loading code from an example and generating a random name
 
 $('.example').click(function() {
   Paysage.createCodeId();
@@ -34,8 +42,8 @@ $('.example').click(function() {
   });
 });
 
-// drag and dropping a text file and naming the code from the file name
-// thanks http://stackoverflow.com/questions/12214057/drag-n-drop-text-file
+// Drag and dropping a text file and naming the code from the file name
+// Thanks http://stackoverflow.com/questions/12214057/drag-n-drop-text-file
 // (after trying to use http://filedropjs.org/ )
 
 function handleFileSelect(evt) {
