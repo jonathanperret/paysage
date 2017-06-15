@@ -22,16 +22,15 @@ Paysage.programmerInit = function () {
   }
 
   setupDragAndDropListeners();
-}
 
-// On load, displaying code editor
-
-Paysage.codeEditorInit = function () {
-  var myTextArea = document.getElementById("code");
-  myCodeMirror = CodeMirror.fromTextArea(myTextArea, {
-    lineNumbers: true,
-    lineWrapping:true
+  // Initialize myCodeMirror editor
+  $('#code').each(function () {
+    myCodeMirror = CodeMirror.fromTextArea(this, {
+      lineNumbers: true,
+      lineWrapping:true
+    });
   });
+
 }
 
 // Loading code from an example and generating a random name
