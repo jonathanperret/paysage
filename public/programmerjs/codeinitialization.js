@@ -38,7 +38,6 @@ Paysage.programmerInit = function () {
 $('.example').click(function() {
   Paysage.createCodeId();
   $.get($(this).data('src'), function(data) {
-    $('#code').val(data);
     myCodeMirror.setValue(data);
   });
 });

@@ -14,8 +14,8 @@ Paysage.getCompleteCodeObject = function (callback) {
     var playgroundid = document.getElementById('playgroundid').value;
     var mediatype = "text/processing";
     var client = "programmer";
-    var code = document.getElementById('code').value;
-    
+    var code = myCodeMirror.getValue();
+
     var data = {
         playgroundId: playgroundid,
         objectId: objectid, 

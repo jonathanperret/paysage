@@ -51,7 +51,7 @@ var Paysage = Paysage || {};
      function showCodeReceived (data) {
          $("#playgroundid").val(data.playgroundId);
          Paysage.setCodeId(data.objectId);
-         $("#code").val(data.code);
+         myCodeMirror.setValue(data.code);
      });
 
   io.emit('programmer up', document.getElementById('playgroundid').value);

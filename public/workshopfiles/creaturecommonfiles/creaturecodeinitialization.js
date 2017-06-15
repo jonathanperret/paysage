@@ -17,7 +17,7 @@ if (!creaturename) {
 
 $('.example').click(function () {
    $.get($(this).data('src'), function putExampleInField (data) {
-    $('#code').val(data);
+    myCodeMirror.setValue(data);
    });
 });
 
