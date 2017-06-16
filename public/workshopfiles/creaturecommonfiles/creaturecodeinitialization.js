@@ -8,6 +8,14 @@ Paysage.setCodeId = function(codeId) {
   $('#codeid').html(creaturename);
 }
 
+Paysage.getCode = function() {
+  return $('#code').val();
+}
+
+Paysage.setCode = function(code) {
+  $('#code').val(code);
+}
+
 if (!creaturename) {
   creaturename = chance.word();
   window.location.hash = creaturename;
@@ -17,7 +25,7 @@ if (!creaturename) {
 
 $('.example').click(function () {
    $.get($(this).data('src'), function putExampleInField (data) {
-    myCodeMirror.setValue(data);
+    Paysage.setCode(data);
    });
 });
 

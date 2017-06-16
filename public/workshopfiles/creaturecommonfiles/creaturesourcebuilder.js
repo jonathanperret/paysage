@@ -14,7 +14,7 @@ Paysage.getCompleteCodeObject = function (callback) {
     var playgroundid = document.getElementById('playgroundid').value;
     var mediatype = "text/processing";
     var client = "creature";
-    var code = myCodeMirror.getValue();
+    var code = Paysage.getCode();
 
     var originalsourceURL = "/workshopfiles/"+playgroundid+"/creature.pde";
 

@@ -1,5 +1,4 @@
 var Paysage = Paysage || {};
-var myCodeMirror;
 
 // Require receptiontransmission script defining Paysage.requestCode function
 
@@ -10,6 +9,14 @@ Paysage.setCodeId = function (codeId) {
 
 Paysage.createCodeId = function () {
   Paysage.setCodeId(chance.word());
+}
+
+Paysage.getCode = function() {
+  return $('#code').val();
+}
+
+Paysage.setCode = function(code) {
+  $('#code').val(code);
 }
 
 // On load, generating a random name if no name is passed via the URL Fragmemt identifier
@@ -23,14 +30,21 @@ Paysage.programmerInit = function () {
 
   setupDragAndDropListeners();
 
-  // Initialize myCodeMirror editor
+  // Initialize CodeMirror editor
   $('#code').each(function () {
-    myCodeMirror = CodeMirror.fromTextArea(this, {
+    var codeMirror = CodeMirror.fromTextArea(this, {
       lineNumbers: true,
       lineWrapping:true
     });
-  });
 
+    Paysage.getCode = function() {
+      return codeMirror.getValue();
+    }
+
+    Paysage.setCode = function(code) {
+      codeMirror.setValue(code);
+    }
+  });
 }
 
 // Loading code from an example and generating a random name
@@ -38,7 +52,7 @@ Paysage.programmerInit = function () {
 $('.example').click(function() {
   Paysage.createCodeId();
   $.get($(this).data('src'), function(data) {
-    myCodeMirror.setValue(data);
+    Paysage.setCode(data);
   });
 });
 
