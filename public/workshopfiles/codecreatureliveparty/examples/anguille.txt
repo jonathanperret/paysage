@@ -5,4 +5,3 @@ macreature
    .tailledebras(bosse)
    .main(pyramide)
    .couleurs(60)
-      
