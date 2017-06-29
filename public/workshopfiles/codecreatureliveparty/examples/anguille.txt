@@ -1,5 +1,5 @@
 macreature
-   .corps(cristal)
+   .corps(serpent)
    .yeux(1)
    .nombredebras(humain)
    .tailledebras(antenne)
