@@ -1,7 +1,8 @@
 macreature
    .corps(serpent)
-   .yeux(1)
-   .nombredebras(humain)
-   .tailledebras(antenne)
-   .main(losange)
+   .yeux(3)
+   .nombredebras(insecte)
+   .tailledebras(bosse)
+   .main(pyramide)
    .couleurs(60)
+      
