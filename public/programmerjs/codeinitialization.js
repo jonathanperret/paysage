@@ -30,19 +30,17 @@ Paysage.programmerInit = function () {
 
   setupDragAndDropListeners();
 
-  // Initialize CodeMirror editor
+  // Initialize ACE code editor
   $('#code').each(function () {
-    var codeMirror = CodeMirror.fromTextArea(this, {
-      lineNumbers: true,
-      lineWrapping:true
-    });
-
+    var editor = ace.edit(this);
+    editor.getSession().setMode("ace/mode/java");
+    editor.$blockScrolling = Infinity; // to avoid the warning about deprecated scrolling https://github.com/ajaxorg/ace/issues/2499
     Paysage.getCode = function() {
-      return codeMirror.getValue();
+      return editor.getValue();
     }
 
     Paysage.setCode = function(code) {
-      codeMirror.setValue(code);
+      editor.setValue(code);
     }
   });
 }
