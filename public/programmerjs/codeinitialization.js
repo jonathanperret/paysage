@@ -40,7 +40,7 @@ Paysage.programmerInit = function () {
     }
 
     Paysage.setCode = function(code) {
-      editor.setValue(code);
+      editor.setValue(code, -1);
     }
   });
 }
