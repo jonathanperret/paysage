@@ -34,6 +34,7 @@ Paysage.programmerInit = function () {
   $('#code').each(function () {
     var editor = ace.edit(this);
     editor.getSession().setMode("ace/mode/java");
+    editor.setShowPrintMargin(false);
     editor.$blockScrolling = Infinity; // to avoid the warning about deprecated scrolling https://github.com/ajaxorg/ace/issues/2499
     Paysage.getCode = function() {
       return editor.getValue();
