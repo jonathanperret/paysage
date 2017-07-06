@@ -1,34 +1,50 @@
 # viewer loads page
 
-    viewer                 viewer browser                  server
-      |--- open page --------->|                            |
-      |                        |--- playground up (plgnd) ->|
-      |                        |<- playground full update --|
-      |<-- renders creatures---|                            |
+```text
+viewer                 viewer browser                  server
+  |--- open page --------->|                            |
+  |                        |--- playground up (plgnd) ->|
+  |                        |<- playground full update --|
+  |<-- renders creatures---|                            |
+```
 
 # programmer loads page
 
-    programmer               browser                       server
-      |--- open page --------->|                            |
-      |                        |--- programmer up (plgnd) ->|
-      |                        |<-------- objects list -----|
-      |<- show code ids list --|                            |
+```text
+programmer               browser                       server
+  |--- open page --------->|                            |
+  |                        |--- programmer up (plgnd) ->|
+  |                        |<-------- objects list -----|
+  |<- show code ids list --|                            |
+```
 
 # programmer chooses code to edit
 
-    programmer                browser                      server
-      |---- click code id ---->|
-      |                        |--- request code ---------->|
-      |                        |<----- source code ---------|
-      |<- show code in editor -|
+```text
+programmer                browser                      server
+  |---- click code id ---->|
+  |                        |--- request code ---------->|
+  |                        |<----- source code ---------|
+  |<- show code in editor -|
+```
 
 # programmer pushes updated code
 
-    programmer          programmer browser                 server           viewer browser    other programmer browser
-      |--- click  "click" ---->|                            |                    |                     |
-      |                        |---- code update (cd) ----->|                    |                     |
-      |                        |                            |- code update(cd) ->|                     |
-      |                        |<--- object full update ----|----------- object full update ---------->|
-      |                        |                            |--- objects list -->+-------------------->|
+```text
+programmer          programmer browser            server                  preview/other clients
+  |--- click "go live" ---->|                       |                               |
+  |                         |---- code update ----->|                               |
+  |                         |                       |------ code update ----------->|
+  |                         |<----------------------+------ objects list ---------->|
+```
 
+# programmer deletes a code
+
+```text
+programmer     programmer browser          server                 preview/other clients
+  |--- click 🗑  ---->|                       |                              |
+  |                  |---- code delete ----->|                              |
+  |                  |                       |----- code delete ----------->|
+  |                  |<----------------------+----- objects list ---------->|
+```
 
