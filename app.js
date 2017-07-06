@@ -65,21 +65,6 @@ var getListOfAllObjects = function (playground) {
     return {playgroundId: playground, objectIds: objectIds};
 };
 
-var getListOfObjectsFromClient = function (playground, client) {
-
-    var allObjects = codeObjects[playground];
-    var selectedObjects = {playgroundId: playground, objectIds: [] };
-
-    for (var object in allObjects) {
-        if (object.client == client) {
-            var ID = Object.keys(object)[0];
-            selectedObjects.objectIds.push(ID);
-        }
-    }
-    return selectedObjects;
-};
-
-
 app.io.route('programmer up',
     function sendProgrammerTheObjectsList(req) {
         var playground = req.data;
@@ -111,7 +96,7 @@ app.io.route('code update',
         req.io.join(playgroundId); // we join the room to broadcast
 
         if (!codeObjects[playgroundId]) codeObjects[playgroundId] = {};
-        
+
         codeObjects[playgroundId][objectId] = {};
         codeObjects[playgroundId][objectId].mediatype = req.data.mediatype;
         codeObjects[playgroundId][objectId].client = req.data.client;
@@ -126,9 +111,9 @@ app.io.route('request code',
         var playground = req.data.playgroundId;
         var objectId = req.data.objectId;
         var code = getCode(playground, objectId);
-    
+
         var data = { playgroundId: playground, objectId: objectId, code: code };
-    
+
         console.log(objectId + " for " + playground + " programmer" ) ;
 
         req.io.emit('source code', data);
