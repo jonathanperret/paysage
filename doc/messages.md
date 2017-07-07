@@ -1,6 +1,6 @@
 # viewer loads page
 
->  viewer                 viewer browser                  server
+    viewer                 viewer browser                  server
       |--- open page --------->|                            |
       |                        |--- playground up (plgnd) ->|
       |                        |<- playground full update --|
@@ -8,7 +8,7 @@
 
 # programmer loads page
 
->  programmer               browser                       server
+    programmer               browser                       server
       |--- open page --------->|                            |
       |                        |--- programmer up (plgnd) ->|
       |                        |<-------- objects list -----|
@@ -16,7 +16,7 @@
 
 # programmer chooses code to edit
 
->  programmer                browser                      server
+    programmer                browser                      server
       |---- click code id ---->|
       |                        |--- request code ---------->|
       |                        |<----- source code ---------|
@@ -24,7 +24,7 @@
 
 # programmer pushes updated code
 
->  programmer          programmer browser                 server           viewer browser    other programmer browser
+    programmer          programmer browser                 server           viewer browser    other programmer browser
       |--- click  "click" ---->|                            |                    |                     |
       |                        |---- code update (cd) ----->|                    |                     |
       |                        |                            |- code update(cd) ->|                     |
