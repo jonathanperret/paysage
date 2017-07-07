@@ -47,6 +47,9 @@ In that sense **Paysage is a playground to learn and explore open collaboration.
 
     git clone https://github.com/jonathanperret/paysage.git
     cd paysage
+    echo GITHUB_OWNER=paysagexzy > .env
+    echo GITHUB_REPO=creatures >> .env
+    echo GITHUB_TOKEN=012345567890123456789 .env
     npm install
     npm start
 

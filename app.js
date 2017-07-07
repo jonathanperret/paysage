@@ -9,6 +9,7 @@ var exphbs = require('express-handlebars');
 
 var expressio = require('./express.io');
 var app = expressio();
+var github = require("./github");
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -50,6 +51,22 @@ app.use('/workshop', workshop);
 // attach socket.io to the http server
 app.http().io();
 
+function populateCreature(playground, name, code, sha) {
+  codeObjects[playground][name] = { code: code, sha: sha};
+}
+
+function populatePlayground(playground,creatures) {
+  creatures.forEach(function(name) {
+    github.loadCreature(playground,name,populateCreature);
+  });
+}
+
+github.loadPlaygrounds(function(playgrounds) {
+  playgrounds.forEach(function(playground) {
+    codeObjects[playground] = {};
+    github.loadPlayground(playground, populatePlayground);
+  });
+});
 
 var getCode = function (playground, objectId) {
     if (!codeObjects[playground]) return "";
@@ -83,7 +100,6 @@ app.io.route('playground up',
         req.io.join(req.data);
 
         if (!codeObjects[req.data]) return;
-
         req.io.emit('playground full update', codeObjects[req.data]);
     });
 
@@ -97,7 +113,15 @@ app.io.route('code update',
 
         if (!codeObjects[playgroundId]) codeObjects[playgroundId] = {};
 
-        codeObjects[playgroundId][objectId] = {};
+        if (!codeObjects[playgroundId][objectId])
+            codeObjects[playgroundId][objectId] = {};
+
+        var sha = codeObjects[playgroundId][objectId].sha;
+        github.saveCreature(playgroundId, objectId, req.data.code, sha,
+            function(sha){
+              codeObjects[playgroundId][objectId].sha = sha;
+        });
+
         codeObjects[playgroundId][objectId].mediatype = req.data.mediatype;
         codeObjects[playgroundId][objectId].client = req.data.client;
         codeObjects[playgroundId][objectId].code = req.data.code;

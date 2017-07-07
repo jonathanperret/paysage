@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+require('dotenv').config()
 var debug = require('debug')('paysage');
 var app = require('../app');
 
