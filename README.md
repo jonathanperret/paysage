@@ -4,10 +4,10 @@ Paysage
 
 ![image](paysage-mood-sketch.jpg)
 
-With Paysage kids, beginners and creative coders can live code from their own computer, laptops, tablets, phones, using a variety of IDE and editors. 
-Pieces of code that we call 'code objects' are send and rendered live on a visual playground accessible via an URL.
+With Paysage kids, beginners and creative coders can live code from their own computer, laptop, tablet, or phone using a variety of IDEs and editors. 
+Pieces of code that we call 'code objects' are sent and rendered live on a visual playground accessible via an URL.
 
-The Paysage project do not try to invent a new IDE or code editor for creative coding or beginners, nor a new programming language. There are already many editors and languages, with more launching everyday.
+The Paysage project does not try to invent a new IDE or code editor for creative coding or beginners, nor a new programming language. There are already many editors and languages, with more launching everyday.
 
 Paysage is about making possible a very specific coding experience: 
 **Let 10 people of any level or age code together in the same room –with a few more online– on the same visual playground.**
@@ -17,7 +17,7 @@ Paysage is about making possible a very specific coding experience:
 ![image](paysage-mini.gif)
 
 [http://paysage.xyz/playground/boumsplash/](http://paysage.xyz/playground/boumsplash/) (a playground named "boumsplash"!)  
-[http://paysage.xyz/playground/boumsplash/programmer](http://paysage.xyz/playground/boumsplash/programmer) (a basic default code editor for the boumsplash playground. The plans is to allow any other editor, including desktop editors or apps.) 
+[http://paysage.xyz/playground/boumsplash/programmer](http://paysage.xyz/playground/boumsplash/programmer) (a basic default code editor for the boumsplash playground. The plan is to allow any other editor, including desktop editors or apps.) 
 
 - Open both pages (on several different computers for more fun. You of course can open the playground view on a phone or tablet too.), 
 
@@ -27,13 +27,13 @@ Paysage is about making possible a very specific coding experience:
 
 - Ask a friend to open another [programmer page for boumsplash](http://paysage.xyz/playground/boumsplash/programmer) to code together on the same [playground](http://paysage.xyz/playground/boumsplash/)
 
-(Code objects are saved server-side but only in-memory. No disk or database persistence for now. As we are using free Heroku instance, code is lost whenever the server is shutdown by Heroku for inactivity)
+(Code objects are saved server-side but only in-memory. No disk or database persistence for now. As we are using a free Heroku instance, code is lost whenever the server is shutdown by Heroku for inactivity)
 
 A list of active Playgrounds to join can be found at http://paysage.xyz/list
 
 ### Note on the collaborative vision of Paysage:
 
-Paysage do not impose social rules on the users. Anyone can edit everything if they want to! 
+Paysage does not impose social rules on the users. Anyone can edit everything if they want to! 
 
 Just like writing on Etherpad or Google Docs, users have to evolve their own social rules according to their goals and needs. Yes, pranks and edit wars will happen :-) but it’s part of the process. 
 
@@ -56,18 +56,18 @@ Then browse <http://localhost:3000/>.
 
     node_modules/.bin/testem
     
-#### Deployement on www.paysage.xyz
+#### Deployment on www.paysage.xyz
 
 The demo is continuously deployed from the GitHub repository, so your pull requests are welcome, and will be live in minutes once accepted :-)
 
 #### Server, Playground, Editor(s)  
 
-The **Paysage server** is a NodeJs / Express app that both listen to the programmer page for new code and send code to the renderer using socket.io. Fallbacks from WebSockets to older techniques are really useful here, because sadly WebSockets are blocked on many institutions's networks where we tried Paysage: museums, universities…
+The **Paysage server** is a NodeJs / Express app that both listens to the programmer page for new code and sends code to the renderer using socket.io. Fallbacks from WebSockets to older techniques are really useful here, because sadly WebSockets are blocked on many institutions' networks where we tried Paysage: museums, universities…
 
 The **Paysage playground** (renderer) is a JS HTML CSS page using Processing.js. 
-Each code object is run as one separated Processing.js instance. As Processing.js leave js code alone, a code object can load and use other rendering libraries like two.js, d3.js, allowing participants mix and matcj, and to code their objects using their favorite library.
+Each code object is run as a separated Processing.js instance. As Processing.js leaves JS code alone, a code object can load and use other rendering libraries like two.js, d3.js, allowing participants to mix and match, and to code their objects using their favorite library.
 
-**Paysage code editors** implementations will ideally be in a variety of languages that compile or interpret to javascript, and could be purely textual editors or visual editors or anything in between. For example :
+**Paysage code editors** implementations will ideally be in a variety of languages that compile or interpret to javascript, and could be purely textual editors or visual editors or anything in between. For example:
  - A block-based editor based on Snap!, Blocky from Google or BlockLanguages.  
  - A local folder-watcher app for text editors could push code to the Paysage server at each file save. 
  - An Etherpad based editor could allow several persons to code together on the same code object.
@@ -75,7 +75,7 @@ Each code object is run as one separated Processing.js instance. As Processing.j
  
 *At the moment, we use a simple HTML page as the test editor: [http://paysage.xyz/playground/boumsplash/programmer](http://paysage.xyz/playground/boumsplash/programmer)*, communicating with the server using socket.io
 
-#### Additional informations on the wiki 
+#### Additional information on the wiki 
 https://github.com/jonathanperret/paysage/wiki
 
 ##### Protocol and data exchange
