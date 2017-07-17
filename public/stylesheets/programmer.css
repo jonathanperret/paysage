@@ -153,6 +153,10 @@ body {
 .creature {background: url('/images/creature.png');}
 .horizon {background: url('/images/horizon.png'); background-size: 105%;}
 
+.glyphicon {
+  font-size:1.2rem;
+}
+
 .example:hover {
   background-position: -0.3em;
   background-size: 110%;
