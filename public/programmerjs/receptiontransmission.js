@@ -47,7 +47,7 @@ var Paysage = Paysage || {};
         event.preventDefault();
         Paysage.requestCode(playgroundId, objectId);
       });
-      var $deleteLink = $("<a href='#'>").text("trash");
+      var $deleteLink = $('<a class="glyphicon glyphicon-trash" href="#">');
       $deleteLink.click(function(event) {
         event.preventDefault();
         deleteCode(playgroundId, objectId);
