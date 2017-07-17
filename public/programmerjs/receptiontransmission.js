@@ -50,15 +50,14 @@ var Paysage = Paysage || {};
                 event.preventDefault();
                 Paysage.requestCode(playgroundId, objectId);
               });
-          var $deleteItem = $("<a href='#'>").text("trash");
+          var $deleteItem = $('<a class="glyphicon glyphicon-trash" href="#">');
           $deleteItem.click(
               function deleteCreature(event) {
                 event.preventDefault();
                 Paysage.deleteCreature(playgroundId, objectId);
               }
               );
-          return $('<li>').append($item)
-            .append(' (').append($deleteItem).append(')');
+          return $('<li>').append($item).append(" - ").append($deleteItem);
         }));
       });
 
