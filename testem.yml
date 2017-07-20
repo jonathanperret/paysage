@@ -4,3 +4,10 @@ src_files:
 - "public/bower_components/chance/chance.js"
 - "public/programmerjs/codeinitialization.js"
 - "spec/public/**/*.js"
+launchers:
+  jasmine-node :
+    command: "jasmine-node --test-dir specServer"
+    src_files:
+      - "specServer/**/*.js"
+launch_in_dev: [ "PhantomJS" ]
+launch_in_ci: [ "PhantomJS" ]
