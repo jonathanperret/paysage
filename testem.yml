@@ -9,5 +9,5 @@ launchers:
     command: "jasmine-node --test-dir specServer"
     src_files:
       - "specServer/**/*.js"
-launch_in_dev: [ "PhantomJS" ]
-launch_in_ci: [ "PhantomJS" ]
+launch_in_dev: [ "PhantomJS", "jasmine-node" ]
+launch_in_ci: [ "PhantomJS", "jasmine-node" ]

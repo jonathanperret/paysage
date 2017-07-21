@@ -52,10 +52,16 @@ In that sense **Paysage is a playground to learn and explore open collaboration.
 
 Then browse <http://localhost:3000/>.
 
-#### Running frontend tests
+#### Running tests
 
-    node_modules/.bin/testem
-    
+Running test in dev :
+
+    npm run testem
+
+Running test in CI :
+
+    npm test
+
 #### Deployment on www.paysage.xyz
 
 The demo is continuously deployed from the GitHub repository, so your pull requests are welcome, and will be live in minutes once accepted :-)
