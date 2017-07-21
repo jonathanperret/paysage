@@ -73,7 +73,7 @@ Each code object is run as a separated Processing.js instance. As Processing.js 
  - An Etherpad based editor could allow several persons to code together on the same code object.
  - An editor for babies on tablets, using only shapes to touch would be very cool, too. 
  
-*At the moment, we use a simple HTML page as the test editor: [http://paysage.xyz/playground/boumsplash/programmer](http://paysage.xyz/playground/boumsplash/programmer)*, communicating with the server using socket.io
+*At the moment, we use [Ace](https://ace.c9.io/) as the text editor: [http://paysage.xyz/playground/boumsplash/programmer](http://paysage.xyz/playground/boumsplash/programmer)*, communicating with the server using socket.io
 
 #### Additional information on the wiki 
 https://github.com/jonathanperret/paysage/wiki
