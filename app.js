@@ -1,5 +1,8 @@
 var world = require("./world")();
 
+const github = require("./github")();
+github.init(process.env.GITHUB_OWNER, process.env.GITHUB_REPO, process.env.GITHUB_TOKEN);
+
 var express = require('express');
 var path = require('path');
 var logger = require('morgan');
@@ -9,7 +12,6 @@ var exphbs = require('express-handlebars');
 
 var expressio = require('./express.io');
 var app = expressio();
-var github = require("./github");
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
