@@ -1,7 +1,7 @@
 var world = require("./world")();
 
-const github = require("./github")();
-github.init(process.env.GITHUB_OWNER, process.env.GITHUB_REPO, process.env.GITHUB_TOKEN);
+var persisted = require('./persistence')(world).maybeStart();
+if (persisted) console.log("Pesistence on github is enabled.");
 
 var express = require('express');
 var path = require('path');
@@ -53,28 +53,9 @@ app.use('/workshop', workshop);
 // attach socket.io to the http server
 app.http().io();
 
-function populateCreature(playground, name, code, sha) {
-  codeObjects[playground][name] = { code: code, sha: sha};
-}
-
-function populatePlayground(playground,creatures) {
-  creatures.forEach(function(name) {
-    github.loadCreature(playground,name,populateCreature);
-  });
-}
-
-github.loadPlaygrounds(function(playgrounds) {
-  playgrounds.forEach(function(playground) {
-    codeObjects[playground] = {};
-    github.loadPlayground(playground, populatePlayground);
-  });
-});
-
 var getCode = function (playground, objectId) {
     return world.playground(playground).creature(objectId).code();
 };
-
-
 
 var getListOfAllCreatures = function (playground) {
     return {playgroundId : playground.name,
@@ -117,6 +98,7 @@ app.io.route('code update',
         req.io.join(creature.playground.name); // we join the room to broadcast
 
         creature.updateCode(req.data.code);
+
         req.io.room(creature.playground.name).broadcast('code update', req.data);
         app.io.room(creature.playground.name).broadcast('objects list', getListOfAllCreatures(creature.playground));
     });

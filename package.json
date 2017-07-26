@@ -10,7 +10,7 @@
     "postinstall": "bower install",
     "test": "testem ci -l phantomjs",
     "testem": "testem -l phantomjs",
-    "testServer": "jasmine-node --autotest --watch world.js --test-dir specServer/",
+    "testServer": "jasmine --config=jasmineServer.json",
     "update-favicon": "real-favicon generate faviconDescription.json faviconData.json public && node -e \"require('fs').writeFileSync('./views/partials/favicon.hbs', require('./faviconData.json').favicon.html_code)\""
   },
   "dependencies": {
@@ -31,6 +31,7 @@
   },
   "devDependencies": {
     "cli-real-favicon": "0.0.6",
+    "jasmine": "^2.6.0",
     "phantomjs-prebuilt": "^2.1.7",
     "testem": "^1.7.1"
   }

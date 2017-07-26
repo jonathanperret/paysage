@@ -1,9 +1,16 @@
+"use strict";
+
 module.exports = function() {
 
-  var playgrounds = {};
+  var playgrounds = {},
+      notifyUpdate = function(){};
 
   function tour() {
     return Object.keys(playgrounds);
+  }
+
+  function onCreatureCodeUpdate(fn) {
+    notifyUpdate = fn;
   }
 
   function playground(name)  {
@@ -19,7 +26,10 @@ module.exports = function() {
           name: name,
           playground: playground,
           code: function() { return code; },
-          updateCode: function(updatedCode) { code = updatedCode; },
+          updateCode: function(updatedCode) { 
+            code = updatedCode; 
+            notifyUpdate(this);
+          },
         };
         creatures[name]=(creature);
         return creature;
@@ -37,7 +47,9 @@ module.exports = function() {
 
   return {
     tour: tour,
-    playground: playground
+    playground: playground,
+    onCreatureCodeUpdate: onCreatureCodeUpdate,
   };
 
 }
+

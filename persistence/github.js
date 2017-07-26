@@ -1,10 +1,6 @@
 "use strict";
 const GitHubApi = require("github");
 
-function path(playground,name) {
-  return playground + "/" + name;
-}
-
 module.exports = function(){
   var github, owner, repo;
 
@@ -26,84 +22,78 @@ module.exports = function(){
     });
   }
 
-  function saveCreature(playground,name,code,sha,updateSha) {
-    if (sha)
-      updateCreature(playground,name,code,sha,updateSha);
-    else
-      createCreature(playground,name,code,updateSha);
-  }
-
-  function createCreature(playground,name,code,updateSha) {
+  function createFile(path,content,updateSha) {
     github.repos.createFile({
         owner: owner,
         repo: repo,
-        path: path(playground,name),
-        message: "Creates " + path(playground,name),
-        content: new Buffer(code).toString('base64')
+        path: path,
+        message: "Creates " + path,
+        content: new Buffer(content).toString('base64')
     }).then(function(res){
       updateSha(res.data.content.sha);
     }).catch(function(e) { console.log(JSON.stringify(e)); });
   }
 
-  function updateCreature(playground,name,code,sha,updateSha) {
+  function updateFile(path,content,sha,updateSha) {
     github.repos.updateFile({
         owner: owner,
         repo: repo,
-        path: path(playground,name),
-        message: "Updates " + path(playground,name),
-        content: new Buffer(code).toString('base64'),
+        path: path,
+        message: "Updates " + path,
+        content: new Buffer(content).toString('base64'),
         sha: sha
     }).then(function(res){
       updateSha(res.data.content.sha);
     }).catch(function(e) { console.log(JSON.stringify(e)); });
   }
 
-  function loadPlaygrounds(registerPlaygrounds) {
-    github.repos.getContent({
+  function fetchRootDirectories(callback) {
+   github.repos.getContent({
         owner: owner,
         repo: repo,
         path: "",
     }).then(function(res) {
         var isADirectory = function(child) { return child.type == "dir" ; }
-        var playgrounds = res.data.filter(isADirectory).map(function(child) {
+        var dirs = res.data.filter(isADirectory).map(function(child) {
           return child.name;
         });
-        registerPlaygrounds(playgrounds);
+        callback(dirs);
     }).catch(function(e) { console.log(e);});
   }
 
-  function loadPlayground(playground,populatePlayground) {
+  function fetchFilenames(dirname,callback) {
     github.repos.getContent({
         owner: owner,
         repo: repo,
-        path: playground
+        path: dirname
     }).then(function(res) {
-      var creatures = res.data.map( function(child) {
+      var filenames = res.data.map( function(child) {
         return child.name;
       });
-      populatePlayground(playground,creatures);
+      callback(filenames);
     }).catch(function(e) { console.log(e);});
   }
 
-  function loadCreature(playground,name,populateCreature) {
+  function fetchFileContent(path,callback) {
     github.repos.getContent({
         owner: owner,
         repo: repo,
-        path: path(playground,name)
+        path: path
     }).then(function(res) {
-      var content;
+     var content;
       if (res.data.content) {
         content = new Buffer(res.data.content, 'base64').toString('UTF-8');
-        populateCreature(playground, name, content, res.data.sha);
-      } else populateCreature(playground, name, null, null);
+        callback(content, res.data.sha);
+      }
     }).catch(function(e) { console.log(e);});
   }
 
   return {
     init: init,
-    saveCreature: saveCreature,
-    loadCreature: loadCreature,
-    loadPlayground: loadPlayground,
-    loadPlaygrounds: loadPlaygrounds,
+    createFile: createFile,
+    updateFile: updateFile,
+    fetchRootDirectories: fetchRootDirectories,
+    fetchFilenames: fetchFilenames,
+    fetchFileContent: fetchFileContent,
   };
-}
+}();

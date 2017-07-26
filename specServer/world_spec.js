@@ -1,3 +1,5 @@
+"use strict";
+
 var World = require('../world');
 
 describe("The world", function() {
@@ -5,6 +7,17 @@ describe("The world", function() {
     var world = World();
     world.playground("Miami beach");
     expect(world.tour()).toEqual(["Miami beach"]);
+  });
+
+  it("can tell when a creature code is updated", function() {
+  var watcher = jasmine.createSpy();
+  var world = World();
+  var creature = world.playground("any").creature("ugly");
+  world.onCreatureCodeUpdate(watcher);
+
+  creature.updateCode("// hello");
+
+  expect(watcher).toHaveBeenCalledWith(creature);
   });
 });
 
@@ -78,7 +91,7 @@ describe("A creature", function () {
 
   it("'s code is the one another's", function() {
     bob.updateCode("// hello");
-    bill = playground.creature("bill");
+    var bill = playground.creature("bill");
     bill.updateCode("// world");
     expect(bob.code()).toEqual("// hello");
     expect(bill.code()).toEqual("// world");
