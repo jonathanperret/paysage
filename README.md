@@ -52,10 +52,30 @@ In that sense **Paysage is a playground to learn and explore open collaboration.
 
 Then browse <http://localhost:3000/>.
 
-#### Running frontend tests
+#### Sync to github
 
-    node_modules/.bin/testem
-    
+Creatures code may be persited onto a github repository.
+To enable it, create a .env file containing :
+
+    GITHUB_OWNER=paysagexzy
+    GITHUB_REPO=creatures
+    GITHUB_TOKEN=012345567890123456789
+
+where GITHUB\_TOKEN can be generated in github settings - https://github.com/settings/tokens - from an account with write permission on the repo.
+
+Every playground is mapped to a directory at the root of the repository.
+Creature's code is stored in a file named "repository/creature-name.pde".
+
+#### Running tests
+
+Frontend tests :
+
+    npm run testem
+
+Backend tests :
+
+    npm run testServer
+
 #### Deployment on www.paysage.xyz
 
 The demo is continuously deployed from the GitHub repository, so your pull requests are welcome, and will be live in minutes once accepted :-)
