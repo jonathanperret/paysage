@@ -47,6 +47,19 @@ module.exports = function(){
     }).catch(function(e) { console.log(JSON.stringify(e)); });
   }
 
+  function deleteFile(path,sha) {
+    github.repos.deleteFile({
+        owner: owner,
+        repo: repo,
+        path: path,
+        message: "Deletes " + path,
+        sha: sha
+    }).then(function(res){
+      if (res.meta.status != "200 OK")
+          console.log(JSON.stringify(res));
+    }).catch(function(e) { console.log(JSON.stringify(e)); });
+  }
+
   function fetchRootDirectories(callback) {
    github.repos.getContent({
         owner: owner,
@@ -92,6 +105,7 @@ module.exports = function(){
     init: init,
     createFile: createFile,
     updateFile: updateFile,
+    deleteFile: deleteFile,
     fetchRootDirectories: fetchRootDirectories,
     fetchFilenames: fetchFilenames,
     fetchFileContent: fetchFileContent,

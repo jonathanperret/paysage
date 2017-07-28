@@ -91,16 +91,14 @@ app.io.route('playground up',
 
 app.io.route('delete code',
     function deleteCodeThenList(req) {
-        var playgroundId = req.data.playgroundId;
-        var objectId = req.data.objectId;
+        var creature = world
+                       .playground(req.data.playgroundId)
+                       .creature(req.data.objectId);
+        creature.remove();
 
-        if (codeObjects[playgroundId]) {
-          delete codeObjects[playgroundId][objectId];
-        }
-
-        req.io.join(playgroundId); // we join the room to broadcast
-        req.io.room(playgroundId).broadcast('code delete', req.data);
-        app.io.room(playgroundId).broadcast('objects list', getListOfAllObjects(playgroundId));
+        req.io.join(creature.playground.name); // we join the room to broadcast
+        req.io.room(creature.playground.name).broadcast('code delete', req.data);
+        app.io.room(creature.playground.name).broadcast('objects list', getListOfAllCreatures(creature.playground));
     });
 
 app.io.route('code update',

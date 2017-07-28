@@ -19,6 +19,17 @@ describe("The world", function() {
 
   expect(watcher).toHaveBeenCalledWith(creature);
   });
+
+  it("can tell when a creature is removed", function() {
+  var watcher = jasmine.createSpy();
+  var world = World();
+  var creature = world.playground("any").creature("ugly");
+  world.onCreatureRemoval(watcher);
+
+  creature.remove();
+
+  expect(watcher).toHaveBeenCalledWith(creature);
+  });
 });
 
 describe("A playground", function() {
@@ -60,10 +71,11 @@ describe("A playground", function() {
 });
 
 describe("A creature", function () {
-  var playground, bob;
+  var world, playground, bob;
 
   beforeEach(function() {
-    playground = World().playground("Miami beach");
+    world = World(),
+    playground = world.playground("Miami beach"),
     bob = playground.creature("bob");
   });
 
@@ -99,7 +111,15 @@ describe("A creature", function () {
 
   it("can be created with code",function() {
     var bill = playground.creature("bill","// hello");
+
     expect(bill.code()).toEqual("// hello");
+  });
+
+  it("can be removed", function() {
+    bob.remove();
+
+    expect(playground.population()).not.toContain("bob");
+    expect(world.tour()).not.toContain("Miami beach");
   });
 });
 

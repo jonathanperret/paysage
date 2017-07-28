@@ -138,4 +138,14 @@ describe("Persistence", function() {
         jasmine.anything());
     expect(creature.sha).toEqual("newsha");
   });
+
+  it("can delete a creature", function() {
+    adapter.deleteFile = jasmine.createSpy("adapter.deleteFile");
+    persistence.maybeStart(adapter);
+    var creature = world.playground("here").creature("that","my code");
+    creature.sha = "sha";
+
+    creature.remove();
+    expect(adapter.deleteFile).toHaveBeenCalledWith("here/that.pde","sha");
+  });
 });
