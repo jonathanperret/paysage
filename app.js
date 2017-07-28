@@ -87,6 +87,20 @@ app.io.route('playground up',
         req.io.emit('playground full update', codeObjects[req.data]);
     });
 
+app.io.route('delete code',
+    function deleteCodeThenList(req) {
+        var playgroundId = req.data.playgroundId;
+        var objectId = req.data.objectId;
+
+        if (codeObjects[playgroundId]) {
+          delete codeObjects[playgroundId][objectId];
+        }
+
+        req.io.join(playgroundId); // we join the room to broadcast
+        req.io.room(playgroundId).broadcast('code delete', req.data);
+        app.io.room(playgroundId).broadcast('objects list', getListOfAllObjects(playgroundId));
+    });
+
 app.io.route('code update',
     function saveNewCodeThenBroadcastCodeAndList(req) {
         var playgroundId = req.data.playgroundId;

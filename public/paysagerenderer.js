@@ -9,7 +9,19 @@ var playgroundid = container.getAttribute('data-playgroundid');
 // emit the 'playground up' event with the playgroundid (used as a room for select broadcasting)
 io.emit('playground up', playgroundid);
 
-// Listen for the 'code update' event.
+io.on('code delete', function(data) {
+  var id = data.objectId;
+  console.log('delete code ' + id);
+
+  try {
+    sketch[id].exit();
+  } catch(e) { }
+  delete sketch[id];
+  var elem = document.getElementById(id);
+  elem.parentNode.removeChild(elem);
+  delete canvas[id];
+});
+
 io.on('code update', function(data) {
   var id = data.objectId;
   var code = data.code;
@@ -33,7 +45,7 @@ var resize = function (sketch) {
 // If background() is in draw(), it's redrawn each frame
 // setting it to transparent using the instance method sketch[].background(255, 255, 255.0) doesn't stick
 // so we rewrite the code:
- 
+
 var rewriteBackgroundTransparent = function(code) {
   // thanks http://www.regexr.com/
   var match = /background\s*(\(.*?\))/g;
