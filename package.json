@@ -24,6 +24,7 @@
     "express-handlebars": "^3.0.0",
     "express-session": "^1.15.3",
     "github": "^9.2.0",
+    "json-beautify": "^1.0.1",
     "less-middleware": "2.1.x",
     "morgan": "~1.7.0",
     "socket.io": "^2.0.3",

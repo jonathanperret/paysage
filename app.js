@@ -44,11 +44,13 @@ var list = require('./routes/list')(world);
 var playground = require('./routes/playground');
 var create = require('./routes/create');
 var workshop = require('./routes/workshop');
+var webhook = require('./routes/githubwebhook');
 
 app.use('/', create);
 app.use('/playground/', playground);
 app.use('/list', list);
 app.use('/workshop', workshop);
+app.use('/webhook', webhook);
 
 // attach socket.io to the http server
 app.http().io();
