@@ -7,8 +7,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var exphbs = require('express-handlebars');
 
-var expressio = require('./express.io');
-var app = expressio();
+var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -36,7 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.locals.reference_url = process.env.REFERENCE_URL || "http://processingjs.org/reference/";
 
-// routes setup 
+// routes setup
 var list = require('./routes/list')(codeObjects);
 var playground = require('./routes/playground');
 var create = require('./routes/create');
@@ -47,76 +46,70 @@ app.use('/playground/', playground);
 app.use('/list', list);
 app.use('/workshop', workshop);
 
-// attach socket.io to the http server
-app.http().io();
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
 
+function getCode(playground, objectId) {
+  if (!codeObjects[playground]) return "";
+  if (!codeObjects[playground][objectId]) return "";
 
-var getCode = function (playground, objectId) {
-    if (!codeObjects[playground]) return "";
-    if (!codeObjects[playground][objectId]) return "";
-
-    return codeObjects[playground][objectId].code;
+  return codeObjects[playground][objectId].code;
 };
 
-
-
-var getListOfAllObjects = function (playground) {
-    var objectIds = Object.keys(codeObjects[playground]);
-    return {playgroundId: playground, objectIds: objectIds};
+function getListOfAllObjects(playground) {
+  var objectIds = Object.keys(codeObjects[playground]);
+  return {playgroundId: playground, objectIds: objectIds};
 };
 
-app.io.route('programmer up',
-    function sendProgrammerTheObjectsList(req) {
-        var playground = req.data;
-        console.log("a new programmer is up for " + playground);
+io.on('connection', function(client) {
+  client.on('programmer up', function(playground) {
+    console.log("a new programmer is up for " + playground);
 
-        req.io.join(req.data); // have client (req) join the room named after Playground Id
+    client.join(playground); // have client join the room named after Playground Id
 
-        if (codeObjects[playground]) {
-            req.io.emit('objects list', getListOfAllObjects(playground));
-        }
-    });
+    if (codeObjects[playground]) {
+      client.emit('objects list', getListOfAllObjects(playground));
+    }
+  });
 
-app.io.route('playground up',
-    function sendPlaygroundAllCodeObjects (req) {
-        console.log(req.data + " playground: a new renderer page is up");
-        req.io.join(req.data);
+  client.on('playground up', function(playground) {
+    console.log(playground + " playground: a new renderer page is up");
+    client.join(playground);
 
-        if (!codeObjects[req.data]) return;
+    if (!codeObjects[playground]) return;
+    client.emit('playground full update', codeObjects[playground]);
+  });
 
-        req.io.emit('playground full update', codeObjects[req.data]);
-    });
+  client.on('code update', function(data) {
+    var playgroundId = data.playgroundId;
+    var objectId = data.objectId;
 
-app.io.route('code update',
-    function saveNewCodeThenBroadcastCodeAndList(req) {
-        var playgroundId = req.data.playgroundId;
-        var objectId = req.data.objectId;
+    console.log(objectId + " for " + playgroundId + " from " + client);
+    client.join(playgroundId); // we join the room to broadcast
 
-        console.log(objectId + " for " + playgroundId + " from " + req.data.client);
-        req.io.join(playgroundId); // we join the room to broadcast
+    if (!codeObjects[playgroundId]) codeObjects[playgroundId] = {};
 
-        if (!codeObjects[playgroundId]) codeObjects[playgroundId] = {};
+    codeObjects[playgroundId][objectId] = {
+      mediatype: data.mediatype,
+      client: data.client,
+      code: data.code
+    };
 
-        codeObjects[playgroundId][objectId] = {};
-        codeObjects[playgroundId][objectId].mediatype = req.data.mediatype;
-        codeObjects[playgroundId][objectId].client = req.data.client;
-        codeObjects[playgroundId][objectId].code = req.data.code;
+    client.broadcast.to(playgroundId).emit('code update', data);
+    io.to(playgroundId).emit('objects list', getListOfAllObjects(playgroundId));
+  });
 
-        req.io.room(playgroundId).broadcast('code update', req.data);
-        app.io.room(playgroundId).broadcast('objects list', getListOfAllObjects(playgroundId));
-    });
+  client.on('request code', function(data) {
+    var playground = data.playgroundId;
+    var objectId = data.objectId;
+    var code = getCode(playground, objectId);
 
-app.io.route('request code',
-    function sendProgrammerTheCodeObject(req) { 
-        var playground = req.data.playgroundId;
-        var objectId = req.data.objectId;
-        var code = getCode(playground, objectId);
+    var data = { playgroundId: playground, objectId: objectId, code: code };
 
-        var data = { playgroundId: playground, objectId: objectId, code: code };
+    console.log(objectId + " for " + playground + " programmer" ) ;
 
-        console.log(objectId + " for " + playground + " programmer" ) ;
+    client.emit('source code', data);
+  });
+});
 
-        req.io.emit('source code', data);
-    });
-
-module.exports = app;
+module.exports = server;
