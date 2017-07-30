@@ -4,7 +4,7 @@ module.exports = function() {
 
   var playgrounds = {},
       notifyUpdate = function(){},
-      notifyRemove = function(){}
+      notifyDelete = function(){}
 
   function tour() {
     return Object.keys(playgrounds);
@@ -14,8 +14,8 @@ module.exports = function() {
     notifyUpdate = fn;
   }
 
-  function onCreatureRemoval(fn) {
-    notifyRemove = fn;
+  function onCreatureDelete(fn) {
+    notifyDelete = fn;
   }
 
   function playground(name)  {
@@ -35,11 +35,11 @@ module.exports = function() {
             code = updatedCode; 
             notifyUpdate(this);
           },
-          remove: function() {
+          delete: function() {
             delete creatures[name];
             if (playground.isEmpty())
               delete playgrounds[playground.name];
-            notifyRemove(this);
+            notifyDelete(this);
           },
         };
         creatures[name]=(creature);
@@ -60,7 +60,7 @@ module.exports = function() {
     tour: tour,
     playground: playground,
     onCreatureCodeUpdate: onCreatureCodeUpdate,
-    onCreatureRemoval : onCreatureRemoval,
+    onCreatureDelete : onCreatureDelete,
   };
 
 }

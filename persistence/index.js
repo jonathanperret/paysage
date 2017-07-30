@@ -19,7 +19,7 @@ module.exports = function(aWorld) {
   function start(adapter,owner,repo,token) {
     adapter.init(owner, repo, token);
     world.onCreatureCodeUpdate(saveCreature);
-    world.onCreatureRemoval(removeCreature);
+    world.onCreatureDelete(deleteCreature);
     loadPlaygrounds();
   }
 
@@ -71,7 +71,7 @@ module.exports = function(aWorld) {
                          updateSha);
   }
 
-  function removeCreature(creature) {
+  function deleteCreature(creature) {
     var fullPath = path(creature.playground.name, creature.name);
     adapter.deleteFile(fullPath, creature.sha);
   }

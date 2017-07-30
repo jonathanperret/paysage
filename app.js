@@ -94,7 +94,7 @@ app.io.route('delete code',
         var creature = world
                        .playground(req.data.playgroundId)
                        .creature(req.data.objectId);
-        creature.remove();
+        creature.delete();
 
         req.io.join(creature.playground.name); // we join the room to broadcast
         req.io.room(creature.playground.name).broadcast('code delete', req.data);

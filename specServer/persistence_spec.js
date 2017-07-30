@@ -145,7 +145,7 @@ describe("Persistence", function() {
     var creature = world.playground("here").creature("that","my code");
     creature.sha = "sha";
 
-    creature.remove();
+    creature.delete();
     expect(adapter.deleteFile).toHaveBeenCalledWith("here/that.pde","sha");
   });
 });

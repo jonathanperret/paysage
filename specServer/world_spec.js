@@ -20,13 +20,13 @@ describe("The world", function() {
   expect(watcher).toHaveBeenCalledWith(creature);
   });
 
-  it("can tell when a creature is removed", function() {
+  it("can tell when a creature is deleted", function() {
   var watcher = jasmine.createSpy();
   var world = World();
   var creature = world.playground("any").creature("ugly");
-  world.onCreatureRemoval(watcher);
+  world.onCreatureDelete(watcher);
 
-  creature.remove();
+  creature.delete();
 
   expect(watcher).toHaveBeenCalledWith(creature);
   });
@@ -115,8 +115,8 @@ describe("A creature", function () {
     expect(bill.code()).toEqual("// hello");
   });
 
-  it("can be removed", function() {
-    bob.remove();
+  it("can be deleted", function() {
+    bob.delete();
 
     expect(playground.population()).not.toContain("bob");
     expect(world.tour()).not.toContain("Miami beach");
