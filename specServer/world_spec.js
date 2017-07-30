@@ -10,25 +10,36 @@ describe("The world", function() {
   });
 
   it("can tell when a creature code is updated", function() {
-  var watcher = jasmine.createSpy();
-  var world = World();
-  var creature = world.playground("any").creature("ugly");
-  world.onCreatureCodeUpdate(watcher);
+    var watcher = jasmine.createSpy();
+    var world = World();
+    var creature = world.playground("any").creature("ugly");
+    world.onCreatureCodeUpdate(watcher);
 
-  creature.updateCode("// hello");
+    creature.updateCode("// hello");
 
-  expect(watcher).toHaveBeenCalledWith(creature);
+    expect(watcher).toHaveBeenCalledWith(creature);
+  });
+
+  it("can tell when a creature code is refreshed", function() {
+    var watcher = jasmine.createSpy();
+    var world = World();
+    var creature = world.playground("any").creature("ugly");
+    world.onCreatureCodeRefresh(watcher);
+
+    creature.refreshCode("// hello");
+
+    expect(watcher).toHaveBeenCalledWith(creature);
   });
 
   it("can tell when a creature is deleted", function() {
-  var watcher = jasmine.createSpy();
-  var world = World();
-  var creature = world.playground("any").creature("ugly");
-  world.onCreatureDelete(watcher);
+    var watcher = jasmine.createSpy();
+    var world = World();
+    var creature = world.playground("any").creature("ugly");
+    world.onCreatureDelete(watcher);
 
-  creature.delete();
+    creature.delete();
 
-  expect(watcher).toHaveBeenCalledWith(creature);
+    expect(watcher).toHaveBeenCalledWith(creature);
   });
 });
 
@@ -92,12 +103,17 @@ describe("A creature", function () {
     expect(theOtherBob).toBe(bob);
   });
 
-  it(",when it is new, has empty code", function () {
+  it("when it is new, has empty code", function () {
     expect(bob.code()).toEqual("");
   });
 
   it("can update its code", function() {
     bob.updateCode("// hello");
+    expect(bob.code()).toEqual("// hello");
+  });
+
+  it("can refresh its code", function() {
+    bob.refreshCode("// hello");
     expect(bob.code()).toEqual("// hello");
   });
 
@@ -122,4 +138,5 @@ describe("A creature", function () {
     expect(world.tour()).not.toContain("Miami beach");
   });
 });
+
 
