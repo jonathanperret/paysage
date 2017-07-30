@@ -31,4 +31,12 @@
       |                        |<--- object full update ----|----------- object full update ---------->|
       |                        |                            |--- objects list -->+-------------------->|
 
+# programmer delete a code
+
+    programmer          programmer browser                 server           viewer browsers   other programmers browsers
+      |--- click  "trash" ---->|                            |                    |                     |
+      |                        |---- delete code (cd) ----->|                    |                     |
+      |                        |                            |- code delete(cd) ->|                     |
+      |                        |<--- objects list ----------|                    |                     |
+      |                        |                            |--- objects list ------------------------>|
 

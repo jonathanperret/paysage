@@ -8,8 +8,9 @@
   "scripts": {
     "start": "node ./bin/www",
     "postinstall": "bower install",
-    "test": "testem ci -l phantomjs",
+    "test": "testem ci -l phantomjs && jasmine --config=jasmineServer.json",
     "testem": "testem -l phantomjs",
+    "testServer": "jasmine --config=jasmineServer.json",
     "update-favicon": "real-favicon generate faviconDescription.json faviconData.json public && node -e \"require('fs').writeFileSync('./views/partials/favicon.hbs', require('./faviconData.json').favicon.html_code)\""
   },
   "dependencies": {
@@ -18,9 +19,11 @@
     "chance": "^1.0.3",
     "cookie-parser": "~1.4.2",
     "debug": "~2.2.0",
+    "dotenv": "^4.0.0",
     "express": "^4.15.3",
     "express-handlebars": "^3.0.0",
     "express-session": "^1.15.3",
+    "github": "^9.2.0",
     "less-middleware": "2.1.x",
     "morgan": "~1.7.0",
     "socket.io": "^2.0.3",
@@ -28,6 +31,7 @@
   },
   "devDependencies": {
     "cli-real-favicon": "0.0.6",
+    "jasmine": "^2.6.0",
     "phantomjs-prebuilt": "^2.1.7",
     "testem": "^1.7.1"
   }
