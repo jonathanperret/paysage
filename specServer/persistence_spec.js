@@ -38,6 +38,22 @@ describe("Persistence initialisation", function() {
   });
 });
 
+describe("Persitence", function() {
+  it("won't remember a commit it has never seen", function(){
+    var persistence = Persistence("world");
+
+    expect(persistence.knowsCommit("commitSha")).toBeFalsy();
+  });
+
+  it("remembers last seen commit", function(){
+    var persistence = Persistence("world");
+
+    persistence.rememberCommit("commitSha");
+
+    expect(persistence.knowsCommit("commitSha")).toBeTruthy();
+  });
+});
+
 describe("Persistence, at startup,", function() {
 
   var persistence, adapter, world;
@@ -60,7 +76,7 @@ describe("Persistence, at startup,", function() {
 
     adapter.fetchFileContent =
       jasmine.createSpy("adapter.fetchFileContent")
-      .and.callFake(function(path,callback){ callback("// content","sha"); });
+      .and.callFake(function(path,callback){ callback("// content","fileSha"); });
   });
 
   it("restores a playground for every directory at root", function(){
@@ -92,7 +108,7 @@ describe("Persistence, at startup,", function() {
         'dirpg1/file1.pde', jasmine.anything());
     var creature = world.playground('dirpg1').creature('file1');
     expect(creature.code()).toEqual("// content");
-    expect(creature.sha).toEqual("sha");
+    expect(creature.sha).toEqual("fileSha");
   });
 });
 
@@ -107,9 +123,9 @@ describe("Persistence", function() {
                     ['init','fetchRootDirectories']);
   });
 
-  it("can save new creatures", function() {
+  it("creates a file when a new creature's code is updated", function() {
     adapter.createFile = jasmine.createSpy("adapter.createFile")
-      .and.callFake(function(path,content,callback){callback("sha");});
+      .and.callFake(function(path,content,callback){callback("commitSha","fileSha");});
     persistence.maybeStart(adapter);
     var creature = world.playground("here").creature("that");
 
@@ -119,33 +135,37 @@ describe("Persistence", function() {
         "here/that.pde",
         "my code",
         jasmine.anything());
-    expect(creature.sha).toEqual("sha");
+    expect(creature.sha).toEqual("fileSha");
+    expect(persistence.knowsCommit("commitSha")).toBeTruthy();
   });
 
   it("can update creatures code", function() {
     adapter.updateFile = jasmine.createSpy("adapter.updateFile")
-      .and.callFake(function(path,content,sha,callback){callback("newsha");});
+      .and.callFake(function(path,content,sha,callback){callback("commitSha", "newFileSha");});
     persistence.maybeStart(adapter);
     var creature = world.playground("here").creature("that","my code");
-    creature.sha = "sha";
+    creature.sha = "fileSha";
 
     creature.updateCode("new code");
 
     expect(adapter.updateFile).toHaveBeenCalledWith(
         "here/that.pde",
         "new code",
-        "sha",
+        "fileSha",
         jasmine.anything());
-    expect(creature.sha).toEqual("newsha");
+    expect(creature.sha).toEqual("newFileSha");
   });
 
   it("can delete a creature", function() {
-    adapter.deleteFile = jasmine.createSpy("adapter.deleteFile");
+    adapter.deleteFile = jasmine.createSpy("adapter.deleteFile")
+      .and.callFake(function(fullpath,fileSha,callback){callback("commitSha")});
     persistence.maybeStart(adapter);
     var creature = world.playground("here").creature("that","my code");
     creature.sha = "sha";
 
     creature.delete();
-    expect(adapter.deleteFile).toHaveBeenCalledWith("here/that.pde","sha");
+    expect(adapter.deleteFile).toHaveBeenCalledWith("here/that.pde","sha",
+        jasmine.anything());
+    expect(persistence.knowsCommit("commitSha")).toBeTruthy();
   });
 });

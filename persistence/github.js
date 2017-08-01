@@ -30,7 +30,7 @@ module.exports = function(){
         message: "Creates " + path,
         content: new Buffer(content).toString('base64')
     }).then(function(res){
-      updateSha(res.data.content.sha);
+      updateSha(res.data.commit.sha, res.data.content.sha);
     }).catch(function(e) { console.log(JSON.stringify(e)); });
   }
 
@@ -43,11 +43,11 @@ module.exports = function(){
         content: new Buffer(content).toString('base64'),
         sha: sha
     }).then(function(res){
-      updateSha(res.data.content.sha);
+      updateSha(res.data.commit.sha, res.data.content.sha);
     }).catch(function(e) { console.log(JSON.stringify(e)); });
   }
 
-  function deleteFile(path,sha) {
+  function deleteFile(path,sha,updateSha) {
     github.repos.deleteFile({
         owner: owner,
         repo: repo,
@@ -57,6 +57,7 @@ module.exports = function(){
     }).then(function(res){
       if (res.meta.status != "200 OK")
           console.log(JSON.stringify(res));
+      updateSha(res.data.commit.sha);
     }).catch(function(e) { console.log(JSON.stringify(e)); });
   }
 

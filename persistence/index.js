@@ -48,10 +48,10 @@ module.exports = function(aWorld) {
   }
 
   function loadCreature(playgroundName, creatureName) {
-    var createCreature = function(content,sha) {
+    var createCreature = function(content,fileSha) {
       var creature = world.playground(playgroundName)
                       .creature(creatureName, content);
-      creature.sha = sha;
+      creature.sha = fileSha;
     };
     adapter.fetchFileContent(path(playgroundName, creatureName),
                              createCreature);
@@ -59,7 +59,10 @@ module.exports = function(aWorld) {
 
   function saveCreature(creature) {
     var fullPath = path(creature.playground.name, creature.name);
-    var updateSha = function(sha) { creature.sha = sha; }
+    var updateSha = function(commitSha, fileSha) {
+      rememberCommit(commitSha);
+      creature.sha = fileSha;
+    }
     if (creature.sha)
       adapter.updateFile(fullPath,
                          creature.code(),
@@ -73,10 +76,22 @@ module.exports = function(aWorld) {
 
   function deleteCreature(creature) {
     var fullPath = path(creature.playground.name, creature.name);
-    adapter.deleteFile(fullPath, creature.sha);
+    adapter.deleteFile(fullPath, creature.sha,rememberCommit);
+  }
+
+  var lastSeenCommit;
+
+  function knowsCommit(id) {
+    return lastSeenCommit == id;
+  }
+
+  function rememberCommit(id) {
+    lastSeenCommit = id;
   }
 
   return {
     maybeStart: maybeStart,
+    rememberCommit: rememberCommit,
+    knowsCommit: knowsCommit,
   }
 }
