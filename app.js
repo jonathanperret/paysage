@@ -10,8 +10,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var exphbs = require('express-handlebars');
 
-var expressio = require('./express.io');
-var app = expressio();
+var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -52,83 +51,95 @@ app.use('/list', list);
 app.use('/workshop', workshop);
 app.use('/webhook', webhook);
 
-// attach socket.io to the http server
-app.http().io();
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
 
 var getCode = function (playground, objectId) {
     return world.playground(playground).creature(objectId).code();
 };
 
+function toData(creature) {
+  return { playgroundId: creature.playground.name,
+           objectId: creature.name,
+           code: creature.code() };
+}
+
+function fromData(data) {
+  return world
+         .playground(data.playgroundId)
+         .creature(data.objectId);
+}
 var getListOfAllCreatures = function (playground) {
     return {playgroundId : playground.name,
             objectIds : playground.population() }
 };
 
-app.io.route('programmer up',
-    function sendProgrammerTheObjectsList(req) {
-        var playground = world.playground(req.data);
-        console.log("a new programmer is up for " + playground.name);
+io.on('connection', function(client) {
 
-        req.io.join(playground.name); // have client (req) join the room named after Playground Id
-
+client.on('programmer up',
+    function sendProgrammerTheObjectsList(playgroundName) {
+        console.log("a new programmer is up for " + playgroundName);
+        var playground = world.playground(playgroundName);
+        client.join(playground.name); // have client join the room named after Playground Id
         if (! playground.isEmpty()) {
-          req.io.emit('objects list',
+          client.emit('objects list',
                       getListOfAllCreatures(playground));
         }
     });
 
-app.io.route('playground up',
-    function sendPlaygroundAllCodeObjects (req) {
-        var name = req.data;
-        console.log(name + " playground: a new renderer page is up");
-        req.io.join(name);
-        var playground = world.playground(name);
+client.on('playground up',
+    function sendPlaygroundAllCodeObjects (playgroundName) {
+        console.log(playgroundName + " playground: a new renderer page is up");
+        client.join(playgroundName);
+        var playground = world.playground(playgroundName);
         if (playground.isEmpty()) return
         var creatures = {};
         playground.population().forEach(function(name) {
           creatures[name] = { code: playground.creature(name).code()};
         });
-        req.io.emit('playground full update', creatures);
+        client.emit('playground full update', creatures);
     });
 
-app.io.route('delete code',
-    function deleteCodeThenList(req) {
-        var creature = world
-                       .playground(req.data.playgroundId)
-                       .creature(req.data.objectId);
+client.on('delete code',
+    function deleteCodeThenList(data) {
+        var creature = fromData(data);
         creature.delete();
-
-        req.io.join(creature.playground.name); // we join the room to broadcast
-        req.io.room(creature.playground.name).broadcast('code delete', req.data);
-        app.io.room(creature.playground.name).broadcast('objects list', getListOfAllCreatures(creature.playground));
+        client.join(creature.playground.name); // we join the room to broadcast
+        client.broadcast.to(creature.playground.name).emit('code delete', data);
+        io.to(creature.playground.name).emit('objects list', getListOfAllCreatures(creature.playground));
     });
 
-app.io.route('code update',
-    function saveNewCodeThenBroadcastCodeAndList(req) {
-        var creature = world
-                       .playground(req.data.playgroundId)
-                       .creature(req.data.objectId)
-        console.log(creature.name + " for " + creature.playground.name + " from " + req.data.client);
-        req.io.join(creature.playground.name); // we join the room to broadcast
 
-        creature.updateCode(req.data.code);
+client.on('code update',
+    function saveNewCodeThenBroadcastCodeAndList(data) {
+        var creature = fromData(data);
+        console.log(creature.name + " for " + creature.playground.name + " from " + client.id);
 
-        req.io.room(creature.playground.name).broadcast('code update', req.data);
-        app.io.room(creature.playground.name).broadcast('objects list', getListOfAllCreatures(creature.playground));
+        creature.updateCode(data.code);
+
+        client.join(creature.playground.name); // we join the room to broadcast
+        client.broadcast.to(creature.playground.name).emit('code update', data);
+        io.to(creature.playground.name).emit('objects list', getListOfAllCreatures(creature.playground));
     });
 
-app.io.route('request code',
-    function sendProgrammerTheCodeObject(req) {
-        var creature = world.playground(req.data.playgroundId)
-                            .creature(req.data.objectId);
+world.onCreatureCodeRefresh(function(creature){
+  console.log(creature.playground.name + '/' + creature.name);
+  io.to(creature.playground.name).emit('code update', toData(creature));
+  io.to(creature.playground.name).mit('objects list', getListOfAllCreatures(creature.playground));
 
-        var data = { playgroundId: creature.playground.name,
-                     objectId: creature.name,
-                     code: creature.code() };
+
+})
+
+
+client.on('request code',
+    function sendProgrammerTheCodeObject(data) {
+        var creature = fromData(data);
 
         console.log(creature.name + " for " + creature.playground.name + " programmer" ) ;
 
-        req.io.emit('source code', data);
+        client.emit('source code', toData(creature));
     });
 
-module.exports = app;
+});
+
+module.exports = server;
