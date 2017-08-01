@@ -1,6 +1,7 @@
 var world = require("./world")();
 
-var persisted = require('./persistence')(world).maybeStart();
+var persister = require('./persistence')(world)
+var persisted = persister.maybeStart();
 if (persisted) console.log("Pesistence on github is enabled.");
 
 var express = require('express');
@@ -43,13 +44,15 @@ var list = require('./routes/list')(world);
 var playground = require('./routes/playground');
 var create = require('./routes/create');
 var workshop = require('./routes/workshop');
-var webhook = require('./routes/githubwebhook');
+if (persisted) {
+  var webhook = require('./persistence/router')(persister);
+  app.use('/webhook', webhook);
+}
 
 app.use('/', create);
 app.use('/playground/', playground);
 app.use('/list', list);
 app.use('/workshop', workshop);
-app.use('/webhook', webhook);
 
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
@@ -125,7 +128,7 @@ client.on('code update',
 world.onCreatureCodeRefresh(function(creature){
   console.log(creature.playground.name + '/' + creature.name);
   io.to(creature.playground.name).emit('code update', toData(creature));
-  io.to(creature.playground.name).mit('objects list', getListOfAllCreatures(creature.playground));
+  io.to(creature.playground.name).emit('objects list', getListOfAllCreatures(creature.playground));
 
 
 })

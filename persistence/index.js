@@ -12,11 +12,11 @@ module.exports = function(aWorld) {
         token = process.env.GITHUB_TOKEN;
     enabled = owner && repo && token;
     if (enabled)
-      start(adapter,owner,repo,token);
+      start(adapter, owner, repo, token);
     return enabled;
   }
 
-  function start(adapter,owner,repo,token) {
+  function start(adapter, owner, repo, token) {
     adapter.init(owner, repo, token);
     world.onCreatureCodeUpdate(saveCreature);
     world.onCreatureDelete(deleteCreature);
@@ -57,6 +57,32 @@ module.exports = function(aWorld) {
                              createCreature);
   }
 
+  function matchCreaturePath(path) {
+    return path.match(/^[^/]+\/[^/]+\.pde/);
+  }
+
+  function playgroundNameFromPath(path) {
+    return path.substring(0, path.indexOf('/'));
+  }
+
+  function creatureNameFromPath(path) {
+    return path.substring(path.indexOf('/')+1,path.length-4)
+  }
+
+  function check(path) {
+    if (!matchCreaturePath(path)) return;
+    var playgroundName = playgroundNameFromPath(path);
+    var creatureName = creatureNameFromPath(path);
+    var refreshCreature = function(content,fileSha) {
+      var creature = world.playground(playgroundName)
+                      .creature(creatureName)
+      creature.refreshCode(content);
+      creature.sha = fileSha;
+    };
+    adapter.fetchFileContent(path,
+                             refreshCreature);
+  }
+
   function saveCreature(creature) {
     var fullPath = path(creature.playground.name, creature.name);
     var updateSha = function(commitSha, fileSha) {
@@ -93,5 +119,6 @@ module.exports = function(aWorld) {
     maybeStart: maybeStart,
     rememberCommit: rememberCommit,
     knowsCommit: knowsCommit,
+    check: check,
   }
 }
