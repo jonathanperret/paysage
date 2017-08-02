@@ -113,6 +113,17 @@ client.on('delete code',
     });
 
 
+persister.onCreatureRemove(function(plagroundName, creatureName){
+  var data = {
+    playgroundId: playgroundName,
+    objectId: creatureName
+  };
+  client.join(creature.playground.name); // we join the room to broadcast
+  io.to(playgroundName).emit('code delete', data);
+  io.to(playgroundName).emit('objects list', getListOfAllCreatures(world.playground(playgroundName)));
+});
+
+
 client.on('code update',
     function saveNewCodeThenBroadcastCodeAndList(data) {
         var creature = fromData(data);
@@ -125,7 +136,7 @@ client.on('code update',
         io.to(creature.playground.name).emit('objects list', getListOfAllCreatures(creature.playground));
     });
 
-world.onCreatureCodeRefresh(function(creature){
+persister.onCreatureCodeRefresh(function(creature){
   console.log(creature.playground.name + '/' + creature.name);
   io.to(creature.playground.name).emit('code update', toData(creature));
   io.to(creature.playground.name).emit('objects list', getListOfAllCreatures(creature.playground));

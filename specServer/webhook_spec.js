@@ -5,7 +5,7 @@ describe("The webhook",function(){
 
   beforeEach(function() {
     persister = jasmine.createSpyObj("persister",
-        ["check","remove","knowsCommit","rememberCommit"]);
+        ["fileAddedOrModified","fileRemoved","knowsCommit","rememberCommit"]);
     persister.knowsCommit.and.returnValue(false);
     webhook = require('../persistence/webhook')(persister);
     payload = JSON.parse(JSON.stringify({
@@ -20,13 +20,13 @@ describe("The webhook",function(){
     }));
   });
 
-  it("checks or removes every altered files", function(){
+  it("inform persister about altered files", function(){
 
     webhook.handlePayload(payload);
 
-    expect(persister.check).toHaveBeenCalledWith("addedFile");
-    expect(persister.check).toHaveBeenCalledWith("modifiedFile");
-    expect(persister.remove).toHaveBeenCalledWith("removedFile");
+    expect(persister.fileAddedOrModified).toHaveBeenCalledWith("addedFile");
+    expect(persister.fileAddedOrModified).toHaveBeenCalledWith("modifiedFile");
+    expect(persister.fileRemoved).toHaveBeenCalledWith("removedFile");
   });
 
   it("ignores commit to other branch than master", function() {
@@ -34,7 +34,7 @@ describe("The webhook",function(){
 
     webhook.handlePayload(payload);
 
-    expect(persister.check).not.toHaveBeenCalled();
+    expect(persister.fileAddedOrModified).not.toHaveBeenCalled();
   });
 
   it("ignores already known commits", function() {
@@ -42,7 +42,7 @@ describe("The webhook",function(){
 
     webhook.handlePayload(payload);
 
-    expect(persister.check).not.toHaveBeenCalled();
+    expect(persister.fileAddedOrModified).not.toHaveBeenCalled();
   });
 
   it("remembers head commit", function() {
@@ -135,7 +135,7 @@ describe("Payload extractor", function() {
         {added:[],modified:["file"],removed:[]});
   });
 
-  it("digest as addd a file added, then not removed",function(){
+  it("digest as added a file added, then not removed",function(){
     payload.commits[0].added = [ "file" ];
     payload.commits[1].modified = [ "file" ];
 

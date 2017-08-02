@@ -1,12 +1,15 @@
 "use strict";
 
 module.exports = function(aWorld) {
-  var world = aWorld;
-  var enabled = false;
-  var adapter;
+  var world = aWorld,
+      enabled = false,
+      adapter,
+      ingoing;
+
 
   function maybeStart(anAdapter) {
     adapter = anAdapter ? anAdapter : require('./github');
+    ingoing = require('./ingoing')(world,adapter);
     var owner = process.env.GITHUB_OWNER,
         repo = process.env.GITHUB_REPO,
         token = process.env.GITHUB_TOKEN;
@@ -18,8 +21,8 @@ module.exports = function(aWorld) {
 
   function start(adapter, owner, repo, token) {
     adapter.init(owner, repo, token);
-    world.onCreatureCodeUpdate(saveCreature);
-    world.onCreatureDelete(deleteCreature);
+    world.onCreatureCodeUpdate(creatureCodeUpdated);
+    world.onCreatureDelete(creatureDeleted);
     loadPlaygrounds();
   }
 
@@ -47,16 +50,6 @@ module.exports = function(aWorld) {
     return playgroundName + "/" + creatureName + '.pde';
   }
 
-  function loadCreature(playgroundName, creatureName) {
-    var createCreature = function(content,fileSha) {
-      var creature = world.playground(playgroundName)
-                      .creature(creatureName, content);
-      creature.sha = fileSha;
-    };
-    adapter.fetchFileContent(path(playgroundName, creatureName),
-                             createCreature);
-  }
-
   function matchCreaturePath(path) {
     return path.match(/^[^/]+\/[^/]+\.pde/);
   }
@@ -69,21 +62,17 @@ module.exports = function(aWorld) {
     return path.substring(path.indexOf('/')+1,path.length-4)
   }
 
-  function check(path) {
-    if (!matchCreaturePath(path)) return;
-    var playgroundName = playgroundNameFromPath(path);
-    var creatureName = creatureNameFromPath(path);
-    var refreshCreature = function(content,fileSha) {
+  function loadCreature(playgroundName, creatureName) {
+    var createCreature = function(content,fileSha) {
       var creature = world.playground(playgroundName)
-                      .creature(creatureName)
-      creature.refreshCode(content);
+                      .creature(creatureName, content);
       creature.sha = fileSha;
     };
-    adapter.fetchFileContent(path,
-                             refreshCreature);
+    adapter.fetchFileContent(path(playgroundName, creatureName),
+                             createCreature);
   }
 
-  function saveCreature(creature) {
+  function creatureCodeUpdated(creature) {
     var fullPath = path(creature.playground.name, creature.name);
     var updateSha = function(commitSha, fileSha) {
       rememberCommit(commitSha);
@@ -100,9 +89,9 @@ module.exports = function(aWorld) {
                          updateSha);
   }
 
-  function deleteCreature(creature) {
+  function creatureDeleted(creature) {
     var fullPath = path(creature.playground.name, creature.name);
-    adapter.deleteFile(fullPath, creature.sha,rememberCommit);
+    adapter.deleteFile(fullPath, creature.sha, rememberCommit);
   }
 
   var lastSeenCommit;
@@ -119,6 +108,9 @@ module.exports = function(aWorld) {
     maybeStart: maybeStart,
     rememberCommit: rememberCommit,
     knowsCommit: knowsCommit,
-    check: check,
+    fileAddedOrModified: function(path) { return ingoing.fileAddedOrModified(path); },
+    fileRemoved: function(path) { return ingoing.fileRemoved(path); } ,
+    onCreatureCodeRefresh: function(fn) { ingoing.onCreatureCodeRefresh(fn); },
+    onCreatureRemove: function(fn) { ingoing.onCreatureRemove(fn); },
   }
 }

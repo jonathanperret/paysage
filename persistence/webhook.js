@@ -13,13 +13,13 @@ module.exports = function(aPersister){
 
     var data = extractor.extractAndDigest(payload);
     data.added.forEach(function(path) {
-      persister.check(path)
+      persister.fileAddedOrModified(path)
     });
     data.modified.forEach(function(path) {
-      persister.check(path)
+      persister.fileAddedOrModified(path)
     });
     data.removed.forEach(function(path) {
-      persister.remove(path)
+      persister.fileRemoved(path)
     });
   }
 

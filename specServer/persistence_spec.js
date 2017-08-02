@@ -38,14 +38,14 @@ describe("Persistence initialisation", function() {
   });
 });
 
-describe("Persitence", function() {
+describe("Persitence commit memory", function() {
   it("won't remember a commit it has never seen", function(){
     var persistence = Persistence("world");
 
     expect(persistence.knowsCommit("commitSha")).toBeFalsy();
   });
 
-  it("remembers last seen commit", function(){
+  it("remembers last met commit", function(){
     var persistence = Persistence("world");
 
     persistence.rememberCommit("commitSha");
@@ -54,7 +54,7 @@ describe("Persitence", function() {
   });
 });
 
-describe("Persistence, at startup,", function() {
+describe("Persistence restore, at startup,", function() {
 
   var persistence, adapter, world;
 
@@ -156,7 +156,7 @@ describe("Persistence, to github,", function() {
     expect(creature.sha).toEqual("newFileSha");
   });
 
-  it("can delete a creature", function() {
+  it("deletes a file when a creature is deleted", function() {
     adapter.deleteFile = jasmine.createSpy("adapter.deleteFile")
       .and.callFake(function(fullpath,fileSha,callback){callback("commitSha")});
     persistence.maybeStart(adapter);
@@ -170,43 +170,3 @@ describe("Persistence, to github,", function() {
   });
 });
 
-describe("Perstistence check", function() {
-  var world, adapter, persistence;
-
-  beforeEach(function() {
-    setEnvironmentUp();
-    world = World();
-    persistence = Persistence(world);
-    adapter = jasmine.createSpyObj("adapter",
-                    ['init','fetchRootDirectories']);
-  });
-
-  it("refresh creature with a fetched file if its path matches */*.pde", function() {
-    adapter.fetchFileContent =
-      jasmine.createSpy("adapter.fetchFileContent")
-      .and.callFake(function(path,callback){ callback("// content","sha"); });
-    var watcher = jasmine.createSpy("creature.refreshCode");
-    var creature = world.playground('dir').creature('file');
-    creature.refreshCode = watcher;
-    persistence.maybeStart(adapter);
-
-    persistence.check("dir/file.pde")
-
-    expect(adapter.fetchFileContent).toHaveBeenCalledWith(
-        'dir/file.pde', jasmine.anything());
-    var creature = world.playground('dir').creature('file');
-    expect(watcher).toHaveBeenCalledWith("// content");
-    expect(creature.sha).toEqual("sha");
-  });
-
-  it("does nothing if path does not matches */*.pde", function() {
-    adapter.fetchFileContent = jasmine.createSpy("adapter.fetchFileContent");
-    persistence.maybeStart(adapter);
-
-    persistence.check("dir/fileWithTheWrongExtension.md");
-    persistence.check("fileAtRoot.md");
-    persistence.check("file/with/to/many/subdirs.pde");
-
-    expect(adapter.fetchFileContent).not.toHaveBeenCalled()
-  });
-});

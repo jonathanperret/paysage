@@ -10,36 +10,25 @@ describe("The world", function() {
   });
 
   it("can tell when a creature code is updated", function() {
-    var watcher = jasmine.createSpy();
+    var spy = jasmine.createSpy();
     var world = World();
     var creature = world.playground("any").creature("ugly");
-    world.onCreatureCodeUpdate(watcher);
+    world.onCreatureCodeUpdate(spy);
 
     creature.updateCode("// hello");
 
-    expect(watcher).toHaveBeenCalledWith(creature);
-  });
-
-  it("can tell when a creature code is refreshed", function() {
-    var watcher = jasmine.createSpy();
-    var world = World();
-    var creature = world.playground("any").creature("ugly");
-    world.onCreatureCodeRefresh(watcher);
-
-    creature.refreshCode("// hello");
-
-    expect(watcher).toHaveBeenCalledWith(creature);
+    expect(spy).toHaveBeenCalledWith(creature);
   });
 
   it("can tell when a creature is deleted", function() {
-    var watcher = jasmine.createSpy();
+    var spy = jasmine.createSpy();
     var world = World();
     var creature = world.playground("any").creature("ugly");
-    world.onCreatureDelete(watcher);
+    world.onCreatureDelete(spy);
 
     creature.delete();
 
-    expect(watcher).toHaveBeenCalledWith(creature);
+    expect(spy).toHaveBeenCalledWith(creature);
   });
 });
 
@@ -137,6 +126,15 @@ describe("A creature", function () {
     expect(playground.population()).not.toContain("bob");
     expect(world.tour()).not.toContain("Miami beach");
   });
+
+  it("can be renoved", function() {
+    bob.remove();
+
+    expect(playground.population()).not.toContain("bob");
+    expect(world.tour()).not.toContain("Miami beach");
+  });
+
+
 });
 
 
