@@ -56,15 +56,16 @@ describe("Perstistence, when a file is added or modified,", function() {
     persistence = Persistence(world);
     adapter = jasmine.createSpyObj("adapter",
                     ['init','fetchRootDirectories']);
+    persistence.maybeStart(adapter);
   });
 
-  it("refreshes creature if file path matches */*.pde", function() {
+  it("updates silenty creature code if file path matches */*.pde", function() {
     adapter.fetchFileContent =
       jasmine.createSpy("adapter.fetchFileContent")
       .and.callFake(function(path,callback){ callback("// content","fileSha"); });
-    var watcher = jasmine.createSpy("creature.refreshCode");
+    var updateCode = jasmine.createSpy("creature.updateCode");
     var creature = world.playground('dir').creature('file');
-    creature.refreshCode = watcher;
+    creature.updateCode = updateCode;
     persistence.maybeStart(adapter);
 
     persistence.fileAddedOrModified("dir/file.pde")
@@ -72,7 +73,7 @@ describe("Perstistence, when a file is added or modified,", function() {
     expect(adapter.fetchFileContent).toHaveBeenCalledWith(
         'dir/file.pde', jasmine.anything());
     var creature = world.playground('dir').creature('file');
-    expect(watcher).toHaveBeenCalledWith("// content");
+    expect(updateCode).toHaveBeenCalledWith("// content",true);
     expect(creature.sha).toEqual("fileSha");
   });
 
@@ -98,26 +99,31 @@ describe("Perstistence. when a file is removed,", function() {
     adapter = jasmine.createSpyObj("adapter",
                     ['init','fetchRootDirectories']);
     persistence.maybeStart(adapter);
-    creature = world.playground('dir').creature('file');
-    creature.remove = jasmine.createSpy("creature.remove");
   });
 
   it("removes creature if the file path matches */*.pde", function() {
-    persistence.fileRemoved("dir/file.pde")
+    persistence.fileRemoved("dir/file.pde");
 
-    expect(creature.remove).toHaveBeenCalled();
+    expect(world.playground('dir')).not.toContain('file');
+  });
+
+  it("removes creature silently", function() {
+    var notifyDelete = jasmine.createSpy("notifyDelete");
+    world.onCreatureDelete(notifyDelete);
+
+    persistence.fileRemoved("dir/file.pde");
+
+    expect(notifyDelete).not.toHaveBeenCalled();
   });
 
   it("does nothing if path does not match */*.pde", function() {
-    var spy = jasmine.createSpy('notifyRemove');
-    adapter.deleteFile = jasmine.createSpy("adapter.deleteFile")
-      .and.callFake(function(fullpath,fileSha,callback){callback("commitSha")});
-    persistence.onCreatureRemove(spy);
+    var notifyRemove = jasmine.createSpy('notifyRemove');
+    persistence.onCreatureRemove(notifyRemove);
 
     persistence.fileRemoved("dir/fileWithTheWrongExtension.md");
     persistence.fileRemoved("fileAtRoot.md");
     persistence.fileRemoved("file/with/to/many/subdirs.pde");
 
-    expect(spy).not.toHaveBeenCalled();
+    expect(notifyRemove).not.toHaveBeenCalled();
   });
 });

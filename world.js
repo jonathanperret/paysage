@@ -31,23 +31,15 @@ module.exports = function() {
           name: name,
           playground: playground,
           code: function() { return code; },
-          updateCode: function(updatedCode) { 
+          updateCode: function(updatedCode, silently) { 
             code = updatedCode; 
-            notifyUpdate(this);
+            if (! silently) notifyUpdate(this);
           },
-          refreshCode: function(refreshedCode) {
-            code = refreshedCode;
-          },
-          delete: function() {
+          delete: function(silently) {
             delete creatures[name];
             if (playground.isEmpty())
               delete playgrounds[playground.name];
-            notifyDelete(this);
-          },
-          remove: function() {
-            delete creatures[name];
-            if (playground.isEmpty())
-              delete playgrounds[playground.name];
+            if (!silently) notifyDelete(this);
           },
         };
         creatures[name]=(creature);

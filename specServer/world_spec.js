@@ -2,16 +2,18 @@
 
 var World = require('../world');
 
-describe("The world", function() {
-  it("knows the places to be", function() {
+describe("World tour", function() {
+  it("lists all the playground", function() {
     var world = World();
     world.playground("Miami beach");
     expect(world.tour()).toEqual(["Miami beach"]);
   });
+})
 
-  it("can tell when a creature code is updated", function() {
-    var spy = jasmine.createSpy();
+describe("World notifies", function() {
+  it("when a creature code is updated", function() {
     var world = World();
+    var spy = jasmine.createSpy("'update' listener");
     var creature = world.playground("any").creature("ugly");
     world.onCreatureCodeUpdate(spy);
 
@@ -20,9 +22,20 @@ describe("The world", function() {
     expect(spy).toHaveBeenCalledWith(creature);
   });
 
-  it("can tell when a creature is deleted", function() {
-    var spy = jasmine.createSpy();
+  it("not when a creature code is updated silently", function() {
     var world = World();
+    var spy = jasmine.createSpy("'update' listener");
+    var creature = world.playground("any").creature("ugly");
+    world.onCreatureCodeUpdate(spy);
+
+    creature.updateCode("// hello",true);
+
+    expect(spy).not.toHaveBeenCalled();
+  });
+
+  it("when a creature is deleted", function() {
+    var world = World();
+    var spy = jasmine.createSpy("'delete' listener");
     var creature = world.playground("any").creature("ugly");
     world.onCreatureDelete(spy);
 
@@ -30,6 +43,18 @@ describe("The world", function() {
 
     expect(spy).toHaveBeenCalledWith(creature);
   });
+
+  it("not when a creature is deleted silently", function() {
+    var world = World();
+    var spy = jasmine.createSpy("'delete' listener");
+    var creature = world.playground("any").creature("ugly");
+    world.onCreatureDelete(spy);
+
+    creature.delete(true);
+
+    expect(spy).not.toHaveBeenCalled();
+  });
+
 });
 
 describe("A playground", function() {
@@ -101,11 +126,6 @@ describe("A creature", function () {
     expect(bob.code()).toEqual("// hello");
   });
 
-  it("can refresh its code", function() {
-    bob.refreshCode("// hello");
-    expect(bob.code()).toEqual("// hello");
-  });
-
   it("'s code is the one another's", function() {
     bob.updateCode("// hello");
     var bill = playground.creature("bill");
@@ -126,14 +146,6 @@ describe("A creature", function () {
     expect(playground.population()).not.toContain("bob");
     expect(world.tour()).not.toContain("Miami beach");
   });
-
-  it("can be renoved", function() {
-    bob.remove();
-
-    expect(playground.population()).not.toContain("bob");
-    expect(world.tour()).not.toContain("Miami beach");
-  });
-
 
 });
 

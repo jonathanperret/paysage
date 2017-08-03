@@ -49,11 +49,13 @@ module.exports = function(aWorld) {
     });
   }
 
-  function loadCreature(playgroundName, creatureName) {
+  function loadCreature(playgroundName, creatureName, callback) {
     var createCreature = function(content,fileSha) {
       var creature = world.playground(playgroundName)
-                      .creature(creatureName, content);
+                      .creature(creatureName);
+      creature.updateCode(content,true);
       creature.sha = fileSha;
+      if (callback) callback(creature);
     };
     adapter.fetchFileContent(path.forCreature(playgroundName, creatureName),
                              createCreature);;
@@ -93,6 +95,7 @@ module.exports = function(aWorld) {
 
   return {
     maybeStart: maybeStart,
+    loadCreature: loadCreature,
     rememberCommit: rememberCommit,
     knowsCommit: knowsCommit,
     fileAddedOrModified: function(path) { return ingoing.fileAddedOrModified(path); },

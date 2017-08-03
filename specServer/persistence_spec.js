@@ -39,6 +39,7 @@ describe("Persistence initialisation", function() {
 });
 
 describe("Persitence commit memory", function() {
+
   it("won't remember a commit it has never seen", function(){
     var persistence = Persistence("world");
 
@@ -88,7 +89,7 @@ describe("Persistence restore, at startup,", function() {
     expect(world.tour()).toContain("dirpg2");
   });
 
-  it("restores a creature per file maching /*/<basename>.pde", function(){
+  it("restores a creature per file matching /*/<basename>.pde", function(){
 
     persistence.maybeStart(adapter);
 
@@ -100,15 +101,75 @@ describe("Persistence restore, at startup,", function() {
     expect(playground.population()).not.toContain('file3.txt');
   });
 
-  it("restores creature's code and sha", function(){
-
+  it("restores creature", function(){
     persistence.maybeStart(adapter);
+    function expectFetched(path) {
+      expect(adapter.fetchFileContent)
+            .toHaveBeenCalledWith(path, jasmine.anything());
+    }
+    expectFetched("dirpg1/file1.pde");
+    expectFetched("dirpg1/file2.pde");
+    expectFetched("dirpg2/file2.pde");
+    expectFetched("dirpg2/file2.pde");
+    expect(adapter.fetchFileContent).toHaveBeenCalledTimes(4);
+  });
+});
+
+describe("Persistence creature loading", function() {
+  var world, adapter, persistence;
+
+  beforeEach(function() {
+    setEnvironmentUp();
+    world = World();
+    persistence = Persistence(world);
+    adapter = jasmine.createSpyObj("adapter",
+                    ['init','fetchRootDirectories']);
+    adapter.fetchFileContent =
+      jasmine.createSpy("adapter.fetchFileContent")
+      .and.callFake(function(path,callback){ callback("// content","fileSha"); });
+    persistence.maybeStart(adapter);
+  });
+
+  it("restores creature's code and sha", function() {
+    //var done = jasmineCreateSpy("done");
+
+    persistence.loadCreature('here','that');
 
     expect(adapter.fetchFileContent).toHaveBeenCalledWith(
-        'dirpg1/file1.pde', jasmine.anything());
-    var creature = world.playground('dirpg1').creature('file1');
+        'here/that.pde', jasmine.anything());
+    var creature = world.playground('here').creature('that');
     expect(creature.code()).toEqual("// content");
     expect(creature.sha).toEqual("fileSha");
+  });
+
+  it("can refresh an existing creature", function() {
+    var creature = world.playground('here').creature('that');
+
+    persistence.loadCreature('here','that');
+
+    expect(adapter.fetchFileContent).toHaveBeenCalledWith(
+        'here/that.pde', jasmine.anything());
+    expect(creature.code()).toEqual("// content");
+    expect(creature.sha).toEqual("fileSha");
+  });
+
+
+  it("does it silently", function() {
+    var spy = jasmine.createSpy("'update' listener");
+    world.onCreatureCodeUpdate(spy);
+
+    persistence.loadCreature('here','that');
+
+    expect(spy).not.toHaveBeenCalled();
+  });
+
+  it("calls back when done", function() {
+    var whenDone = jasmine.createSpy("whenDone");
+
+    persistence.loadCreature('here','that',whenDone);
+
+    var creature = world.playground('here').creature('that');
+    expect(whenDone).toHaveBeenCalledWith(creature);
   });
 });
 

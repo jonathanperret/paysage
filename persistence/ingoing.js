@@ -33,7 +33,7 @@ module.exports = function(aWorld, anAdapter) {
     var refreshCreature = function(content,fileSha) {
       var creature = world.playground(playgroundName)
                       .creature(creatureName)
-      creature.refreshCode(content);
+      creature.updateCode(content,true);
       creature.sha = fileSha;
       notifyRefresh(creature);
     };
@@ -45,7 +45,7 @@ module.exports = function(aWorld, anAdapter) {
     if (!Path.isAPathForACreature(path)) return;
     var playgroundName = Path.playgroundName(path);
     var creatureName = Path.creatureName(path);
-    world.playground(playgroundName).creature(creatureName).remove();
+    world.playground(playgroundName).creature(creatureName).delete(true);
     notifyRemove(playgroundName,creatureName);
   }
 
