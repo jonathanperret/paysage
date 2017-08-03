@@ -10,15 +10,21 @@ function setEnvironmentUp() {
 }
 
 describe("Persistence ingoing",function(){
+  var world, persistence, adapter, creature;
+
+  beforeEach(function() {
+    setEnvironmentUp();
+    world = World();
+    persistence = Persistence(world);
+    creature = world.playground("any").creature("ugly");
+    adapter = jasmine.createSpyObj('adapter',
+        ['init', 'fetchRootDirectories']);
+  });
   it("notifies when it refreshes a creature",function() {
-    var world = World();
-    var persistence = Persistence(world);
     var spy = jasmine.createSpy('creature refresh listener');
-    var creature = world.playground("any").creature("ugly");
-    var adapter = { fetchFileContent:
+    adapter.fetchFileContent =
       jasmine.createSpy("adapter.fetchFileContent")
-      .and.callFake(function(path,callback){ callback("// content","fileSha");})
-    }
+      .and.callFake(function(path,callback){ callback("// content","fileSha");});
     persistence.maybeStart(adapter);
 
     persistence.onCreatureCodeRefresh(spy);
@@ -28,14 +34,10 @@ describe("Persistence ingoing",function(){
   });
 
   it("notifies when a creature is removed",function() {
-    var world = World();
-    var persistence = Persistence(world);
     var spy = jasmine.createSpy('creature remove listener');
-    var creature = world.playground("any").creature("ugly");
-    var adapter = { fetchFileContent:
+    adapter.fetchFileContent =
       jasmine.createSpy("adapter.deleteFile")
-      .and.callFake(function(fullpath,fileSha,callback){callback("commitSha")})
-    }
+      .and.callFake(function(fullpath,fileSha,callback){callback("commitSha")});
     persistence.maybeStart(adapter);
 
     persistence.onCreatureRemove(spy);

@@ -1,5 +1,7 @@
 "use strict";
 
+const path=require('./path');
+
 module.exports = function(aWorld) {
   var world = aWorld,
       enabled = false,
@@ -9,7 +11,6 @@ module.exports = function(aWorld) {
 
   function maybeStart(anAdapter) {
     adapter = anAdapter ? anAdapter : require('./github');
-    ingoing = require('./ingoing')(world,adapter);
     var owner = process.env.GITHUB_OWNER,
         repo = process.env.GITHUB_REPO,
         token = process.env.GITHUB_TOKEN;
@@ -20,6 +21,8 @@ module.exports = function(aWorld) {
   }
 
   function start(adapter, owner, repo, token) {
+    ingoing = require('./ingoing')(world,adapter);
+    //outgoing = require('./outgoing')(world,adapter);
     adapter.init(owner, repo, token);
     world.onCreatureCodeUpdate(creatureCodeUpdated);
     world.onCreatureDelete(creatureDeleted);
@@ -46,52 +49,36 @@ module.exports = function(aWorld) {
     });
   }
 
-  function path(playgroundName,creatureName) {
-    return playgroundName + "/" + creatureName + '.pde';
-  }
-
-  function matchCreaturePath(path) {
-    return path.match(/^[^/]+\/[^/]+\.pde/);
-  }
-
-  function playgroundNameFromPath(path) {
-    return path.substring(0, path.indexOf('/'));
-  }
-
-  function creatureNameFromPath(path) {
-    return path.substring(path.indexOf('/')+1,path.length-4)
-  }
-
   function loadCreature(playgroundName, creatureName) {
     var createCreature = function(content,fileSha) {
       var creature = world.playground(playgroundName)
                       .creature(creatureName, content);
       creature.sha = fileSha;
     };
-    adapter.fetchFileContent(path(playgroundName, creatureName),
-                             createCreature);
+    adapter.fetchFileContent(path.forCreature(playgroundName, creatureName),
+                             createCreature);;
   }
 
   function creatureCodeUpdated(creature) {
-    var fullPath = path(creature.playground.name, creature.name);
+    var fullpath = path.forCreature(creature.playground.name, creature.name);
     var updateSha = function(commitSha, fileSha) {
       rememberCommit(commitSha);
       creature.sha = fileSha;
     }
     if (creature.sha)
-      adapter.updateFile(fullPath,
+      adapter.updateFile(fullpath,
                          creature.code(),
                          creature.sha,
                          updateSha);
     else
-      adapter.createFile(fullPath,
+      adapter.createFile(fullpath,
                          creature.code(),
                          updateSha);
   }
 
   function creatureDeleted(creature) {
-    var fullPath = path(creature.playground.name, creature.name);
-    adapter.deleteFile(fullPath, creature.sha, rememberCommit);
+    var fullpath = path.forCreature(creature.playground.name, creature.name);
+    adapter.deleteFile(fullpath, creature.sha, rememberCommit);
   }
 
   var lastSeenCommit;
