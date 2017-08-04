@@ -1,17 +1,19 @@
-var extractor=require('./webhook-input');
+var Payload=require('./webhook-payload');
 
 module.exports = function(aPersister){
   var persister = aPersister;
 
-  function handlePayload(payload) {
+  function handlePayload(data) {
 
-    if (extractor.branch(payload) != "master") return;
-    var headCommitId = extractor.headCommitId(payload);
+    var payload = new Payload(data);
+
+    if (payload.branch() != "master") return;
+    var headCommitId = payload.headCommitId();
     if (persister.knowsCommit(headCommitId)) return;
 
     persister.rememberCommit(headCommitId);
 
-    var data = extractor.extractAndDigest(payload);
+    var data = payload.digest();
     data.added.forEach(function(path) {
       persister.fileAddedOrModified(path)
     });
