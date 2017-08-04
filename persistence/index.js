@@ -21,7 +21,7 @@ module.exports = function(aWorld) {
   }
 
   function start(adapter, owner, repo, token) {
-    ingoing = require('./ingoing')(world,adapter);
+    ingoing = require('./ingoing')(world,loadCreature);
     //outgoing = require('./outgoing')(world,adapter);
     adapter.init(owner, repo, token);
     world.onCreatureCodeUpdate(creatureCodeUpdated);

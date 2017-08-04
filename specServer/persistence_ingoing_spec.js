@@ -1,128 +1,85 @@
 "use strict";
 
-const Persistence = require('../persistence');
+const Ingoing = require('../persistence/ingoing');
 const World = require('../world');
 
-function setEnvironmentUp() {
-    process.env.GITHUB_OWNER="owner";
-    process.env.GITHUB_REPO="repo";
-    process.env.GITHUB_TOKEN="token";
-}
-
-describe("Persistence ingoing",function(){
-  var world, persistence, adapter, creature;
+describe("When a file is added or modified,", function() {
+  var world, ingoing, loadCreature, creature;
 
   beforeEach(function() {
-    setEnvironmentUp();
     world = World();
-    persistence = Persistence(world);
-    creature = world.playground("any").creature("ugly");
-    adapter = jasmine.createSpyObj('adapter',
-        ['init', 'fetchRootDirectories']);
-  });
-  it("notifies when it refreshes a creature",function() {
-    var spy = jasmine.createSpy('creature refresh listener');
-    adapter.fetchFileContent =
-      jasmine.createSpy("adapter.fetchFileContent")
-      .and.callFake(function(path,callback){ callback("// content","fileSha");});
-    persistence.maybeStart(adapter);
-
-    persistence.onCreatureCodeRefresh(spy);
-    persistence.fileAddedOrModified("any/ugly.pde");
-
-    expect(spy).toHaveBeenCalledWith(creature);
+    creature = world.playground('any').creature('ugly');
+    loadCreature = jasmine.createSpy(loadCreature).
+      and.callFake(function(pgname, creatureName, callback) {
+        callback(creature)
+      });
+    ingoing = Ingoing(world,loadCreature);
   });
 
-  it("notifies when a creature is removed",function() {
-    var spy = jasmine.createSpy('creature remove listener');
-    adapter.fetchFileContent =
-      jasmine.createSpy("adapter.deleteFile")
-      .and.callFake(function(fullpath,fileSha,callback){callback("commitSha")});
-    persistence.maybeStart(adapter);
+  it("nothing happens if path does not match */*.pde", function() {
 
-    persistence.onCreatureRemove(spy);
-    persistence.fileRemoved("any/ugly.pde");
+    ingoing.fileAddedOrModified("dir/fileWithTheWrongExtension.md");
+    ingoing.fileAddedOrModified("fileAtRoot.md");
+    ingoing.fileAddedOrModified("file/with/to/many/subdirs.pde");
 
-    expect(spy).toHaveBeenCalledWith("any","ugly");
+    expect(loadCreature).not.toHaveBeenCalled();
+  });
+
+  it("a creature is refreshed",function() {
+
+    ingoing.fileAddedOrModified("any/ugly.pde");
+
+    expect(loadCreature).toHaveBeenCalledWith(
+        "any","ugly", jasmine.anything());
+  });
+
+  it("the creature refresh is notified about",function() {
+    var notifyRefresh = jasmine.createSpy('notifyRefresh');
+    ingoing.onCreatureCodeRefresh(notifyRefresh);
+
+    ingoing.fileAddedOrModified("any/ugly.pde");
+
+    expect(notifyRefresh).toHaveBeenCalledWith(creature);
   });
 });
 
-describe("Perstistence, when a file is added or modified,", function() {
-  var world, adapter, persistence;
+describe("When a file is removed,", function() {
+  var world, ingoing, loadCreature, creature;
 
   beforeEach(function() {
-    setEnvironmentUp();
     world = World();
-    persistence = Persistence(world);
-    adapter = jasmine.createSpyObj("adapter",
-                    ['init','fetchRootDirectories']);
-    persistence.maybeStart(adapter);
+    creature = world.playground('any').creature('ugly');
+    loadCreature = jasmine.createSpy(loadCreature).
+      and.callFake(function(pgname, creatureName, callback) {
+        callback(creature)
+      });
+    ingoing = Ingoing(world,loadCreature);
   });
 
-  it("updates silenty creature code if file path matches */*.pde", function() {
-    adapter.fetchFileContent =
-      jasmine.createSpy("adapter.fetchFileContent")
-      .and.callFake(function(path,callback){ callback("// content","fileSha"); });
-    var updateCode = jasmine.createSpy("creature.updateCode");
-    var creature = world.playground('dir').creature('file');
-    creature.updateCode = updateCode;
-    persistence.maybeStart(adapter);
+  it("a creature is deleted",function() {
+    creature.delete = jasmine.createSpy('creature.delete');
 
-    persistence.fileAddedOrModified("dir/file.pde")
+    ingoing.fileRemoved("any/ugly.pde");
 
-    expect(adapter.fetchFileContent).toHaveBeenCalledWith(
-        'dir/file.pde', jasmine.anything());
-    var creature = world.playground('dir').creature('file');
-    expect(updateCode).toHaveBeenCalledWith("// content",true);
-    expect(creature.sha).toEqual("fileSha");
+    expect(creature.delete).toHaveBeenCalledWith(true);
   });
 
-  it("does nothing if path does not match */*.pde", function() {
-    adapter.fetchFileContent = jasmine.createSpy("adapter.fetchFileContent");
-    persistence.maybeStart(adapter);
+  it("the creature deleted is notified about",function() {
+    var notifyRemove = jasmine.createSpy('notifyRemove');
+    ingoing.onCreatureRemove(notifyRemove);
 
-    persistence.fileAddedOrModified("dir/fileWithTheWrongExtension.md");
-    persistence.fileAddedOrModified("fileAtRoot.md");
-    persistence.fileAddedOrModified("file/with/to/many/subdirs.pde");
+    ingoing.fileRemoved("any/ugly.pde");
 
-    expect(adapter.fetchFileContent).not.toHaveBeenCalled()
-  });
-});
-
-describe("Perstistence. when a file is removed,", function() {
-  var world, adapter, persistence, creature;
-
-  beforeEach(function() {
-    setEnvironmentUp();
-    world = World();
-    persistence = Persistence(world);
-    adapter = jasmine.createSpyObj("adapter",
-                    ['init','fetchRootDirectories']);
-    persistence.maybeStart(adapter);
-  });
-
-  it("removes creature if the file path matches */*.pde", function() {
-    persistence.fileRemoved("dir/file.pde");
-
-    expect(world.playground('dir')).not.toContain('file');
-  });
-
-  it("removes creature silently", function() {
-    var notifyDelete = jasmine.createSpy("notifyDelete");
-    world.onCreatureDelete(notifyDelete);
-
-    persistence.fileRemoved("dir/file.pde");
-
-    expect(notifyDelete).not.toHaveBeenCalled();
+    expect(notifyRemove).toHaveBeenCalledWith("any","ugly");
   });
 
   it("does nothing if path does not match */*.pde", function() {
     var notifyRemove = jasmine.createSpy('notifyRemove');
-    persistence.onCreatureRemove(notifyRemove);
+    ingoing.onCreatureRemove(notifyRemove);
 
-    persistence.fileRemoved("dir/fileWithTheWrongExtension.md");
-    persistence.fileRemoved("fileAtRoot.md");
-    persistence.fileRemoved("file/with/to/many/subdirs.pde");
+    ingoing.fileRemoved("dir/fileWithTheWrongExtension.md");
+    ingoing.fileRemoved("fileAtRoot.md");
+    ingoing.fileRemoved("file/with/to/many/subdirs.pde");
 
     expect(notifyRemove).not.toHaveBeenCalled();
   });

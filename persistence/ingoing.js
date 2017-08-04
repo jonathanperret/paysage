@@ -2,10 +2,9 @@
 
 const Path = require('./path');
 
-module.exports = function(aWorld, anAdapter) {
+module.exports = function(aWorld, loadCreature) {
 
-  var world = aWorld,
-      adapter = anAdapter;
+  var world = aWorld;
 
   var refreshListener = function() {},
       removeListener = function() {};
@@ -30,15 +29,9 @@ module.exports = function(aWorld, anAdapter) {
     if (!Path.isAPathForACreature(path)) return;
     var playgroundName = Path.playgroundName(path);
     var creatureName = Path.creatureName(path);
-    var refreshCreature = function(content,fileSha) {
-      var creature = world.playground(playgroundName)
-                      .creature(creatureName)
-      creature.updateCode(content,true);
-      creature.sha = fileSha;
+    loadCreature(playgroundName,creatureName, function(creature){
       notifyRefresh(creature);
-    };
-    adapter.fetchFileContent(path,
-                             refreshCreature);
+    });
   }
 
   function fileRemoved(path) {
