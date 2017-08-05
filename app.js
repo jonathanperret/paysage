@@ -45,7 +45,7 @@ var playground = require('./routes/playground');
 var create = require('./routes/create');
 var workshop = require('./routes/workshop');
 if (persisted) {
-  var webhook = require('./persistence/router')(persister);
+  var webhook = persister.router();
   app.use('/webhook', webhook);
 }
 
@@ -113,12 +113,12 @@ client.on('delete code',
     });
 
 
-persister.onCreatureRemove(function(plagroundName, creatureName){
+persister.onCreatureRemove(function(playgroundName, creatureName){
   var data = {
     playgroundId: playgroundName,
     objectId: creatureName
   };
-  client.join(creature.playground.name); // we join the room to broadcast
+  client.join(playgroundName); // we join the room to broadcast
   io.to(playgroundName).emit('code delete', data);
   io.to(playgroundName).emit('objects list', getListOfAllCreatures(world.playground(playgroundName)));
 });

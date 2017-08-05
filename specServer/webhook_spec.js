@@ -1,13 +1,14 @@
 "use strict";
 
 describe("The webhook",function(){
-  var persister, webhook, payload;
+  var state, ingoing, webhook, payload;
 
   beforeEach(function() {
-    persister = jasmine.createSpyObj("persister",
-        ["fileAddedOrModified","fileRemoved","knowsCommit","rememberCommit"]);
-    persister.knowsCommit.and.returnValue(false);
-    webhook = require('../persistence/webhook')(persister);
+
+    state = jasmine.createSpyObj("state", ["knowsCommit","rememberCommit"]);
+    state.knowsCommit.and.returnValue(false);
+    ingoing = jasmine.createSpyObj("ingoing", ["fileAddedOrModified","fileRemoved"]);
+    webhook = require('../persistence/webhook')(ingoing, state);
     payload = JSON.parse(JSON.stringify({
       ref: "refs/heads/master",
       commits: [{
@@ -20,13 +21,13 @@ describe("The webhook",function(){
     }));
   });
 
-  it("inform persister about altered files", function(){
+  it("informs about altered files", function(){
 
     webhook.handlePayload(payload);
 
-    expect(persister.fileAddedOrModified).toHaveBeenCalledWith("addedFile");
-    expect(persister.fileAddedOrModified).toHaveBeenCalledWith("modifiedFile");
-    expect(persister.fileRemoved).toHaveBeenCalledWith("removedFile");
+    expect(ingoing.fileAddedOrModified).toHaveBeenCalledWith("addedFile");
+    expect(ingoing.fileAddedOrModified).toHaveBeenCalledWith("modifiedFile");
+    expect(ingoing.fileRemoved).toHaveBeenCalledWith("removedFile");
   });
 
   it("ignores commit to other branch than master", function() {
@@ -34,22 +35,22 @@ describe("The webhook",function(){
 
     webhook.handlePayload(payload);
 
-    expect(persister.fileAddedOrModified).not.toHaveBeenCalled();
+    expect(ingoing.fileAddedOrModified).not.toHaveBeenCalled();
   });
 
   it("ignores already known commits", function() {
-    persister.knowsCommit.and.returnValue(true);
+    state.knowsCommit.and.returnValue(true);
 
     webhook.handlePayload(payload);
 
-    expect(persister.fileAddedOrModified).not.toHaveBeenCalled();
+    expect(ingoing.fileAddedOrModified).not.toHaveBeenCalled();
   });
 
   it("remembers head commit", function() {
 
     webhook.handlePayload(payload);
 
-    expect(persister.rememberCommit).toHaveBeenCalledWith("sha123");
+    expect(state.rememberCommit).toHaveBeenCalledWith("sha123");
   });
 });
 

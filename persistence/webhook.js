@@ -1,7 +1,6 @@
 var Payload=require('./webhook-payload');
 
-module.exports = function(aPersister){
-  var persister = aPersister;
+module.exports = function(ingoing, state){
 
   function handlePayload(data) {
 
@@ -9,19 +8,19 @@ module.exports = function(aPersister){
 
     if (payload.branch() != "master") return;
     var headCommitId = payload.headCommitId();
-    if (persister.knowsCommit(headCommitId)) return;
+    if (state.knowsCommit(headCommitId)) return;
 
-    persister.rememberCommit(headCommitId);
+    state.rememberCommit(headCommitId);
 
     var data = payload.digest();
     data.added.forEach(function(path) {
-      persister.fileAddedOrModified(path)
+      ingoing.fileAddedOrModified(path)
     });
     data.modified.forEach(function(path) {
-      persister.fileAddedOrModified(path)
+      ingoing.fileAddedOrModified(path)
     });
     data.removed.forEach(function(path) {
-      persister.fileRemoved(path)
+      ingoing.fileRemoved(path)
     });
   }
 
