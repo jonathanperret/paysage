@@ -84,7 +84,7 @@ io.on('connection', function(client) {
     var playgroundId = data.playgroundId;
     var objectId = data.objectId;
 
-    console.log(objectId + " for " + playgroundId + " from " + client);
+    console.log(objectId + " for " + playgroundId + " from " + data.client);
     client.join(playgroundId); // we join the room to broadcast
 
     if (!codeObjects[playgroundId]) codeObjects[playgroundId] = {};
