@@ -8,7 +8,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "postinstall": "bower install",
-    "test": "testem ci -l phantomjs && mocha",
+    "test": "testem ci -l phantomjs && mocha && nightwatch",
     "testem": "testem -l phantomjs",
     "testServer": "mocha",
     "test-e2e": "nightwatch",
