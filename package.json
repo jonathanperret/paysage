@@ -8,9 +8,10 @@
   "scripts": {
     "start": "node ./bin/www",
     "postinstall": "bower install",
-    "test": "testem ci -l phantomjs && mocha",
+    "test": "testem ci -l phantomjs && mocha && nightwatch",
     "testem": "testem -l phantomjs",
     "testServer": "mocha",
+    "test-e2e": "nightwatch",
     "update-favicon": "real-favicon generate faviconDescription.json faviconData.json public && node -e \"require('fs').writeFileSync('./views/partials/favicon.hbs', require('./faviconData.json').favicon.html_code)\""
   },
   "dependencies": {
@@ -27,9 +28,11 @@
   },
   "devDependencies": {
     "chai": "^4.1.1",
+    "chromedriver": "^2.31.0",
     "cli-real-favicon": "0.0.6",
     "jasmine": "^2.6.0",
     "mocha": "^3.5.0",
+    "nightwatch": "^0.9.16",
     "phantomjs-prebuilt": "^2.1.7",
     "socket.io-client": "^2.0.3",
     "supertest": "^3.0.0",
