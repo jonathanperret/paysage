@@ -11,6 +11,7 @@
     "test": "testem ci -l phantomjs && mocha",
     "testem": "testem -l phantomjs",
     "testServer": "mocha",
+    "test-e2e": "nightwatch",
     "update-favicon": "real-favicon generate faviconDescription.json faviconData.json public && node -e \"require('fs').writeFileSync('./views/partials/favicon.hbs', require('./faviconData.json').favicon.html_code)\""
   },
   "dependencies": {
