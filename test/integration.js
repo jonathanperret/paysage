@@ -14,12 +14,11 @@ describe("These integration tests", function() {
     server.close(done);
   });
 
-  it("may launch a server", function(done) {
-    request
+  it("may launch a server", function() {
+    return request
            .get('/list')
            .expect(200)
-           .expect(/to start a new playground/)
-           .end(done);
+           .expect(/to start a new playground/);
   });
 
   describe("has client-server scenarios where", function() {
@@ -61,15 +60,6 @@ describe("These integration tests", function() {
     });
   });
 });
-
-function doneGlue(done) {
-  return function(err, res) {
-    if(err)
-      done.fail(err);
-    else
-      done();
-  };
-}
 
 function callWhenCalledTimes(callback,times) {
   return function() {
