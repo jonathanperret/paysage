@@ -54,26 +54,30 @@ function getCode(playground, objectId) {
   if (!codeObjects[playground][objectId]) return "";
 
   return codeObjects[playground][objectId].code;
-};
+}
 
 function getListOfAllObjects(playground) {
   var objectIds = Object.keys(codeObjects[playground]);
   return {playgroundId: playground, objectIds: objectIds};
-};
+}
+
+function broadcastObjectList(playgroundId) {
+  io.to(playgroundId).emit('objects list', getListOfAllObjects(playgroundId));
+}
 
 io.on('connection', function(client) {
   client.on('programmer up', function(playground) {
     console.log("a new programmer is up for " + playground);
 
-    client.join(playground); // have client join the room named after Playground Id
+    client.join(playground);
 
-    if (codeObjects[playground]) {
-      client.emit('objects list', getListOfAllObjects(playground));
-    }
+    if (!codeObjects[playground]) return;
+    client.emit('objects list', getListOfAllObjects(playground));
   });
 
   client.on('playground up', function(playground) {
-    console.log(playground + " playground: a new renderer page is up");
+    console.log("a new renderer is up for " + playground);
+
     client.join(playground);
 
     if (!codeObjects[playground]) return;
@@ -85,7 +89,6 @@ io.on('connection', function(client) {
     var objectId = data.objectId;
 
     console.log(objectId + " for " + playgroundId + " from " + data.client);
-    client.join(playgroundId); // we join the room to broadcast
 
     if (!codeObjects[playgroundId]) codeObjects[playgroundId] = {};
 
@@ -96,7 +99,21 @@ io.on('connection', function(client) {
     };
 
     client.broadcast.to(playgroundId).emit('code update', data);
-    io.to(playgroundId).emit('objects list', getListOfAllObjects(playgroundId));
+    broadcastObjectList(playgroundId);
+  });
+
+  client.on('code delete', function(data) {
+    var playgroundId = data.playgroundId;
+    var objectId = data.objectId;
+
+    if (!codeObjects[playgroundId]) return;
+
+    console.log("deleting " + objectId + " from playground " + playgroundId);
+
+    delete codeObjects[playgroundId][objectId];
+
+    client.broadcast.to(playgroundId).emit('code delete', data);
+    broadcastObjectList(playgroundId);
   });
 
   client.on('request code', function(data) {
