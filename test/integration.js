@@ -7,7 +7,7 @@ describe("These integration tests", function() {
   beforeEach(function (done) {
     server = require('../app');
     request = require('supertest')(server);
-    server.listen(3001,done);
+    server.listen(0, done);
   });
 
   afterEach(function(done) {
@@ -27,8 +27,9 @@ describe("These integration tests", function() {
     var programmer, renderer;
 
     beforeEach(function (done) {
-      renderer = require('socket.io-client')('http://localhost:3001', { forceNew: true });
-      programmer = require('socket.io-client')('http://localhost:3001', { forceNew: true });
+      const serverUrl = 'http://127.0.0.1:' + server.address().port;
+      renderer = require('socket.io-client')(serverUrl, { forceNew: true });
+      programmer = require('socket.io-client')(serverUrl, { forceNew: true });
 
       var doneWhenCalledTwice = callWhenCalledTimes(done,2);
       programmer.on('connect', doneWhenCalledTwice);
