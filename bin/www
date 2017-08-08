@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-var debug = require('debug')('paysage');
 var server = require('../app');
 
 server.listen(process.env.PORT || 3000, function() {

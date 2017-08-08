@@ -1,3 +1,4 @@
+var debug = require('debug')('paysage:app');
 var codeObjects = {};
 
 var express = require('express');
@@ -26,7 +27,7 @@ app.engine('hbs', exphbs({
 }));
 app.set('view engine', 'hbs');
 
-app.use(logger('dev'));
+if (! process.env.TESTING) app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
@@ -67,7 +68,7 @@ function broadcastObjectList(playgroundId) {
 
 io.on('connection', function(client) {
   client.on('programmer up', function(playground) {
-    console.log("a new programmer is up for " + playground);
+    debug("a new programmer is up for " + playground);
 
     client.join(playground);
 
@@ -76,7 +77,7 @@ io.on('connection', function(client) {
   });
 
   client.on('playground up', function(playground) {
-    console.log("a new renderer is up for " + playground);
+    debug("a new renderer is up for " + playground);
 
     client.join(playground);
 
@@ -88,7 +89,7 @@ io.on('connection', function(client) {
     var playgroundId = data.playgroundId;
     var objectId = data.objectId;
 
-    console.log(objectId + " for " + playgroundId + " from " + data.client);
+    debug(objectId + " for " + playgroundId + " from " + data.client);
 
     if (!codeObjects[playgroundId]) codeObjects[playgroundId] = {};
 
@@ -123,7 +124,7 @@ io.on('connection', function(client) {
 
     var data = { playgroundId: playground, objectId: objectId, code: code };
 
-    console.log(objectId + " for " + playground + " programmer" ) ;
+    debug(objectId + " for " + playground + " programmer" ) ;
 
     client.emit('source code', data);
   });
