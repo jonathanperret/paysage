@@ -79,7 +79,7 @@ io.on('connection', function(client) {
 
     if (playground.isEmpty()) return;
 
-    var data = {};
+    var data = Object.create(null);
     playground.population().forEach(function(codeObjectId) {
       data[codeObjectId] = { code: playground.codeObject(codeObjectId).code() };
     });

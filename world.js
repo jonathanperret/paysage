@@ -2,7 +2,7 @@
 
 module.exports = function() {
 
-  var playgrounds = {},
+  var playgrounds = Object.create(null),
       notifyUpdate = function(){},
       notifyDelete = function(){}
 
@@ -20,7 +20,7 @@ module.exports = function() {
 
   function playground(id)  {
     if (playgrounds[id]) return playgrounds[id];
-    var codeObjects = {};
+    var codeObjects = Object.create(null);
     var playground = {
       id: id,
       codeObject: function(id,initCode) {
