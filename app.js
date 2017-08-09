@@ -1,5 +1,6 @@
 var debug = require('debug')('paysage:app');
-var codeObjects = {};
+
+var world = require('./world')();
 
 var express = require('express');
 var path = require('path');
@@ -37,7 +38,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.locals.reference_url = process.env.REFERENCE_URL || "http://processingjs.org/reference/";
 
 // routes setup
-var list = require('./routes/list')(codeObjects);
+var list = require('./routes/list')(world);
 var playground = require('./routes/playground');
 var create = require('./routes/create');
 var workshop = require('./routes/workshop');
@@ -50,81 +51,84 @@ app.use('/workshop', workshop);
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 
-function getCode(playground, objectId) {
-  if (!codeObjects[playground]) return "";
-  if (!codeObjects[playground][objectId]) return "";
-
-  return codeObjects[playground][objectId].code;
-}
 
 function getListOfAllObjects(playground) {
-  var objectIds = Object.keys(codeObjects[playground]);
-  return {playgroundId: playground, objectIds: objectIds};
+  return {playgroundId: playground.name, objectIds: playground.population()};
 }
 
-function broadcastObjectList(playgroundId) {
-  io.to(playgroundId).emit('objects list', getListOfAllObjects(playgroundId));
+function broadcastObjectList(playground) {
+  io.to(playground.name).emit('objects list', getListOfAllObjects(playground));
 }
 
 io.on('connection', function(client) {
-  client.on('programmer up', function(playground) {
-    debug("a new programmer is up for " + playground);
+  client.on('programmer up', function(playgroundName) {
+    debug("a new programmer is up for " + playgroundName);
 
-    client.join(playground);
+    var playground = world.playground(playgroundName);
+    client.join(playground.name);
 
-    if (!codeObjects[playground]) return;
+    if (playground.isEmpty()) return;
     client.emit('objects list', getListOfAllObjects(playground));
   });
 
-  client.on('playground up', function(playground) {
-    debug("a new renderer is up for " + playground);
+  client.on('playground up', function(playgroundName) {
+    debug("a new renderer is up for " + playgroundName);
 
-    client.join(playground);
+    var playground = world.playground(playgroundName);
+    client.join(playground.name);
 
-    if (!codeObjects[playground]) return;
-    client.emit('playground full update', codeObjects[playground]);
+    if (playground.isEmpty()) return;
+
+    var data = {};
+    playground.population().forEach(function(codeObjectName) {
+      data[codeObjectName] = { code: playground.codeObject(codeObjectName).code() };
+    });
+    client.emit('playground full update', data);
   });
 
   client.on('code update', function(data) {
-    var playgroundId = data.playgroundId;
-    var objectId = data.objectId;
+    debug(data.objectId + " for " + data.playgroundId + " from " + data.client);
 
-    debug(objectId + " for " + playgroundId + " from " + data.client);
+    var codeObject = world.playground(data.playgroundId).codeObject(data.objectId);
 
-    if (!codeObjects[playgroundId]) codeObjects[playgroundId] = {};
+    codeObject.updateCode(data.code);
+    codeObject.mediatype = data.mediatype;
+    codeObject.client = data.client;
 
-    codeObjects[playgroundId][objectId] = {
-      mediatype: data.mediatype,
-      client: data.client,
-      code: data.code
-    };
-
-    client.broadcast.to(playgroundId).emit('code update', data);
-    broadcastObjectList(playgroundId);
+    client.broadcast.to(codeObject.playground.name).emit('code update', {
+      objectId: codeObject.name,
+      code: codeObject.code()
+    });
+    broadcastObjectList(codeObject.playground);
   });
 
   client.on('code delete', function(data) {
-    var playgroundId = data.playgroundId;
-    var objectId = data.objectId;
+    debug("deleting " + data.objectId + " from playground " + data.playgroundId);
 
-    if (!codeObjects[playgroundId]) return;
+    var playground = world.playground(data.playgroundId);
+    var codeObject = playground.codeObject(data.objectId);
 
-    console.log("deleting " + objectId + " from playground " + playgroundId);
+    if (playground.isEmpty()) return;
+    codeObject.delete();
 
-    delete codeObjects[playgroundId][objectId];
-
-    client.broadcast.to(playgroundId).emit('code delete', data);
-    broadcastObjectList(playgroundId);
+    client.broadcast.to(playground.name).emit('code delete', {
+      playgroundId: playground.name,
+      objectId: codeObject.name
+    });
+    broadcastObjectList(playground);
   });
 
   client.on('request code', function(data) {
-    var playground = data.playgroundId;
-    var objectId = data.objectId;
-    var code = getCode(playground, objectId);
+    debug(data.objectId + " for " + data.playground + " programmer" ) ;
 
-    var data = { playgroundId: playground, objectId: objectId, code: code };
+    var codeObject = world.playground(data.playgroundId).codeObject(data.objectId);
 
-    debug(objectId + " for " + playground + " programmer" ) ;
+    var data = { 
+      playgroundId: codeObject.playground.name,
+      objectId: codeObject.name,
+      code: codeObject.code()
+    }
+
 
     client.emit('source code', data);
   });

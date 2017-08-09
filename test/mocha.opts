@@ -1,0 +1,3 @@
+--colors
+--recursive
+--require ./test/helper.js

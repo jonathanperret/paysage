@@ -43,7 +43,7 @@ describe("These integration tests", function() {
     it("renderer receives objects list when programmer updates code", function(done) {
       renderer.on('objects list', function(data) {
         expect(data.playgroundId).to.equal('playground');
-        expect(data.objectIds).to.deep.equal(['creature']);
+        expect(data.objectIds).to.deep.equal(['codeObject']);
         done();
       });
 
@@ -53,7 +53,7 @@ describe("These integration tests", function() {
 
       var data = {
         playgroundId: "playground",
-        objectId: "creature",
+        objectId: "codeObject",
         source: 'dummy source',
       };
       programmer.emit('code update', data);
