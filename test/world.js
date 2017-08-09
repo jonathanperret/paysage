@@ -70,7 +70,7 @@ describe("A playground", function() {
     expect(playground.population()).to.deep.equal([]);
   });
 
-  it("can name its codeObjects", function () {
+  it("can id its codeObjects", function () {
     playground.codeObject("bob");
     playground.codeObject("jack");
     expect(playground.population()).to.have.members(["bob","jack"]);
@@ -85,11 +85,11 @@ describe("A playground", function() {
     expect(playground.isEmpty()).to.be.false;
   });
 
-  it("has a name", function () {
-    expect(playground.name).to.equal("Miami beach");
+  it("has a id", function () {
+    expect(playground.id).to.equal("Miami beach");
   });
 
-  it("has a unique name", function () {
+  it("has a unique id", function () {
     var anotherPlayground = world.playground("Miami beach");
     expect(anotherPlayground).to.equal(playground);
   });
@@ -104,15 +104,15 @@ describe("A codeObject", function () {
     bob = playground.codeObject("bob");
   });
 
-  it("knows its name", function() {
-    expect(bob.name).to.equal("bob");
+  it("knows its id", function() {
+    expect(bob.id).to.equal("bob");
   });
 
   it("knows where it is", function() {
     expect(bob.playground).to.equal(playground);
   });
 
-  it("has a unique name", function () {
+  it("has a unique id", function () {
     var theOtherBob = playground.codeObject("bob");
     expect(theOtherBob).to.equal(bob);
   });

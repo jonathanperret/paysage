@@ -53,35 +53,35 @@ var io = require('socket.io')(server);
 
 
 function getListOfAllObjects(playground) {
-  return {playgroundId: playground.name, objectIds: playground.population()};
+  return {playgroundId: playground.id, objectIds: playground.population()};
 }
 
 function broadcastObjectList(playground) {
-  io.to(playground.name).emit('objects list', getListOfAllObjects(playground));
+  io.to(playground.id).emit('objects list', getListOfAllObjects(playground));
 }
 
 io.on('connection', function(client) {
-  client.on('programmer up', function(playgroundName) {
-    debug("a new programmer is up for " + playgroundName);
+  client.on('programmer up', function(playgroundId) {
+    debug("a new programmer is up for " + playgroundId);
 
-    var playground = world.playground(playgroundName);
-    client.join(playground.name);
+    var playground = world.playground(playgroundId);
+    client.join(playground.id);
 
     if (playground.isEmpty()) return;
     client.emit('objects list', getListOfAllObjects(playground));
   });
 
-  client.on('playground up', function(playgroundName) {
-    debug("a new renderer is up for " + playgroundName);
+  client.on('playground up', function(playgroundId) {
+    debug("a new renderer is up for " + playgroundId);
 
-    var playground = world.playground(playgroundName);
-    client.join(playground.name);
+    var playground = world.playground(playgroundId);
+    client.join(playground.id);
 
     if (playground.isEmpty()) return;
 
     var data = {};
-    playground.population().forEach(function(codeObjectName) {
-      data[codeObjectName] = { code: playground.codeObject(codeObjectName).code() };
+    playground.population().forEach(function(codeObjectId) {
+      data[codeObjectId] = { code: playground.codeObject(codeObjectId).code() };
     });
     client.emit('playground full update', data);
   });
@@ -95,8 +95,8 @@ io.on('connection', function(client) {
     codeObject.mediatype = data.mediatype;
     codeObject.client = data.client;
 
-    client.broadcast.to(codeObject.playground.name).emit('code update', {
-      objectId: codeObject.name,
+    client.broadcast.to(codeObject.playground.id).emit('code update', {
+      objectId: codeObject.id,
       code: codeObject.code()
     });
     broadcastObjectList(codeObject.playground);
@@ -111,9 +111,9 @@ io.on('connection', function(client) {
     if (playground.isEmpty()) return;
     codeObject.delete();
 
-    client.broadcast.to(playground.name).emit('code delete', {
-      playgroundId: playground.name,
-      objectId: codeObject.name
+    client.broadcast.to(playground.id).emit('code delete', {
+      playgroundId: playground.id,
+      objectId: codeObject.id
     });
     broadcastObjectList(playground);
   });
@@ -124,8 +124,8 @@ io.on('connection', function(client) {
     var codeObject = world.playground(data.playgroundId).codeObject(data.objectId);
 
     var data = { 
-      playgroundId: codeObject.playground.name,
-      objectId: codeObject.name,
+      playgroundId: codeObject.playground.id,
+      objectId: codeObject.id,
       code: codeObject.code()
     }
 

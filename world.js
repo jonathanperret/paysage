@@ -18,16 +18,16 @@ module.exports = function() {
     notifyDelete = fn;
   }
 
-  function playground(name)  {
-    if (playgrounds[name]) return playgrounds[name];
+  function playground(id)  {
+    if (playgrounds[id]) return playgrounds[id];
     var codeObjects = {};
     var playground = {
-      name: name,
-      codeObject: function(name,initCode) {
-        if (codeObjects[name]) return codeObjects[name];
+      id: id,
+      codeObject: function(id,initCode) {
+        if (codeObjects[id]) return codeObjects[id];
         var code = initCode ? initCode : "";
         var codeObject = {
-          name: name,
+          id: id,
           playground: playground,
           code: function() { return code; },
           updateCode: function(updatedCode, silently) {
@@ -35,13 +35,13 @@ module.exports = function() {
             if (! silently) notifyUpdate(this);
           },
           delete: function(silently) {
-            delete codeObjects[name];
+            delete codeObjects[id];
             if (playground.isEmpty())
-              delete playgrounds[playground.name];
+              delete playgrounds[playground.id];
             if (!silently) notifyDelete(this);
           },
         };
-        codeObjects[name]=(codeObject);
+        codeObjects[id]=(codeObject);
         return codeObject;
       },
       population: function() {
@@ -51,7 +51,7 @@ module.exports = function() {
         return Object.keys(codeObjects).length == 0;
       }
     };
-    playgrounds[name] = playground;
+    playgrounds[id] = playground;
     return playground;
   }
 
