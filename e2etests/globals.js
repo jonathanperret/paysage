@@ -1,7 +1,7 @@
 const chromedriver = require('chromedriver');
 
 process.env.TESTING = 'testing';
-const server = require('../app');
+const server = require('../app')();
 
 module.exports = {
   before: function(done) {

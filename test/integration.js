@@ -1,11 +1,13 @@
-const expect = require('chai').expect;
 process.env.TESTING='testing';
 
+const World = require('../world');
+
 describe("These integration tests", function() {
-  var server, request;
+  var server, request, world;
 
   beforeEach(function (done) {
-    server = require('../app');
+    world = new World();
+    server = require('../app')(world);
     request = require('supertest')(server);
     server.listen(0, done);
   });
@@ -15,10 +17,11 @@ describe("These integration tests", function() {
   });
 
   it("may launch a server", function() {
+    world.playground('ici');
     return request
            .get('/list')
            .expect(200)
-           .expect(/to start a new playground/);
+           .expect(/ici/);
   });
 
   describe("has client-server scenarios where", function() {
@@ -40,23 +43,60 @@ describe("These integration tests", function() {
       renderer.disconnect();
     });
 
-    it("renderer receives objects list when programmer updates code", function(done) {
-      renderer.on('objects list', function(data) {
-        expect(data.playgroundId).to.equal('playground');
-        expect(data.objectIds).to.deep.equal(['codeObject']);
-        done();
+    it("renderer and programmer receive events when programmer updates code", function(done) {
+      var halfdone = callWhenCalledTimes(done,2);
+
+      programmer.on('objects list', function(data) {
+        expect(data.playgroundId).to.equal('here');
+        expect(data.objectIds).to.deep.equal(['bob']);
+        halfdone();
       });
 
-      programmer.emit('programmer up', 'playground');
+      renderer.on('code update', function(data) {
+        expect(data.objectId).to.equal('bob');
+        halfdone();
+      });
 
-      renderer.emit('playground up', 'playground');
+      programmer.emit('programmer up', 'here');
+      renderer.emit('playground up', 'here');
 
       var data = {
-        playgroundId: "playground",
-        objectId: "codeObject",
+        playgroundId: "here",
+        objectId: "bob",
         source: 'dummy source',
       };
       programmer.emit('code update', data);
+    });
+
+    it("programmer receives 'objects list' and rendrer receives 'code delete' when programmer deletes code", function(done) {
+      var playground = world.playground('here');
+      playground.codeObject('bill');
+      playground.codeObject('bob');
+
+      var halfdone = callWhenCalledTimes(done,2);
+
+      programmer.once('objects list', function(data) {
+        programmer.on('objects list', function(data) {
+          expect(data.playgroundId).to.equal('here');
+          expect(data.objectIds).to.deep.equal(['bill']);
+          halfdone();
+        });
+      });
+
+      renderer.on('code delete', function(data) {
+        expect(data.playgroundId).to.equal('here');
+        expect(data.objectId).to.equal('bob');
+        halfdone();
+      });
+
+      programmer.emit('programmer up', 'here');
+      renderer.emit('playground up', 'here');
+
+      var data = {
+        playgroundId: "here",
+        objectId: "bob",
+      };
+      programmer.emit('code delete', data);
     });
   });
 });
