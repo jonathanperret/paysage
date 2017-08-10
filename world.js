@@ -2,28 +2,31 @@
 
 module.exports = function() {
 
-  var playgrounds = Object.create(null),
-      notifyUpdate = function(){},
-      notifyDelete = function(){}
-
-  function tour() {
-    return Object.keys(playgrounds);
+  function World() {
+    this.playgrounds = Object.create(null),
+    this.notifyUpdate = function(){},
+    this.notifyDelete = function(){}
   }
 
-  function contains(id) {
-    return Object.keys(playgrounds).indexOf(id)>=0;
+  World.prototype.tour = function() {
+    return Object.keys(this.playgrounds);
   }
 
-  function onCodeObjectUpdate(fn) {
-    notifyUpdate = fn;
+  World.prototype.contains = function(id) {
+    return Object.keys(this.playgrounds).indexOf(id)>=0;
   }
 
-  function onCodeObjectDelete(fn) {
-    notifyDelete = fn;
+  World.prototype.onCodeObjectUpdate = function(fn) {
+    this.notifyUpdate = fn;
   }
 
-  function playground(id)  {
-    if (playgrounds[id]) return playgrounds[id];
+  World.prototype.onCodeObjectDelete = function(fn) {
+    this.notifyDelete = fn;
+  }
+
+  World.prototype.playground = function(id)  {
+    if (this.playgrounds[id]) return this.playgrounds[id];
+    var world = this;
     var codeObjects = Object.create(null);
     var playground = {
       id: id,
@@ -36,7 +39,7 @@ module.exports = function() {
           code: function() { return code; },
           setCode: function(newCode) {
             code = newCode;
-            notifyUpdate(this);
+            world.notifyUpdate(this);
           },
           setCodeSilently: function(newCode) {
             code = newCode;
@@ -44,8 +47,8 @@ module.exports = function() {
           delete: function(silently) {
             delete codeObjects[id];
             if (playground.isEmpty())
-              delete playgrounds[playground.id];
-            if (!silently) notifyDelete(this);
+              delete world.playgrounds[playground.id];
+            if (!silently) world.notifyDelete(this);
           },
         };
         codeObjects[id]=(codeObject);
@@ -61,17 +64,10 @@ module.exports = function() {
         return Object.keys(codeObjects).indexOf(id)>=0;
       }
     };
-    playgrounds[id] = playground;
+    this.playgrounds[id] = playground;
     return playground;
   }
 
-  return {
-    tour: tour,
-    contains: contains,
-    playground: playground,
-    onCodeObjectUpdate: onCodeObjectUpdate,
-    onCodeObjectDelete : onCodeObjectDelete,
-  };
-
-}
+  return World;
+}();
 

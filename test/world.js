@@ -1,13 +1,12 @@
 "use strict";
 
+var World = require('../world');
 
-var createWorld = require('../world');
-
-describe("createWorld tour", function() {
+describe("World", function() {
   var world;
 
   beforeEach(function() {
-    world = createWorld();
+    world = new World();
   });
 
   it("lists all the playgrounds ids", function() {
@@ -24,9 +23,9 @@ describe("createWorld tour", function() {
   });
 })
 
-describe("createWorld notifies", function() {
+describe("World notifies", function() {
   it("when a codeObject code is setd", function() {
-    var world = createWorld();
+    var world = new World();
     var spy = sinon.spy();
     var codeObject = world.playground("any").codeObject("ugly");
     world.onCodeObjectUpdate(spy);
@@ -37,7 +36,7 @@ describe("createWorld notifies", function() {
   });
 
   it("not when a codeObject code is setd silently", function() {
-    var world = createWorld();
+    var world = new World();
     var spy = sinon.spy();
     var codeObject = world.playground("any").codeObject("ugly");
     world.onCodeObjectUpdate(spy);
@@ -48,7 +47,7 @@ describe("createWorld notifies", function() {
   });
 
   it("when a codeObject is deleted", function() {
-    var world = createWorld();
+    var world = new World();
     var spy = sinon.spy();
     var codeObject = world.playground("any").codeObject("ugly");
     world.onCodeObjectDelete(spy);
@@ -59,7 +58,7 @@ describe("createWorld notifies", function() {
   });
 
   it("not when a codeObject is deleted silently", function() {
-    var world = createWorld();
+    var world = new World();
     var spy = sinon.spy();
     var codeObject = world.playground("any").codeObject("ugly");
     world.onCodeObjectDelete(spy);
@@ -75,7 +74,7 @@ describe("A playground", function() {
   var world, playground;
 
   beforeEach(function() {
-    world = createWorld();
+    world = new World();
     playground = world.playground("Miami beach");
   });
 
@@ -121,7 +120,7 @@ describe("A codeObject", function () {
   var world, playground, bob;
 
   beforeEach(function() {
-    world = createWorld(),
+    world = new World(),
     playground = world.playground("Miami beach"),
     bob = playground.codeObject("bob");
   });
