@@ -92,7 +92,7 @@ io.on('connection', function(client) {
 
     var codeObject = world.playground(data.playgroundId).codeObject(data.objectId);
 
-    codeObject.updateCode(data.code);
+    codeObject.setCode(data.code);
     codeObject.mediatype = data.mediatype;
     codeObject.client = data.client;
 

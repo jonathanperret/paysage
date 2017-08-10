@@ -25,24 +25,24 @@ describe("createWorld tour", function() {
 })
 
 describe("createWorld notifies", function() {
-  it("when a codeObject code is updated", function() {
+  it("when a codeObject code is setd", function() {
     var world = createWorld();
     var spy = sinon.spy();
     var codeObject = world.playground("any").codeObject("ugly");
     world.onCodeObjectUpdate(spy);
 
-    codeObject.updateCode("// hello");
+    codeObject.setCode("// hello");
 
     expect(spy).to.have.been.calledWith(codeObject);
   });
 
-  it("not when a codeObject code is updated silently", function() {
+  it("not when a codeObject code is setd silently", function() {
     var world = createWorld();
     var spy = sinon.spy();
     var codeObject = world.playground("any").codeObject("ugly");
     world.onCodeObjectUpdate(spy);
 
-    codeObject.updateCodeSilently("// hello");
+    codeObject.setCodeSilently("// hello");
 
     expect(spy).not.to.have.been.called;
   });
@@ -143,20 +143,20 @@ describe("A codeObject", function () {
     expect(bob.code()).to.equal("");
   });
 
-  it("can update its code", function() {
-    bob.updateCode("// hello");
+  it("can set its code", function() {
+    bob.setCode("// hello");
     expect(bob.code()).to.equal("// hello");
   });
 
-  it("can update silently its code", function() {
-    bob.updateCodeSilently("// hello");
+  it("can set silently its code", function() {
+    bob.setCodeSilently("// hello");
     expect(bob.code()).to.equal("// hello");
   });
 
   it("'s code is not the one another's", function() {
-    bob.updateCode("// hello");
+    bob.setCode("// hello");
     var bill = playground.codeObject("bill");
-    bill.updateCode("// world");
+    bill.setCode("// world");
     expect(bob.code()).to.equal("// hello");
     expect(bill.code()).to.equal("// world");
   });

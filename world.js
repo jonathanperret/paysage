@@ -34,12 +34,12 @@ module.exports = function() {
           id: id,
           playground: playground,
           code: function() { return code; },
-          updateCode: function(updatedCode) {
-            code = updatedCode;
+          setCode: function(newCode) {
+            code = newCode;
             notifyUpdate(this);
           },
-          updateCodeSilently: function(updatedCode) {
-            code = updatedCode;
+          setCodeSilently: function(newCode) {
+            code = newCode;
           },
           delete: function(silently) {
             delete codeObjects[id];
