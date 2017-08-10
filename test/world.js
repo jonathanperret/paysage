@@ -83,7 +83,7 @@ describe("A playground", function() {
     expect(playground.population()).to.deep.equal([]);
   });
 
-  it("can id its codeObjects", function () {
+  it("can list its codeObject's ids", function () {
     playground.codeObject("bob");
     playground.codeObject("jack");
     expect(playground.population()).to.have.members(["bob","jack"]);
