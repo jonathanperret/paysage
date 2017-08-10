@@ -34,9 +34,12 @@ module.exports = function() {
           id: id,
           playground: playground,
           code: function() { return code; },
-          updateCode: function(updatedCode, silently) {
+          updateCode: function(updatedCode) {
             code = updatedCode;
-            if (! silently) notifyUpdate(this);
+            notifyUpdate(this);
+          },
+          updateCodeSilently: function(updatedCode) {
+            code = updatedCode;
           },
           delete: function(silently) {
             delete codeObjects[id];

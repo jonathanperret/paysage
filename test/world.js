@@ -42,7 +42,7 @@ describe("createWorld notifies", function() {
     var codeObject = world.playground("any").codeObject("ugly");
     world.onCodeObjectUpdate(spy);
 
-    codeObject.updateCode("// hello",true);
+    codeObject.updateCodeSilently("// hello");
 
     expect(spy).not.to.have.been.called;
   });
@@ -145,6 +145,11 @@ describe("A codeObject", function () {
 
   it("can update its code", function() {
     bob.updateCode("// hello");
+    expect(bob.code()).to.equal("// hello");
+  });
+
+  it("can update silently its code", function() {
+    bob.updateCodeSilently("// hello");
     expect(bob.code()).to.equal("// hello");
   });
 
