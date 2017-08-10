@@ -93,15 +93,9 @@ io.on('connection', function(client) {
 
     var codeObject = world.playground(data.playgroundId).codeObject(data.objectId);
 
-    codeObject.setCode(data.code);
     codeObject.mediatype = data.mediatype;
     codeObject.client = data.client;
-
-    client.broadcast.to(codeObject.playground.id).emit('code update', {
-      objectId: codeObject.id,
-      code: codeObject.code()
-    });
-    broadcastObjectList(codeObject.playground);
+    codeObject.setCode(data.code);
   });
 
   client.on('code delete', function(data) {
@@ -114,11 +108,6 @@ io.on('connection', function(client) {
     var codeObject = playground.codeObject(data.objectId);
     codeObject.delete();
 
-    client.broadcast.to(playground.id).emit('code delete', {
-      playgroundId: playground.id,
-      objectId: codeObject.id
-    });
-    broadcastObjectList(playground);
   });
 
   client.on('request code', function(data) {
@@ -137,6 +126,22 @@ io.on('connection', function(client) {
 
     client.emit('source code', data);
   });
+});
+
+world.on('codeObjectUpdated',function(codeObject) {
+  io.to(codeObject.playground.id).emit('code update', {
+    objectId: codeObject.id,
+    code: codeObject.code()
+  });
+  broadcastObjectList(codeObject.playground);
+});
+
+world.on('codeObjectDeleted',function(codeObject) {
+  io.to(playground.id).emit('code delete', {
+    playgroundId: playground.id,
+    objectId: codeObject.id
+  });
+  broadcastObjectList(codeObject.playground);
 });
 
 module.exports = server;
