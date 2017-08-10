@@ -24,22 +24,22 @@ describe("World", function() {
 })
 
 describe("World notifies", function() {
-  it("when a codeObject code is setd", function() {
+  it("when a codeObject code is set", function() {
     var world = new World();
     var spy = sinon.spy();
     var codeObject = world.playground("any").codeObject("ugly");
-    world.onCodeObjectUpdate(spy);
+    world.on('codeObjectUpdated',spy);
 
     codeObject.setCode("// hello");
 
     expect(spy).to.have.been.calledWith(codeObject);
   });
 
-  it("not when a codeObject code is setd silently", function() {
+  it("not when a codeObject code is set silently", function() {
     var world = new World();
     var spy = sinon.spy();
     var codeObject = world.playground("any").codeObject("ugly");
-    world.onCodeObjectUpdate(spy);
+    world.on('codeObjectUpdated',spy);
 
     codeObject.setCodeSilently("// hello");
 
@@ -50,7 +50,7 @@ describe("World notifies", function() {
     var world = new World();
     var spy = sinon.spy();
     var codeObject = world.playground("any").codeObject("ugly");
-    world.onCodeObjectDelete(spy);
+    world.on('codeObjectDeleted',spy);
 
     codeObject.delete();
 
@@ -61,9 +61,9 @@ describe("World notifies", function() {
     var world = new World();
     var spy = sinon.spy();
     var codeObject = world.playground("any").codeObject("ugly");
-    world.onCodeObjectDelete(spy);
+    world.on('codeObjectDeleted',spy);
 
-    codeObject.delete(true);
+    codeObject.deleteSilently();
 
     expect(spy).not.to.have.been.called;
   });

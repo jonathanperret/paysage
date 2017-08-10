@@ -1,12 +1,14 @@
 "use strict";
 
+const EventEmitter = require('events');
+
 module.exports = function() {
 
   function World() {
-    this.playgrounds = Object.create(null),
-    this.notifyUpdate = function(){},
-    this.notifyDelete = function(){}
+    this.playgrounds = Object.create(null);
   }
+
+  World.prototype = Object.create( EventEmitter.prototype );
 
   World.prototype.tour = function() {
     return Object.keys(this.playgrounds);
@@ -16,18 +18,16 @@ module.exports = function() {
     return Object.keys(this.playgrounds).indexOf(id)>=0;
   }
 
-  World.prototype.onCodeObjectUpdate = function(fn) {
-    this.notifyUpdate = fn;
-  }
-
-  World.prototype.onCodeObjectDelete = function(fn) {
-    this.notifyDelete = fn;
-  }
 
   World.prototype.playground = function(id)  {
     if (this.playgrounds[id]) return this.playgrounds[id];
     var world = this;
     var codeObjects = Object.create(null);
+    function deleteCodeObject(id) {
+      delete codeObjects[id];
+      if (playground.isEmpty())
+        delete world.playgrounds[playground.id];
+    }
     var playground = {
       id: id,
       codeObject: function(id,initCode) {
@@ -39,16 +39,17 @@ module.exports = function() {
           code: function() { return code; },
           setCode: function(newCode) {
             code = newCode;
-            world.notifyUpdate(this);
+            world.emit('codeObjectUpdated',this);
           },
           setCodeSilently: function(newCode) {
             code = newCode;
           },
-          delete: function(silently) {
-            delete codeObjects[id];
-            if (playground.isEmpty())
-              delete world.playgrounds[playground.id];
-            if (!silently) world.notifyDelete(this);
+          delete: function() {
+            deleteCodeObject(id)
+            world.emit('codeObjectDeleted',this);
+          },
+          deleteSilently: function() {
+            deleteCodeObject(id)
           },
         };
         codeObjects[id]=(codeObject);
