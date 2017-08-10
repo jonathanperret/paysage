@@ -10,6 +10,10 @@ module.exports = function() {
     return Object.keys(playgrounds);
   }
 
+  function contains(id) {
+    return Object.keys(playgrounds).indexOf(id)>=0;
+  }
+
   function onCodeObjectUpdate(fn) {
     notifyUpdate = fn;
   }
@@ -49,6 +53,9 @@ module.exports = function() {
       },
       isEmpty: function() {
         return Object.keys(codeObjects).length == 0;
+      },
+      contains: function(id) {
+        return Object.keys(codeObjects).indexOf(id)>=0;
       }
     };
     playgrounds[id] = playground;
@@ -57,6 +64,7 @@ module.exports = function() {
 
   return {
     tour: tour,
+    contains: contains,
     playground: playground,
     onCodeObjectUpdate: onCodeObjectUpdate,
     onCodeObjectDelete : onCodeObjectDelete,

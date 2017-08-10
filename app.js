@@ -64,20 +64,21 @@ io.on('connection', function(client) {
   client.on('programmer up', function(playgroundId) {
     debug("a new programmer is up for " + playgroundId);
 
-    var playground = world.playground(playgroundId);
-    client.join(playground.id);
+    client.join(playgroundId);
 
-    if (playground.isEmpty()) return;
+    if (!world.contains(playgroundId)) return;
+    var playground = world.playground(playgroundId);
+
     client.emit('objects list', getListOfAllObjects(playground));
   });
 
   client.on('playground up', function(playgroundId) {
     debug("a new renderer is up for " + playgroundId);
 
-    var playground = world.playground(playgroundId);
-    client.join(playground.id);
+    client.join(playgroundId);
 
-    if (playground.isEmpty()) return;
+    if (!world.contains(playgroundId)) return;
+    var playground = world.playground(playgroundId);
 
     var data = Object.create(null);
     playground.population().forEach(function(codeObjectId) {
@@ -105,10 +106,11 @@ io.on('connection', function(client) {
   client.on('code delete', function(data) {
     debug("deleting " + data.objectId + " from playground " + data.playgroundId);
 
+    if (!world.contains(data.playgroundId)) return;
     var playground = world.playground(data.playgroundId);
-    var codeObject = playground.codeObject(data.objectId);
+    if (!playground.contains(data.objectId)) return;
 
-    if (playground.isEmpty()) return;
+    var codeObject = playground.codeObject(data.objectId);
     codeObject.delete();
 
     client.broadcast.to(playground.id).emit('code delete', {
@@ -121,14 +123,16 @@ io.on('connection', function(client) {
   client.on('request code', function(data) {
     debug(data.objectId + " for " + data.playground + " programmer" ) ;
 
-    var codeObject = world.playground(data.playgroundId).codeObject(data.objectId);
+    if (!world.contains(data.playgroundId)) return;
+    var playground = world.playground(data.playgroundId);
+    if (!playground.contains(data.objectId)) return;
+    var codeObject = playground.codeObject(data.objectId);
 
-    var data = { 
+    var data = {
       playgroundId: codeObject.playground.id,
       objectId: codeObject.id,
       code: codeObject.code()
     }
-
 
     client.emit('source code', data);
   });

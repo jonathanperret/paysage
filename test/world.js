@@ -4,10 +4,23 @@
 var createWorld = require('../world');
 
 describe("createWorld tour", function() {
-  it("lists all the playgrounds", function() {
-    var world = createWorld();
+  var world;
+
+  beforeEach(function() {
+    world = createWorld();
+  });
+
+  it("lists all the playgrounds ids", function() {
     world.playground("Miami beach");
     expect(world.tour()).to.deep.equal(["Miami beach"]);
+  });
+  it("can tell when it does not contain a playground, based on its id", function () {
+    expect(world.contains("Miami beach")).to.be.false;
+  });
+
+  it("can tell when it contains a codeObject, based on its id", function () {
+    world.playground("Miami beach");
+    expect(world.contains("Miami beach")).to.be.true;
   });
 })
 
@@ -83,6 +96,15 @@ describe("A playground", function() {
   it("can tell if it is not empty", function () {
     playground.codeObject("bob");
     expect(playground.isEmpty()).to.be.false;
+  });
+
+  it("can tell when it does not contain a codeObject, based on its id", function () {
+    expect(playground.contains("bob")).to.be.false;
+  });
+
+  it("can tell when it contains a codeObject, based on its id", function () {
+    playground.codeObject("bob");
+    expect(playground.contains("bob")).to.be.true;
   });
 
   it("has a id", function () {
