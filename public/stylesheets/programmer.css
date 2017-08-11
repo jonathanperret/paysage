@@ -81,7 +81,7 @@ body {
   height: 100%;
 }
 
-#bouton, #previewonoff, #openinnewwindow, #openreference {
+.controls button, .controls a {
   font-size: 1em;
   padding: 12.5px;
   margin-left: 10px;
@@ -104,11 +104,14 @@ body {
   user-select: none;
 }
 
-#bouton {
-
+.controls button:hover, .controls a:hover {
+  cursor: pointer;
+  color:#333;
+  background-color:#FFF;
+  text-decoration: none;
 }
 
-#openinnewwindow, #openreference {
+.controls a {
   background-color:#888;
   border-color: #888;
 }
@@ -116,12 +119,6 @@ body {
 #previewonoff {
   float: left;
   margin-left: 0;
-}
-
-#openinnewwindow:hover, #bouton:hover, #previewonoff:hover, #openreference:hover {
-  cursor: pointer;
-  color:#333;
-  background-color:#FFF;
 }
 
 .examples {
@@ -175,11 +172,11 @@ body {
   box-sizing: border-box;
 }
 
-.viewercontrols, #viewercontainer {
+#viewercontainer {
   display: table-row;
 }
 
-.viewercontrols {
+.viewer-part .controls {
   height: 50px;
 }
 

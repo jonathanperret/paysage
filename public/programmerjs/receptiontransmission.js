@@ -8,7 +8,7 @@ var Paysage = Paysage || {};
 
   io = io.connect();
 
-  document.getElementById('bouton').addEventListener('click', function() {
+  document.getElementById('go-live').addEventListener('click', function() {
     var emitData = function(data) {
       console.log(data);
       io.emit('code update', data);

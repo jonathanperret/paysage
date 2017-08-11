@@ -1,4 +1,4 @@
-html, body {
+html, body, button {
   font-size:1em;
 }
 
@@ -49,7 +49,7 @@ h2 {
   border-bottom: 10px solid #333;
 }
 
-#openinnewwindow, #bouton {
+.controls button, .controls a {
   padding:12.5px;
   float:right;
   margin-top:15px;
@@ -68,12 +68,12 @@ h2 {
   user-select: none;
 }
 
-#openinnewwindow {
+.controls a {
   background-color:#888;
   border-color: #888;
 }
 
-#openinnewwindow:hover, #bouton:hover {
+.controls button:hover, .controls a:hover {
   cursor: pointer;
   color:#333;
   background-color:#FFF;
@@ -125,10 +125,6 @@ h2 {
   border: dashed #CCC 1px;
   padding:25px;
   box-sizing: border-box;
-}
-
-.programmer-part #bouton {
-  
 }
 
 .hasplaygroundlinkno {
