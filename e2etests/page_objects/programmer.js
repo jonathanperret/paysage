@@ -3,7 +3,7 @@ module.exports = {
     return this.api.launchUrl;
   },
   elements: {
-    'go-live': { selector: '#bouton' }
+    'go-live': { selector: '#go-live' }
   },
   commands: [{
     setCodeId: function(codeid) {
