@@ -1,6 +1,6 @@
 var debug = require('debug')('paysage:app');
 
-var World = require('./world');
+var World = require('./World');
 
 var express = require('express');
 var path = require('path');

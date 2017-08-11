@@ -1,7 +1,7 @@
 "use strict";
 
 const CodeObject = require('../CodeObject');
-const World = require('../world');
+const World = require('../World');
 
 describe("A code object", function () {
   var world, playground, bob;

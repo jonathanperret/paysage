@@ -1,6 +1,6 @@
 process.env.TESTING='testing';
 
-const World = require('../world');
+const World = require('../World');
 
 describe("These integration tests", function() {
   var server, request, world;

@@ -1,6 +1,6 @@
 "use strict";
 
-var World = require('../world');
+var World = require('../World');
 
 describe("World", function() {
   var world;
