@@ -1,7 +1,7 @@
 "use strict";
 
 const EventEmitter = require('events');
-const CodeObject = require('./CodeObject')
+const Playground = require('./Playground')
 
 module.exports = function() {
 
@@ -19,50 +19,9 @@ module.exports = function() {
     return Object.keys(this.playgrounds).indexOf(id)>=0;
   }
 
-
   World.prototype.getOrCreatePlayground = function(id)  {
     if (this.playgrounds[id]) return this.playgrounds[id];
-    var world = this;
-    var codeObjects = Object.create(null);
-    function deleteCodeObjectX(id) {
-      delete codeObjects[id];
-      if (playground.isEmpty())
-        delete world.playgrounds[playground.id];
-    }
-    function deleteCodeObject(codeObjectId) {
-      var codeObject = codeObjects[codeObjectId];
-      delete codeObjects[codeObjectId];
-      if (Object.keys(codeObjects).length==0)
-        delete world.playgrounds[playground.id];
-      return codeObject;
-    }
-    var playground = {
-      id: id,
-      getOrCreateCodeObject: function(codeObjectId,code) {
-        if (codeObjects[codeObjectId]) return codeObjects[codeObjectId];
-        var codeObject = new CodeObject(world,playground,codeObjectId,code);
-        codeObjects[codeObjectId]=(codeObject);
-        return codeObject;
-      },
-      deleteCodeObject: function(codeObjectId) {
-        if (Object.keys(codeObjects).indexOf(codeObjectId)<0) return;
-        var codeObject = deleteCodeObject(codeObjectId);
-        world.emit('codeObjectDeleted',codeObject);
-      },
-      deleteSilentlyCodeObject: function(codeObjectId) {
-        if (Object.keys(codeObjects).indexOf(codeObjectId)<0) return;
-        deleteCodeObject(codeObjectId);
-      },
-      population: function() {
-        return Object.keys(codeObjects);
-      },
-      isEmpty: function() {
-        return Object.keys(codeObjects).length == 0;
-      },
-      contains: function(id) {
-        return Object.keys(codeObjects).indexOf(id)>=0;
-      }
-    };
+    var playground = new Playground(this,id);
     this.playgrounds[id] = playground;
     return playground;
   }

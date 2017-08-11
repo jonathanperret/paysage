@@ -70,73 +70,16 @@ describe("World notifies", function() {
     expect(spy).not.to.have.been.called;
   });
 
-});
+  it("not on attempt to delete an unkwown codeObject", function() {
+    var world = new World();
+    var spy = sinon.spy();
+    var playground = world.getOrCreatePlayground("any")
+    world.on('codeObjectDeleted',spy);
 
-describe("A playground", function() {
-  var world, playground;
+    playground.deleteCodeObject('nobody');
 
-  beforeEach(function() {
-    world = new World();
-    playground = world.getOrCreatePlayground("Miami beach");
-  });
-
-  it(", when it's new, has no codeObject", function () {
-    expect(playground.population()).to.deep.equal([]);
-  });
-
-  it("can list its codeObject's ids", function () {
-    playground.getOrCreateCodeObject("bob");
-    playground.getOrCreateCodeObject("jack");
-    expect(playground.population()).to.have.members(["bob","jack"]);
-  });
-
-  it("can tell if it is empty", function () {
-    expect(playground.isEmpty()).to.be.true;
-  });
-
-  it("can tell if it is not empty", function () {
-    playground.getOrCreateCodeObject("bob");
-    expect(playground.isEmpty()).to.be.false;
-  });
-
-  it("can tell when it does not contain a codeObject, based on its id", function () {
-    expect(playground.contains("bob")).to.be.false;
-  });
-
-  it("can tell when it contains a codeObject, based on its id", function () {
-    playground.getOrCreateCodeObject("bob");
-    expect(playground.contains("bob")).to.be.true;
-  });
-
-  it("has a id", function () {
-    expect(playground.id).to.equal("Miami beach");
-  });
-
-  it("has a unique id", function () {
-    var anotherPlayground = world.getOrCreatePlayground("Miami beach");
-    expect(anotherPlayground).to.equal(playground);
-  });
-
-  it("has only on code object per id", function () {
-    var bob = playground.getOrCreateCodeObject("bob");
-    var theOtherBob = playground.getOrCreateCodeObject("bob");
-    expect(theOtherBob).to.equal(bob);
-  });
-
-  it("can delete a codeObject", function() {
-    var bob = playground.getOrCreateCodeObject("bob");
-    playground.deleteCodeObject('bob');
-
-    expect(playground.population()).not.to.contain("bob");
-    expect(world.tour()).not.to.contain("Miami beach");
-  });
-
-  it("can delete silently a codeObject", function() {
-    var bob = playground.getOrCreateCodeObject("bob");
-    playground.deleteSilentlyCodeObject('bob');
-
-    expect(playground.population()).not.to.contain("bob");
-    expect(world.tour()).not.to.contain("Miami beach");
+    expect(spy).not.to.have.been.called;
   });
 
 });
+
