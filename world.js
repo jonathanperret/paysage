@@ -1,6 +1,7 @@
 "use strict";
 
 const EventEmitter = require('events');
+const CodeObject = require('./CodeObject')
 
 module.exports = function() {
 
@@ -37,22 +38,10 @@ module.exports = function() {
     }
     var playground = {
       id: id,
-      getOrCreateCodeObject: function(id,initCode) {
-        if (codeObjects[id]) return codeObjects[id];
-        var code = initCode ? initCode : "";
-        var codeObject = {
-          id: id,
-          playground: playground,
-          code: function() { return code; },
-          setCode: function(newCode) {
-            code = newCode;
-            world.emit('codeObjectUpdated',this);
-          },
-          setCodeSilently: function(newCode) {
-            code = newCode;
-          },
-        };
-        codeObjects[id]=(codeObject);
+      getOrCreateCodeObject: function(codeObjectId,code) {
+        if (codeObjects[codeObjectId]) return codeObjects[codeObjectId];
+        var codeObject = new CodeObject(world,playground,codeObjectId,code);
+        codeObjects[codeObjectId]=(codeObject);
         return codeObject;
       },
       deleteCodeObject: function(codeObjectId) {

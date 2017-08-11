@@ -117,6 +117,12 @@ describe("A playground", function() {
     expect(anotherPlayground).to.equal(playground);
   });
 
+  it("has only on code object per id", function () {
+    var bob = playground.getOrCreateCodeObject("bob");
+    var theOtherBob = playground.getOrCreateCodeObject("bob");
+    expect(theOtherBob).to.equal(bob);
+  });
+
   it("can delete a codeObject", function() {
     var bob = playground.getOrCreateCodeObject("bob");
     playground.deleteCodeObject('bob');
@@ -134,57 +140,3 @@ describe("A playground", function() {
   });
 
 });
-
-describe("A codeObject", function () {
-  var world, playground, bob;
-
-  beforeEach(function() {
-    world = new World(),
-    playground = world.getOrCreatePlayground("Miami beach"),
-    bob = playground.getOrCreateCodeObject("bob");
-  });
-
-  it("knows its id", function() {
-    expect(bob.id).to.equal("bob");
-  });
-
-  it("knows where it is", function() {
-    expect(bob.playground).to.equal(playground);
-  });
-
-  it("has a unique id", function () {
-    var theOtherBob = playground.getOrCreateCodeObject("bob");
-    expect(theOtherBob).to.equal(bob);
-  });
-
-  it("when it is new, has empty code", function () {
-    expect(bob.code()).to.equal("");
-  });
-
-  it("can set its code", function() {
-    bob.setCode("// hello");
-    expect(bob.code()).to.equal("// hello");
-  });
-
-  it("can set silently its code", function() {
-    bob.setCodeSilently("// hello");
-    expect(bob.code()).to.equal("// hello");
-  });
-
-  it("'s code is not the one another's", function() {
-    bob.setCode("// hello");
-    var bill = playground.getOrCreateCodeObject("bill");
-    bill.setCode("// world");
-    expect(bob.code()).to.equal("// hello");
-    expect(bill.code()).to.equal("// world");
-  });
-
-  it("can be created with code",function() {
-    var bill = playground.getOrCreateCodeObject("bill","// hello");
-
-    expect(bill.code()).to.equal("// hello");
-  });
-
-});
-
-
