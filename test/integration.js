@@ -19,9 +19,9 @@ describe("These integration tests", function() {
   it("may launch a server", function() {
     world.getOrCreatePlayground('ici');
     return request
-           .get('/list')
-           .expect(200)
-           .expect(/ici/);
+      .get('/list')
+      .expect(200)
+      .expect(/ici/);
   });
 
   describe("has client-server scenarios where", function() {
@@ -30,13 +30,22 @@ describe("These integration tests", function() {
 
     beforeEach(function (done) {
       const serverUrl = 'http://127.0.0.1:' + server.address().port;
-      renderer = require('socket.io-client')(serverUrl, { forceNew: true });
-      programmer = require('socket.io-client')(serverUrl, { forceNew: true });
 
       var doneWhenCalledTwice = callWhenCalledTimes(done,2);
-      programmer.on('connect', doneWhenCalledTwice);
+
+      renderer = require('socket.io-client')(serverUrl, {
+        forceNew: true,
+        query: { playgroundId: 'here', client: 'renderer' }
+      });
       renderer.on('connect', doneWhenCalledTwice);
+
+      programmer = require('socket.io-client')(serverUrl, {
+        forceNew: true,
+        query: { playgroundId: 'here', client: 'programmer' }
+      });
+      programmer.on('connect', doneWhenCalledTwice);
     });
+
 
     afterEach(function() {
       programmer.disconnect();
@@ -57,9 +66,6 @@ describe("These integration tests", function() {
         halfdone();
       });
 
-      programmer.emit('programmer up', 'here');
-      renderer.emit('playground up', 'here');
-
       var data = {
         playgroundId: "here",
         objectId: "bob",
@@ -75,12 +81,10 @@ describe("These integration tests", function() {
 
       var halfdone = callWhenCalledTimes(done,2);
 
-      programmer.once('objects list', function(data) {
-        programmer.on('objects list', function(data) {
-          expect(data.playgroundId).to.equal('here');
-          expect(data.objectIds).to.deep.equal(['bill']);
-          halfdone();
-        });
+      programmer.on('objects list', function(data) {
+        expect(data.playgroundId).to.equal('here');
+        expect(data.objectIds).to.deep.equal(['bill']);
+        halfdone();
       });
 
       renderer.on('code delete', function(data) {
@@ -88,9 +92,6 @@ describe("These integration tests", function() {
         expect(data.objectId).to.equal('bob');
         halfdone();
       });
-
-      programmer.emit('programmer up', 'here');
-      renderer.emit('playground up', 'here');
 
       var data = {
         playgroundId: "here",

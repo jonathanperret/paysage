@@ -6,7 +6,13 @@ var Paysage = Paysage || {};
   // Require a sourcebuilder script defining Paysage.getCompleteCodeObject()
   // Require a codeinitialization script defining Paysage.setCodeId()
 
-  io = io.connect();
+  var playgroundid = document.getElementById('playgroundid').value;
+  var clientType = document.getElementById('clientType').value;
+
+  io = io({ query: {
+    playgroundId: playgroundid,
+    client: clientType
+  }}).connect();
 
   document.getElementById('bouton').addEventListener('click', function() {
     var emitData = function(data) {
@@ -61,7 +67,5 @@ var Paysage = Paysage || {};
     Paysage.setCodeId(data.objectId);
     Paysage.setCode(data.code);
   });
-
-  io.emit('programmer up', document.getElementById('playgroundid').value);
 
 }());

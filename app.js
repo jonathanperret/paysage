@@ -63,7 +63,16 @@ module.exports = function(world) {
   }
 
   io.on('connection', function(socket) {
-    socket.on('programmer up', function(playgroundId) {
+    var query = socket.handshake.query;
+    var playgroundId = query.playgroundId;
+    var client =  query.client;
+
+    if (client == 'programmer' || client == 'workshop')
+      programmerUp();
+    else
+      rendererUp();
+
+    function programmerUp() {
       debug("a new programmer is up for " + playgroundId);
 
       socket.join(playgroundId);
@@ -72,9 +81,10 @@ module.exports = function(world) {
       var playground = world.getOrCreatePlayground(playgroundId);
 
       socket.emit('objects list', getListOfAllObjects(playground));
-    });
+    }
 
-    socket.on('playground up', function(playgroundId) {
+
+    function rendererUp() {
       debug("a new renderer is up for " + playgroundId);
 
       socket.join(playgroundId);
@@ -87,7 +97,7 @@ module.exports = function(world) {
         data[codeObjectId] = { code: playground.getOrCreateCodeObject(codeObjectId).code() };
       });
       socket.emit('playground full update', data);
-    });
+    }
 
     socket.on('code update', function(data) {
       debug(data.objectId + " for " + data.playgroundId + " from " + data.client);

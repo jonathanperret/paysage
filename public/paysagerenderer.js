@@ -1,4 +1,3 @@
-var io = io.connect();
 var canvas = {};
 var sketch = {};
 
@@ -6,8 +5,10 @@ var sketch = {};
 var container = document.getElementById('container');
 var playgroundid = container.getAttribute('data-playgroundid');
 
-// emit the 'playground up' event with the playgroundid (used as a room for select broadcasting)
-io.emit('playground up', playgroundid);
+var io = io({query: { 
+  playgroundId: playgroundid,
+  client: 'renderer'
+}}).connect();
 
 io.on('code delete', function(data) {
   var id = data.objectId;
