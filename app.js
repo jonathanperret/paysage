@@ -69,7 +69,7 @@ module.exports = function(world) {
       client.join(playgroundId);
 
       if (!world.contains(playgroundId)) return;
-      var playground = world.playground(playgroundId);
+      var playground = world.getOrCreatePlayground(playgroundId);
 
       client.emit('objects list', getListOfAllObjects(playground));
     });
@@ -80,11 +80,11 @@ module.exports = function(world) {
       client.join(playgroundId);
 
       if (!world.contains(playgroundId)) return;
-      var playground = world.playground(playgroundId);
+      var playground = world.getOrCreatePlayground(playgroundId);
 
       var data = Object.create(null);
       playground.population().forEach(function(codeObjectId) {
-        data[codeObjectId] = { code: playground.codeObject(codeObjectId).code() };
+        data[codeObjectId] = { code: playground.getOrCreateCodeObject(codeObjectId).code() };
       });
       client.emit('playground full update', data);
     });
@@ -92,7 +92,7 @@ module.exports = function(world) {
     client.on('code update', function(data) {
       debug(data.objectId + " for " + data.playgroundId + " from " + data.client);
 
-      var codeObject = world.playground(data.playgroundId).codeObject(data.objectId);
+      var codeObject = world.getOrCreatePlayground(data.playgroundId).getOrCreateCodeObject(data.objectId);
 
       codeObject.mediatype = data.mediatype;
       codeObject.client = data.client;
@@ -103,28 +103,26 @@ module.exports = function(world) {
       debug("deleting " + data.objectId + " from playground " + data.playgroundId);
 
       if (!world.contains(data.playgroundId)) return;
-      var playground = world.playground(data.playgroundId);
+      var playground = world.getOrCreatePlayground(data.playgroundId);
       if (!playground.contains(data.objectId)) return;
+      var codeObject = playground.getOrCreateCodeObject(data.objectId);
 
-      var codeObject = playground.codeObject(data.objectId);
       codeObject.delete();
-
     });
 
     client.on('request code', function(data) {
       debug(data.objectId + " for " + data.playground + " programmer" ) ;
 
       if (!world.contains(data.playgroundId)) return;
-      var playground = world.playground(data.playgroundId);
+      var playground = world.getOrCreatePlayground(data.playgroundId);
       if (!playground.contains(data.objectId)) return;
-      var codeObject = playground.codeObject(data.objectId);
+      var codeObject = playground.getOrCreateCodeObject(data.objectId);
 
       var data = {
         playgroundId: codeObject.playground.id,
         objectId: codeObject.id,
         code: codeObject.code()
       }
-
       client.emit('source code', data);
     });
   });

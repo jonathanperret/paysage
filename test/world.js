@@ -10,7 +10,7 @@ describe("World", function() {
   });
 
   it("lists all the playgrounds ids", function() {
-    world.playground("Miami beach");
+    world.getOrCreatePlayground("Miami beach");
     expect(world.tour()).to.deep.equal(["Miami beach"]);
   });
   it("can tell when it does not contain a playground, based on its id", function () {
@@ -18,7 +18,7 @@ describe("World", function() {
   });
 
   it("can tell when it contains a codeObject, based on its id", function () {
-    world.playground("Miami beach");
+    world.getOrCreatePlayground("Miami beach");
     expect(world.contains("Miami beach")).to.be.true;
   });
 })
@@ -27,7 +27,7 @@ describe("World notifies", function() {
   it("when a codeObject code is set", function() {
     var world = new World();
     var spy = sinon.spy();
-    var codeObject = world.playground("any").codeObject("ugly");
+    var codeObject = world.getOrCreatePlayground("any").getOrCreateCodeObject("ugly");
     world.on('codeObjectUpdated',spy);
 
     codeObject.setCode("// hello");
@@ -38,7 +38,7 @@ describe("World notifies", function() {
   it("not when a codeObject code is set silently", function() {
     var world = new World();
     var spy = sinon.spy();
-    var codeObject = world.playground("any").codeObject("ugly");
+    var codeObject = world.getOrCreatePlayground("any").getOrCreateCodeObject("ugly");
     world.on('codeObjectUpdated',spy);
 
     codeObject.setCodeSilently("// hello");
@@ -49,7 +49,7 @@ describe("World notifies", function() {
   it("when a codeObject is deleted", function() {
     var world = new World();
     var spy = sinon.spy();
-    var codeObject = world.playground("any").codeObject("ugly");
+    var codeObject = world.getOrCreatePlayground("any").getOrCreateCodeObject("ugly");
     world.on('codeObjectDeleted',spy);
 
     codeObject.delete();
@@ -60,7 +60,7 @@ describe("World notifies", function() {
   it("not when a codeObject is deleted silently", function() {
     var world = new World();
     var spy = sinon.spy();
-    var codeObject = world.playground("any").codeObject("ugly");
+    var codeObject = world.getOrCreatePlayground("any").getOrCreateCodeObject("ugly");
     world.on('codeObjectDeleted',spy);
 
     codeObject.deleteSilently();
@@ -75,7 +75,7 @@ describe("A playground", function() {
 
   beforeEach(function() {
     world = new World();
-    playground = world.playground("Miami beach");
+    playground = world.getOrCreatePlayground("Miami beach");
   });
 
   it(", when it's new, has no codeObject", function () {
@@ -83,8 +83,8 @@ describe("A playground", function() {
   });
 
   it("can list its codeObject's ids", function () {
-    playground.codeObject("bob");
-    playground.codeObject("jack");
+    playground.getOrCreateCodeObject("bob");
+    playground.getOrCreateCodeObject("jack");
     expect(playground.population()).to.have.members(["bob","jack"]);
   });
 
@@ -93,7 +93,7 @@ describe("A playground", function() {
   });
 
   it("can tell if it is not empty", function () {
-    playground.codeObject("bob");
+    playground.getOrCreateCodeObject("bob");
     expect(playground.isEmpty()).to.be.false;
   });
 
@@ -102,7 +102,7 @@ describe("A playground", function() {
   });
 
   it("can tell when it contains a codeObject, based on its id", function () {
-    playground.codeObject("bob");
+    playground.getOrCreateCodeObject("bob");
     expect(playground.contains("bob")).to.be.true;
   });
 
@@ -111,7 +111,7 @@ describe("A playground", function() {
   });
 
   it("has a unique id", function () {
-    var anotherPlayground = world.playground("Miami beach");
+    var anotherPlayground = world.getOrCreatePlayground("Miami beach");
     expect(anotherPlayground).to.equal(playground);
   });
 });
@@ -121,8 +121,8 @@ describe("A codeObject", function () {
 
   beforeEach(function() {
     world = new World(),
-    playground = world.playground("Miami beach"),
-    bob = playground.codeObject("bob");
+    playground = world.getOrCreatePlayground("Miami beach"),
+    bob = playground.getOrCreateCodeObject("bob");
   });
 
   it("knows its id", function() {
@@ -134,7 +134,7 @@ describe("A codeObject", function () {
   });
 
   it("has a unique id", function () {
-    var theOtherBob = playground.codeObject("bob");
+    var theOtherBob = playground.getOrCreateCodeObject("bob");
     expect(theOtherBob).to.equal(bob);
   });
 
@@ -154,14 +154,14 @@ describe("A codeObject", function () {
 
   it("'s code is not the one another's", function() {
     bob.setCode("// hello");
-    var bill = playground.codeObject("bill");
+    var bill = playground.getOrCreateCodeObject("bill");
     bill.setCode("// world");
     expect(bob.code()).to.equal("// hello");
     expect(bill.code()).to.equal("// world");
   });
 
   it("can be created with code",function() {
-    var bill = playground.codeObject("bill","// hello");
+    var bill = playground.getOrCreateCodeObject("bill","// hello");
 
     expect(bill.code()).to.equal("// hello");
   });

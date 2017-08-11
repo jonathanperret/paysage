@@ -17,7 +17,7 @@ describe("These integration tests", function() {
   });
 
   it("may launch a server", function() {
-    world.playground('ici');
+    world.getOrCreatePlayground('ici');
     return request
            .get('/list')
            .expect(200)
@@ -69,9 +69,9 @@ describe("These integration tests", function() {
     });
 
     it("programmer receives 'objects list' and rendrer receives 'code delete' when programmer deletes code", function(done) {
-      var playground = world.playground('here');
-      playground.codeObject('bill');
-      playground.codeObject('bob');
+      var playground = world.getOrCreatePlayground('here');
+      playground.getOrCreateCodeObject('bill');
+      playground.getOrCreateCodeObject('bob');
 
       var halfdone = callWhenCalledTimes(done,2);
 

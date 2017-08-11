@@ -19,7 +19,7 @@ module.exports = function() {
   }
 
 
-  World.prototype.playground = function(id)  {
+  World.prototype.getOrCreatePlayground = function(id)  {
     if (this.playgrounds[id]) return this.playgrounds[id];
     var world = this;
     var codeObjects = Object.create(null);
@@ -30,7 +30,7 @@ module.exports = function() {
     }
     var playground = {
       id: id,
-      codeObject: function(id,initCode) {
+      getOrCreateCodeObject: function(id,initCode) {
         if (codeObjects[id]) return codeObjects[id];
         var code = initCode ? initCode : "";
         var codeObject = {
