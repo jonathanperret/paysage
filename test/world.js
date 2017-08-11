@@ -49,10 +49,11 @@ describe("World notifies", function() {
   it("when a codeObject is deleted", function() {
     var world = new World();
     var spy = sinon.spy();
-    var codeObject = world.getOrCreatePlayground("any").getOrCreateCodeObject("ugly");
+    var playground = world.getOrCreatePlayground("any")
+    var codeObject = playground.getOrCreateCodeObject("ugly");
     world.on('codeObjectDeleted',spy);
 
-    codeObject.delete();
+    playground.deleteCodeObject('ugly');
 
     expect(spy).to.have.been.calledWith(codeObject);
   });
@@ -60,10 +61,11 @@ describe("World notifies", function() {
   it("not when a codeObject is deleted silently", function() {
     var world = new World();
     var spy = sinon.spy();
-    var codeObject = world.getOrCreatePlayground("any").getOrCreateCodeObject("ugly");
+    var playground = world.getOrCreatePlayground("any")
+    var codeObject = playground.getOrCreateCodeObject("ugly");
     world.on('codeObjectDeleted',spy);
 
-    codeObject.deleteSilently();
+    playground.deleteSilentlyCodeObject('ugly');
 
     expect(spy).not.to.have.been.called;
   });
@@ -114,6 +116,23 @@ describe("A playground", function() {
     var anotherPlayground = world.getOrCreatePlayground("Miami beach");
     expect(anotherPlayground).to.equal(playground);
   });
+
+  it("can delete a codeObject", function() {
+    var bob = playground.getOrCreateCodeObject("bob");
+    playground.deleteCodeObject('bob');
+
+    expect(playground.population()).not.to.contain("bob");
+    expect(world.tour()).not.to.contain("Miami beach");
+  });
+
+  it("can delete silently a codeObject", function() {
+    var bob = playground.getOrCreateCodeObject("bob");
+    playground.deleteSilentlyCodeObject('bob');
+
+    expect(playground.population()).not.to.contain("bob");
+    expect(world.tour()).not.to.contain("Miami beach");
+  });
+
 });
 
 describe("A codeObject", function () {
@@ -164,13 +183,6 @@ describe("A codeObject", function () {
     var bill = playground.getOrCreateCodeObject("bill","// hello");
 
     expect(bill.code()).to.equal("// hello");
-  });
-
-  it("can be deleted", function() {
-    bob.delete();
-
-    expect(playground.population()).not.to.contain("bob");
-    expect(world.tour()).not.to.contain("Miami beach");
   });
 
 });

@@ -104,10 +104,8 @@ module.exports = function(world) {
 
       if (!world.contains(data.playgroundId)) return;
       var playground = world.getOrCreatePlayground(data.playgroundId);
-      if (!playground.contains(data.objectId)) return;
-      var codeObject = playground.getOrCreateCodeObject(data.objectId);
 
-      codeObject.delete();
+      playground.deleteCodeObject(data.objectId);
     });
 
     client.on('request code', function(data) {

@@ -23,10 +23,17 @@ module.exports = function() {
     if (this.playgrounds[id]) return this.playgrounds[id];
     var world = this;
     var codeObjects = Object.create(null);
-    function deleteCodeObject(id) {
+    function deleteCodeObjectX(id) {
       delete codeObjects[id];
       if (playground.isEmpty())
         delete world.playgrounds[playground.id];
+    }
+    function deleteCodeObject(codeObjectId) {
+      var codeObject = codeObjects[codeObjectId];
+      delete codeObjects[codeObjectId];
+      if (Object.keys(codeObjects).length==0)
+        delete world.playgrounds[playground.id];
+      return codeObject;
     }
     var playground = {
       id: id,
@@ -44,16 +51,18 @@ module.exports = function() {
           setCodeSilently: function(newCode) {
             code = newCode;
           },
-          delete: function() {
-            deleteCodeObject(id)
-            world.emit('codeObjectDeleted',this);
-          },
-          deleteSilently: function() {
-            deleteCodeObject(id)
-          },
         };
         codeObjects[id]=(codeObject);
         return codeObject;
+      },
+      deleteCodeObject: function(codeObjectId) {
+        if (Object.keys(codeObjects).indexOf(codeObjectId)<0) return;
+        var codeObject = deleteCodeObject(codeObjectId);
+        world.emit('codeObjectDeleted',codeObject);
+      },
+      deleteSilentlyCodeObject: function(codeObjectId) {
+        if (Object.keys(codeObjects).indexOf(codeObjectId)<0) return;
+        deleteCodeObject(codeObjectId);
       },
       population: function() {
         return Object.keys(codeObjects);
