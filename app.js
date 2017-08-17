@@ -50,61 +50,66 @@ app.use('/workshop', workshop);
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 
-function getCode(playground, objectId) {
-  if (!codeObjects[playground]) return "";
-  if (!codeObjects[playground][objectId]) return "";
+function getCode(playgroundId, objectId) {
+  if (!codeObjects[playgroundId]) return "";
+  if (!codeObjects[playgroundId][objectId]) return "";
 
-  return codeObjects[playground][objectId].code;
+  return codeObjects[playgroundId][objectId].code;
 }
 
-function getListOfAllObjects(playground) {
-  var objectIds = Object.keys(codeObjects[playground]);
-  return {playgroundId: playground, objectIds: objectIds};
+function getListOfAllObjects(playgroundId) {
+  var objectIds = Object.keys(codeObjects[playgroundId]);
+  return {objectIds: objectIds};
 }
 
 function broadcastObjectList(playgroundId) {
   io.to(playgroundId).emit('objects list', getListOfAllObjects(playgroundId));
 }
 
-io.on('connection', function(client) {
-  client.on('programmer up', function(playground) {
-    debug("a new programmer is up for " + playground);
+io.on('connection', function(socket) {
+  var query = socket.handshake.query;
+  var playgroundId = query.playgroundId;
+  var client =  query.client;
 
-    client.join(playground);
+  socket.join(playgroundId);
 
-    if (!codeObjects[playground]) return;
-    client.emit('objects list', getListOfAllObjects(playground));
-  });
+  if (client == 'renderer')
+    rendererUp();
+  else
+    programmerUp();
 
-  client.on('playground up', function(playground) {
-    debug("a new renderer is up for " + playground);
+  function programmerUp() {
+    debug("a new programmer is up for " + playgroundId);
 
-    client.join(playground);
+    if (!codeObjects[playgroundId]) return;
+    socket.emit('objects list', getListOfAllObjects(playgroundId));
+  }
 
-    if (!codeObjects[playground]) return;
-    client.emit('playground full update', codeObjects[playground]);
-  });
+  function rendererUp() {
+    debug("a new renderer is up for " + playgroundId);
 
-  client.on('code update', function(data) {
-    var playgroundId = data.playgroundId;
+    if (!codeObjects[playgroundId]) return;
+    socket.emit('playground full update', codeObjects[playgroundId]);
+  }
+
+  socket.on('code update', function(data) {
     var objectId = data.objectId;
 
-    debug(objectId + " for " + playgroundId + " from " + data.client);
+    debug(objectId + " for " + playgroundId + " from " + client);
 
     if (!codeObjects[playgroundId]) codeObjects[playgroundId] = {};
 
     codeObjects[playgroundId][objectId] = {
       mediatype: data.mediatype,
-      client: data.client,
+      client: client,
       code: data.code
     };
 
-    client.broadcast.to(playgroundId).emit('code update', data);
+    socket.broadcast.to(playgroundId).emit('code update', data);
     broadcastObjectList(playgroundId);
   });
 
-  client.on('code delete', function(data) {
-    var playgroundId = data.playgroundId;
+  socket.on('code delete', function(data) {
     var objectId = data.objectId;
 
     if (!codeObjects[playgroundId]) return;
@@ -113,20 +118,19 @@ io.on('connection', function(client) {
 
     delete codeObjects[playgroundId][objectId];
 
-    client.broadcast.to(playgroundId).emit('code delete', data);
+    socket.broadcast.to(playgroundId).emit('code delete', data);
     broadcastObjectList(playgroundId);
   });
 
-  client.on('request code', function(data) {
-    var playground = data.playgroundId;
+  socket.on('request code', function(data) {
     var objectId = data.objectId;
-    var code = getCode(playground, objectId);
+    var code = getCode(playgroundId, objectId);
 
-    var data = { playgroundId: playground, objectId: objectId, code: code };
+    var data = { playgroundId: playgroundId, objectId: objectId, code: code };
 
-    debug(objectId + " for " + playground + " programmer" ) ;
+    debug(objectId + " for " + playgroundId + " programmer" ) ;
 
-    client.emit('source code', data);
+    socket.emit('source code', data);
   });
 });
 
