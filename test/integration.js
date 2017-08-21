@@ -27,6 +27,20 @@ describe("These integration tests", function() {
       .expect(/aPlayground/);
   });
 
+  it("sends all codeObjects when a renderer connects", function(done)  {
+      const serverUrl = 'http://127.0.0.1:' + server.address().port;
+      var renderer = require('socket.io-client')(serverUrl, {
+        forceNew: true,
+        query: { playgroundId: 'aPlayground', client: 'renderer' }
+      });
+      renderer.on('connect', function() {
+        renderer.on('playground full update', function(data) {
+          expect(data).to.deep.equal({object1: '// code1', object2: '// code2'});
+          done();
+        });
+      });
+  });
+
   describe("has client-server scenarios where", function() {
 
     var programmer, renderer;
