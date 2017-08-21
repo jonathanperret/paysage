@@ -16,9 +16,9 @@ describe("These integration tests", function() {
 
   it("may launch a server", function() {
     return request
-           .get('/list')
-           .expect(200)
-           .expect(/to start a new playground/);
+      .get('/list')
+      .expect(200)
+      .expect(/here/);
   });
 
   describe("has client-server scenarios where", function() {
@@ -27,12 +27,20 @@ describe("These integration tests", function() {
 
     beforeEach(function (done) {
       const serverUrl = 'http://127.0.0.1:' + server.address().port;
-      renderer = require('socket.io-client')(serverUrl, { forceNew: true });
-      programmer = require('socket.io-client')(serverUrl, { forceNew: true });
 
       var doneWhenCalledTwice = callWhenCalledTimes(done,2);
-      programmer.on('connect', doneWhenCalledTwice);
+
+      renderer = require('socket.io-client')(serverUrl, {
+        forceNew: true,
+        query: { playgroundId: 'here', client: 'renderer' }
+      });
       renderer.on('connect', doneWhenCalledTwice);
+
+      programmer = require('socket.io-client')(serverUrl, {
+        forceNew: true,
+        query: { playgroundId: 'here', client: 'programmer' }
+      });
+      programmer.on('connect', doneWhenCalledTwice);
     });
 
     afterEach(function() {
@@ -42,17 +50,11 @@ describe("These integration tests", function() {
 
     it("renderer receives objects list when programmer updates code", function(done) {
       renderer.on('objects list', function(data) {
-        expect(data.playgroundId).to.equal('playground');
         expect(data.objectIds).to.deep.equal(['creature']);
         done();
       });
 
-      programmer.emit('programmer up', 'playground');
-
-      renderer.emit('playground up', 'playground');
-
       var data = {
-        playgroundId: "playground",
         objectId: "creature",
         source: 'dummy source',
       };

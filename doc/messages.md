@@ -3,7 +3,7 @@
 ```text
 viewer                 viewer browser                  server
   |--- open page --------->|                            |
-  |                        |--- playground up (plgnd) ->|
+  |                        |---------- connect -------->|
   |                        |<- playground full update --|
   |<-- renders creatures---|                            |
 ```
@@ -13,7 +13,7 @@ viewer                 viewer browser                  server
 ```text
 programmer               browser                       server
   |--- open page --------->|                            |
-  |                        |--- programmer up (plgnd) ->|
+  |                        |---------- connect -------->|
   |                        |<-------- objects list -----|
   |<- show code ids list --|                            |
 ```
@@ -23,7 +23,7 @@ programmer               browser                       server
 ```text
 programmer                browser                      server
   |---- click code id ---->|
-  |                        |--- request code ---------->|
+  |                        |------ request code ------->|
   |                        |<----- source code ---------|
   |<- show code in editor -|
 ```
