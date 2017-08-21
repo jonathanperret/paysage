@@ -5,7 +5,13 @@ describe("These integration tests", function() {
   var server, request;
 
   beforeEach(function (done) {
-    server = require('../app');
+    var codeObjects = {
+      aPlayground: {
+        object1: '// code1',
+        object2: '// code2'
+      }
+    }
+    server = require('../app')(codeObjects);
     request = require('supertest')(server);
     server.listen(0, done);
   });
@@ -18,7 +24,7 @@ describe("These integration tests", function() {
     return request
       .get('/list')
       .expect(200)
-      .expect(/here/);
+      .expect(/aPlayground/);
   });
 
   describe("has client-server scenarios where", function() {
