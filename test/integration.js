@@ -1,7 +1,9 @@
+"use strict";
+
 const expect = require('chai').expect;
 process.env.TESTING='testing';
 
-describe("These integration tests", function() {
+describe("The server", function() {
   var server, request;
 
   beforeEach(function (done) {
@@ -20,7 +22,7 @@ describe("These integration tests", function() {
     server.close(done);
   });
 
-  it("may launch a server", function() {
+  it("lists playgrounds", function() {
     return request
       .get('/list')
       .expect(200)
@@ -41,7 +43,7 @@ describe("These integration tests", function() {
       });
   });
 
-  describe("has client-server scenarios where", function() {
+  describe("makes sure that programmer and renderer", function() {
 
     var programmer, renderer;
 
@@ -52,13 +54,13 @@ describe("These integration tests", function() {
 
       renderer = require('socket.io-client')(serverUrl, {
         forceNew: true,
-        query: { playgroundId: 'here', client: 'renderer' }
+        query: { playgroundId: 'aPlayground', client: 'renderer' }
       });
       renderer.on('connect', doneWhenCalledTwice);
 
       programmer = require('socket.io-client')(serverUrl, {
         forceNew: true,
-        query: { playgroundId: 'here', client: 'programmer' }
+        query: { playgroundId: 'aPlayground', client: 'programmer' }
       });
       programmer.on('connect', doneWhenCalledTwice);
     });
@@ -68,9 +70,9 @@ describe("These integration tests", function() {
       renderer.disconnect();
     });
 
-    it("renderer receives objects list when programmer updates code", function(done) {
+    it("receive codeObjects list when programmer updates a codeObject", function(done) {
       renderer.on('objects list', function(data) {
-        expect(data.objectIds).to.deep.equal(['creature']);
+        expect(data.objectIds).to.contain('creature');
         done();
       });
 
@@ -79,6 +81,22 @@ describe("These integration tests", function() {
         source: 'dummy source',
       };
       programmer.emit('code update', data);
+    });
+
+    it("receive objects list when programmer deletes a codeObject", function(done) {
+
+      var doneWhenCalledTwice = callWhenCalledTimes(done,2);
+
+      renderer.on('objects list', function(data) {
+        expect(data.objectIds).to.not.contain('object1');
+        doneWhenCalledTwice();
+      });
+
+      programmer.on('objects list', function(data) {
+        doneWhenCalledTwice();
+      });
+
+      programmer.emit('code delete', {objectId: "object1"});
     });
   });
 });

@@ -116,7 +116,7 @@ module.exports = function(someCodeObjects) {
 
       if (!codeObjects[playgroundId]) return;
 
-      console.log("deleting " + objectId + " from playground " + playgroundId);
+      debug("deleting " + objectId + " from playground " + playgroundId);
 
       delete codeObjects[playgroundId][objectId];
 
