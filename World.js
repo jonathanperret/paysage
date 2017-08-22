@@ -1,6 +1,5 @@
 "use strict";
 
-const EventEmitter = require('events');
 const Playground = require('./Playground')
 
 module.exports = function() {
@@ -8,8 +7,6 @@ module.exports = function() {
   function World() {
     this.playgrounds = Object.create(null);
   }
-
-  World.prototype = Object.create( EventEmitter.prototype );
 
   World.prototype.tour = function() {
     return Object.keys(this.playgrounds);

@@ -9,7 +9,7 @@ describe("A code object", function () {
   beforeEach(function() {
     world = new World;
     playground = world.getOrCreatePlayground('any');
-    bob = new CodeObject(world,playground,'bob');
+    bob = new CodeObject(playground,'bob');
   });
 
   it("knows its id", function() {
@@ -46,6 +46,16 @@ describe("A code object", function () {
     var bill = playground.getOrCreateCodeObject("bill","// hello");
 
     expect(bill.code()).to.equal("// hello");
+  });
+
+  it("notifies playground when code is set", function() {
+    var spy = sinon.spy()
+
+    playground.on('codeObjectUpdated',spy);
+
+    bob.setCode('// hello');
+
+    expect(spy).to.have.been.calledWith(bob);
   });
 
 });

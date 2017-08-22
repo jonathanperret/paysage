@@ -2,8 +2,7 @@
 
 module.exports = function() {
 
-  function CodeObject(world,playground,id,initCode) {
-    this.world = world;
+  function CodeObject(playground,id,initCode) {
     this.playground = playground;
     this.id = id;
     this._code = initCode ? initCode : '';
@@ -15,7 +14,7 @@ module.exports = function() {
 
   CodeObject.prototype.setCode = function(newCode) {
     this._code = newCode;
-    this.world.emit('codeObjectUpdated',this);
+    this.playground.emit('codeObjectUpdated',this);
   }
 
   CodeObject.prototype.setCodeSilently = function(newCode) {

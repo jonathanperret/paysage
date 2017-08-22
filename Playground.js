@@ -1,5 +1,6 @@
 "use strict";
 
+const EventEmitter = require('events');
 const CodeObject = require('./CodeObject');
 
 module.exports = function() {
@@ -9,16 +10,20 @@ module.exports = function() {
     this.codeObjects = Object.create(null);
   }
 
+  Playground.prototype = Object.create( EventEmitter.prototype );
+
   Playground.prototype.getOrCreateCodeObject = function(codeObjectId,code) {
     if (this.codeObjects[codeObjectId]) return this.codeObjects[codeObjectId];
-    var codeObject = new CodeObject(this.world,this,codeObjectId,code);
+    var codeObject = new CodeObject(this,codeObjectId,code);
     this.codeObjects[codeObjectId]= codeObject;
     return codeObject;
   }
 
   Playground.prototype.deleteCodeObject = function(codeObjectId) {
     var codeObject = this.deleteSilentlyCodeObject(codeObjectId);
-    if (codeObject) this.world.emit('codeObjectDeleted',codeObject);
+    if (codeObject) {
+      this.emit('codeObjectDeleted',codeObject);
+    }
   }
   Playground.prototype.deleteSilentlyCodeObject = function(codeObjectId) {
     if (!this.contains(codeObjectId)) return;

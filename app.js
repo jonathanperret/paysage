@@ -75,17 +75,13 @@ module.exports = function(world) {
     function programmerUp() {
       debug("a new programmer is up for " + playground.id);
 
-      socket.join(playground.id);
-
-      if (!playground.isEmpty()) 
+      if (!playground.isEmpty())
         socket.emit('objects list', getListOfAllObjects(playground));
     }
 
 
     function rendererUp() {
       debug("a new renderer is up for " + playground.id);
-
-      socket.join(playground.id);
 
       if (playground.isEmpty()) return;
 
@@ -125,23 +121,28 @@ module.exports = function(world) {
       }
       socket.emit('source code', data);
     });
-  });
 
-  world.on('codeObjectUpdated',function(codeObject) {
-    var playground = codeObject.playground;
-    io.to(playground.id).emit('code update', {
-      objectId: codeObject.id,
-      code: codeObject.code()
-    });
-    broadcastObjectList(codeObject.playground);
-  });
+    function codeObjectUpdated(codeObject) {
+      socket.emit('code update', {
+        objectId: codeObject.id,
+        code: codeObject.code()
+      });
+      socket.emit('objects list', getListOfAllObjects(playground));
+    }
+    playground.on('codeObjectUpdated', codeObjectUpdated)
 
-  world.on('codeObjectDeleted',function(codeObject) {
-    var playground = codeObject.playground;
-    io.to(playground.id).emit('code delete', {
-      objectId: codeObject.id
-    });
-    broadcastObjectList(playground);
+    function codeObjectDeleted(codeObject) {
+      socket.emit('code delete', {
+        objectId: codeObject.id
+      });
+      socket.emit('objects list', getListOfAllObjects(playground));
+    }
+    playground.on('codeObjectDeleted', codeObjectDeleted);
+
+    socket.on('disconnect', function() {
+      playground.removeListener('codeObjectUpdated', codeObjectUpdated);
+      playground.removeListener('codeObjectDeleted', codeObjectDeleted);
+    })
   });
 
   return server;

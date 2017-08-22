@@ -67,3 +67,42 @@ describe("A playground", function() {
   });
 
 });
+
+describe("Playground notifies", function() {
+  it("when a codeObject's code is set", function() {
+    var world = new World();
+    var spy = sinon.spy();
+    var playground = world.getOrCreatePlayground("any");
+    var codeObject = playground.getOrCreateCodeObject("ugly");
+    playground.on('codeObjectUpdated',spy);
+
+    codeObject.setCode("// hello");
+
+    expect(spy).to.have.been.calledWith(codeObject);
+  });
+
+  it("when a codeObject is deleted", function() {
+    var world = new World();
+    var spy = sinon.spy();
+    var playground = world.getOrCreatePlayground("any")
+    var codeObject = playground.getOrCreateCodeObject("ugly");
+    playground.on('codeObjectDeleted',spy);
+
+    playground.deleteCodeObject('ugly');
+
+    expect(spy).to.have.been.calledWith(codeObject);
+  });
+
+  it("not on attempt to delete an unkwown codeObject", function() {
+    var world = new World();
+    var spy = sinon.spy();
+    var playground = world.getOrCreatePlayground("any")
+    playground.on('codeObjectDeleted',spy);
+
+    playground.deleteCodeObject('nobody');
+
+    expect(spy).not.to.have.been.called;
+  });
+
+});
+
