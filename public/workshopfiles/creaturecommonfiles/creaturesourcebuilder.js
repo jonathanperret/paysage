@@ -9,11 +9,9 @@ var Paysage = Paysage || {};
 // the sourcebuilder only concern is to build and give a code object ready to be sent to the paysage server
 
 Paysage.getCompleteCodeObject = function (callback) {
-
-    var objectid = document.getElementById('codeid').value || document.getElementById('codeid').textContent;
     var playgroundid = document.getElementById('playgroundid').value;
+    var objectid = document.getElementById('codeid').value || document.getElementById('codeid').textContent;
     var mediatype = "text/processing";
-    var client = "creature";
     var code = Paysage.getCode();
 
     var originalsourceURL = "/workshopfiles/"+playgroundid+"/creature.pde";
@@ -30,10 +28,8 @@ Paysage.getCompleteCodeObject = function (callback) {
             completecode = template.replace(match, code);
 
             var data = {
-                playgroundId: playgroundid,
                 objectId: objectid,
                 mediatype: mediatype,
-                client: client,
                 code: completecode
             };
             callback(data);

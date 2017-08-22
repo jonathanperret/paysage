@@ -11,19 +11,14 @@ var Paysage = Paysage || {};
 Paysage.getCompleteCodeObject = function (callback) {
 
     var objectid = document.getElementById('codeid').value || document.getElementById('codeid').textContent;
-    var playgroundid = document.getElementById('playgroundid').value;
     var mediatype = "text/processing";
-    var client = "programmer";
     var code = Paysage.getCode();
 
     var data = {
-        playgroundId: playgroundid,
         objectId: objectid, 
         mediatype: mediatype,
-        client: client,
         code: code
     };
-    
   callback(data);
 };
 

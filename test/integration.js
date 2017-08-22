@@ -17,11 +17,11 @@ describe("These integration tests", function() {
   });
 
   it("may launch a server", function() {
-    world.getOrCreatePlayground('ici');
+    world.getOrCreatePlayground('here');
     return request
       .get('/list')
       .expect(200)
-      .expect(/ici/);
+      .expect(/here/);
   });
 
   describe("has client-server scenarios where", function() {
@@ -53,21 +53,19 @@ describe("These integration tests", function() {
     });
 
     it("renderer and programmer receive events when programmer updates code", function(done) {
-      var halfdone = callWhenCalledTimes(done,2);
+      var doneWhenCalledTwice = callWhenCalledTimes(done,2);
 
       programmer.on('objects list', function(data) {
-        expect(data.playgroundId).to.equal('here');
         expect(data.objectIds).to.deep.equal(['bob']);
-        halfdone();
+        doneWhenCalledTwice();
       });
 
       renderer.on('code update', function(data) {
         expect(data.objectId).to.equal('bob');
-        halfdone();
+        doneWhenCalledTwice();
       });
 
       var data = {
-        playgroundId: "here",
         objectId: "bob",
         source: 'dummy source',
       };
@@ -82,19 +80,16 @@ describe("These integration tests", function() {
       var halfdone = callWhenCalledTimes(done,2);
 
       programmer.on('objects list', function(data) {
-        expect(data.playgroundId).to.equal('here');
         expect(data.objectIds).to.deep.equal(['bill']);
         halfdone();
       });
 
       renderer.on('code delete', function(data) {
-        expect(data.playgroundId).to.equal('here');
         expect(data.objectId).to.equal('bob');
         halfdone();
       });
 
       var data = {
-        playgroundId: "here",
         objectId: "bob",
       };
       programmer.emit('code delete', data);

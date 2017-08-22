@@ -55,7 +55,7 @@ module.exports = function(world) {
 
 
   function getListOfAllObjects(playground) {
-    return {playgroundId: playground.id, objectIds: playground.population()};
+    return {objectIds: playground.population()};
   }
 
   function broadcastObjectList(playground) {
@@ -67,10 +67,10 @@ module.exports = function(world) {
     var playgroundId = query.playgroundId;
     var client =  query.client;
 
-    if (client == 'programmer' || client == 'workshop')
-      programmerUp();
-    else
+    if (client == 'renderer')
       rendererUp();
+    else
+      programmerUp();
 
     function programmerUp() {
       debug("a new programmer is up for " + playgroundId);
@@ -100,9 +100,9 @@ module.exports = function(world) {
     }
 
     socket.on('code update', function(data) {
-      debug(data.objectId + " for " + data.playgroundId + " from " + data.client);
+      debug(data.objectId + " for " + playgroundId + " from " + data.client);
 
-      var codeObject = world.getOrCreatePlayground(data.playgroundId).getOrCreateCodeObject(data.objectId);
+      var codeObject = world.getOrCreatePlayground(playgroundId).getOrCreateCodeObject(data.objectId);
 
       codeObject.mediatype = data.mediatype;
       codeObject.client = data.client;
@@ -110,24 +110,23 @@ module.exports = function(world) {
     });
 
     socket.on('code delete', function(data) {
-      debug("deleting " + data.objectId + " from playground " + data.playgroundId);
+      debug("deleting " + data.objectId + " from playground " + playgroundId);
 
-      if (!world.contains(data.playgroundId)) return;
-      var playground = world.getOrCreatePlayground(data.playgroundId);
+      if (!world.contains(playgroundId)) return;
+      var playground = world.getOrCreatePlayground(playgroundId);
 
       playground.deleteCodeObject(data.objectId);
     });
 
     socket.on('request code', function(data) {
-      debug(data.objectId + " for " + data.playground + " programmer" ) ;
+      debug(data.objectId + " for " + playgroundId + " programmer" ) ;
 
-      if (!world.contains(data.playgroundId)) return;
-      var playground = world.getOrCreatePlayground(data.playgroundId);
+      if (!world.contains(playgroundId)) return;
+      var playground = world.getOrCreatePlayground(playgroundId);
       if (!playground.contains(data.objectId)) return;
       var codeObject = playground.getOrCreateCodeObject(data.objectId);
 
       var data = {
-        playgroundId: codeObject.playground.id,
         objectId: codeObject.id,
         code: codeObject.code()
       }
@@ -147,7 +146,6 @@ module.exports = function(world) {
   world.on('codeObjectDeleted',function(codeObject) {
     var playground = codeObject.playground;
     io.to(playground.id).emit('code delete', {
-      playgroundId: playground.id,
       objectId: codeObject.id
     });
     broadcastObjectList(playground);
