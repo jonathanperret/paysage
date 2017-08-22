@@ -44,7 +44,7 @@ describe("A playground", function() {
     expect(playground.id).to.equal('here');
   });
 
-  it("has only on code object per id", function () {
+  it("has only one code object per id", function () {
     var bob = playground.getOrCreateCodeObject("bob");
     var theOtherBob = playground.getOrCreateCodeObject("bob");
     expect(theOtherBob).to.equal(bob);
