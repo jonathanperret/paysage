@@ -64,7 +64,7 @@ module.exports = function(world) {
 
   io.on('connection', function(socket) {
     var query = socket.handshake.query;
-    var playgroundId = query.playgroundId;
+    var playground = world.getOrCreatePlayground(query.playgroundId);
     var client =  query.client;
 
     if (client == 'renderer')
@@ -73,24 +73,21 @@ module.exports = function(world) {
       programmerUp();
 
     function programmerUp() {
-      debug("a new programmer is up for " + playgroundId);
+      debug("a new programmer is up for " + playground.id);
 
-      socket.join(playgroundId);
+      socket.join(playground.id);
 
-      if (!world.contains(playgroundId)) return;
-      var playground = world.getOrCreatePlayground(playgroundId);
-
-      socket.emit('objects list', getListOfAllObjects(playground));
+      if (!playground.isEmpty()) 
+        socket.emit('objects list', getListOfAllObjects(playground));
     }
 
 
     function rendererUp() {
-      debug("a new renderer is up for " + playgroundId);
+      debug("a new renderer is up for " + playground.id);
 
-      socket.join(playgroundId);
+      socket.join(playground.id);
 
-      if (!world.contains(playgroundId)) return;
-      var playground = world.getOrCreatePlayground(playgroundId);
+      if (playground.isEmpty()) return;
 
       var data = Object.create(null);
       playground.population().forEach(function(codeObjectId) {
@@ -100,9 +97,9 @@ module.exports = function(world) {
     }
 
     socket.on('code update', function(data) {
-      debug(data.objectId + " for " + playgroundId + " from " + data.client);
+      debug(data.objectId + " for " + playground.id + " from " + data.client);
 
-      var codeObject = world.getOrCreatePlayground(playgroundId).getOrCreateCodeObject(data.objectId);
+      var codeObject = playground.getOrCreateCodeObject(data.objectId);
 
       codeObject.mediatype = data.mediatype;
       codeObject.client = data.client;
@@ -110,19 +107,15 @@ module.exports = function(world) {
     });
 
     socket.on('code delete', function(data) {
-      debug("deleting " + data.objectId + " from playground " + playgroundId);
+      debug("deleting " + data.objectId + " from playground " + playground.id);
 
-      if (!world.contains(playgroundId)) return;
-      var playground = world.getOrCreatePlayground(playgroundId);
-
-      playground.deleteCodeObject(data.objectId);
+      if (playground.contains(data.objectId))
+          playground.deleteCodeObject(data.objectId);
     });
 
     socket.on('request code', function(data) {
-      debug(data.objectId + " for " + playgroundId + " programmer" ) ;
+      debug(data.objectId + " for " + playground.id + " programmer" ) ;
 
-      if (!world.contains(playgroundId)) return;
-      var playground = world.getOrCreatePlayground(playgroundId);
       if (!playground.contains(data.objectId)) return;
       var codeObject = playground.getOrCreateCodeObject(data.objectId);
 
