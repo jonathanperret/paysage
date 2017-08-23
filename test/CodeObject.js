@@ -29,11 +29,6 @@ describe("A code object", function () {
     expect(bob.code()).to.equal("// hello");
   });
 
-  it("can set silently its code", function() {
-    bob.setCodeSilently("// hello");
-    expect(bob.code()).to.equal("// hello");
-  });
-
   it("'s code is not the one another's", function() {
     bob.setCode("// hello");
     var bill = playground.getOrCreateCodeObject("bill");

@@ -58,14 +58,6 @@ describe("A playground", function() {
     expect(playground.contains("bob")).to.be.false;
   });
 
-  it("can delete silently a codeObject", function() {
-    var bob = playground.getOrCreateCodeObject("bob");
-    playground.deleteSilentlyCodeObject('bob');
-
-    expect(playground.codeObjects).to.deep.equal({});
-    expect(playground.contains("bob")).to.be.false;
-  });
-
 });
 
 describe("Playground notifies", function() {

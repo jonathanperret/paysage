@@ -17,9 +17,5 @@ module.exports = function() {
     this.playground.emit('codeObjectUpdated',this);
   }
 
-  CodeObject.prototype.setCodeSilently = function(newCode) {
-    this._code = newCode;
-  }
-
   return CodeObject;
 }()
