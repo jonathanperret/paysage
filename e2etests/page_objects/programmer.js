@@ -1,9 +1,16 @@
 module.exports = {
   url: function() {
-    return this.api.launchUrl;
+    var url = this.api.launchUrl;
+    if (!this.props.playgroundId)
+      return url
+    url = url + '/playground/' + this.props.playgroundId + '/programmer'
+    if (this.props.codeObjectId)
+      url = url + '#' + this.props.codeObjectId
+    return url
   },
   elements: {
-    'go-live': { selector: '#go-live' }
+    'go-live': { selector: '#go-live' },
+    'last-codeObject': { selector: '#objects li:last-of-type a:first-of-type' },
   },
   commands: [{
     setCodeId: function(codeid) {
@@ -18,6 +25,6 @@ module.exports = {
         ta.dispatchEvent(new Event("input"));
       `);
       return this;
-    }
+    },
   }]
 };
