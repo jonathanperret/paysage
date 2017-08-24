@@ -77,7 +77,7 @@ module.exports = {
 
     browser
       .window_handles(function(result) {
-        this.assert.equal(result.value.length, 2, 'There should be two windows open.');
+        this.assert.equal(result.value.length, 2, 'There should be two open windows.');
         var handle = result.value[1];
         this.switchWindow(handle);
         this.waitForElementPresent('test-marker', TIMEOUT);
