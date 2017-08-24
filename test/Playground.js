@@ -68,7 +68,7 @@ describe("Playground notifies", function() {
     var codeObject = playground.getOrCreateCodeObject("ugly");
     playground.on('codeObjectUpdated',spy);
 
-    codeObject.setCode("// hello");
+    codeObject.setData({code: "// hello"});
 
     expect(spy).to.have.been.calledWith(codeObject);
   });

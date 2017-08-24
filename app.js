@@ -87,7 +87,7 @@ module.exports = function(world) {
 
       var data = Object.create(null);
       playground.population().forEach(function(codeObjectId) {
-        data[codeObjectId] = { code: playground.getOrCreateCodeObject(codeObjectId).code() };
+        data[codeObjectId] = playground.getOrCreateCodeObject(codeObjectId).getData();
       });
       socket.emit('playground full update', data);
     }
@@ -97,9 +97,7 @@ module.exports = function(world) {
 
       var codeObject = playground.getOrCreateCodeObject(data.objectId);
 
-      codeObject.mediatype = data.mediatype;
-      codeObject.client = data.client;
-      codeObject.setCode(data.code);
+      codeObject.setData(data);
     });
 
     socket.on('code delete', function(data) {
@@ -123,10 +121,7 @@ module.exports = function(world) {
     });
 
     function codeObjectUpdated(codeObject) {
-      socket.emit('code update', {
-        objectId: codeObject.id,
-        code: codeObject.code()
-      });
+      socket.emit('code update', codeObject.getData());
       socket.emit('objects list', getListOfAllObjects(playground));
     }
     playground.on('codeObjectUpdated', codeObjectUpdated)
