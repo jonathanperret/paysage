@@ -2,11 +2,11 @@
 
 module.exports = function() {
 
-  function CodeObject(playground, id, initCode) {
-    this._playground = playground;
+  function CodeObject(id, initCode, updated) {
+    this._updated = updated || function(){};
     this.id = id;
     this._data = Object.create(null);
-    this._data.code = initCode || '';
+    this._data.code = initCode;
   }
 
   CodeObject.prototype.setData = function(data) {
@@ -17,7 +17,7 @@ module.exports = function() {
       if (key != 'codeObjectId')
         that._data[key] = data[key];
     });
-    this._playground.emit('codeObjectUpdated',this);
+    this._updated(this);
   }
 
   CodeObject.prototype.getData = function(data) {

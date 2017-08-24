@@ -4,28 +4,24 @@ const CodeObject = require('../CodeObject');
 const World = require('../World');
 
 describe("A code object", function () {
-  var playground,bob;
+  var bob, updated;
 
   beforeEach(function() {
-    playground = new World().getOrCreatePlayground('any');
-    bob = new CodeObject(playground,'bob','');
+    updated = sinon.spy();
+    bob = new CodeObject('bob', '', updated);
   });
 
   it("knows its id", function() {
     expect(bob.id).to.equal("bob");
   });
 
-  it("when it is new, has empty code", function () {
-    expect(bob.getData().code).to.equal('');
-  });
-
   it("can be created with code", function() {
-    var bill = new CodeObject("fakeplayground", "bill","// hello");
+    var bill = new CodeObject("bill", "// hello");
 
     expect(bill.getData().code).to.equal("// hello");
   });
 
-  it("'s data contains its id", function() {
+  it("'s data contains its id and code", function() {
     expect(bob.getData()).to.deep.equal({
       codeObjectId: 'bob',
       code: ''
@@ -49,14 +45,10 @@ describe("A code object", function () {
     expect(changeBobId).to.throw();
   });
 
-  it("notifies playground when data is set", function() {
-    var spy = sinon.spy()
-
-    playground.on('codeObjectUpdated',spy);
-
+  it("notifies when data is set", function() {
     bob.setData({code: '// hello'});
 
-    expect(spy).to.have.been.calledWith(bob);
+    expect(updated).to.have.been.calledWith(bob);
   });
 
 });

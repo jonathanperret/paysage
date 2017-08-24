@@ -14,7 +14,12 @@ module.exports = function() {
 
   Playground.prototype.getOrCreateCodeObject = function(codeObjectId,code) {
     if (this.codeObjects[codeObjectId]) return this.codeObjects[codeObjectId];
-    var codeObject = new CodeObject(this,codeObjectId,code);
+
+    var that = this;
+    function onUpdate(codeObject) {
+      that.emit('codeObjectUpdated', codeObject);
+    }
+    var codeObject = new CodeObject(codeObjectId, code, onUpdate);
     this.codeObjects[codeObjectId]= codeObject;
     return codeObject;
   }
