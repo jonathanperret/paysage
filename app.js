@@ -58,10 +58,6 @@ module.exports = function(world) {
     return {objectIds: playground.population()};
   }
 
-  function broadcastObjectList(playground) {
-    io.to(playground.id).emit('objects list', getListOfAllObjects(playground));
-  }
-
   io.on('connection', function(socket) {
     var query = socket.handshake.query;
     var playground = world.getOrCreatePlayground(query.playgroundId);
@@ -113,11 +109,7 @@ module.exports = function(world) {
       if (!playground.contains(data.objectId)) return;
       var codeObject = playground.getOrCreateCodeObject(data.objectId);
 
-      var data = {
-        objectId: codeObject.id,
-        code: codeObject.code()
-      }
-      socket.emit('source code', data);
+      socket.emit('source code', codeObject.getData());
     });
 
     function codeObjectUpdated(codeObject) {
