@@ -22,16 +22,16 @@ var Paysage = Paysage || {};
     Paysage.getCompleteCodeObject(emitData);
   });
 
-  Paysage.requestCode = function(objectId) {
+  Paysage.requestCode = function(codeObjectId) {
     var data = {
-      objectId: objectId
+      codeObjectId: codeObjectId
     };
     io.emit('request code', data);
   };
 
-  function deleteCode(objectId) {
+  function deleteCode(codeObjectId) {
     var data = {
-      objectId: objectId
+      codeObjectId: codeObjectId
     };
     io.emit('code delete', data);
   }
@@ -56,7 +56,7 @@ var Paysage = Paysage || {};
   });
 
   io.on('source code', function(data) {
-    Paysage.setCodeId(data.objectId);
+    Paysage.setCodeId(data.codeObjectId);
     Paysage.setCode(data.code);
   });
 
