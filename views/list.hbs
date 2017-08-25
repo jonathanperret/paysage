@@ -15,9 +15,9 @@
     <ul>
       {{#each playgrounds}}
       <li>
-        {{@key}}:
-        <a href="playground/{{@key}}">view</a>,
-        <a href="playground/{{@key}}/programmer">code</a>
+        {{this}}:
+        <a href="playground/{{this}}">view</a>,
+        <a href="playground/{{this}}/programmer">code</a>
       </li>
       {{/each}}
     </ul>
