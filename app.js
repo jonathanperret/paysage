@@ -9,9 +9,9 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var exphbs = require('express-handlebars');
 
-module.exports = function(world) {
+module.exports = function(maybeWorld) {
   var app = express();
-  var world = world ? world : new World();
+  var world = maybeWorld || new World();
 
   // view engine setup
   app.set('views', path.join(__dirname, 'views'));
