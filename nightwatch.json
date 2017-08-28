@@ -15,6 +15,10 @@
       "selenium_port"  : 9515,
       "selenium_host"  : "localhost",
       "default_path_prefix" : "",
+      "screenshots" : {
+        "enabled" : true,
+        "path" : "./"
+      },
 
       "desiredCapabilities": {
         "browserName": "chrome",

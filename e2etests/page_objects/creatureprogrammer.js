@@ -5,7 +5,8 @@ module.exports = {
     return this.api.launchUrl + '/workshop/creature';
   },
   elements: {
-    'go-live': { selector: '#go-live' },
+    'go-live': '#go-live',
+    'open-in-new-window': '#openinnewwindow',
   },
   commands: [{
     setCode: function(code) {
