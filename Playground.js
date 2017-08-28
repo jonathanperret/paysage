@@ -1,15 +1,17 @@
 "use strict";
 
+const util = require('util');
 const EventEmitter = require('events');
 const CodeObject = require('./CodeObject');
 
 function Playground(world, id) {
+  EventEmitter.call(this);
   this.world = world;
   this.id = id;
   this.codeObjects = Object.create(null);
 }
 
-Playground.prototype = Object.create( EventEmitter.prototype );
+util.inherits(Playground, EventEmitter);
 
 Playground.prototype.getOrCreateCodeObject = function(codeObjectId,code) {
   if (this.codeObjects[codeObjectId]) return this.codeObjects[codeObjectId];
