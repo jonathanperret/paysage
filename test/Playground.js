@@ -57,6 +57,15 @@ describe("A playground", function() {
     expect(playground.contains("bob")).to.be.false;
   });
 
+  it("'s data contains its code objects", function() {
+    var bob = playground.getOrCreateCodeObject("bob", "hello()");
+    expect(playground.getData()).to.deep.equal({
+      bob: {
+        codeObjectId: 'bob',
+        code: 'hello()'
+      }
+    });
+  });
 });
 
 describe("Playground notifies", function() {

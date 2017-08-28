@@ -41,4 +41,12 @@ Playground.prototype.contains = function(id) {
   return Object.keys(this.codeObjects).indexOf(id)>=0;
 }
 
+Playground.prototype.getData = function() {
+  var data = Object.create(null);
+  this.population().forEach((codeObjectId)=>{
+    data[codeObjectId] = this.codeObjects[codeObjectId].getData();
+  });
+  return data;
+}
+
 module.exports = Playground;

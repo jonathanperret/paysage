@@ -77,11 +77,7 @@ module.exports = function(maybeWorld) {
 
       if (playground.isEmpty()) return;
 
-      var data = Object.create(null);
-      playground.population().forEach(function(codeObjectId) {
-        data[codeObjectId] = playground.getOrCreateCodeObject(codeObjectId).getData();
-      });
-      socket.emit('playground full update', data);
+      socket.emit('playground full update', playground.getData());
     }
 
     function sendListOfAllOBjects() {
