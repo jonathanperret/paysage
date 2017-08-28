@@ -9,8 +9,9 @@ module.exports = {
     return url
   },
   elements: {
-    'go-live': { selector: '#go-live' },
-    'last-codeObject': { selector: '#objects li:last-of-type a:first-of-type' },
+    'go-live': '#go-live',
+    'last-codeObject': '#objects li:last-of-type a:first-of-type',
+    'last-codeObject-trash': '#objects li:last-of-type a:last-of-type',
   },
   commands: [{
     setCodeId: function(codeid) {
