@@ -11,7 +11,7 @@ var io = io({query: {
 }}).connect();
 
 io.on('code delete', function(data) {
-  var id = data.objectId;
+  var id = data.codeObjectId;
   console.log('delete code ' + id);
 
   try {
@@ -24,7 +24,7 @@ io.on('code delete', function(data) {
 });
 
 io.on('code update', function(data) {
-  var id = data.objectId;
+  var id = data.codeObjectId;
   var code = data.code;
   console.log('code received '+id, data);
 
@@ -32,11 +32,9 @@ io.on('code update', function(data) {
 });
 
 io.on('playground full update', function (data) {
-  Object.keys(data).forEach(
-      function (objectId) {
-          updateObject(objectId, data[objectId].code);
-      }
-  );
+  Object.keys(data).forEach(function (codeObjectId) {
+    updateObject(codeObjectId, data[codeObjectId].code);
+  });
 });
 
 var resize = function (sketch) {

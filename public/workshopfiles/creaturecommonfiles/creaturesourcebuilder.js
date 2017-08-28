@@ -10,7 +10,7 @@ var Paysage = Paysage || {};
 
 Paysage.getCompleteCodeObject = function (callback) {
     var playgroundid = document.getElementById('playgroundid').value;
-    var objectid = document.getElementById('codeid').value || document.getElementById('codeid').textContent;
+    var codeObjectId = document.getElementById('codeid').value || document.getElementById('codeid').textContent;
     var mediatype = "text/processing";
     var code = Paysage.getCode();
 
@@ -28,7 +28,7 @@ Paysage.getCompleteCodeObject = function (callback) {
             completecode = template.replace(match, code);
 
             var data = {
-                objectId: objectid,
+                codeObjectId: codeObjectId,
                 mediatype: mediatype,
                 code: completecode
             };

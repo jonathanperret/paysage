@@ -10,12 +10,12 @@ var Paysage = Paysage || {};
 
 Paysage.getCompleteCodeObject = function (callback) {
 
-    var objectid = document.getElementById('codeid').value || document.getElementById('codeid').textContent;
+    var codeObjectId = document.getElementById('codeid').value || document.getElementById('codeid').textContent;
     var mediatype = "text/processing";
     var code = Paysage.getCode();
 
     var data = {
-        objectId: objectid, 
+        codeObjectId: codeObjectId,
         mediatype: mediatype,
         code: code
     };

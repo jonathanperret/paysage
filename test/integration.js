@@ -61,12 +61,12 @@ describe("These integration tests", function() {
       });
 
       renderer.on('code update', function(data) {
-        expect(data.objectId).to.equal('bob');
+        expect(data.codeObjectId).to.equal('bob');
         doneWhenCalledTwice();
       });
 
       var data = {
-        objectId: "bob",
+        codeObjectId: "bob",
         source: 'dummy source',
       };
       programmer.emit('code update', data);
@@ -85,12 +85,12 @@ describe("These integration tests", function() {
       });
 
       renderer.on('code delete', function(data) {
-        expect(data.objectId).to.equal('bob');
+        expect(data.codeObjectId).to.equal('bob');
         halfdone();
       });
 
       var data = {
-        objectId: "bob",
+        codeObjectId: "bob",
       };
       programmer.emit('code delete', data);
     });

@@ -84,25 +84,25 @@ module.exports = function(maybeWorld) {
     }
 
     socket.on('code update', function(data) {
-      debug(data.objectId + " for " + playground.id + " from " + data.client);
+      debug(data.codeObjectId + " for " + playground.id + " from " + data.client);
 
-      var codeObject = playground.getOrCreateCodeObject(data.objectId);
+      var codeObject = playground.getOrCreateCodeObject(data.codeObjectId);
 
       codeObject.setData(data);
     });
 
     socket.on('code delete', function(data) {
-      debug("deleting " + data.objectId + " from playground " + playground.id);
+      debug("deleting " + data.codeObjectId + " from playground " + playground.id);
 
-      if (playground.contains(data.objectId))
-          playground.deleteCodeObject(data.objectId);
+      if (playground.contains(data.codeObjectId))
+          playground.deleteCodeObject(data.codeObjectId);
     });
 
     socket.on('request code', function(data) {
-      debug(data.objectId + " for " + playground.id + " programmer" ) ;
+      debug(data.codeObjectId + " for " + playground.id + " programmer" ) ;
 
-      if (!playground.contains(data.objectId)) return;
-      var codeObject = playground.getOrCreateCodeObject(data.objectId);
+      if (!playground.contains(data.codeObjectId)) return;
+      var codeObject = playground.getOrCreateCodeObject(data.codeObjectId);
 
       socket.emit('source code', codeObject.getData());
     });
@@ -115,7 +115,7 @@ module.exports = function(maybeWorld) {
 
     function codeObjectDeleted(codeObject) {
       socket.emit('code delete', {
-        objectId: codeObject.id
+        codeObjectId: codeObject.id
       });
       sendListOfAllObjects();
     }
