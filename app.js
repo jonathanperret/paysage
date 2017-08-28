@@ -68,9 +68,8 @@ module.exports = function(maybeWorld) {
       debug("a new programmer is up for " + playground.id);
 
       if (!playground.isEmpty())
-        sendListOfAllOBjects();
+        sendListOfAllObjects();
     }
-
 
     function rendererUp() {
       debug("a new renderer is up for " + playground.id);
@@ -80,7 +79,7 @@ module.exports = function(maybeWorld) {
       socket.emit('playground full update', playground.getData());
     }
 
-    function sendListOfAllOBjects() {
+    function sendListOfAllObjects() {
       socket.emit('objects list', {objectIds: playground.population()});
     }
 
@@ -110,7 +109,7 @@ module.exports = function(maybeWorld) {
 
     function codeObjectUpdated(codeObject) {
       socket.emit('code update', codeObject.getData());
-      sendListOfAllOBjects();
+      sendListOfAllObjects();
     }
     playground.on('codeObjectUpdated', codeObjectUpdated)
 
@@ -118,7 +117,7 @@ module.exports = function(maybeWorld) {
       socket.emit('code delete', {
         objectId: codeObject.id
       });
-      sendListOfAllOBjects();
+      sendListOfAllObjects();
     }
     playground.on('codeObjectDeleted', codeObjectDeleted);
 
