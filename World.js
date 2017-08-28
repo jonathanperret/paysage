@@ -16,7 +16,7 @@ World.prototype.contains = function(id) {
 
 World.prototype.getOrCreatePlayground = function(id)  {
   if (this.playgrounds[id]) return this.playgrounds[id];
-  var playground = new Playground(this,id);
+  var playground = new Playground(id);
   this.playgrounds[id] = playground;
   return playground;
 }

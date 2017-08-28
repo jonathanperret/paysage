@@ -5,11 +5,10 @@ var World = require('../World');
 var Playground = require('../Playground');
 
 describe("A playground", function() {
-  var world, playground;
+  var playground;
 
   beforeEach(function() {
-    world = new World();
-    playground = new Playground(world,'here');
+    playground = new Playground('here');
   });
 
   it(", when it's new, has no codeObject", function () {
@@ -62,9 +61,8 @@ describe("A playground", function() {
 
 describe("Playground notifies", function() {
   it("when a codeObject's code is set", function() {
-    var world = new World();
     var spy = sinon.spy();
-    var playground = world.getOrCreatePlayground("any");
+    var playground = new Playground("any");
     var codeObject = playground.getOrCreateCodeObject("ugly");
     playground.on('codeObjectUpdated',spy);
 
@@ -76,7 +74,7 @@ describe("Playground notifies", function() {
   it("when a codeObject is deleted", function() {
     var world = new World();
     var spy = sinon.spy();
-    var playground = world.getOrCreatePlayground("any")
+    var playground = new Playground("any");
     var codeObject = playground.getOrCreateCodeObject("ugly");
     playground.on('codeObjectDeleted',spy);
 
@@ -86,9 +84,8 @@ describe("Playground notifies", function() {
   });
 
   it("not on attempt to delete an unkwown codeObject", function() {
-    var world = new World();
     var spy = sinon.spy();
-    var playground = world.getOrCreatePlayground("any")
+    var playground = new Playground("any");
     playground.on('codeObjectDeleted',spy);
 
     playground.deleteCodeObject('nobody');

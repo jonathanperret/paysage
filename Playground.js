@@ -4,9 +4,8 @@ const util = require('util');
 const EventEmitter = require('events');
 const CodeObject = require('./CodeObject');
 
-function Playground(world, id) {
+function Playground(id) {
   EventEmitter.call(this);
-  this.world = world;
   this.id = id;
   this.codeObjects = Object.create(null);
 }

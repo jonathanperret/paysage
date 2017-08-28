@@ -9,10 +9,16 @@ describe("World", function() {
     world = new World();
   });
 
+  it("creates playgrounds on demand", function() {
+    var playground = world.getOrCreatePlayground("Miami beach");
+    expect(playground.id).to.equal("Miami beach");
+  });
+
   it("lists all the playgrounds ids", function() {
     world.getOrCreatePlayground("Miami beach");
     expect(world.tour()).to.deep.equal(["Miami beach"]);
   });
+
   it("can tell when it does not contain a playground, based on its id", function () {
     expect(world.contains("Miami beach")).to.be.false;
   });
