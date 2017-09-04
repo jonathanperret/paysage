@@ -66,6 +66,23 @@ describe("A playground", function() {
       }
     });
   });
+
+  it("can return data for an existing code object", function() {
+    playground.getOrCreateCodeObject('bob', 'hello()');
+
+    expect(playground.getDataFor('bob')).to.deep.equal({
+      codeObjectId: 'bob',
+      code: 'hello()'
+    });
+  });
+
+  it("can create temporary data for a non-existing code object", function() {
+    expect(playground.getDataFor('alice')).to.deep.equal({
+      codeObjectId: 'alice',
+      code: ''
+    });
+    expect(playground.contains('alice')).to.be.false;
+  });
 });
 
 describe("Playground notifies", function() {

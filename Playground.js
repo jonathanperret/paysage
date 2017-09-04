@@ -49,4 +49,11 @@ Playground.prototype.getData = function() {
   return data;
 }
 
+Playground.prototype.getDataFor = function(codeObjectId) {
+  var codeObject =
+    this.codeObjects[codeObjectId]
+    || new CodeObject(codeObjectId, '');
+  return codeObject.getData();
+}
+
 module.exports = Playground;

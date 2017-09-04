@@ -101,10 +101,7 @@ module.exports = function(maybeWorld) {
     socket.on('request code', function(data) {
       debug(data.codeObjectId + " for " + playground.id + " programmer" ) ;
 
-      if (!playground.contains(data.codeObjectId)) return;
-      var codeObject = playground.getOrCreateCodeObject(data.codeObjectId);
-
-      socket.emit('source code', codeObject.getData());
+      socket.emit('source code', playground.getDataFor(data.codeObjectId));
     });
 
     function codeObjectUpdated(codeObject) {
