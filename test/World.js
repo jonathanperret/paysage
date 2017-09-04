@@ -23,7 +23,7 @@ describe("World", function() {
     expect(world.contains("Miami beach")).to.be.false;
   });
 
-  it("can tell when it contains a codeObject, based on its id", function () {
+  it("can tell when it contains a playground, based on its id", function () {
     world.getOrCreatePlayground("Miami beach");
     expect(world.contains("Miami beach")).to.be.true;
   });
