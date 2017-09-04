@@ -8,17 +8,11 @@ describe("A code object", function () {
 
   beforeEach(function() {
     updated = sinon.spy();
-    bob = new CodeObject('bob', '', updated);
+    bob = new CodeObject('bob', updated);
   });
 
   it("knows its id", function() {
     expect(bob.id).to.equal("bob");
-  });
-
-  it("can be created with code", function() {
-    var bill = new CodeObject("bill", "// hello");
-
-    expect(bill.getData().code).to.equal("// hello");
   });
 
   it("'s data contains its id and code", function() {

@@ -1,10 +1,10 @@
 "use strict";
 
-function CodeObject(id, initCode, updated) {
+function CodeObject(id, updated) {
   this._updated = updated || function(){};
   this.id = id;
   this._data = Object.create(null);
-  this._data.code = initCode;
+  this._data.code = '';
 }
 
 CodeObject.prototype.setData = function(data) {

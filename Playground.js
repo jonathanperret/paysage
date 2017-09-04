@@ -12,10 +12,10 @@ function Playground(id) {
 
 util.inherits(Playground, EventEmitter);
 
-Playground.prototype.getOrCreateCodeObject = function(codeObjectId,code) {
+Playground.prototype.getOrCreateCodeObject = function(codeObjectId) {
   if (this.codeObjects[codeObjectId]) return this.codeObjects[codeObjectId];
 
-  var codeObject = new CodeObject(codeObjectId, code,
+  var codeObject = new CodeObject(codeObjectId,
                                   (co) => this.emit('codeObjectUpdated', co));
   this.codeObjects[codeObjectId] = codeObject;
   return codeObject;
@@ -52,7 +52,7 @@ Playground.prototype.getData = function() {
 Playground.prototype.getDataFor = function(codeObjectId) {
   var codeObject =
     this.codeObjects[codeObjectId]
-    || new CodeObject(codeObjectId, '');
+    || new CodeObject(codeObjectId);
   return codeObject.getData();
 }
 
