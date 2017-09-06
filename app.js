@@ -9,7 +9,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var exphbs = require('express-handlebars');
 
-module.exports = function(maybeWorld) {
+module.exports = function (maybeWorld) {
   var app = express();
   var world = maybeWorld || new World();
 
@@ -19,25 +19,25 @@ module.exports = function(maybeWorld) {
     extname: '.hbs',
     partialsDir: path.join(__dirname, 'views/partials'),
     helpers: {
-      socketioClient: function() {
-        if(process.env.NODE_ENV == 'production') {
+      socketioClient: function () {
+        if (process.env.NODE_ENV === 'production') {
           return 'https://cdnjs.cloudflare.com/ajax/libs/socket.io/' + require('socket.io/package').version + '/socket.io.js';
         } else {
           return '/socket.io/socket.io.js';
         }
-      },
-    },
+      }
+    }
   }));
   app.set('view engine', 'hbs');
 
-  if (! process.env.TESTING) app.use(logger('dev'));
+  if (!process.env.TESTING) app.use(logger('dev'));
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({extended: true}));
   app.use(cookieParser());
   app.use(require('less-middleware')(path.join(__dirname, 'public')));
   app.use(express.static(path.join(__dirname, 'public')));
 
-  app.locals.reference_url = process.env.REFERENCE_URL || "http://processingjs.org/reference/";
+  app.locals.reference_url = process.env.REFERENCE_URL || 'http://processingjs.org/reference/';
 
   // routes setup
   var list = require('./routes/list')(world);
@@ -53,64 +53,64 @@ module.exports = function(maybeWorld) {
   var server = require('http').createServer(app);
   var io = require('socket.io')(server);
 
-
-  io.on('connection', function(socket) {
+  io.on('connection', function (socket) {
     var query = socket.handshake.query;
     var playground = world.getOrCreatePlayground(query.playgroundId);
-    var client =  query.client;
+    var client = query.client;
 
-    if (client == 'renderer')
+    if (client === 'renderer') {
       rendererUp();
-    else
+    } else {
       programmerUp();
-
-    function programmerUp() {
-      debug("a new programmer is up for " + playground.id);
-
-      if (!playground.isEmpty())
-        sendListOfAllObjects();
     }
 
-    function rendererUp() {
-      debug("a new renderer is up for " + playground.id);
+    function programmerUp () {
+      debug('a new programmer is up for ' + playground.id);
+
+      if (!playground.isEmpty()) { sendListOfAllObjects(); }
+    }
+
+    function rendererUp () {
+      debug('a new renderer is up for ' + playground.id);
 
       if (playground.isEmpty()) return;
 
       socket.emit('playground full update', playground.getData());
     }
 
-    function sendListOfAllObjects() {
+    function sendListOfAllObjects () {
       socket.emit('objects list', {objectIds: playground.population()});
     }
 
-    socket.on('code update', function(data) {
-      debug(data.codeObjectId + " for " + playground.id + " from " + data.client);
+    socket.on('code update', function (data) {
+      debug(data.codeObjectId + ' for ' + playground.id + ' from ' + data.client);
 
       var codeObject = playground.getOrCreateCodeObject(data.codeObjectId);
 
       codeObject.setData(data);
     });
 
-    socket.on('code delete', function(data) {
-      debug("deleting " + data.codeObjectId + " from playground " + playground.id);
+    socket.on('code delete', function (data) {
+      debug('deleting ' + data.codeObjectId + ' from playground ' + playground.id);
 
-      if (playground.contains(data.codeObjectId))
-          playground.deleteCodeObject(data.codeObjectId);
+      if (playground.contains(data.codeObjectId)) {
+        playground.deleteCodeObject(data.codeObjectId);
+      }
     });
 
-    socket.on('request code', function(data) {
-      debug(data.codeObjectId + " for " + playground.id + " programmer" ) ;
+    socket.on('request code', function (data) {
+      debug(data.codeObjectId + ' for ' + playground.id + ' programmer');
 
       socket.emit('source code', playground.getDataFor(data.codeObjectId));
     });
 
-    function codeObjectUpdated(codeObject) {
+    function codeObjectUpdated (codeObject) {
       socket.emit('code update', codeObject.getData());
       sendListOfAllObjects();
     }
-    playground.on('codeObjectUpdated', codeObjectUpdated)
+    playground.on('codeObjectUpdated', codeObjectUpdated);
 
-    function codeObjectDeleted(codeObject) {
+    function codeObjectDeleted (codeObject) {
       socket.emit('code delete', {
         codeObjectId: codeObject.id
       });
@@ -118,11 +118,11 @@ module.exports = function(maybeWorld) {
     }
     playground.on('codeObjectDeleted', codeObjectDeleted);
 
-    socket.on('disconnect', function() {
+    socket.on('disconnect', function () {
       playground.removeListener('codeObjectUpdated', codeObjectUpdated);
       playground.removeListener('codeObjectDeleted', codeObjectDeleted);
-    })
+    });
   });
 
   return server;
-}
+};

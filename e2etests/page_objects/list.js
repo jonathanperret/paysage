@@ -1,8 +1,8 @@
 module.exports = {
-  url: function() {
+  url: function () {
     return this.api.launchUrl + '/list';
   },
   elements: {
-    'playgrounds' : { selector: 'ul'}
-  },
+    'playgrounds': { selector: 'ul' }
+  }
 };

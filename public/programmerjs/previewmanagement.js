@@ -1,6 +1,7 @@
+/* global $ */
 var frozenpreview = null;
 
-var switchframe = function(event) {
+var switchframe = function (event) {
   event.preventDefault();
   if (frozenpreview) {
     $('#viewercontainer').show(150);
