@@ -1,3 +1,4 @@
+/* global io:true */
 var canvas = {};
 var sketch = {};
 
@@ -5,28 +6,28 @@ var sketch = {};
 var container = document.getElementById('container');
 var playgroundid = container.getAttribute('data-playgroundid');
 
-var io = io({query: { 
+io = io({query: {
   playgroundId: playgroundid,
   client: 'renderer'
 }}).connect();
 
-io.on('code delete', function(data) {
+io.on('code delete', function (data) {
   var id = data.codeObjectId;
   console.log('delete code ' + id);
 
   try {
     sketch[id].exit();
-  } catch(e) { }
+  } catch (e) { }
   delete sketch[id];
   var elem = document.getElementById(id);
   elem.parentNode.removeChild(elem);
   delete canvas[id];
 });
 
-io.on('code update', function(data) {
+io.on('code update', function (data) {
   var id = data.codeObjectId;
   var code = data.code;
-  console.log('code received '+id, data);
+  console.log('code received ' + id, data);
 
   updateObject(id, code);
 });
@@ -45,10 +46,10 @@ var resize = function (sketch) {
 // setting it to transparent using the instance method sketch[].background(255, 255, 255.0) doesn't stick
 // so we rewrite the code:
 
-var rewriteBackgroundTransparent = function(code) {
+var rewriteBackgroundTransparent = function (code) {
   // thanks http://www.regexr.com/
   var match = /background\s*(\(.*?\))/g;
-  var transparent = "background(255, 255, 255, 0)";
+  var transparent = 'background(255, 255, 255, 0)';
   return code.replace(match, transparent);
 };
 
@@ -58,16 +59,16 @@ var updateObject = function (id, code) {
     canvas[id].setAttribute('id', id);
 
     document.getElementById('container').appendChild(canvas[id]);
-    console.log('canvas created for '+id);
+    console.log('canvas created for ' + id);
   } else {
-    console.log('canvas reused for '+id);
+    console.log('canvas reused for ' + id);
     try {
       sketch[id].exit();
-    } catch(e) { }
+    } catch (e) { }
     delete sketch[id];
   }
   code = rewriteBackgroundTransparent(code);
-  sketch[id] = new Processing(canvas[id], code);
+  sketch[id] = new window.Processing(canvas[id], code);
   resize(sketch[id]);
 };
 
