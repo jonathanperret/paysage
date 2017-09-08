@@ -19,6 +19,9 @@
         "enabled" : true,
         "path" : "./"
       },
+      "globals": {
+        "waitForConditionTimeout": 10000
+      },
 
       "desiredCapabilities": {
         "browserName": "chrome",

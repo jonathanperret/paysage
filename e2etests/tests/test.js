@@ -1,5 +1,3 @@
-const TIMEOUT=2000;
-
 module.exports = {
 
   'Default url redirects to programmer': function (browser) {
@@ -80,7 +78,7 @@ module.exports = {
         this.assert.equal(result.value.length, 2, 'There should be two open windows.');
         var handle = result.value[1];
         this.switchWindow(handle);
-        this.waitForElementPresent('test-marker', TIMEOUT);
+        this.waitForElementPresent('test-marker');
       })
   },
 
