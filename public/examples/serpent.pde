@@ -53,6 +53,8 @@ class Creature {
       rect(loc.x, loc.y, rad, rad);
     } else if (forme == "serpent") {
       beginShape();
+      stroke(204, 102, 0); // la couleur du serpent
+      fill(0, 0, 0, 0); // transparent fill for the vertex
       for (int i = 0; i <= serpent.size()-1; i++) {
         PVector a = (PVector) serpent.get(i);
         curveVertex(a.x, a.y);
