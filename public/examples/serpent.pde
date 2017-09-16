@@ -17,23 +17,17 @@ class Creature {
     rad = 10;
   }
 
-  void avance(String move, float v) { //UPDATE
+  void avance(float v) { //UPDATE
     if (!once) {
       vel = new PVector(random(-v, v), random(-v, v));
       once = true;
     }
 
-    if (move == "toutdroit") {
-      //acc.normalize();
-    } else if (move == "serpent") {
-      acc = new PVector(noise(frameCount*noiseSeed)*width, noise(1+frameCount*noiseSeed)*height);
-      acc.normalize();
-      vel.add(acc);
-    } else if (move == "touslessens") {
+    
       acc = new PVector(random(-1, 1), random(-1, 1));
       acc.normalize();
       vel.add(acc);
-    }
+    
 
 
     vel.limit(v);
@@ -46,38 +40,18 @@ class Creature {
 
   } 
 
-  void alaforme(String forme) { //DISPLAY
-    if (forme == "boule") {
-      ellipse(loc.x, loc.y, rad, rad);
-    } else if (forme == "carre") {
-      rect(loc.x, loc.y, rad, rad);
-    } else if (forme == "serpent") {
+  void estunserpent() { 
+   
       beginShape();
-      stroke(204, 102, 0); // la couleur du serpent
-      fill(0, 0, 0, 0); // transparent fill for the vertex
+      
       for (int i = 0; i <= serpent.size()-1; i++) {
         PVector a = (PVector) serpent.get(i);
         curveVertex(a.x, a.y);
       }
       endShape();
-    } else if (forme == "pieuvre") {
-    }
+    
   }
 
-  void teletransporte() {
-
-    if (loc.x > width) {
-      loc.x = 0;
-    } else if (loc.x < 0) {
-      loc.x = width;
-    }
-
-    if (loc.y > height) {
-      loc.y = 0;
-    } else if (loc.y < 0) {
-      loc.y = height;
-    }
-  }
 
   void rebondis() {
     if ((loc.x > width) || (loc.x < 0)) {
@@ -114,8 +88,13 @@ void setup() {
 
 void draw() {
 
-  background(255, 255, 255, 0);
-  maCreature.alaforme("serpent");
-  maCreature.avance("touslessens", 10);
+  background(255, 255, 255, 0); // essayez de l'enlever pour garder la trace du chemin du serpent
+
+  stroke(104, 179, 0); // la couleur du serpent
+  
+  fill(0, 0, 0, 0); // en changeant le remplissage, des choses amusantes peuvent se dessiner
+
+  maCreature.estunserpent();
+  maCreature.avance(10);
   maCreature.rebondis();
 }
