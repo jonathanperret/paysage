@@ -1,84 +1,78 @@
-class Creature {
-  PVector loc;
-  PVector vel;
-  ArrayList anneaux = new ArrayList();
+class Serpent {
+    PVector loc;
+    PVector vel;
+    ArrayList anneaux = new ArrayList();
 
-  Creature() {
-    loc = new PVector(random(width), random(height));
-    vel = new PVector(5, 5);
-  }
-
-  void avance(vitesseMax, taille) {
-    PVector acc = new PVector(random(-1, 1), random(-1, 1));
-    acc.normalize();
-    vel.add(acc);
-
-    vel.limit(vitesseMax);
-    loc.add(vel);
-
-    anneaux.add(new PVector(loc.x, loc.y));
-    if (anneaux.size() > taille) {
-      anneaux.remove(0);
+    Serpent() {
+        loc = new PVector(random(width), random(height));
+        vel = new PVector(5, 5);
     }
 
-  }
+    void avance(float vitesseMax, float taille) {
+        PVector acc = new PVector(random(-1, 1), random(-1, 1));
+        acc.normalize();
 
-  void dessineMoi() {
-      beginShape();
+        vel.add(acc);
+        vel.limit(vitesseMax);
 
-      fill(0, 0, 0, 0); // en changeant le remplissage, des choses amusantes peuvent se dessiner
+        loc.add(vel);
 
-      for (int i = 0; i <= anneaux.size()-1; i++) {
-        PVector a = (PVector) anneaux.get(i);
-        curveVertex(a.x, a.y);
-      }
-      endShape();
-  }
-
-
-  void rebondis() {
-    if ((loc.x > width) || (loc.x < 0)) {
-      if (loc.x > width) {
-        loc.x = width;
-      } else if (loc.x < 0) {
-        loc.x = 0;
-      }
-      vel.x = vel.x * -1;
+        anneaux.add(new PVector(loc.x, loc.y));
+        if (anneaux.size() > taille) {
+            anneaux.remove(0);
+        }
     }
-    if ((loc.y > height) || (loc.y < 0)) {
-      if (loc.y > height) {
-        loc.y = height;
-      } else if (loc.y < 0) {
-        loc.y = 0;
-      }
-      vel.y = vel.y * -1;
+
+    void dessineToi() {
+        beginShape();
+
+        fill(0, 0, 0, 0); // en changeant le remplissage, des choses amusantes peuvent se dessiner
+
+        for (int i = 0; i <= anneaux.size()-1; i++) {
+            PVector a = (PVector) anneaux.get(i);
+            curveVertex(a.x, a.y);
+        }
+        endShape();
     }
-  }
 
-  void changeMaCouleur(rouge, vert, bleu) {
-    stroke(rouge, vert, bleu);
-  }
+    void rebondis() {
+        if ((loc.x > width) || (loc.x < 0)) {
+            if (loc.x > width) {
+                loc.x = width;
+            } else if (loc.x < 0) {
+                loc.x = 0;
+            }
+            vel.x = vel.x * -1;
+        }
+        if ((loc.y > height) || (loc.y < 0)) {
+            if (loc.y > height) {
+                loc.y = height;
+            } else if (loc.y < 0) {
+                loc.y = 0;
+            }
+            vel.y = vel.y * -1;
+        }
+    }
 
+    void changeTaCouleur(float rouge, float vert, float bleu) {
+        stroke(rouge, vert, bleu);
+    }
 }
 
-
-Creature monSerpent;
+Serpent monSerpent;
 
 void setup() {
-  stroke(0);
-  strokeWeight(4);
+    stroke(0);
+    strokeWeight(4);
 
-  rectMode(CENTER);
-
-  monSerpent = new Creature();
+    monSerpent = new Serpent();
 }
 
 void draw() {
+    background(255, 0); // essayez de l'enlever pour garder la trace du chemin du serpent
 
-  background(255, 255, 255, 0); // essayez de l'enlever pour garder la trace du chemin du serpent
-
-  monSerpent.changeMaCouleur(104, 179, 0)
-  monSerpent.avance(10, 10);
-  monSerpent.rebondis();
-  monSerpent.dessineMoi();
+    monSerpent.changeTaCouleur(0, 0, 0);
+    monSerpent.avance(10, 10);
+    monSerpent.rebondis();
+    monSerpent.dessineToi();
 }
