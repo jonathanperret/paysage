@@ -73,6 +73,5 @@ void sunmoon(float course) {
 }
 
 void sky(color c) {
-  fill(c);
-  rect(0, 0, width, height);
+  background(c, 240);
 }
