@@ -42,16 +42,27 @@ var resize = function (sketch) {
   sketch.size(window.innerWidth, window.innerHeight);
 };
 
-// If background() is in draw(), it's redrawn each frame
-// setting it to transparent using the instance method sketch[].background(255, 255, 255.0) doesn't stick
-// so we rewrite the code:
+function setDefaultBackgroundToTransparent (sketch) {
+  sketch.background(0, 0);
+}
 
-var rewriteBackgroundTransparent = function (code) {
-  // thanks http://www.regexr.com/
-  var match = /background\s*(\(.*?\))/g;
-  var transparent = 'background(255, 255, 255, 0)';
-  return code.replace(match, transparent);
-};
+function patchBackgroundFunctionToBeTransparentByDefault (sketch) {
+  var originalBackground = sketch.background;
+
+  // This is a replacement for the background() function
+  // that defaults the alpha component to zero (fully transparent).
+  function zeroAlphaDefaultBackground () {
+    var args = [].slice.call(arguments);
+    // If no alpha component was specified, add a zero value
+    // to force a transparent background
+    if (args.length === 1 || args.length === 3) {
+      args.push(0);
+    }
+    return originalBackground.apply(this, args);
+  }
+
+  sketch.background = zeroAlphaDefaultBackground;
+}
 
 var updateObject = function (id, code) {
   if (!canvas[id]) {
@@ -67,9 +78,11 @@ var updateObject = function (id, code) {
     } catch (e) { }
     delete sketch[id];
   }
-  code = rewriteBackgroundTransparent(code);
-  sketch[id] = new window.Processing(canvas[id], code);
-  resize(sketch[id]);
+  var newSketch = new window.Processing(canvas[id], code);
+  setDefaultBackgroundToTransparent(newSketch);
+  patchBackgroundFunctionToBeTransparentByDefault(newSketch);
+  resize(newSketch);
+  sketch[id] = newSketch;
 };
 
 var resizeTimeout;
