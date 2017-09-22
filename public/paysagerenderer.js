@@ -78,12 +78,20 @@ var updateObject = function (id, code) {
     } catch (e) { }
     delete layers[id];
   }
-  var newLayer = new window.Processing(canvas[id], code);
+  layers[id] = createLayer(canvas[id], code);
+};
+
+function createLayer (targetCanvas, code) {
+  // The compilation step is split from the creation of the
+  // Processing object so that we can hook the onLoad event
+  // to set width and height correctly before setup() runs.
+  var sketch = window.Processing.compile(code);
+  sketch.onLoad = resize;
+  var newLayer = new window.Processing(targetCanvas, sketch);
   setDefaultBackgroundToTransparent(newLayer);
   patchBackgroundFunctionToBeTransparentByDefault(newLayer);
-  resize(newLayer);
-  layers[id] = newLayer;
-};
+  return newLayer;
+}
 
 var resizeTimeout;
 
