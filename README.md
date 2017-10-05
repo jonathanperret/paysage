@@ -48,9 +48,12 @@ In that sense **Paysage is a playground to learn and explore open collaboration.
     git clone https://github.com/jonathanperret/paysage.git
     cd paysage
     npm install
+    bower install
     npm start
 
 Then browse <http://localhost:3000/>.
+
+(you thus need to have git, npm and bower installed)
 
 #### Running frontend tests
 
