@@ -34,7 +34,11 @@ io.on('code update', function (data) {
 
 io.on('playground full update', function (data) {
   Object.keys(data).forEach(function (codeObjectId) {
-    updateObject(codeObjectId, data[codeObjectId].code);
+    try {
+      updateObject(codeObjectId, data[codeObjectId].code);
+    } catch (e) {
+      console.error('Error in code object ' + codeObjectId + '. Code not rendered. ' + e);
+    }
   });
 });
 
