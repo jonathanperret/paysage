@@ -93,7 +93,7 @@ function createLayer (targetCanvas, code) {
   patchBackgroundFunctionToBeTransparentByDefault(newLayer);
   return newLayer;
   } catch (e) {
-      console.error('Error in code object ' + targetCanvas + '. Code not rendered. ' + e);
+      console.error('Error in code object ' + targetCanvas.getAttribute('id') + '. Code not rendered. ' + e);
     }
 }
 
