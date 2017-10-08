@@ -67,7 +67,8 @@ function handleFileSelect (evt) {
   var files = evt.originalEvent.dataTransfer.files; // FileList object.
   var reader = new window.FileReader();
   reader.onload = function (event) {
-    document.getElementById('code').value = event.target.result;
+    var data = event.target.result ;
+    Paysage.setCode(data);
     Paysage.createCodeId();
   };
   reader.readAsText(files[0], 'UTF-8');
@@ -80,5 +81,5 @@ function handleDragOver (evt) {
 }
 
 function setupDragAndDropListeners () {
-  $('#code').on('dragover', handleDragOver).on('drop', handleFileSelect);
+  $('body').on('dragover', handleDragOver).on('drop', handleFileSelect);
 }
