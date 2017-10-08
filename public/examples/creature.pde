@@ -236,9 +236,13 @@ class Creature {
   }
 
   public Creature corps(int c_) { //decide here global moves / speed pattern / body shape
+    
+    // un-comment this to log the frame rate. Useful to try and optimize rendering
+    /* 
     if (frameCount%360 == 0) {
       console.log(frameRate);
     }
+    */
 
     c = c_;
     finalspeed = basespeed*mass;
