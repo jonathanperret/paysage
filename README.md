@@ -48,12 +48,12 @@ In that sense **Paysage is a playground to learn and explore open collaboration.
     git clone https://github.com/jonathanperret/paysage.git
     cd paysage
     npm install
-    bower install
     npm start
 
 Then browse <http://localhost:3000/>.
 
-(you thus need to have git, npm and bower installed)
+If the Programmer or Playground miss the javascript third-party libraries dependencies, make sure that Bower has been installed on your computer and then run `bower install` in the paysage directory. It will pull the javascript libraries needed on the front end.
+(`npm install` should install and run bower, but depending on your configuration, you may have fallen into a weird state :-)
 
 #### Running frontend tests
 
