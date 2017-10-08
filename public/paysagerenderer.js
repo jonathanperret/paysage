@@ -34,11 +34,7 @@ io.on('code update', function (data) {
 
 io.on('playground full update', function (data) {
   Object.keys(data).forEach(function (codeObjectId) {
-    try {
       updateObject(codeObjectId, data[codeObjectId].code);
-    } catch (e) {
-      console.error('Error in code object ' + codeObjectId + '. Code not rendered. ' + e);
-    }
   });
 });
 
@@ -89,12 +85,16 @@ function createLayer (targetCanvas, code) {
   // The compilation step is split from the creation of the
   // Processing object so that we can hook the onLoad event
   // to set width and height correctly before setup() runs.
+  try {
   var sketch = window.Processing.compile(code);
   sketch.onLoad = resize;
   var newLayer = new window.Processing(targetCanvas, sketch);
   setDefaultBackgroundToTransparent(newLayer);
   patchBackgroundFunctionToBeTransparentByDefault(newLayer);
   return newLayer;
+  } catch (e) {
+      console.error('Error in code object ' + targetCanvas + '. Code not rendered. ' + e);
+    }
 }
 
 var resizeTimeout;
