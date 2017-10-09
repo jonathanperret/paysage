@@ -17,5 +17,5 @@
     }
   }
 
-  $('#previewonoff').click(switchframe);
+  $('#previewonoff').on('change', switchframe);
 })();
