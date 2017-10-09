@@ -35,7 +35,6 @@ body {
 }
 
 .programmertop {
-  display: table-row;
   height: 50px;
 }
 
@@ -51,8 +50,11 @@ body {
   height: 100%;
 }
 
-.codewrapper {
+.programmer-part .programmer-row {
   display: table-row;
+}
+
+.codewrapper {
   height: 100%;
 }
 
@@ -71,6 +73,7 @@ body {
 }
 
 .programmercontrols {
+  display: table-cell;
   height: 8em;
 }
 
@@ -121,7 +124,6 @@ body {
 }
 
 .examples {
-  display: table-row;
   height: 0;
 }
 

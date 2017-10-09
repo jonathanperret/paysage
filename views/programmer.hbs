@@ -13,22 +13,24 @@
 </head>
 <body>
 <div class="programmer-part">
-  <div class="programmertop">
+  <div class="programmertop programmer-row">
     <input type="hidden" id="playgroundid" value="{{playgroundid}}">
     <input type="hidden" id="clientType" value="programmer">
     <input type="text" id="codeid"></input>
   </div>
-  <div class="codewrapper">
+  <div class="codewrapper programmer-row">
     <div id="code" rows="20" cols="30"></div>
   </div>
-  <div class="programmercontrols">
-    <div class="controls">
-      <button id="go-live">go live!</button>
-      <a target="_blank" href="{{reference_url}}" id="openreference">reference ➚</a>
+  <div class="programmer-row">
+    <div class="programmercontrols">
+      <div class="controls">
+        <button id="go-live">go live!</button>
+        <a target="_blank" href="{{reference_url}}" id="openreference">reference ➚</a>
+      </div>
+      <ul id="objects"></ul>
     </div>
-    <ul id="objects"></ul>
   </div>
-  <div class="examples">
+  <div class="examples programmer-row">
     <div class="example empty" data-src="/examples/empty.pde"></div>
     <div class="example number-32" data-src="/examples/number32.pde"></div>
     <div class="example eye" data-src="/examples/eye.pde"></div>
