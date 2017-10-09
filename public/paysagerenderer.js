@@ -39,9 +39,7 @@ io.on('playground full update', function (data) {
 });
 
 var resize = function (layer) {
-  if (layer){
   layer.size(window.innerWidth, window.innerHeight);
-  }
 };
 
 function setDefaultBackgroundToTransparent (layer) {
