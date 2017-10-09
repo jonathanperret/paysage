@@ -65,36 +65,36 @@ function patchBackgroundFunctionToBeTransparentByDefault (layer) {
 }
 
 var updateObject = function (id, code) {
-  if (!canvas[id]) {
-    canvas[id] = document.createElement('canvas');
-    canvas[id].setAttribute('id', id);
+  try {
+    if (!canvas[id]) {
+      canvas[id] = document.createElement('canvas');
+      canvas[id].setAttribute('id', id);
 
-    document.getElementById('container').appendChild(canvas[id]);
-    console.log('canvas created for ' + id);
-  } else {
-    console.log('canvas reused for ' + id);
-    try {
-      layers[id].exit();
-    } catch (e) { }
-    delete layers[id];
+      document.getElementById('container').appendChild(canvas[id]);
+      console.log('canvas created for ' + id);
+    } else {
+      console.log('canvas reused for ' + id);
+      try {
+        layers[id].exit();
+      } catch (e) { }
+      delete layers[id];
+    }
+    layers[id] = createLayer(canvas[id], code);
+  } catch (e) {
+    console.error('Error in code object ' + id + '. Code not rendered. ' + e);
   }
-  layers[id] = createLayer(canvas[id], code);
 };
 
 function createLayer (targetCanvas, code) {
   // The compilation step is split from the creation of the
   // Processing object so that we can hook the onLoad event
   // to set width and height correctly before setup() runs.
-  try {
-    var sketch = window.Processing.compile(code);
-    sketch.onLoad = resize;
-    var newLayer = new window.Processing(targetCanvas, sketch);
-    setDefaultBackgroundToTransparent(newLayer);
-    patchBackgroundFunctionToBeTransparentByDefault(newLayer);
-    return newLayer;
-  } catch (e) {
-    console.error('Error in code object ' + targetCanvas.getAttribute('id') + '. Code not rendered. ' + e);
-  }
+  var sketch = window.Processing.compile(code);
+  sketch.onLoad = resize;
+  var newLayer = new window.Processing(targetCanvas, sketch);
+  setDefaultBackgroundToTransparent(newLayer);
+  patchBackgroundFunctionToBeTransparentByDefault(newLayer);
+  return newLayer;
 }
 
 var resizeTimeout;
