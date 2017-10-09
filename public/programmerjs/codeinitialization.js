@@ -67,7 +67,7 @@ function handleFileSelect (evt) {
   var files = evt.originalEvent.dataTransfer.files; // FileList object.
   var reader = new window.FileReader();
   reader.onload = function (event) {
-    var data = event.target.result ;
+    var data = event.target.result;
     Paysage.setCode(data);
     Paysage.createCodeId();
   };
