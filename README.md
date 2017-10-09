@@ -55,9 +55,15 @@ Then browse <http://localhost:3000/>.
 If the Programmer or Playground miss the javascript third-party libraries dependencies, make sure that Bower has been installed on your computer and then run `bower install` in the paysage directory. It will pull the javascript libraries needed on the front end.
 (`npm install` should install and run bower, but depending on your configuration, you may have fallen into a weird state :-)
 
-#### Running tests
+#### How to summit a contribution
+
+Before summiting your pull request, please run the tests:
 
     npm test
+
+If you get a lint error you can fix it using the following procedure:
+
+    npm run lint -- --fix && git commit -a --amend --no-edit && npm test
 
 #### Deployment on www.paysage.xyz
 
