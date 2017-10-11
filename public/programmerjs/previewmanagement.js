@@ -11,9 +11,13 @@
       $('#viewercontainer').show(150);
       frozenpreview.appendTo('#viewercontainer');
       frozenpreview = null;
+      $('#previewisoff').hide();
+      $('#previewison').show();
     } else {
       frozenpreview = $('#viewerframe').detach();
       $('#viewercontainer').hide(150);
+      $('#previewison').hide();
+      $('#previewisoff').show();
     }
   }
 

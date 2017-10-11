@@ -212,6 +212,8 @@ body {
   bottom: 0;
 }
 
+#previewisoff {display: none;}
+
 .slider {
   position: absolute;
   cursor: pointer;
