@@ -1,16 +1,18 @@
 /* global $ */
-var frozenpreview = null;
+var Paysage = window.Paysage || {};
 
-var switchframe = function (event) {
+Paysage.frozenpreview = null;
+
+Paysage.switchframe = function (event) {
   event.preventDefault();
-  if (frozenpreview) {
+  if (Paysage.frozenpreview) {
     $('#viewercontainer').show(150);
-    frozenpreview.appendTo('#viewercontainer');
-    frozenpreview = null;
+    Paysage.frozenpreview.appendTo('#viewercontainer');
+    Paysage.frozenpreview = null;
   } else {
-    frozenpreview = $('#viewerframe').detach();
+    Paysage.frozenpreview = $('#viewerframe').detach();
     $('#viewercontainer').hide(150);
   }
 };
 
-$('#previewonoff').click(switchframe);
+$('#previewonoff').click(Paysage.switchframe);
