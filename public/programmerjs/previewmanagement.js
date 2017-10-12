@@ -1,18 +1,21 @@
 /* global $ */
-var Paysage = window.Paysage || {};
 
-Paysage.frozenpreview = null;
+(function () {
+  'use strict';
 
-Paysage.switchframe = function (event) {
-  event.preventDefault();
-  if (Paysage.frozenpreview) {
-    $('#viewercontainer').show(150);
-    Paysage.frozenpreview.appendTo('#viewercontainer');
-    Paysage.frozenpreview = null;
-  } else {
-    Paysage.frozenpreview = $('#viewerframe').detach();
-    $('#viewercontainer').hide(150);
+  var frozenpreview = null;
+
+  function switchframe (event) {
+    event.preventDefault();
+    if (frozenpreview) {
+      $('#viewercontainer').show(150);
+      frozenpreview.appendTo('#viewercontainer');
+      frozenpreview = null;
+    } else {
+      frozenpreview = $('#viewerframe').detach();
+      $('#viewercontainer').hide(150);
+    }
   }
-};
 
-$('#previewonoff').click(Paysage.switchframe);
+  $('#previewonoff').click(switchframe);
+})();

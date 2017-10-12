@@ -4,8 +4,15 @@ var Paysage = window.Paysage || {};
 (function () {
   'use strict';
 
-  // Require a sourcebuilder script defining Paysage.getCompleteCodeObject()
-  // Require a codeinitialization script defining Paysage.setCodeId()
+  // Requires a sourcebuilder script defining Paysage.getCompleteCodeObject()
+  // Requires a codeinitialization script defining Paysage.setCodeId() and Paysage.setCode()
+
+  Paysage.requestCode = function (codeObjectId) {
+    var data = {
+      codeObjectId: codeObjectId
+    };
+    io.emit('request code', data);
+  };
 
   var playgroundid = document.getElementById('playgroundid').value;
   var clientType = document.getElementById('clientType').value;
@@ -16,19 +23,12 @@ var Paysage = window.Paysage || {};
   }}).connect();
 
   document.getElementById('go-live').addEventListener('click', function () {
-    var emitData = function (data) {
+    function emitData (data) {
       console.log(data);
       io.emit('code update', data);
-    };
+    }
     Paysage.getCompleteCodeObject(emitData);
   });
-
-  Paysage.requestCode = function (codeObjectId) {
-    var data = {
-      codeObjectId: codeObjectId
-    };
-    io.emit('request code', data);
-  };
 
   function deleteCode (codeObjectId) {
     var data = {
