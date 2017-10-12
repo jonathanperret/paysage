@@ -29,7 +29,7 @@ Paysage.programmerInit = function () {
     Paysage.createCodeId();
   }
 
-  setupDragAndDropListeners();
+  Paysage.setupDragAndDropListeners();
 
   // Initialize ACE code editor
   $('#code').each(function () {
@@ -60,11 +60,11 @@ $('.example').click(function () {
 // Thanks http://stackoverflow.com/questions/12214057/drag-n-drop-text-file
 // (after trying to use http://filedropjs.org/ )
 
-function handleFileSelect (evt) {
-  evt.stopPropagation();
-  evt.preventDefault();
+Paysage.handleFileSelect = function (dropEvent) {
+  dropEvent.stopPropagation();
+  dropEvent.preventDefault();
 
-  var files = evt.originalEvent.dataTransfer.files; // FileList object.
+  var files = dropEvent.originalEvent.dataTransfer.files; // FileList object.
   var reader = new window.FileReader();
   reader.onload = function (event) {
     var data = event.target.result;
@@ -72,14 +72,14 @@ function handleFileSelect (evt) {
     Paysage.createCodeId();
   };
   reader.readAsText(files[0], 'UTF-8');
-}
+};
 
-function handleDragOver (evt) {
-  evt.stopPropagation();
-  evt.preventDefault();
-  evt.originalEvent.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
-}
+Paysage.handleDragOver = function (dragoverEvent) {
+  dragoverEvent.stopPropagation();
+  dragoverEvent.preventDefault();
+  dragoverEvent.originalEvent.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+};
 
-function setupDragAndDropListeners () {
-  $('body').on('dragover', handleDragOver).on('drop', handleFileSelect);
-}
+Paysage.setupDragAndDropListeners = function () {
+  $('body').on('dragover', Paysage.handleDragOver).on('drop', Paysage.handleFileSelect);
+};
