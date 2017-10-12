@@ -83,7 +83,7 @@ module.exports = function (maybeWorld) {
     }
 
     socket.on('code update', function (data) {
-      debug(data.codeObjectId + ' for ' + playground.id + ' from ' + data.client);
+      debug(data.codeObjectId + ' for ' + playground.id + ' from ' + client);
 
       var codeObject = playground.getOrCreateCodeObject(data.codeObjectId);
 
