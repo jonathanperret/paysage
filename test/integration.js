@@ -4,7 +4,7 @@ process.env.TESTING = 'testing';
 
 const World = require('../World');
 
-describe('These integration tests', function () {
+describe('The Paysage server', function () {
   var server, request, world;
 
   beforeEach(function (done) {
@@ -18,7 +18,7 @@ describe('These integration tests', function () {
     server.close(done);
   });
 
-  it('may launch a server', function () {
+  it('lists existing playgrounds', function () {
     world.getOrCreatePlayground('here');
     return request
       .get('/list')
@@ -26,7 +26,7 @@ describe('These integration tests', function () {
       .expect(/here/);
   });
 
-  describe('has client-server scenarios where', function () {
+  describe('when a programmer and a renderer are connected', function () {
     var programmer, renderer;
 
     beforeEach(function (done) {
@@ -38,13 +38,25 @@ describe('These integration tests', function () {
         forceNew: true,
         query: { playgroundId: 'here', client: 'renderer' }
       });
-      renderer.on('connect', doneWhenCalledTwice);
+
+      renderer.on('connect', function () {
+        renderer.once('playground full update', function (data) {
+          expect(data).to.deep.equal({});
+          doneWhenCalledTwice();
+        });
+      });
 
       programmer = require('socket.io-client')(serverUrl, {
         forceNew: true,
         query: { playgroundId: 'here', client: 'programmer' }
       });
-      programmer.on('connect', doneWhenCalledTwice);
+
+      programmer.on('connect', function () {
+        programmer.once('objects list', function (data) {
+          expect(data.objectIds).to.deep.equal([]);
+          doneWhenCalledTwice();
+        });
+      });
     });
 
     afterEach(function () {
@@ -52,7 +64,7 @@ describe('These integration tests', function () {
       renderer.disconnect();
     });
 
-    it('renderer and programmer receive events when programmer updates code', function (done) {
+    it("programmer receives 'objects list' and renderer receives 'code update' when programmer updates code", function (done) {
       var doneWhenCalledTwice = callWhenCalledTimes(done, 2);
 
       programmer.on('objects list', function (data) {
@@ -72,7 +84,7 @@ describe('These integration tests', function () {
       programmer.emit('code update', data);
     });
 
-    it("programmer receives 'objects list' and rendrer receives 'code delete' when programmer deletes code", function (done) {
+    it("programmer receives 'objects list' and renderer receives 'code delete' when programmer deletes code", function (done) {
       var playground = world.getOrCreatePlayground('here');
       playground.getOrCreateCodeObject('bill');
       playground.getOrCreateCodeObject('bob');
@@ -89,10 +101,7 @@ describe('These integration tests', function () {
         halfdone();
       });
 
-      var data = {
-        codeObjectId: 'bob'
-      };
-      programmer.emit('code delete', data);
+      programmer.emit('code delete', { codeObjectId: 'bob' });
     });
   });
 });

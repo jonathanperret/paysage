@@ -18,13 +18,8 @@
     var id = data.codeObjectId;
     console.log('canvas deleted for ' + id);
 
-    try {
-      layers[id].exit();
-    } catch (e) { }
-    delete layers[id];
-    var elem = document.getElementById(id);
-    elem.parentNode.removeChild(elem);
-    delete canvas[id];
+    deleteLayer(id);
+    deleteCanvas(id);
   });
 
   io.on('code update', function (data) {
@@ -36,10 +31,16 @@
   });
 
   io.on('playground full update', function (data) {
+    clearLayersAndCanvas();
     Object.keys(data).forEach(function (codeObjectId) {
       updateObject(codeObjectId, data[codeObjectId].code);
     });
   });
+
+  function clearLayersAndCanvas () {
+    Object.keys(layers).forEach(deleteLayer);
+    Object.keys(canvas).forEach(deleteCanvas);
+  }
 
   function resizeToWindow (layer) {
     layer.size(window.innerWidth, window.innerHeight);
@@ -67,20 +68,33 @@
     layer.background = zeroAlphaDefaultBackground;
   }
 
+  function createCanvas (id) {
+    canvas[id] = document.createElement('canvas');
+    document.getElementById('container').appendChild(canvas[id]);
+  }
+
+  function deleteCanvas (id) {
+    canvas[id].parentNode.removeChild(canvas[id]);
+    delete canvas[id];
+  }
+
+  function deleteLayer (id) {
+    if (layers[id]) {
+      try {
+        layers[id].exit();
+      } catch (e) { }
+      delete layers[id];
+    }
+  }
+
   function updateObject (id, code) {
     try {
+      deleteLayer(id);
       if (!canvas[id]) {
-        canvas[id] = document.createElement('canvas');
-        canvas[id].setAttribute('id', id);
-
-        document.getElementById('container').appendChild(canvas[id]);
+        createCanvas(id);
         console.log('canvas created for ' + id);
       } else {
         console.log('canvas reused for ' + id);
-        try {
-          layers[id].exit();
-        } catch (e) { }
-        delete layers[id];
       }
       layers[id] = createLayer(canvas[id], code);
     } catch (e) {

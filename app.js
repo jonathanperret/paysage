@@ -67,13 +67,11 @@ module.exports = function (maybeWorld) {
     function programmerUp () {
       debug('a new programmer is up for ' + playground.id);
 
-      if (!playground.isEmpty()) { sendListOfAllObjects(); }
+      sendListOfAllObjects();
     }
 
     function rendererUp () {
       debug('a new renderer is up for ' + playground.id);
-
-      if (playground.isEmpty()) return;
 
       socket.emit('playground full update', playground.getData());
     }
