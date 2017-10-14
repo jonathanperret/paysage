@@ -7,7 +7,8 @@ function World () {
 }
 
 World.prototype.tour = function () {
-  return Object.keys(this.playgrounds);
+  return Object.keys(this.playgrounds).filter(
+    (playgroundId) => !this.playgrounds[playgroundId].isEmpty());
 };
 
 World.prototype.contains = function (id) {

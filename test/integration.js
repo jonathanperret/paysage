@@ -18,10 +18,10 @@ describe('The Paysage server', function () {
     server.close(done);
   });
 
-  it('lists existing playgrounds', function () {
-    world.getOrCreatePlayground('here');
-    return request
-      .get('/list')
+  it('lists playgrounds', function () {
+    var herePlayground = world.getOrCreatePlayground('here');
+    herePlayground.getOrCreateCodeObject('bill');
+    return request.get('/list')
       .expect(200)
       .expect(/here/);
   });
