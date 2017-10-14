@@ -37,7 +37,7 @@ module.exports = {
       .expect.element('@last-codeObject').text.to.equal('jim');
   },
 
-  'A listed code object can be deleted': function (browser) {
+  'A listed code object can be deleted, supposing latest created object on top': function (browser) {
     browser.page.programmer()
       .navigate()
       .setCodeId('jul')
