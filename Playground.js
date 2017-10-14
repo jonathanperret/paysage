@@ -7,51 +7,50 @@ const CodeObject = require('./CodeObject');
 function Playground (id) {
   EventEmitter.call(this);
   this.id = id;
-  this.codeObjects = Object.create(null);
+  this._codeObjects = new Map();
 }
 
 util.inherits(Playground, EventEmitter);
 
 Playground.prototype.getOrCreateCodeObject = function (codeObjectId) {
-  if (this.codeObjects[codeObjectId]) return this.codeObjects[codeObjectId];
+  if (this._codeObjects.has(codeObjectId)) {
+    return this._codeObjects.get(codeObjectId);
+  }
 
   var codeObject = new CodeObject(codeObjectId,
                                   (co) => this.emit('codeObjectUpdated', co));
-  this.codeObjects[codeObjectId] = codeObject;
+  this._codeObjects.set(codeObjectId, codeObject);
   return codeObject;
 };
 
 Playground.prototype.deleteCodeObject = function (codeObjectId) {
   if (!this.contains(codeObjectId)) return;
-  var codeObject = this.codeObjects[codeObjectId];
-  delete this.codeObjects[codeObjectId];
+  const codeObject = this._codeObjects.get(codeObjectId);
+  this._codeObjects.delete(codeObjectId);
   this.emit('codeObjectDeleted', codeObject);
   return codeObject;
 };
 
 Playground.prototype.population = function () {
-  return Object.keys(this.codeObjects);
+  return Array.from(this._codeObjects.keys());
 };
 
 Playground.prototype.isEmpty = function () {
-  return Object.keys(this.codeObjects).length === 0;
+  return this._codeObjects.size === 0;
 };
 
 Playground.prototype.contains = function (id) {
-  return Object.keys(this.codeObjects).indexOf(id) >= 0;
+  return this._codeObjects.has(id);
 };
 
 Playground.prototype.getData = function () {
-  var data = Object.create(null);
-  this.population().forEach((codeObjectId) => {
-    data[codeObjectId] = this.codeObjects[codeObjectId].getData();
-  });
-  return data;
+  return Array.from(this._codeObjects.values())
+    .map((codeObject) => codeObject.getData());
 };
 
 Playground.prototype.getDataFor = function (codeObjectId) {
   var codeObject =
-    this.codeObjects[codeObjectId] ||
+    this._codeObjects.get(codeObjectId) ||
     new CodeObject(codeObjectId);
   return codeObject.getData();
 };

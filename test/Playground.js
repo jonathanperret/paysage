@@ -19,7 +19,8 @@ describe('A playground', function () {
   it("can list its codeObject's ids", function () {
     playground.getOrCreateCodeObject('bob');
     playground.getOrCreateCodeObject('jack');
-    expect(playground.population()).to.have.members(['bob', 'jack']);
+    playground.getOrCreateCodeObject('0');
+    expect(playground.population()).to.deep.equal(['bob', 'jack', '0']);
   });
 
   it('can tell if it is empty', function () {
@@ -54,19 +55,19 @@ describe('A playground', function () {
     playground.getOrCreateCodeObject('bob');
     playground.deleteCodeObject('bob');
 
-    expect(playground.codeObjects).to.deep.equal({});
+    expect(playground.population()).to.deep.equal([]);
     expect(playground.contains('bob')).to.be.false;
   });
 
   it("'s data contains its code objects", function () {
     var bob = playground.getOrCreateCodeObject('bob');
     bob.setData({code: 'hello()'});
-    expect(playground.getData()).to.deep.equal({
-      bob: {
+    expect(playground.getData()).to.deep.equal([
+      {
         codeObjectId: 'bob',
         code: 'hello()'
       }
-    });
+    ]);
   });
 
   it('can return data for an existing code object', function () {
