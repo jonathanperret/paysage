@@ -18,12 +18,12 @@ describe('The Paysage server', function () {
     server.close(done);
   });
 
-  it('lists playgrounds', function (done) {
+  it('lists playgrounds', function () {
     var herePlayground = world.getOrCreatePlayground('here');
     herePlayground.getOrCreateCodeObject('bill');
-    request.get('/list')
+    return request.get('/list')
       .expect(200)
-      .expect(/here/, done);
+      .expect(/here/);
   });
 
   describe('when a programmer and a renderer are connected', function () {
