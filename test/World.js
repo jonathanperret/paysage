@@ -17,8 +17,10 @@ describe('World', function () {
     expect(playground.id).to.equal('Miami beach');
   });
 
-  it('lists all the playgrounds ids', function () {
-    world.getOrCreatePlayground('Miami beach');
+  it('lists all non empty playgrounds ids', function () {
+    var miamiBeach = world.getOrCreatePlayground('Miami beach');
+    miamiBeach.getOrCreateCodeObject('bill');
+    world.getOrCreatePlayground('Empty Playground');
     expect(world.tour()).to.deep.equal(['Miami beach']);
   });
 

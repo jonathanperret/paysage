@@ -7,7 +7,14 @@ function World () {
 }
 
 World.prototype.tour = function () {
-  return Object.keys(this.playgrounds);
+  var tour = Object.keys(this.playgrounds);
+  var i = tour.length;
+  while (i--) {
+    if (this.playgrounds[tour[i]].isEmpty()) {
+      tour.splice(i, 1);
+    }
+  }
+  return tour;
 };
 
 World.prototype.contains = function (id) {
