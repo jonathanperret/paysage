@@ -41,7 +41,7 @@ describe('The Paysage server', function () {
 
       renderer.on('connect', function () {
         renderer.once('playground full update', function (data) {
-          expect(data).to.deep.equal({});
+          expect(data).to.deep.equal([]);
           doneWhenCalledTwice();
         });
       });

@@ -32,8 +32,8 @@
 
   io.on('playground full update', function (data) {
     clearLayersAndCanvas();
-    Object.keys(data).forEach(function (codeObjectId) {
-      updateObject(codeObjectId, data[codeObjectId].code);
+    data.forEach(function (codeObject) {
+      updateObject(codeObject.codeObjectId, codeObject.code);
     });
   });
 
