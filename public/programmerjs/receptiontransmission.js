@@ -41,7 +41,7 @@ var Paysage = window.Paysage || {};
     var objectIds = data.objectIds;
     var $objects = $('#objects');
     $objects.empty();
-    $objects.append(objectIds.map(function (objectId) {
+    $objects.append(objectIds.reverse().map(function (objectId) {
       var $openLink = $("<a href='#'>").text(objectId);
       $openLink.click(function (event) {
         event.preventDefault();
