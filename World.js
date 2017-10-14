@@ -8,13 +8,10 @@ function World () {
 
 World.prototype.tour = function () {
   var tour = Object.keys(this.playgrounds);
-  var i = tour.length;
-  while (i--) {
-    if (this.playgrounds[tour[i]].isEmpty()) {
-      tour.splice(i, 1);
-    }
-  }
-  return tour;
+  var world = this;
+  return tour.filter(function (playgroundId) {
+    return !world.playgrounds[playgroundId].isEmpty();
+  });
 };
 
 World.prototype.contains = function (id) {
