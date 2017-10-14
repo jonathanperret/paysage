@@ -45,7 +45,7 @@ module.exports = {
       .setCodeId('jim')
       .click('@go-live')
       .click('@last-codeObject-trash')
-      .expect.element('@last-codeObject').text.to.equal('jul');
+      .expect.element('@last-codeObject').text.to.equal('jim');
     browser.page.programmer()
       .click('@last-codeObject-trash')
       .expect.element('@last-codeObject').to.not.be.present;
