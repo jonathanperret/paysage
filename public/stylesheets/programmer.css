@@ -118,11 +118,6 @@ body {
   border-color: #888;
 }
 
-#previewonoff {
-  float: left;
-  margin-left: 0;
-}
-
 .examples {
   height: 0;
 }
