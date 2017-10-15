@@ -3,22 +3,35 @@
 const Playground = require('./Playground');
 
 function World () {
-  this.playgrounds = Object.create(null);
+  this._playgrounds = new Map();
 }
 
 World.prototype.tour = function () {
-  return Object.keys(this.playgrounds);
+  return Array.from(this._playgrounds.keys());
 };
 
 World.prototype.contains = function (id) {
-  return Object.keys(this.playgrounds).indexOf(id) >= 0;
+  return this._playgrounds.has(id);
 };
 
 World.prototype.getOrCreatePlayground = function (id) {
-  if (this.playgrounds[id]) return this.playgrounds[id];
-  var playground = new Playground(id);
-  this.playgrounds[id] = playground;
+  let playground;
+  if (this._playgrounds.has(id)) {
+    playground = this._playgrounds.get(id);
+    playground.refCount++;
+  } else {
+    playground = new Playground(id);
+    this._playgrounds.set(id, playground);
+    playground.refCount = 1;
+  }
   return playground;
+};
+
+World.prototype.releasePlayground = function (playground) {
+  playground.refCount--;
+  if (playground.refCount <= 0 && playground.isEmpty()) {
+    this._playgrounds.delete(playground.id);
+  }
 };
 
 module.exports = World;

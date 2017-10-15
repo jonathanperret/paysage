@@ -30,4 +30,23 @@ describe('World', function () {
     world.getOrCreatePlayground('Miami beach');
     expect(world.contains('Miami beach')).to.be.true;
   });
+
+  it('can forget about an empty playground once all references are gone', function () {
+    const playground = world.getOrCreatePlayground('Miami beach');
+    const playgroundOtherReference = world.getOrCreatePlayground('Miami beach');
+
+    world.releasePlayground(playground);
+    expect(world.contains('Miami beach')).to.be.true;
+
+    world.releasePlayground(playgroundOtherReference);
+    expect(world.contains('Miami beach')).to.be.false;
+  });
+
+  it('can remember an non-empty playground even when no references exist', function () {
+    const playground = world.getOrCreatePlayground('Miami beach');
+    playground.getOrCreateCodeObject('obj');
+
+    world.releasePlayground(playground);
+    expect(world.contains('Miami beach')).to.be.true;
+  });
 });
