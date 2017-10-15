@@ -45,12 +45,21 @@ var Paysage = window.Paysage || {};
         exec: Paysage.goLive
       });
       editor.$blockScrolling = Infinity; // to avoid the warning about deprecated scrolling https://github.com/ajaxorg/ace/issues/2499
+
+      editor.on('change', focusBackToEditor); // ensure focus when new code is loaded
+
+      document.getElementById('go-live').addEventListener('click', focusBackToEditor);
+
+      function focusBackToEditor (event) {
+        editor.focus();
+      }
+
       Paysage.getCode = function () {
         return editor.getValue();
       };
 
       Paysage.setCode = function (code) {
-        editor.setValue(code, -1);
+        editor.setValue(code, -1); // -1 move the cursor to the top of the editor
       };
     });
   };

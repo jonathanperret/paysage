@@ -5,7 +5,7 @@ var Paysage = window.Paysage || {};
   'use strict';
 
   // Requires a sourcebuilder script defining Paysage.getCompleteCodeObject()
-  // Requires a codeinitialization script defining Paysage.setCodeId() and Paysage.setCode()
+  // Requires a editingcode script defining Paysage.setCodeId() and Paysage.setCode()
 
   Paysage.requestCode = function (codeObjectId) {
     var data = {
