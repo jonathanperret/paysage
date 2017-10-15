@@ -119,6 +119,7 @@ module.exports = function (maybeWorld) {
     socket.on('disconnect', function () {
       playground.removeListener('codeObjectUpdated', codeObjectUpdated);
       playground.removeListener('codeObjectDeleted', codeObjectDeleted);
+      world.releasePlayground(playground);
     });
   });
 
