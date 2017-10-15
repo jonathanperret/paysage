@@ -41,7 +41,7 @@ var Paysage = window.Paysage || {};
       editor.setShowPrintMargin(false);
       editor.commands.addCommand({
         name: 'go-liveShortcuts',
-        bindKey: {win: 'Ctrl-Alt-g', mac: 'Command-Alt-g'},
+        bindKey: {win: 'Ctrl-Enter', mac: 'Command-Enter'},
         exec: Paysage.goLive
       });
       editor.$blockScrolling = Infinity; // to avoid the warning about deprecated scrolling https://github.com/ajaxorg/ace/issues/2499
