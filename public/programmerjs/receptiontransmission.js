@@ -22,13 +22,14 @@ var Paysage = window.Paysage || {};
     client: clientType
   }}).connect();
 
-  document.getElementById('go-live').addEventListener('click', function () {
+  Paysage.goLive = function () {
     function emitData (data) {
       console.log(data);
       io.emit('code update', data);
     }
     Paysage.getCompleteCodeObject(emitData);
-  });
+  };
+  document.getElementById('go-live').addEventListener('click', Paysage.goLive);
 
   function deleteCode (codeObjectId) {
     var data = {
