@@ -3,12 +3,10 @@
   <head>
     <title>{{playgroundid}} Paysage Playground</title>
     {{> favicon}}
-    <meta name="playgroundid" content="{{playgroundid}}"/>
 
     <style>
       body { margin: 0; }
       canvas { position:absolute; top:0; left:0; right:0; bottom:0; }
-      #id { position:relative; border: 1px dotted black; }
     </style>
   </head>
 
@@ -19,6 +17,9 @@
     <script src="/bower_components/Processing.js/processing.js"></script>
     <script src="{{socketioClient}}"></script>
     <script src="/paysagerenderer.js"></script>
+    <script>
+      Paysage.rendererInit();
+    </script>
 
   </body>
 </html>
