@@ -80,6 +80,7 @@ class Creature {
   float finalspeed; // Final speed once multiplied by Creature's mass
   float mass; // Mass - influenced by arms count and length
   float usermass; // Coeff mass defined by user
+  boolean isNewUserMass = false;
   float coeffsize; //Overall size of Creatures
   float theta; // Heading angle vector
   float maxforce; //Max force when applying on main velocity to avoid weird moves
@@ -198,10 +199,10 @@ class Creature {
       nbbtmp = nbb;
       //Finalspeed initialization - default one with mass = 1
 
-      if(usermass > 0 && usermasstmp != usermass){
+      if(usermass > 0 && isNewUserMass){
         mass += usermass/2;
+        isNewUserMass = false;
       }
-      usermasstmp = usermass;
 
       finalspeed = basespeed*mass;
 
@@ -555,6 +556,7 @@ class Creature {
 
   public Creature poids(float um_){
     usermass = um_;
+    isNewUserMass = true;
 
     return this;
   }
