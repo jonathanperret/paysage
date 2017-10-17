@@ -5,6 +5,6 @@ src_files:
 - "public/bower_components/eventEmitter/EventEmitter.js"
 - "public/bower_components/Processing.js/processing.js"
 - "public/bower_components/jasmine-jquery/lib/jasmine-jquery.js"
-- "public/programmerjs/codeinitialization.js"
 - "public/paysagerenderer.js"
+- "public/programmerjs/editingcode.js"
 - "spec/public/**/*.js"
