@@ -2,7 +2,7 @@ Paysage
 =======
 ### ***Paysage*** *is a visual shared playground for code.* 
 
-![image](paysage-mood-sketch.jpg)
+![image](readme-pictures/paysage-mood-sketch.jpg)
 
 With Paysage kids, beginners and creative coders can live code from their own computer, laptop, tablet, or phone using a variety of IDEs and editors. 
 Pieces of code that we call 'code objects' are sent and rendered live on a visual playground accessible via an URL.
@@ -14,7 +14,7 @@ Paysage is about making possible a very specific coding experience:
 
 ### Demo
 
-![image](paysage-mini.gif)
+![image](readme-pictures/paysage-mini.gif)
 
 [http://paysage.xyz/playground/boumsplash/](http://paysage.xyz/playground/boumsplash/) (a playground named "boumsplash"!)  
 [http://paysage.xyz/playground/boumsplash/programmer](http://paysage.xyz/playground/boumsplash/programmer) (a basic default code editor for the boumsplash playground. The plan is to allow any other editor, including desktop editors or apps.) 
@@ -76,13 +76,17 @@ The **Paysage server** is a NodeJs / Express app that both listens to the progra
 The **Paysage playground** (renderer) is a JS HTML CSS page using Processing.js. 
 Each code object is run as a separated Processing.js instance. As Processing.js leaves JS code alone, a code object can load and use other rendering libraries like two.js, d3.js, allowing participants to mix and match, and to code their objects using their favorite library.
 
-**Paysage code editors** implementations will ideally be in a variety of languages that compile or interpret to javascript, and could be purely textual editors or visual editors or anything in between. For example:
+**Paysage code editors** implementations will ideally be in a variety of languages that compile or interpret to javascript, and could be purely textual editors or visual editors or anything in between. 
+
+At the moment, we use [Ace](https://ace.c9.io/) as the text editor: [http://paysage.xyz/playground/boumsplash/programmer](http://paysage.xyz/playground/boumsplash/programmer), communicating with the server using socket.io.
+
+In the future we would like to have, for example:
  - A block-based editor based on Snap!, Blocky from Google or BlockLanguages.  
- - A local folder-watcher app for text editors could push code to the Paysage server at each file save. 
- - An Etherpad based editor could allow several persons to code together on the same code object.
- - An editor for babies on tablets, using only shapes to touch would be very cool, too. 
- 
-*At the moment, we use [Ace](https://ace.c9.io/) as the text editor: [http://paysage.xyz/playground/boumsplash/programmer](http://paysage.xyz/playground/boumsplash/programmer)*, communicating with the server using socket.io
+ - A local folder-watcher app for text editors that would push code to the Paysage server at each file save. 
+ - An Etherpad based editor could allow several persons to code together on the same code object, multiplying the collaborative aspect even more.
+ - An editor for babies on tablets, using only shapes to touch would be very cool to have, too. 
+ - A Python or Logo-based editor would bring the positive aspects of these languages for beginners to Paysage.
+ - and more way to send code to a Paysage playground, the ways ***you*** would want to edit code in Paysage…
 
 #### Additional information on the wiki 
 https://github.com/jonathanperret/paysage/wiki
@@ -91,15 +95,28 @@ https://github.com/jonathanperret/paysage/wiki
 https://github.com/jonathanperret/paysage/wiki/Technical-documentation
 
 ##### Workshops
-https://github.com/jonathanperret/paysage/wiki/Workshops
+Paysage has been already been used as the platform for workshops and creative coding classes.
+[https://github.com/jonathanperret/paysage/wiki/Workshops
+](https://github.com/jonathanperret/paysage/wiki/Workshops)
 
-#### Multi-screens
-https://github.com/jonathanperret/paysage/wiki/Multi-screen
+*An example is the Code Créatures workshop that took place at Pompidou Center during La Fête du Code Créatif (Creative Coding Party/Fest) on November 28th-29th 2015:*
+![](https://github.com/FeteCodeCreatif/creature/raw/master/creature-mini.gif)
+
+##### Multi-screens
+There's an how-to on the wiki explaining how to make your sketches multi-screen ready, so your they can spans multiple, separate playground (each one appearing shifted from the others)
+
+[https://github.com/jonathanperret/paysage/wiki/Multi-screen
+](https://github.com/jonathanperret/paysage/wiki/Multi-screen)
+
+*Here are images of a Code Creatures workshop making use of this technique at La Gaité in Paris, with 4 different Playground page working as a single 360º screen*
+![Using Paysage with a multi-screen enabled Code Creatures sketch](readme-pictures/TAM0lW0PBLFE7ahW.gif) 
+![Using Paysage with a multi-screen enabled Code Creatures sketch](readme-pictures/CkxVHXxW0AAF-43.jpg)
+![Using Paysage with a multi-screen enabled Code Creatures sketch](readme-pictures/CkwEo5AWsAAu6tR.jpg)
 
 
 #### TO DO
 
-- Create **simpler code creatures** to serve as examples and starting points for users. 
+- [Create **simpler code examples**, that are easier to use as starting points for users](https://github.com/jonathanperret/paysage/issues/97), with clearer paths of improvement and modifications (more hackable).
 - [code objects for a playground should be persistent and reloaded from the server](https://github.com/jonathanperret/paysage/issues/5)
 - [any client editor should be able communicate with the server using a simple HTTP API](https://github.com/jonathanperret/paysage/issues/7)
   - for example [a local script could sync objects and local files](https://github.com/jonathanperret/paysage/issues/14) 
