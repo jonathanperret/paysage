@@ -12,7 +12,7 @@ The Paysage project does not try to invent a new IDE or code editor for creative
 Paysage is about making possible a very specific coding experience: 
 **Let 10 people of any level or age code together in the same room –with a few more online– on the same visual playground.**
 
-### Demo
+### Try it! 
 
 ![image](readme-pictures/paysage-mini-2017.gif)
 
@@ -98,7 +98,7 @@ In the future we would like to have, for example:
  - An Etherpad based editor could allow several persons to code together on the same code object, multiplying the collaborative aspect even more.
  - An editor for babies on tablets, using only shapes to touch would be very cool to have, too. 
  - A Python or Logo-based editor would bring the positive aspects of these languages for beginners to Paysage.
- - and more way to send code to a Paysage playground, the ways ***you*** would want to edit code in Paysage…
+ - and more ways to send code to a Paysage playground, the ways ***you*** would want to edit code in Paysage…
 
 #### Additional information on the wiki 
 https://github.com/jonathanperret/paysage/wiki
@@ -107,7 +107,7 @@ https://github.com/jonathanperret/paysage/wiki
 https://github.com/jonathanperret/paysage/wiki/Technical-documentation
 
 ##### Workshops
-Paysage has been already been used as the platform for workshops and creative coding classes.
+Paysage has already been used as a platform for workshops and creative coding classes.
 [https://github.com/jonathanperret/paysage/wiki/Workshops
 ](https://github.com/jonathanperret/paysage/wiki/Workshops)
 
@@ -117,12 +117,12 @@ Paysage has been already been used as the platform for workshops and creative co
 </p>
 
 ##### Multi-screens
-There's an how-to on the wiki explaining how to make your sketches multi-screen ready, so your they can spans multiple, separate playground (each one appearing shifted from the others)
+There's an how-to on the wiki explaining how to make your sketches multi-screen ready, so your they can span multiple, separate playground pages (each one appearing shifted from the others)
 
 [https://github.com/jonathanperret/paysage/wiki/Multi-screen
 ](https://github.com/jonathanperret/paysage/wiki/Multi-screen)
 
-*Here are images of a Code Creatures workshop making use of this technique at La Gaité in Paris, with 4 different Playground page working as a single 360º screen*  
+*Here are images of a Code Créatures workshop making use of this technique at La Gaité in Paris, with 4 different Playground pages working as one Playground on a single 360º screen*  
 
 <p align="center">
 <img src="readme-pictures/TAM0lW0PBLFE7ahW.gif" title="Using Paysage with a multi-screen enabled Code Creatures sketch"> 
