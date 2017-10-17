@@ -14,22 +14,33 @@ Paysage is about making possible a very specific coding experience:
 
 ### Demo
 
-![image](readme-pictures/paysage-mini.gif)
+![image](readme-pictures/paysage-mini-2017.gif)
 
-[http://paysage.xyz/playground/boumsplash/](http://paysage.xyz/playground/boumsplash/) (a playground named "boumsplash"!)  
-[http://paysage.xyz/playground/boumsplash/programmer](http://paysage.xyz/playground/boumsplash/programmer) (a basic default code editor for the boumsplash playground. The plan is to allow any other editor, including desktop editors or apps.) 
+[http://paysage.xyz/playground/boumsplash/](http://paysage.xyz/playground/boumsplash/) is a playground named "boumsplash", because it's a fun name! (You can choose any name).  
+Open the Playground page **full-screen on a computer connected to a videoprojector** or on tablet in the middle of a big table. **It's a collective visual space for creative code.**
 
-- Open both pages (on several different computers for more fun. You of course can open the playground view on a phone or tablet too.), 
+[http://paysage.xyz/playground/boumsplash/programmer](http://paysage.xyz/playground/boumsplash/programmer) is the default online code editor for the boumsplash playground. (The plan is to allow any other editor to contribute to a Playground, including desktop editors or apps).  **Open the Programmer page on your computer** or tablet (keyboard preferred).
 
- - Write ProcessingJS code on the programmer, click the [Go live!] button to send your code to the playground. Your code is assigned a unique name (the editor defaults to a random word, but you can change it to anything you want).
- - Or, click a thumbnail to load an example, and click the [Go live!] button to send your code to the playground. 
- - Code objects are listed: click the links to load an existing object, change its name to create a new object derived from it.
+- **Ask a friend** to open another [programmer page for boumsplash](http://paysage.xyz/playground/boumsplash/programmer) to code together on the same [playground](http://paysage.xyz/playground/boumsplash/)
 
-- Ask a friend to open another [programmer page for boumsplash](http://paysage.xyz/playground/boumsplash/programmer) to code together on the same [playground](http://paysage.xyz/playground/boumsplash/)
+The more people and the more computers that open the Programmer, the more fun it is (the record as of october 2017 is 22 students :-)
+
+ - Write Processing.js code on the programmer, **click the [Go live!] button to send your code to the playground.** Your code is assigned a unique name (the editor defaults to a random word, but you can change it to anything you want).
+ - Click a thumbnail at the bottom to load an example, and click the [Go live!] button to send your code to the playground. 
+ - Code objects are listed: click the links to load an existing object, change the name of the loaded code to create a new object derived from it.
 
 (Code objects are saved server-side but only in-memory. No disk or database persistence for now. As we are using a free Heroku instance, code is lost whenever the server is shutdown by Heroku for inactivity)
 
+![readme-pictures/paysage-programmer.png](readme-pictures/paysage-programmer.png)
+
+### How to join Playgrounds and Programmer pages?
+
 A list of active Playgrounds to join can be found at http://paysage.xyz/list
+
+Going to http://paysage.xyz/ will automatically create a new playground for you and redirect you to this new playground's Programmer page. You can then share the URL for others to join you.
+
+You can also choose the name of your new playground by using the name you want in the URL : http://paysage.xyz/playground/NAME-I-WANT/ and http://paysage.xyz/playground/NAME-I-WANT/programmer. A new playground will be created for you to play in—but you have to replace NAME-I-WANT by the name you actually want ;-)
+
 
 ### Note on the collaborative vision of Paysage:
 
