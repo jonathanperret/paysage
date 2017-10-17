@@ -29,7 +29,7 @@ The more people and the more computers that open the Programmer, the more fun it
  - Click a thumbnail at the bottom to load an example, and click the [Go live!] button to send your code to the playground. 
  - Code objects are listed: click the links to load an existing object, change the name of the loaded code to create a new object derived from it.
 
-(Code objects are saved server-side but only in-memory. No disk or database persistence for now. As we are using a free Heroku instance, code is lost whenever the server is shutdown by Heroku for inactivity)
+(Code objects are saved server-side but only in-memory. No disk or database persistence for now. As we are using a free Heroku instance, code is lost whenever the server is shutdown by Heroku for inactivity)  
 
 ![readme-pictures/paysage-programmer.png](readme-pictures/paysage-programmer.png)
 
@@ -92,6 +92,7 @@ Each code object is run as a separated Processing.js instance. As Processing.js 
 At the moment, we use [Ace](https://ace.c9.io/) as the text editor: [http://paysage.xyz/playground/boumsplash/programmer](http://paysage.xyz/playground/boumsplash/programmer), communicating with the server using socket.io.
 
 In the future we would like to have, for example:
+
  - A block-based editor based on Snap!, Blocky from Google or BlockLanguages.  
  - A local folder-watcher app for text editors that would push code to the Paysage server at each file save. 
  - An Etherpad based editor could allow several persons to code together on the same code object, multiplying the collaborative aspect even more.
@@ -110,8 +111,10 @@ Paysage has been already been used as the platform for workshops and creative co
 [https://github.com/jonathanperret/paysage/wiki/Workshops
 ](https://github.com/jonathanperret/paysage/wiki/Workshops)
 
-*An example is the Code Créatures workshop that took place at Pompidou Center during La Fête du Code Créatif (Creative Coding Party/Fest) on November 28th-29th 2015:*
-![](https://github.com/FeteCodeCreatif/creature/raw/master/creature-mini.gif)
+*An example is the Code Créatures workshop that took place at Pompidou Center during La Fête du Code Créatif (Creative Coding Party/Fest) on November 28th-29th 2015:*  
+<p align="center">
+<img src="https://github.com/FeteCodeCreatif/creature/raw/master/creature-mini.gif" title="Code Creatures in Paysage"> 
+</p>
 
 ##### Multi-screens
 There's an how-to on the wiki explaining how to make your sketches multi-screen ready, so your they can spans multiple, separate playground (each one appearing shifted from the others)
@@ -119,10 +122,14 @@ There's an how-to on the wiki explaining how to make your sketches multi-screen 
 [https://github.com/jonathanperret/paysage/wiki/Multi-screen
 ](https://github.com/jonathanperret/paysage/wiki/Multi-screen)
 
-*Here are images of a Code Creatures workshop making use of this technique at La Gaité in Paris, with 4 different Playground page working as a single 360º screen*
-![Using Paysage with a multi-screen enabled Code Creatures sketch](readme-pictures/TAM0lW0PBLFE7ahW.gif) 
-![Using Paysage with a multi-screen enabled Code Creatures sketch](readme-pictures/CkxVHXxW0AAF-43.jpg)
-![Using Paysage with a multi-screen enabled Code Creatures sketch](readme-pictures/CkwEo5AWsAAu6tR.jpg)
+*Here are images of a Code Creatures workshop making use of this technique at La Gaité in Paris, with 4 different Playground page working as a single 360º screen*  
+
+<p align="center">
+<img src="readme-pictures/TAM0lW0PBLFE7ahW.gif" title="Using Paysage with a multi-screen enabled Code Creatures sketch"> 
+</p>
+
+![Using Paysage with a multi-screen enabled Code Creatures sketch](readme-pictures/CkxVHXxW0AAF-43.jpg) 
+![Using Paysage with a multi-screen enabled Code Creatures sketch](readme-pictures/CkwEo5AWsAAu6tR.jpg) 
 
 
 #### TO DO
