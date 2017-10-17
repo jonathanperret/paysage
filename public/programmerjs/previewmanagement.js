@@ -8,14 +8,15 @@
   function switchframe (event) {
     event.preventDefault();
     if (frozenpreview) {
-      $('#viewercontainer').show(150);
       frozenpreview.appendTo('#viewercontainer');
       frozenpreview = null;
+      $('#viewercontainer').show();
       $('#previewisoff').hide();
       $('#previewison').show();
     } else {
-      frozenpreview = $('#viewerframe').detach();
-      $('#viewercontainer').hide(150);
+      $('#viewercontainer').hide(1, function () {
+        frozenpreview = $('#viewerframe').detach();
+      });
       $('#previewison').hide();
       $('#previewisoff').show();
     }
