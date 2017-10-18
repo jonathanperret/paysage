@@ -2,6 +2,7 @@ class Serpent {
     PVector loc;
     PVector vel;
     ArrayList anneaux = new ArrayList();
+    color maCouleur;
 
     Serpent() {
         loc = new PVector(random(width), random(height));
@@ -24,8 +25,10 @@ class Serpent {
     }
 
     void dessineToi() {
+
         beginShape();
 
+        stroke(maCouleur);
         fill(0, 0, 0, 0); // en changeant le remplissage, des choses amusantes peuvent se dessiner
 
         for (int i = 0; i <= anneaux.size()-1; i++) {
@@ -55,7 +58,7 @@ class Serpent {
     }
 
     void changeTaCouleur(float rouge, float vert, float bleu) {
-        stroke(rouge, vert, bleu);
+      this.maCouleur = color(rouge, vert, bleu);
     }
 }
 
