@@ -80,13 +80,9 @@ class Creature {
   PVector[] epaule;
   float tbl; //TB LENGTH
 
-  //WANDER
-  float wandertheta;
-
   //HEAD
   PVector visage;
   PVector[] oeil;
-  float[] angleoeil;
 
   //COLORS
   color coFull;
@@ -491,10 +487,9 @@ class Creature {
     tt = te_;
 
     oeil = new PVector[tt];
-    angleoeil = new float[tt];
     for (int k = 0; k < tt; k++) {
-      angleoeil[k] = random(TWO_PI);
-      oeil[k] = new PVector(cos(angleoeil[k])*coeffsize/4, sin(angleoeil[k])*coeffsize/4);
+      float angleoeil = random(TWO_PI);
+      oeil[k] = new PVector(cos(angleoeil)*coeffsize/4, sin(angleoeil)*coeffsize/4);
     }
 
     return this;
