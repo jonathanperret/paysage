@@ -1,4 +1,4 @@
-// Global Variables //<>//
+// Global Constants //<>//
 // BODY
 int atome = 0;
 int serpent = 1;
@@ -6,7 +6,7 @@ int duo = 2;
 int cristal = 3;
 int crystal = 3;
 
-// HAND 
+// HAND
 int losange = 0;
 int cercle = 1;
 int pyramide = 2;
@@ -37,16 +37,14 @@ int gris = 0;
 int cyclope = 1;
 int horrible = 8;
 
-//Global Variables end
+//Global Constants end
 
 class Creature {
   //MOVE
   PVector loc; // Position
   PVector vel; // Velocity
   PVector acc; // Acceleration
-  PVector target; // Cible
-  PVector dir; // Direction
-  PVector st; // Steering
+  PVector target; // Target
 
   //PARAMETERS
   int c; // body
@@ -58,8 +56,6 @@ class Creature {
 
   //GLOBALS
   float basespeed; //Base speed
-  float finalspeed; // Final speed once multiplied by Creature's mass 
-  float mass; // Mass - influenced by arms count and length
   float usermass; // Coeff mass defined by user
   float coeffsize; //Overall size of Creatures
   float theta; // Heading angle vector
@@ -96,15 +92,11 @@ class Creature {
   Creature() {
 
     //VARIABLES INIT
-    if (width > height) {
-      strokeW = height/200;
-      coeffsize = height/13.5;
-      basespeed = height/100;
-    } else {
-      strokeW = width/200;
-      coeffsize = width/13.5;
-      basespeed = width/100;
-    }
+    int shortestDimention = min(width, height);
+    strokeW = shortestDimention/200;
+    coeffsize = shortestDimention/13.5;
+    basespeed = shortestDimention/100;
+
     strokeWeight(strokeW);
 
     // Init edges with coeffsize
@@ -113,7 +105,7 @@ class Creature {
 
     //Random location starting point
     loc = new PVector(
-        random(coeffsize, widthedge), 
+        random(coeffsize, widthedge),
         random(coeffsize, heightedge)
         );
 
@@ -127,10 +119,6 @@ class Creature {
         random(coeffsize, heightedge)
         );
 
-    //Direction and steering initialization
-    dir = new PVector(0, 0);
-    st  = new PVector(0, 0);
-
     poids(0);
     nombredebras(humain);
     tailledebras(patte);
@@ -140,9 +128,12 @@ class Creature {
   }
 
   public Creature anime() {
-    finalspeed = basespeed*mass;
+    float mass = 1 + tb/30 - float(nbb/30) + usermass/2;
+    float finalspeed = basespeed*mass;
     float theta = vel.heading();
-    dir = PVector.sub(target, loc);
+
+    // Direction
+    PVector dir = PVector.sub(target, loc);
 
     //Max force when applying on main velocity to avoid weird moves
     float maxforce = 0.5;
@@ -158,7 +149,7 @@ class Creature {
 
         //if we arrive, just slow down
         if (dd < coeffsize*2) {
-          float ralenti = map(dd, 0, coeffsize*2, 0, finalspeed);  
+          float ralenti = map(dd, 0, coeffsize*2, 0, finalspeed);
           dir.mult(ralenti);
         } else {
           dir.mult(finalspeed);
@@ -291,7 +282,7 @@ class Creature {
               random(coeffsize, heightedge)
               );
           //rect(target.x, target.y, 100, 100);
-        } 
+        }
         dir.mult(finalspeed);
 
 
@@ -322,16 +313,16 @@ class Creature {
     //stroke(0, 100, 100);
     //point(target.x, target.y);
 
-    st = PVector.sub(dir, vel);
-    st.limit(maxforce);
+    PVector stearing = PVector.sub(dir, vel);
+    stearing.limit(maxforce);
+    applyForce(stearing, mass);
 
-    applyForce(st);
     vel.add(acc);
     vel.limit(finalspeed);
     loc.add(vel);
     acc.mult(0);
 
-    rebondis();
+    rebondis(finalspeed, mass);
 
     // annime les bras
     for (int ii = 0; ii < nbb; ii++) {
@@ -413,24 +404,14 @@ class Creature {
     return this;
   }
 
-  void initMassAndSpeed(tb_, nbb_, usermass_) {
-    mass = 1 + tb_/30 - float(nbb_/30) + usermass_/2;
-    finalspeed = basespeed*mass;
-  }
-
   public Creature poids(float um_){
     usermass = um_;
-
-    initMassAndSpeed(tb, nbb, usermass);
-
     return this;
   }
 
   // ARMSIZE
   public Creature tailledebras(float tb_) {
     tb = tb_;
-
-    initMassAndSpeed(tb, nbb, usermass);
 
     //UPDATE ARM SIZE
     tbl = tb*((coeffsize*coeffsize)/80);
@@ -440,8 +421,6 @@ class Creature {
 
   public Creature nombredebras(int nbb_) {
     nbb = nbb_;
-
-    initMassAndSpeed(tb, nbb, usermass);
 
     // Init for SNAKE in case it is choosent
     //sizeSnake = int((3+nbb)/2);
@@ -495,7 +474,7 @@ class Creature {
     return this;
   }
 
-  public Creature rebondis() {
+  public Creature rebondis(float finalspeed, float mass_) {
     PVector nogo;
     PVector out = null;
     if (loc.x < coeffsize) {
@@ -518,15 +497,14 @@ class Creature {
       nogo = PVector.sub(out, vel);
       float maxf = 1;
       nogo.limit(maxf);
-      applyForce(nogo);
+      applyForce(nogo, mass_);
     }
 
     return this;
   }
 
-  void applyForce(PVector force) {
-    PVector f = PVector.div(force, mass);
-    acc.add(f);
+  void applyForce(PVector force, float mass_) {
+    acc.add(PVector.div(force, mass_));
   }
 
   void drawTete() {
@@ -663,7 +641,7 @@ class Child {
   PVector loca;
   PVector velo;
   PVector acce;
-  float masse = 10;
+  const MASSE = 10;
   float fric = 0.99;
 
   Child(float x, float y) {
@@ -682,7 +660,7 @@ class Child {
 
   void applyForce(PVector force) {
     PVector f = force.get();
-    f.div(masse);
+    f.div(MASSE);
     acce.add(f);
   }
 }
