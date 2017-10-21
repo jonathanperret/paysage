@@ -74,7 +74,6 @@ class Creature {
   Child[] arms;
   Attach att;
   PVector[] epaule;
-  float tbl; //TB LENGTH
 
   //HEAD
   PVector visage;
@@ -325,10 +324,11 @@ class Creature {
     rebondis(finalspeed, mass);
 
     // annime les bras
+    float armLength = tb*((coeffsize*coeffsize)/80);
     for (int ii = 0; ii < nbb; ii++) {
-      att = new Attach(epaule[ii].x, epaule[ii].y, int(tbl));
+      att = new Attach(epaule[ii].x, epaule[ii].y, int(armLength));
       att.connect(arms[ii]);
-      att.constrainLength(arms[ii], tbl, tbl, 0.69);
+      att.constrainLength(arms[ii], armLength, armLength, 0.69);
       arms[ii].update();
     }
     return this;
@@ -412,9 +412,6 @@ class Creature {
   // ARMSIZE
   public Creature tailledebras(float tb_) {
     tb = tb_;
-
-    //UPDATE ARM SIZE
-    tbl = tb*((coeffsize*coeffsize)/80);
 
     return this;
   }
