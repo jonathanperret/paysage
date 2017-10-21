@@ -339,6 +339,71 @@ class Creature {
     return this;
   }
 
+  public Creature poids(float um_){
+    usermass = um_;
+    return this;
+  }
+
+  public Creature tailledebras(float tb_) {
+    tb = tb_;
+    return this;
+  }
+
+  public Creature nombredebras(int nbb_) {
+    nbb = nbb_;
+
+    // Init for SNAKE in case it is choosent
+    //sizeSnake = int((3+nbb)/2);
+    sizeSnake = nbb+1;
+    snake = new Child[sizeSnake];
+    segment = (coeffsize*3)/sizeSnake;
+    for (int i = 0; i < sizeSnake; i++) {
+      snake[i] = new Child(loc.x+(i*2), loc.y+(i*2));
+    }
+
+    //ATTACH FOR ARMS
+    epaule = new PVector[nbb];
+    arms = new Child[nbb];
+    for (int i = 0; i < nbb; i++) {
+      epaule[i] = new PVector(0, 0);
+      arms[i] = new Child(width, height);
+    }
+    return this;
+  }
+
+  public Creature main(int m_) {
+    m = m_;
+    return this;
+  }
+
+  public Creature couleurs(int co_) {
+    co = co_;
+    //COLORS
+    coFull = color(co, 85, 80, 90);
+    coFullS = color(co, 100, 80, 90);
+    coFullB = color(co, 100, 40, 100);
+    coHalf = color(co, 55, 100, 75);
+    coLow = color(co, 30, 100, 90);
+    coWhite = color(co, 14, 100, 75);
+    return this;
+  }
+
+  public Creature couleur(int co_) {
+    return couleurs(co_);
+  }
+
+  public Creature yeux(int te_) {
+    tt = te_;
+
+    oeil = new PVector[tt];
+    for (int k = 0; k < tt; k++) {
+      float angleoeil = random(TWO_PI);
+      oeil[k] = new PVector(cos(angleoeil)*coeffsize/4, sin(angleoeil)*coeffsize/4);
+    }
+
+    return this;
+  }
+
   public Creature drawCorps() {
     strokeWeight(strokeW);
     stroke(coFullS);
@@ -401,73 +466,6 @@ class Creature {
 
         break;
     }
-    return this;
-  }
-
-  public Creature poids(float um_){
-    usermass = um_;
-    return this;
-  }
-
-  // ARMSIZE
-  public Creature tailledebras(float tb_) {
-    tb = tb_;
-
-    return this;
-  }
-
-  public Creature nombredebras(int nbb_) {
-    nbb = nbb_;
-
-    // Init for SNAKE in case it is choosent
-    //sizeSnake = int((3+nbb)/2);
-    sizeSnake = nbb+1;
-    snake = new Child[sizeSnake];
-    segment = (coeffsize*3)/sizeSnake;
-    for (int i = 0; i < sizeSnake; i++) {
-      snake[i] = new Child(loc.x+(i*2), loc.y+(i*2));
-    }
-
-    //ATTACH FOR ARMS
-    epaule = new PVector[nbb];
-    arms = new Child[nbb];
-    for (int i = 0; i < nbb; i++) {
-      epaule[i] = new PVector(0, 0);
-      arms[i] = new Child(width, height);
-    }
-    return this;
-  }
-
-  public Creature main(int m_) {
-    m = m_;
-    return this;
-  }
-
-  public Creature couleurs(int co_) {
-    co = co_;
-    //COLORS
-    coFull = color(co, 85, 80, 90);
-    coFullS = color(co, 100, 80, 90);
-    coFullB = color(co, 100, 40, 100);
-    coHalf = color(co, 55, 100, 75);
-    coLow = color(co, 30, 100, 90);
-    coWhite = color(co, 14, 100, 75);
-    return this;
-  }
-
-  public Creature couleur(int co_) {
-    return couleurs(co_);
-  }
-
-  public Creature yeux(int te_) {
-    tt = te_;
-
-    oeil = new PVector[tt];
-    for (int k = 0; k < tt; k++) {
-      float angleoeil = random(TWO_PI);
-      oeil[k] = new PVector(cos(angleoeil)*coeffsize/4, sin(angleoeil)*coeffsize/4);
-    }
-
     return this;
   }
 
