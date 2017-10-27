@@ -67,7 +67,6 @@ class Creature {
   //SNAKE
   int sizeSnake;
   Child[] snake;
-  float segment;
   Attach anc;
 
   //ARMS
@@ -193,6 +192,8 @@ class Creature {
           //rect(target.x, target.y, 100, 100);
         }
         dir.mult(finalspeed);
+
+        float segment = (coeffsize*3)/sizeSnake;
 
         for (int j = 0; j < sizeSnake; j++) {
 
@@ -356,7 +357,6 @@ class Creature {
     //sizeSnake = int((3+nbb)/2);
     sizeSnake = nbb+1;
     snake = new Child[sizeSnake];
-    segment = (coeffsize*3)/sizeSnake;
     for (int i = 0; i < sizeSnake; i++) {
       snake[i] = new Child(loc.x+(i*2), loc.y+(i*2));
     }
@@ -646,7 +646,7 @@ class Child {
   }
 
   // Standard Euler integration
-  void update() { 
+  void update() {
     velo.add(acce);
     velo.mult(fric);
     loca.add(velo);
