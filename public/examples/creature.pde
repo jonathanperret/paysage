@@ -51,7 +51,6 @@ class Creature {
   int m; // hand
   float tb; // Arm size
   int nbb; // Arms count
-  color co; // Colors
   int tt; // Tete
 
   //GLOBALS
@@ -376,15 +375,14 @@ class Creature {
     return this;
   }
 
-  public Creature couleurs(int co_) {
-    co = co_;
+  public Creature couleurs(int red) {
     //COLORS
-    coFull = color(co, 85, 80, 90);
-    coFullS = color(co, 100, 80, 90);
-    coFullB = color(co, 100, 40, 100);
-    coHalf = color(co, 55, 100, 75);
-    coLow = color(co, 30, 100, 90);
-    coWhite = color(co, 14, 100, 75);
+    coFull = color(red, 85, 80, 90);
+    coFullS = color(red, 100, 80, 90);
+    coFullB = color(red, 100, 40, 100);
+    coHalf = color(red, 55, 100, 75);
+    coLow = color(red, 30, 100, 90);
+    coWhite = color(red, 14, 100, 75);
     return this;
   }
 
