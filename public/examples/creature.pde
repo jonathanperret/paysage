@@ -139,7 +139,7 @@ class Creature {
 
     switch(c) {
 
-      case 0: //ATOME
+      case atome:
         //The maxforce to steer
         maxforce = 1;
         float dd = dir.mag();
@@ -180,7 +180,7 @@ class Creature {
 
         break;
 
-      case 1: //SERPENT
+      case serpent:
         maxforce = 0.1;
         float dddd = dir.mag();
         dir.normalize();
@@ -230,7 +230,7 @@ class Creature {
 
         break;
 
-      case 2: //DUO
+      case duo:
         maxforce = 0.15;
         float du = dir.mag();
 
@@ -271,7 +271,7 @@ class Creature {
         visage = new PVector(loc.x, loc.y);
 
         break;
-      case 3: //CRISTAL
+      case crystal:
         strokeCap(ROUND);
         maxforce = 0.3;
         float ddd = dir.mag();
@@ -413,13 +413,13 @@ class Creature {
 
     switch(c) {
 
-      case 0: //ATOME
+      case atome:
         //Draw the body
         ellipse(loc.x, loc.y, coeffsize, coeffsize);
 
         break;
 
-      case 1: //SERPENT
+      case serpent:
         noFill();
 
         beginShape();
@@ -433,7 +433,7 @@ class Creature {
 
         break;
 
-      case 2: //DUO
+      case duo:
         float thetad = -theta;
         float radd = coeffsize*0.8;
         beginShape();
@@ -452,7 +452,7 @@ class Creature {
         endShape(CLOSE);
 
         break;
-      case 3: //CRISTAL
+      case crystal:
         strokeCap(ROUND);
 
         float thetac = -theta;
@@ -541,17 +541,17 @@ class Creature {
     fill(coWhite);
     for (int ii = 0; ii < nbb; ii++) {
       switch(m) {
-        case 0:
+        case losange:
           pushMatrix();
           translate(arms[ii].loca.x, arms[ii].loca.y);
           rotate(PI/4);
           rect(0, 0, handsize, handsize);
           popMatrix();
           break;
-        case 1:
+        case cercle:
           ellipse(arms[ii].loca.x, arms[ii].loca.y, handsize, handsize);
           break;
-        case 2:
+        case pyramide:
           beginShape();
           float anglet=TWO_PI/3;
           for (int iii=0; iii<3; iii++)
@@ -560,7 +560,7 @@ class Creature {
           }
           endShape(CLOSE);
           break;
-        case 3:
+        case etoile:
           float anglee=TWO_PI/5;
           for (int iii=0; iii<5; iii++)
           {
