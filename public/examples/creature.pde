@@ -120,9 +120,66 @@ class Creature {
     yeux(cyclope);
   }
 
+  public Creature poids(float um_){
+    usermass = um_;
+    return this;
+  }
+
+  public Creature tailledebras(float tb_) {
+    tb = tb_;
+    return this;
+  }
+
+  public Creature nombredebras(int nbb_) {
+    nbb = nbb_;
+
+    //ATTACH FOR ARMS
+    epaule = new PVector[nbb];
+    arms = new Child[nbb];
+    for (int i = 0; i < nbb; i++) {
+      epaule[i] = new PVector(0, 0);
+      arms[i] = new Child(width, height);
+    }
+    return this;
+  }
+
+  public Creature main(int m_) {
+    m = m_;
+    return this;
+  }
+
+  public Creature couleurs(int red) {
+    //COLORS
+    coFull = color(red, 85, 80, 90);
+    coFullS = color(red, 100, 80, 90);
+    coFullB = color(red, 100, 40, 100);
+    coHalf = color(red, 55, 100, 75);
+    coLow = color(red, 30, 100, 90);
+    coWhite = color(red, 14, 100, 75);
+    return this;
+  }
+
+  public Creature couleur(int co_) {
+    return couleurs(co_);
+  }
+
+  public Creature yeux(int te_) {
+    tt = te_;
+
+    oeil = new PVector[tt];
+    for (int k = 0; k < tt; k++) {
+      float angleoeil = random(TWO_PI);
+      oeil[k] = new PVector(cos(angleoeil)*coeffsize/4, sin(angleoeil)*coeffsize/4);
+    }
+
+    return this;
+  }
+
   public Creature anime() {
     float mass = 1 + tb/30 - float(nbb/30) + usermass/2;
     float finalspeed = basespeed*mass;
+
+    theta = vel.heading();
 
     // Direction
     PVector dir = PVector.sub(target, loc);
@@ -157,8 +214,7 @@ class Creature {
   }
 
   public float animeCorps(float mass,float finalspeed, PVector dir) {
-    theta = vel.heading();
-    float maxforce = 0.5;
+    float maxforce;
     switch(c) {
 
       case atome:
@@ -178,9 +234,9 @@ class Creature {
         //Search for a new target when approach is done
         if (dd <= coeffsize/10) {
           target = new PVector(
-              random(coeffsize, widthedge), 
+              random(coeffsize, widthedge),
               random(coeffsize, heightedge)
-              ); 
+              );
           //ellipse(target.x, target.y, 100, 100);
         }
 
@@ -195,7 +251,7 @@ class Creature {
           vtmp.normalize();
           vtmp.mult(1.1);
           arms[iii].acce.add(vtmp);
-        } 
+        }
 
         //Get face coordinates
         visage = new PVector(loc.x, loc.y);
@@ -284,59 +340,37 @@ class Creature {
     return maxforce;
   }
 
-  public Creature poids(float um_){
-    usermass = um_;
-    return this;
-  }
-
-  public Creature tailledebras(float tb_) {
-    tb = tb_;
-    return this;
-  }
-
-  public Creature nombredebras(int nbb_) {
-    nbb = nbb_;
-
-    //ATTACH FOR ARMS
-    epaule = new PVector[nbb];
-    arms = new Child[nbb];
-    for (int i = 0; i < nbb; i++) {
-      epaule[i] = new PVector(0, 0);
-      arms[i] = new Child(width, height);
+  public Creature rebondis(float finalspeed, float mass_) {
+    PVector nogo;
+    PVector out = null;
+    if (loc.x < coeffsize) {
+      out = new PVector(finalspeed, vel.y);
     }
-    return this;
-  }
+    else if (loc.x > width-coeffsize) {
+      out = new PVector(-finalspeed, vel.y);
+    }
 
-  public Creature main(int m_) {
-    m = m_;
-    return this;
-  }
+    if (loc.y < coeffsize) {
+      out = new PVector(vel.x, finalspeed);
+    }
+    else if(loc.y > height-coeffsize) {
+      out = new PVector(vel.x, -finalspeed);
+    }
 
-  public Creature couleurs(int red) {
-    //COLORS
-    coFull = color(red, 85, 80, 90);
-    coFullS = color(red, 100, 80, 90);
-    coFullB = color(red, 100, 40, 100);
-    coHalf = color(red, 55, 100, 75);
-    coLow = color(red, 30, 100, 90);
-    coWhite = color(red, 14, 100, 75);
-    return this;
-  }
-
-  public Creature couleur(int co_) {
-    return couleurs(co_);
-  }
-
-  public Creature yeux(int te_) {
-    tt = te_;
-
-    oeil = new PVector[tt];
-    for (int k = 0; k < tt; k++) {
-      float angleoeil = random(TWO_PI);
-      oeil[k] = new PVector(cos(angleoeil)*coeffsize/4, sin(angleoeil)*coeffsize/4);
+    if(out != null){
+      out.normalize();
+      out.mult(finalspeed);
+      nogo = PVector.sub(out, vel);
+      float maxf = 1;
+      nogo.limit(maxf);
+      applyForce(nogo, mass_);
     }
 
     return this;
+  }
+
+  void applyForce(PVector force, float mass_) {
+    acc.add(PVector.div(force, mass_));
   }
 
   public Creature drawCorps() {
@@ -383,39 +417,6 @@ class Creature {
         break;
     }
     return this;
-  }
-
-  public Creature rebondis(float finalspeed, float mass_) {
-    PVector nogo;
-    PVector out = null;
-    if (loc.x < coeffsize) {
-      out = new PVector(finalspeed, vel.y);
-    }
-    else if (loc.x > width-coeffsize) {
-      out = new PVector(-finalspeed, vel.y);
-    }
-
-    if (loc.y < coeffsize) {
-      out = new PVector(vel.x, finalspeed);
-    }
-    else if(loc.y > height-coeffsize) {
-      out = new PVector(vel.x, -finalspeed);
-    }
-
-    if(out != null){
-      out.normalize();
-      out.mult(finalspeed);
-      nogo = PVector.sub(out, vel);
-      float maxf = 1;
-      nogo.limit(maxf);
-      applyForce(nogo, mass_);
-    }
-
-    return this;
-  }
-
-  void applyForce(PVector force, float mass_) {
-    acc.add(PVector.div(force, mass_));
   }
 
   void drawTete() {
