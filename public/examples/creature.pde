@@ -63,11 +63,6 @@ class Creature {
   float strokeW; //strokeWeight based on display size
 
 
-  //SNAKE
-  int sizeSnake;
-  Child[] snake;
-  Attach anc;
-
   //ARMS
   Child[] arms;
   Attach att;
@@ -86,7 +81,7 @@ class Creature {
   color coWhite;
 
   //CREATURE CLASS STARTS HERE
-  Creature() {
+  Creature(c_) {
 
     //VARIABLES INIT
     int shortestDimention = min(width, height);
@@ -117,6 +112,7 @@ class Creature {
         );
 
     poids(0);
+    c = c_;
     nombredebras(humain);
     tailledebras(patte);
     couleurs(gris);
@@ -127,15 +123,42 @@ class Creature {
   public Creature anime() {
     float mass = 1 + tb/30 - float(nbb/30) + usermass/2;
     float finalspeed = basespeed*mass;
-    float theta = vel.heading();
 
     // Direction
     PVector dir = PVector.sub(target, loc);
 
     //Max force when applying on main velocity to avoid weird moves
+    float maxforce = animeCorps(mass, finalspeed, dir);
+
+    //TARGET FOR TEST PURPOSE
+    //stroke(0, 100, 100);
+    //point(target.x, target.y);
+
+    PVector stearing = PVector.sub(dir, vel);
+    stearing.limit(maxforce);
+    applyForce(stearing, mass);
+
+    vel.add(acc);
+    vel.limit(finalspeed);
+    loc.add(vel);
+    acc.mult(0);
+
+    rebondis(finalspeed, mass);
+
+    // annime les bras
+    float armLength = tb*((coeffsize*coeffsize)/80);
+    for (int ii = 0; ii < nbb; ii++) {
+      att = new Attach(epaule[ii].x, epaule[ii].y, int(armLength));
+      att.connect(arms[ii]);
+      att.constrainLength(arms[ii], armLength, armLength, 0.69);
+      arms[ii].update();
+    }
+    return this;
+  }
+
+  public float animeCorps(float mass,float finalspeed, PVector dir) {
+    theta = vel.heading();
     float maxforce = 0.5;
-
-
     switch(c) {
 
       case atome:
@@ -173,56 +196,6 @@ class Creature {
           vtmp.mult(1.1);
           arms[iii].acce.add(vtmp);
         } 
-
-        //Get face coordinates
-        visage = new PVector(loc.x, loc.y);
-
-        break;
-
-      case serpent:
-        maxforce = 0.1;
-        float dddd = dir.mag();
-        dir.normalize();
-        if (dddd < coeffsize*6) {
-          target = new PVector(
-              random(0, width),
-              random(0, height)
-              );
-          //rect(target.x, target.y, 100, 100);
-        }
-        dir.mult(finalspeed);
-
-        float segment = (coeffsize*3)/sizeSnake;
-
-        for (int j = 0; j < sizeSnake; j++) {
-
-          Attach anc;
-          if (j == 0) {
-            anc = new Attach(loc.x, loc.y, int(segment/1.1));
-          } else {
-            anc = new Attach(snake[j-1].loca.x, snake[j-1].loca.y, int(segment));
-          }
-          anc.connect(snake[j]);
-          anc.constrainLength(snake[j], segment*1.01, segment*1.02, 0.69);
-          snake[j].applyForce(snake[j].acce);
-          snake[j].update();
-
-          epaule[j] = new PVector(snake[j].loca.x, snake[j].loca.y);
-          PVector vtmp = new PVector(0, 0);
-          vtmp = vel.get();
-          float theta2 = vtmp.heading();
-          vtmp.rotate(theta2);
-          if (j%2==0) {
-            vtmp.rotate(PI/2);
-          } else {
-            vtmp.rotate(-PI/2);
-          }
-          vtmp.normalize();
-          vtmp.mult(1);
-          if (j < sizeSnake-1) {
-            arms[j].acce.add(vtmp);
-          }
-        }
 
         //Get face coordinates
         visage = new PVector(loc.x, loc.y);
@@ -308,35 +281,7 @@ class Creature {
         break;
     }
 
-    //TARGET FOR TEST PURPOSE
-    //stroke(0, 100, 100);
-    //point(target.x, target.y);
-
-    PVector stearing = PVector.sub(dir, vel);
-    stearing.limit(maxforce);
-    applyForce(stearing, mass);
-
-    vel.add(acc);
-    vel.limit(finalspeed);
-    loc.add(vel);
-    acc.mult(0);
-
-    rebondis(finalspeed, mass);
-
-    // annime les bras
-    float armLength = tb*((coeffsize*coeffsize)/80);
-    for (int ii = 0; ii < nbb; ii++) {
-      att = new Attach(epaule[ii].x, epaule[ii].y, int(armLength));
-      att.connect(arms[ii]);
-      att.constrainLength(arms[ii], armLength, armLength, 0.69);
-      arms[ii].update();
-    }
-    return this;
-  }
-
-  public Creature corps(int c_) {
-    c = c_;
-    return this;
+    return maxforce;
   }
 
   public Creature poids(float um_){
@@ -351,14 +296,6 @@ class Creature {
 
   public Creature nombredebras(int nbb_) {
     nbb = nbb_;
-
-    // Init for SNAKE in case it is choosent
-    //sizeSnake = int((3+nbb)/2);
-    sizeSnake = nbb+1;
-    snake = new Child[sizeSnake];
-    for (int i = 0; i < sizeSnake; i++) {
-      snake[i] = new Child(loc.x+(i*2), loc.y+(i*2));
-    }
 
     //ATTACH FOR ARMS
     epaule = new PVector[nbb];
@@ -403,31 +340,12 @@ class Creature {
   }
 
   public Creature drawCorps() {
-    strokeWeight(strokeW);
-    stroke(coFullS);
-    fill(coHalf);
-
-    float theta = vel.heading();
 
     switch(c) {
 
       case atome:
         //Draw the body
         ellipse(loc.x, loc.y, coeffsize, coeffsize);
-
-        break;
-
-      case serpent:
-        noFill();
-
-        beginShape();
-        curveVertex(loc.x, loc.y);
-        curveVertex(loc.x, loc.y);
-        for (int j = 0; j < sizeSnake; j++) {
-          curveVertex(snake[j].loca.x, snake[j].loca.y);
-        }
-        curveVertex(snake[sizeSnake-1].loca.x, snake[sizeSnake-1].loca.y);
-        endShape();
 
         break;
 
@@ -575,11 +493,116 @@ class Creature {
       console.log(frameRate);
     }
 
+    strokeWeight(strokeW);
+    stroke(coFullS);
+    fill(coHalf);
+
     this
       .drawCorps()
       .drawTete()
       .drawBras()
       .drawMain();
+  }
+}
+
+class Serpent extends Creature {
+
+  //SNAKE
+  int sizeSnake;
+  Child[] snake;
+  Attach anc;
+
+  Serpent() {
+    super(serpent);
+  }
+
+  public Creature nombredebras(int nbb_) {
+    super.nombredebras(nbb_);
+
+    //sizeSnake = int((3+nbb)/2);
+    sizeSnake = nbb+1;
+    snake = new Child[sizeSnake];
+    for (int i = 0; i < sizeSnake; i++) {
+      snake[i] = new Child(loc.x+(i*2), loc.y+(i*2));
+    }
+    return this;
+  }
+
+  public float animeCorps(float mass, float finalspeed, PVector dir) {
+
+    float dddd = dir.mag();
+    dir.normalize();
+    if (dddd < coeffsize*6) {
+      target = new PVector(
+          random(0, width),
+          random(0, height)
+          );
+      //rect(target.x, target.y, 100, 100);
+    }
+    dir.mult(finalspeed);
+
+    float segment = (coeffsize*3)/sizeSnake;
+
+    for (int j = 0; j < sizeSnake; j++) {
+
+      Attach anc;
+      if (j == 0) {
+        anc = new Attach(loc.x, loc.y, int(segment/1.1));
+      } else {
+        anc = new Attach(snake[j-1].loca.x, snake[j-1].loca.y, int(segment));
+      }
+      anc.connect(snake[j]);
+      anc.constrainLength(snake[j], segment*1.01, segment*1.02, 0.69);
+      snake[j].applyForce(snake[j].acce);
+      snake[j].update();
+
+      epaule[j] = new PVector(snake[j].loca.x, snake[j].loca.y);
+      PVector vtmp = new PVector(0, 0);
+      vtmp = vel.get();
+      float theta2 = vtmp.heading();
+      vtmp.rotate(theta2);
+      if (j%2==0) {
+        vtmp.rotate(PI/2);
+      } else {
+        vtmp.rotate(-PI/2);
+      }
+      vtmp.normalize();
+      vtmp.mult(1);
+      if (j < sizeSnake-1) {
+        arms[j].acce.add(vtmp);
+      }
+    }
+
+    //Get face coordinates
+    visage = new PVector(loc.x, loc.y);
+
+    float maxforce = 0.1;
+    return maxforce;
+  }
+
+  public Creature drawCorps() {
+
+    noFill();
+
+    beginShape();
+    curveVertex(loc.x, loc.y);
+    curveVertex(loc.x, loc.y);
+    for (int j = 0; j < sizeSnake; j++) {
+      curveVertex(snake[j].loca.x, snake[j].loca.y);
+    }
+    curveVertex(snake[sizeSnake-1].loca.x, snake[sizeSnake-1].loca.y);
+    endShape();
+
+    return this;
+  }
+}
+
+public Creature corps(int c_) {
+  switch(c_) {
+    case serpent:
+      return new Serpent();
+    default:
+      return new Creature(c_);
   }
 }
 
@@ -670,9 +693,8 @@ void setup() {
 
   ellipseMode(CENTER);
   rectMode(CENTER);
-  macreature = new Creature();
+  macreature = corps(atome);
   macreature
-    .corps(atome)
     .yeux(1)
     .nombredebras(insecte)
     .tailledebras(patte)
