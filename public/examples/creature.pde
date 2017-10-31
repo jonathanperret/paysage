@@ -702,7 +702,7 @@ class Child {
   PVector velo;
   PVector acce;
   const MASSE = 10;
-  float fric = 0.99;
+  const FRIC = 0.99;
 
   Child(float x, float y) {
     loca = new PVector(x, y);
@@ -713,7 +713,7 @@ class Child {
   // Standard Euler integration
   void update() {
     velo.add(acce);
-    velo.mult(fric);
+    velo.mult(FRIC);
     loca.add(velo);
     acce.mult(0);
   }
