@@ -64,8 +64,10 @@ void setup() {
 void draw() {
   background(0, 0);
 
-  macreature.anime()
-  macreature.draw();
+  macreature
+    .anime()
+    .draw()
+    ;
 }
 
 public Creature nouvelleCreature(int corps) {
