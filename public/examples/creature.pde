@@ -39,6 +39,35 @@ int horrible = 8;
 
 //Global Constants end
 
+Creature macreature;
+
+void setup() {
+  stroke(0);
+  strokeWeight(4);
+
+  frameRate(30);
+
+  colorMode(HSB, 100, 100, 100, 100);
+
+  ellipseMode(CENTER);
+  rectMode(CENTER);
+  macreature = corps(atome);
+  macreature
+    .yeux(1)
+    .nombredebras(insecte)
+    .tailledebras(patte)
+    .main(etoile)
+    .couleurs(89)
+    ;
+}
+
+void draw() {
+  background(0, 0);
+
+  macreature.anime()
+  macreature.draw();
+}
+
 class Creature {
   //MOVE
   PVector loc; // Position
@@ -682,31 +711,3 @@ class Child {
   }
 }
 
-Creature macreature;
-
-void setup() {
-  stroke(0);
-  strokeWeight(4);
-
-  frameRate(30);
-
-  colorMode(HSB, 100, 100, 100, 100);
-
-  ellipseMode(CENTER);
-  rectMode(CENTER);
-  macreature = corps(atome);
-  macreature
-    .yeux(1)
-    .nombredebras(insecte)
-    .tailledebras(patte)
-    .main(etoile)
-    .couleurs(89)
-    ;
-}
-
-void draw() {
-  background(0, 0);
-
-  macreature.anime()
-  macreature.draw();
-}
