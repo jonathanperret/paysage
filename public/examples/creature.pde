@@ -51,8 +51,8 @@ void setup() {
 
   ellipseMode(CENTER);
   rectMode(CENTER);
-  macreature = corps(atome);
-  macreature
+  macreature =
+    nouvelleCreature(atome)
     .yeux(1)
     .nombredebras(insecte)
     .tailledebras(patte)
@@ -68,7 +68,22 @@ void draw() {
   macreature.draw();
 }
 
-class Creature {
+public Creature nouvelleCreature(int corps) {
+  switch(corps) {
+    case atome:
+      return new Atome();
+    case serpent:
+      return new Serpent();
+    case duo:
+      return new Duo();
+    case crystal:
+      return new Crystal();
+    default:
+      console.error("corps inconnu : " + corps);
+  }
+}
+
+abstract class Creature {
   //MOVE
   PVector loc; // Position
   PVector vel; // Velocity
@@ -76,7 +91,6 @@ class Creature {
   PVector target; // Target
 
   //PARAMETERS
-  int c; // body
   int m; // hand
   float tb; // Arm size
   int nbb; // Arms count
@@ -109,8 +123,11 @@ class Creature {
   color coLow;
   color coWhite;
 
+  public abstract float animeCorps(float mass,float finalspeed, PVector dir);
+  public abstract Creature drawCorps();
+
   //CREATURE CLASS STARTS HERE
-  Creature(c_) {
+  Creature() {
 
     //VARIABLES INIT
     int shortestDimention = min(width, height);
@@ -141,7 +158,6 @@ class Creature {
         );
 
     poids(0);
-    c = c_;
     nombredebras(humain);
     tailledebras(patte);
     couleurs(gris);
@@ -242,133 +258,6 @@ class Creature {
     return this;
   }
 
-  public float animeCorps(float mass,float finalspeed, PVector dir) {
-    float maxforce;
-    switch(c) {
-
-      case atome:
-        //The maxforce to steer
-        maxforce = 1;
-        float dd = dir.mag();
-        dir.normalize();
-
-        //if we arrive, just slow down
-        if (dd < coeffsize*2) {
-          float ralenti = map(dd, 0, coeffsize*2, 0, finalspeed);
-          dir.mult(ralenti);
-        } else {
-          dir.mult(finalspeed);
-        }
-
-        //Search for a new target when approach is done
-        if (dd <= coeffsize/10) {
-          target = new PVector(
-              random(coeffsize, widthedge),
-              random(coeffsize, heightedge)
-              );
-          //ellipse(target.x, target.y, 100, 100);
-        }
-
-        //Get coordinates for arms attach
-        float angle=TWO_PI/nbb;
-        for (int iii=0; iii<nbb; iii++)
-        {
-          epaule[iii] = new PVector(coeffsize/2*sin(angle*iii)+loc.x, coeffsize/2*cos(angle*iii)+loc.y);
-          PVector vtmp = new PVector(1, 1);
-          float thetaa = (-angle*iii)+PI/4;
-          vtmp.rotate(thetaa);
-          vtmp.normalize();
-          vtmp.mult(1.1);
-          arms[iii].acce.add(vtmp);
-        }
-
-        //Get face coordinates
-        visage = new PVector(loc.x, loc.y);
-
-        break;
-
-      case duo:
-        maxforce = 0.15;
-        float du = dir.mag();
-
-        float r = 40;
-        float amp = 12;
-        PVector oscillate = new PVector(r*cos(TWO_PI * frameCount/amp), r*sin(TWO_PI * frameCount/amp));
-
-        if (du < coeffsize*2) {
-          dir.normalize();
-          float ralenti = map(du, 0, coeffsize*2, 0, finalspeed);  
-          dir.mult(ralenti);
-        } else {
-          //console.log(dir);
-          dir.add(oscillate);
-          dir.normalize();
-          dir.mult(finalspeed);
-        }
-
-        if (du <= coeffsize/2) {
-          target = new PVector(
-              random(coeffsize, widthedge), 
-              random(coeffsize, heightedge)
-              );
-          //ellipse(target.x, target.y, 100, 100);
-        }
-
-        float thetad = -theta;
-        float radd = coeffsize*0.8;
-
-        for (int jj=0; jj<nbb; jj++)
-        {
-          float xl = lerp(radd*sin(thetad+(13*PI)/12)+loc.x, radd*sin(thetad+(23*PI)/12)+loc.x, (1/(nbb+1))*(jj+1));
-          float yl = lerp(radd*cos(thetad+(13*PI)/12)+loc.y, radd*cos(thetad+(23*PI)/12)+loc.y, (1/(nbb+1))*(jj+1));
-          epaule[jj] = new PVector(xl, yl);
-        }
-
-        //Get face coordinates
-        visage = new PVector(loc.x, loc.y);
-
-        break;
-      case crystal:
-        strokeCap(ROUND);
-        maxforce = 0.3;
-        float ddd = dir.mag();
-        dir.normalize();
-        if (ddd < coeffsize*2) {
-          target = new PVector(
-              random(coeffsize, widthedge), 
-              random(coeffsize, heightedge)
-              );
-          //rect(target.x, target.y, 100, 100);
-        }
-        dir.mult(finalspeed);
-
-
-        float thetac = -theta;
-        float rad = coeffsize*0.8;
-
-        for (int jj=0; jj<nbb; jj++)
-        {
-          float xl = lerp(rad*sin(thetac+TWO_PI/3)+loc.x, rad*sin(thetac+(3*PI)/2)+loc.x, (1/(nbb+1))*(jj+1));
-          float yl = lerp(rad*cos(thetac+TWO_PI/3)+loc.y, rad*cos(thetac+(3*PI)/2)+loc.y, (1/(nbb+1))*(jj+1));
-          epaule[jj] = new PVector(xl, yl);
-          PVector vtmp = new PVector(0, 0);
-          vtmp = arms[jj].loca.get();
-          float thetaa = -thetac-PI/2;
-          vtmp.rotate(thetaa);
-          vtmp.normalize();
-          vtmp.mult(1);
-          arms[jj].acce.add(vtmp);
-        }
-
-        //Get face coordinates
-        visage = new PVector(rad*0.7*sin(thetac+PI/4)+loc.x, rad*0.7*cos(thetac+PI/4)+loc.y);
-
-        break;
-    }
-
-    return maxforce;
-  }
-
   public Creature rebondis(float finalspeed, float mass_) {
     PVector nogo;
     PVector out = null;
@@ -400,52 +289,6 @@ class Creature {
 
   void applyForce(PVector force, float mass_) {
     acc.add(PVector.div(force, mass_));
-  }
-
-  public Creature drawCorps() {
-
-    switch(c) {
-
-      case atome:
-        //Draw the body
-        ellipse(loc.x, loc.y, coeffsize, coeffsize);
-
-        break;
-
-      case duo:
-        float thetad = -theta;
-        float radd = coeffsize*0.8;
-        beginShape();
-        line(
-            radd*sin(thetad+(11*PI)/12)+loc.x,
-            radd*cos(thetad+(11*PI)/12)+loc.y,
-            radd*sin(thetad+(PI)/12)+loc.x,
-            radd*cos(thetad+(PI)/12)+loc.y
-            );
-        line(
-            radd*sin(thetad+(13*PI)/12)+loc.x,
-            radd*cos(thetad+(13*PI)/12)+loc.y,
-            radd*sin(thetad+(23*PI)/12)+loc.x,
-            radd*cos(thetad+(23*PI)/12)+loc.y
-            );
-        endShape(CLOSE);
-
-        break;
-      case crystal:
-        strokeCap(ROUND);
-
-        float thetac = -theta;
-        float rad = coeffsize*0.8;
-        beginShape();
-        vertex(rad*sin(thetac+TWO_PI/3)+loc.x, rad*cos(thetac+TWO_PI/3)+loc.y);
-        vertex(rad*sin(thetac+PI/4)+loc.x, rad*cos(thetac+PI/4)+loc.y);
-        vertex((0.75*rad)*sin(thetac+(10*PI)/6)+loc.x, (0.75*rad)*cos(thetac+(10*PI)/6)+loc.y);
-        vertex(rad*sin(thetac+(3*PI)/2)+loc.x, rad*cos(thetac+(3*PI)/2)+loc.y);
-        endShape(CLOSE);
-
-        break;
-    }
-    return this;
   }
 
   void drawTete() {
@@ -535,6 +378,186 @@ class Creature {
   }
 }
 
+class Atome extends Creature {
+  public Atome() {
+    super();
+  }
+
+  public float animeCorps(float mass, float finalspeed, PVector dir) {
+    float dd = dir.mag();
+    dir.normalize();
+
+    //if we arrive, just slow down
+    if (dd < coeffsize*2) {
+      float ralenti = map(dd, 0, coeffsize*2, 0, finalspeed);
+      dir.mult(ralenti);
+    } else {
+      dir.mult(finalspeed);
+    }
+
+    //Search for a new target when approach is done
+    if (dd <= coeffsize/10) {
+      target = new PVector(
+          random(coeffsize, widthedge),
+          random(coeffsize, heightedge)
+          );
+      //ellipse(target.x, target.y, 100, 100);
+    }
+
+    //Get coordinates for arms attach
+    float angle=TWO_PI/nbb;
+    for (int iii=0; iii<nbb; iii++)
+    {
+      epaule[iii] = new PVector(coeffsize/2*sin(angle*iii)+loc.x, coeffsize/2*cos(angle*iii)+loc.y);
+      PVector vtmp = new PVector(1, 1);
+      float thetaa = (-angle*iii)+PI/4;
+      vtmp.rotate(thetaa);
+      vtmp.normalize();
+      vtmp.mult(1.1);
+      arms[iii].acce.add(vtmp);
+    }
+
+    //Get face coordinates
+    visage = new PVector(loc.x, loc.y);
+    //The maxforce to steer
+    float maxforce = 1;
+    return maxforce;
+  }
+
+  public Creature drawCorps() {
+    //Draw the body
+    ellipse(loc.x, loc.y, coeffsize, coeffsize);
+    return this;
+  }
+}
+
+class Duo extends Creature {
+  public Duo() {
+    super();
+  }
+
+  public float animeCorps(float mass, float finalspeed, PVector dir) {
+    float du = dir.mag();
+
+    float r = 40;
+    float amp = 12;
+    PVector oscillate = new PVector(r*cos(TWO_PI * frameCount/amp), r*sin(TWO_PI * frameCount/amp));
+
+    if (du < coeffsize*2) {
+      dir.normalize();
+      float ralenti = map(du, 0, coeffsize*2, 0, finalspeed);  
+      dir.mult(ralenti);
+    } else {
+      //console.log(dir);
+      dir.add(oscillate);
+      dir.normalize();
+      dir.mult(finalspeed);
+    }
+
+    if (du <= coeffsize/2) {
+      target = new PVector(
+          random(coeffsize, widthedge), 
+          random(coeffsize, heightedge)
+          );
+      //ellipse(target.x, target.y, 100, 100);
+    }
+
+    float thetad = -theta;
+    float radd = coeffsize*0.8;
+
+    for (int jj=0; jj<nbb; jj++)
+    {
+      float xl = lerp(radd*sin(thetad+(13*PI)/12)+loc.x, radd*sin(thetad+(23*PI)/12)+loc.x, (1/(nbb+1))*(jj+1));
+      float yl = lerp(radd*cos(thetad+(13*PI)/12)+loc.y, radd*cos(thetad+(23*PI)/12)+loc.y, (1/(nbb+1))*(jj+1));
+      epaule[jj] = new PVector(xl, yl);
+    }
+
+    //Get face coordinates
+    visage = new PVector(loc.x, loc.y);
+
+    float maxforce = 0.15;
+    return maxforce;
+  }
+
+  public Creature drawCorps() {
+    float thetad = -theta;
+    float radd = coeffsize*0.8;
+    beginShape();
+    line(
+        radd*sin(thetad+(11*PI)/12)+loc.x,
+        radd*cos(thetad+(11*PI)/12)+loc.y,
+        radd*sin(thetad+(PI)/12)+loc.x,
+        radd*cos(thetad+(PI)/12)+loc.y
+        );
+    line(
+        radd*sin(thetad+(13*PI)/12)+loc.x,
+        radd*cos(thetad+(13*PI)/12)+loc.y,
+        radd*sin(thetad+(23*PI)/12)+loc.x,
+        radd*cos(thetad+(23*PI)/12)+loc.y
+        );
+    endShape(CLOSE);
+
+    return this;
+  }
+}
+
+class Crystal extends Creature {
+  public Crystal() {
+    super();
+  }
+
+  public float animeCorps(float mass, float finalspeed, PVector dir) {
+    strokeCap(ROUND);
+    float ddd = dir.mag();
+    dir.normalize();
+    if (ddd < coeffsize*2) {
+      target = new PVector(
+          random(coeffsize, widthedge), 
+          random(coeffsize, heightedge)
+          );
+      //rect(target.x, target.y, 100, 100);
+    }
+    dir.mult(finalspeed);
+
+
+    float thetac = -theta;
+    float rad = coeffsize*0.8;
+
+    for (int jj=0; jj<nbb; jj++)
+    {
+      float xl = lerp(rad*sin(thetac+TWO_PI/3)+loc.x, rad*sin(thetac+(3*PI)/2)+loc.x, (1/(nbb+1))*(jj+1));
+      float yl = lerp(rad*cos(thetac+TWO_PI/3)+loc.y, rad*cos(thetac+(3*PI)/2)+loc.y, (1/(nbb+1))*(jj+1));
+      epaule[jj] = new PVector(xl, yl);
+      PVector vtmp = new PVector(0, 0);
+      vtmp = arms[jj].loca.get();
+      float thetaa = -thetac-PI/2;
+      vtmp.rotate(thetaa);
+      vtmp.normalize();
+      vtmp.mult(1);
+      arms[jj].acce.add(vtmp);
+    }
+
+    //Get face coordinates
+    visage = new PVector(rad*0.7*sin(thetac+PI/4)+loc.x, rad*0.7*cos(thetac+PI/4)+loc.y);
+    float maxforce = 0.3;
+    return maxforce;
+  }
+
+  public Creature drawCorps() {
+    strokeCap(ROUND);
+
+    float thetac = -theta;
+    float rad = coeffsize*0.8;
+    beginShape();
+    vertex(rad*sin(thetac+TWO_PI/3)+loc.x, rad*cos(thetac+TWO_PI/3)+loc.y);
+    vertex(rad*sin(thetac+PI/4)+loc.x, rad*cos(thetac+PI/4)+loc.y);
+    vertex((0.75*rad)*sin(thetac+(10*PI)/6)+loc.x, (0.75*rad)*cos(thetac+(10*PI)/6)+loc.y);
+    vertex(rad*sin(thetac+(3*PI)/2)+loc.x, rad*cos(thetac+(3*PI)/2)+loc.y);
+    endShape(CLOSE);
+    return this;
+  }
+}
+
 class Serpent extends Creature {
 
   //SNAKE
@@ -542,8 +565,8 @@ class Serpent extends Creature {
   Child[] snake;
   Attach anc;
 
-  Serpent() {
-    super(serpent);
+  public Serpent() {
+    super();
   }
 
   public Creature nombredebras(int nbb_) {
@@ -624,15 +647,6 @@ class Serpent extends Creature {
     endShape();
 
     return this;
-  }
-}
-
-public Creature corps(int c_) {
-  switch(c_) {
-    case serpent:
-      return new Serpent();
-    default:
-      return new Creature(c_);
   }
 }
 
