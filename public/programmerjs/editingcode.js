@@ -39,6 +39,7 @@ var Paysage = window.Paysage || {};
       var editor = window.ace.edit(this);
       editor.getSession().setMode('ace/mode/java');
       editor.setShowPrintMargin(false);
+      editor.setOption('tabSize', 2);
       editor.commands.addCommand({
         name: 'go-liveShortcuts',
         bindKey: {win: 'Ctrl-Enter', mac: 'Command-Enter'},
