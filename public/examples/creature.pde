@@ -1,17 +1,17 @@
 // Global Constants //<>//
 // BODY
-int atome = 0;
-int serpent = 1;
-int duo = 2;
-int cristal = 3;
-int crystal = 3;
+final int atome = 0;
+final int serpent = 1;
+final int duo = 2;
+final int cristal = 3;
+final int crystal = 3;
 
 // HAND
-int losange = 0;
-int cercle = 1;
-int pyramide = 2;
-int piramide = pyramide;
-int etoile = 3;
+final int losange = 0;
+final int cercle = 1;
+final int pyramide = 2;
+final int piramide = pyramide;
+final int etoile = 3;
 
 //ARM SIZE
 float bosse = 0;
@@ -42,6 +42,7 @@ int horrible = 8;
 Creature macreature;
 
 void setup() {
+  //size (800, 600);
   stroke(0);
   strokeWeight(4);
 
@@ -56,7 +57,7 @@ void setup() {
     .yeux(1)
     .nombredebras(insecte)
     .tailledebras(patte)
-    .main(etoile)
+    .formemain(etoile)
     .couleurs(89)
     ;
 }
@@ -81,7 +82,8 @@ public Creature nouvelleCreature(int corps) {
     case crystal:
       return new Crystal();
     default:
-      console.error("corps inconnu : " + corps);
+      println("corps inconnu : " + corps);
+      return null;
   }
 }
 
@@ -163,7 +165,7 @@ abstract class Creature {
     nombredebras(humain);
     tailledebras(patte);
     couleurs(gris);
-    main(cercle);
+    formemain(cercle);
     yeux(cyclope);
   }
 
@@ -190,7 +192,7 @@ abstract class Creature {
     return this;
   }
 
-  public Creature main(int m_) {
+  public Creature formemain(int m_) {
     m = m_;
     return this;
   }
@@ -293,7 +295,7 @@ abstract class Creature {
     acc.add(PVector.div(force, mass_));
   }
 
-  void drawTete() {
+  Creature drawTete() {
     float eyesize = coeffsize/6;
     if(tt>6){
       eyesize = coeffsize/tt;
@@ -316,7 +318,7 @@ abstract class Creature {
     return this;
   }
 
-  void drawBras() {
+  Creature drawBras() {
     for (int ii = 0; ii < nbb; ii++) {
       strokeWeight(strokeW/2);
       stroke(coHalf);
@@ -325,7 +327,7 @@ abstract class Creature {
     return this;
   }
 
-  void drawMain() {
+  Creature drawMain() {
     float handsize = coeffsize/5;
     strokeWeight(strokeW/2);
     stroke(coFull);
@@ -365,7 +367,7 @@ abstract class Creature {
 
   void draw() {
     if (frameCount%360 == 0) {
-      console.log(frameRate);
+      println(frameRate);
     }
 
     strokeWeight(strokeW);
@@ -703,8 +705,8 @@ class Child {
   PVector loca;
   PVector velo;
   PVector acce;
-  const MASSE = 10;
-  const FRIC = 0.99;
+  final int MASSE = 10;
+  final float FRIC = 0.99;
 
   Child(float x, float y) {
     loca = new PVector(x, y);
@@ -726,4 +728,3 @@ class Child {
     acce.add(f);
   }
 }
-
