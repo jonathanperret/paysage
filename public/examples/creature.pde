@@ -366,9 +366,13 @@ abstract class Creature {
   }
 
   void draw() {
+
+    // un-comment this to log the frame rate. Useful to try and optimize rendering
+    /*
     if (frameCount%360 == 0) {
-      println(frameRate);
+      console.log(frameRate);
     }
+    */
 
     strokeWeight(strokeW);
     stroke(coFullS);
