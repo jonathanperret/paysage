@@ -475,8 +475,8 @@ class Duo extends Creature {
 
     for (int jj=0; jj<nbb; jj++)
     {
-      float xl = lerp(radd*sin(thetad+(13*PI)/12)+loc.x, radd*sin(thetad+(23*PI)/12)+loc.x, (1/(nbb+1))*(jj+1));
-      float yl = lerp(radd*cos(thetad+(13*PI)/12)+loc.y, radd*cos(thetad+(23*PI)/12)+loc.y, (1/(nbb+1))*(jj+1));
+      float xl = lerp(radd*sin(thetad+(13*PI)/12)+loc.x, radd*sin(thetad+(23*PI)/12)+loc.x, (1.0/(nbb+1))*(jj+1));
+      float yl = lerp(radd*cos(thetad+(13*PI)/12)+loc.y, radd*cos(thetad+(23*PI)/12)+loc.y, (1.0/(nbb+1))*(jj+1));
       epaule[jj] = new PVector(xl, yl);
     }
 
@@ -533,11 +533,10 @@ class Crystal extends Creature {
 
     for (int jj=0; jj<nbb; jj++)
     {
-      float xl = lerp(rad*sin(thetac+TWO_PI/3)+loc.x, rad*sin(thetac+(3*PI)/2)+loc.x, (1/(nbb+1))*(jj+1));
-      float yl = lerp(rad*cos(thetac+TWO_PI/3)+loc.y, rad*cos(thetac+(3*PI)/2)+loc.y, (1/(nbb+1))*(jj+1));
+      float xl = lerp(rad*sin(thetac+TWO_PI/3)+loc.x, rad*sin(thetac+(3*PI)/2)+loc.x, (1.0/(nbb+1))*(jj+1));
+      float yl = lerp(rad*cos(thetac+TWO_PI/3)+loc.y, rad*cos(thetac+(3*PI)/2)+loc.y, (1.0/(nbb+1))*(jj+1));
       epaule[jj] = new PVector(xl, yl);
-      PVector vtmp = new PVector(0, 0);
-      vtmp = arms[jj].loca.get();
+      PVector vtmp = arms[jj].loca.get();
       float thetaa = -thetac-PI/2;
       vtmp.rotate(thetaa);
       vtmp.normalize();
@@ -582,6 +581,7 @@ class Serpent extends Creature {
 
     //sizeSnake = int((3+nbb)/2);
     sizeSnake = nbb+1;
+    epaule = new PVector[sizeSnake];
     snake = new Child[sizeSnake];
     for (int i = 0; i < sizeSnake; i++) {
       snake[i] = new Child(loc.x+(i*2), loc.y+(i*2));
