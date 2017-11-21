@@ -238,6 +238,7 @@ abstract class Creature {
 
     //TARGET FOR TEST PURPOSE
     //stroke(0, 100, 100);
+    //strokeWeight(10);
     //point(target.x, target.y);
 
     PVector stearing = PVector.sub(dir, vel);
@@ -263,36 +264,35 @@ abstract class Creature {
   }
 
   public Creature rebondis(float finalspeed, float mass_) {
-    PVector nogo;
-    PVector out = null;
+    PVector newVel = null;
     if (loc.x < coeffsize) {
-      out = new PVector(finalspeed, vel.y);
+      newVel = new PVector(finalspeed, vel.y);
     }
     else if (loc.x > width-coeffsize) {
-      out = new PVector(-finalspeed, vel.y);
+      newVel = new PVector(-finalspeed, vel.y);
     }
 
     if (loc.y < coeffsize) {
-      out = new PVector(vel.x, finalspeed);
+      newVel = new PVector(vel.x, finalspeed);
     }
     else if(loc.y > height-coeffsize) {
-      out = new PVector(vel.x, -finalspeed);
+      newVel = new PVector(vel.x, -finalspeed);
     }
 
-    if(out != null){
-      out.normalize();
-      out.mult(finalspeed);
-      nogo = PVector.sub(out, vel);
+    if(newVel != null){
+      newVel.normalize();
+      newVel.mult(finalspeed);
+      PVector dV = PVector.sub(newVel, vel);
       float maxf = 1;
-      nogo.limit(maxf);
-      applyForce(nogo, mass_);
+      dV.limit(maxf);
+      applyForce(dV, mass_);
     }
 
     return this;
   }
 
-  void applyForce(PVector force, float mass_) {
-    acc.add(PVector.div(force, mass_));
+  void applyForce(PVector dv, float mass_) {
+    acc.add(PVector.div(dv, mass_));
   }
 
   Creature drawTete() {
@@ -453,7 +453,7 @@ class Duo extends Creature {
 
     if (du < coeffsize*2) {
       dir.normalize();
-      float ralenti = map(du, 0, coeffsize*2, 0, finalspeed);  
+      float ralenti = map(du, 0, coeffsize*2, 0, finalspeed);
       dir.mult(ralenti);
     } else {
       //console.log(dir);
@@ -464,7 +464,7 @@ class Duo extends Creature {
 
     if (du <= coeffsize/2) {
       target = new PVector(
-          random(coeffsize, widthedge), 
+          random(coeffsize, widthedge),
           random(coeffsize, heightedge)
           );
       //ellipse(target.x, target.y, 100, 100);
@@ -520,10 +520,9 @@ class Crystal extends Creature {
     dir.normalize();
     if (ddd < coeffsize*2) {
       target = new PVector(
-          random(coeffsize, widthedge), 
+          random(coeffsize, widthedge),
           random(coeffsize, heightedge)
           );
-      //rect(target.x, target.y, 100, 100);
     }
     dir.mult(finalspeed);
 
@@ -598,7 +597,6 @@ class Serpent extends Creature {
           random(0, width),
           random(0, height)
           );
-      //rect(target.x, target.y, 100, 100);
     }
     dir.mult(finalspeed);
 
