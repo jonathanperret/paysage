@@ -13,8 +13,11 @@ module.exports = {
   },
   commands: [{
     setCodeId: function (codeid) {
-      this.api.clearValue('#codeid')
-              .setValue('#codeid', codeid);
+      this.api.execute(`
+        var codeid = document.querySelector("#codeid");
+        codeid.value = "${codeid}";
+        codeid.dispatchEvent(new Event("input"));
+      `);
       return this;
     },
     setCode: function (code) {
