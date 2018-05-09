@@ -1,7 +1,7 @@
 dist: trusty
 language: node_js
 node_js:
-- '6.11'
+- '9.11'
 addons:
   chrome: stable
 deploy:
