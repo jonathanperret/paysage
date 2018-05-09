@@ -34,6 +34,13 @@ var Paysage = window.Paysage || {};
 
     setupDragAndDropListeners();
 
+    $('#open-gallery').on('click', function () {
+      $('#examples-dialog').dialog({
+        title: 'Choose an example :',
+        width: 600
+      });
+    });
+
     // Initialize ACE code editor
     $('#code').each(function () {
       var editor = window.ace.edit(this);
@@ -72,6 +79,7 @@ var Paysage = window.Paysage || {};
     $.get($(this).data('src'), function (data) {
       Paysage.setCode(data);
     });
+    $('#examples-dialog').dialog('close');
   });
 
   // Drag and dropping a text file and naming the code from the file name
