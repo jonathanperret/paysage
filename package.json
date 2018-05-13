@@ -35,12 +35,11 @@
     "nightwatch": "^0.9.16",
     "phantomjs-prebuilt": "^2.1.7",
     "semistandard": "^11.0.0",
-    "sinon": "^3.1.0",
-    "sinon-chai": "^2.12.0",
+    "sinon": "^4.0.0",
+    "sinon-chai": "^2.14.0",
     "socket.io-client": "^2.0.3",
     "supertest": "^3.0.0",
     "testem": "^1.7.1"
   },
-  "semistandard": {
-  }
+  "semistandard": {}
 }
