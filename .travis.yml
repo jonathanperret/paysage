@@ -7,7 +7,7 @@ addons:
 deploy:
   provider: heroku
   api_key:
-    secure: QpaeyIAI5/FCHfGZVZ4BvNheL7k3xM6aBWOTRitdqkGPCnjiVWSww2KcghXczXvMaA+dhxP31ISZ6l2/zZFoqiTvFFvDQgmE62n3fdKjN1ZypLyDiX2ziDocXRz03zhTSG7BNNo5l19R954yNbfdiUWlm+h+vWu5XjuS3Ri/8f4=
+    secure: VwpBHe0uSJzWRWl2e68KtTAInPrSCqZmH5gjrLC4pzO6f7DCgnufocy7slb/T0klsF0Q/MWyDKwWmLUPCzaBPnuqeozcGC7vDhGWuOqzbNY1FlE25N/Wi2p1f6yeHTyiQJxOF0K9oweGoGez7IfFii9qz2/0jzmeiftg8Dt3jSo=
   app: paysage
   on:
     repo: jonathanperret/paysage
