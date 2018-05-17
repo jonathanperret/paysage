@@ -1,11 +1,10 @@
-/* global $ */
 var Paysage = window.Paysage || {};
 
 (function () {
   'use strict';
 
   // Requires a sourcebuilder script defining Paysage.getCompleteCodeObject()
-  // Requires a editingcode script defining Paysage.setCodeId() and Paysage.setCode()
+  // Requires a editingcode script defining Paysage.setCodeId(), Paysage.setCode() and Paysage.setObjectList(data)
 
   Paysage.requestCode = function (codeObjectId) {
     var data = {
@@ -31,30 +30,14 @@ var Paysage = window.Paysage || {};
   };
   document.getElementById('go-live').addEventListener('click', Paysage.goLive);
 
-  function deleteCode (codeObjectId) {
-    var data = {
-      codeObjectId: codeObjectId
-    };
-    io.emit('code delete', data);
-  }
-
   io.on('objects list', function (data) {
-    var objectIds = data.objectIds;
-    var $objects = $('#objects');
-    $objects.empty();
-    $objects.append(objectIds.reverse().map(function (objectId) {
-      var $openLink = $("<a href='#'>").text(objectId);
-      $openLink.click(function (event) {
-        event.preventDefault();
-        Paysage.requestCode(objectId);
-      });
-      var $deleteLink = $('<a class="glyphicon glyphicon-trash" href="#">');
-      $deleteLink.click(function (event) {
-        event.preventDefault();
-        deleteCode(objectId);
-      });
-      return $('<li>').append($openLink).append(' - ').append($deleteLink);
-    }));
+    var deleteCode = function (codeObjectId) {
+      var deleteData = {
+        codeObjectId: codeObjectId
+      };
+      io.emit('code delete', deleteData);
+    };
+    Paysage.setObjectList(data, deleteCode);
   });
 
   io.on('source code', function (data) {

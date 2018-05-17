@@ -17,6 +17,10 @@ Paysage.setCode = function (code) {
   $('#code').val(code);
 };
 
+Paysage.setObjectList = function (data, deleteCodeCb) {
+  // noting to do, objectList is not displayed.
+};
+
 if (!creaturename) {
   creaturename = window.chance.word();
   window.location.hash = creaturename;

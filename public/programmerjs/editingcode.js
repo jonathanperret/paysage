@@ -23,6 +23,25 @@ var Paysage = window.Paysage || {};
     $('#code').val(code);
   };
 
+  Paysage.setObjectList = function (data, deleteCodeCB) {
+    var objectIds = data.objectIds;
+    var $objects = $('#objects');
+    $objects.empty();
+    $objects.append(objectIds.reverse().map(function (objectId) {
+      var $openLink = $("<a href='#'>").text(objectId);
+      $openLink.click(function (event) {
+        event.preventDefault();
+        Paysage.requestCode(objectId);
+      });
+      var $deleteLink = $('<a class="glyphicon glyphicon-trash" href="#">');
+      $deleteLink.click(function (event) {
+        event.preventDefault();
+        deleteCodeCB(objectId);
+      });
+      return $('<li>').append($openLink).append(' - ').append($deleteLink);
+    }));
+  };
+
   // On load, generating a random name if no name is passed via the URL Fragmemt identifier
 
   Paysage.programmerInit = function () {
