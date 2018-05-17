@@ -1,6 +1,7 @@
 framework: jasmine2
 src_files:
 - "public/bower_components/jquery/dist/jquery.js"
+- "public/bower_components/jquery-ui/jquery-ui.js"
 - "public/bower_components/chance/chance.js"
 - "public/bower_components/eventEmitter/EventEmitter.js"
 - "public/bower_components/Processing.js/processing.js"

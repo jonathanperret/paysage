@@ -34,7 +34,7 @@ module.exports = {
       .navigate()
       .setCodeId('jim')
       .click('@go-live')
-      .expect.element('@bottommost-codeObject').text.to.equal('jim');
+      .expect.element('@topmost-codeObject').text.to.equal('jim');
   },
 
   'A listed code object can be deleted, supposing latest created object on top': function (browser) {
@@ -44,11 +44,11 @@ module.exports = {
       .click('@go-live')
       .setCodeId('jim')
       .click('@go-live')
-      .click('@bottommost-codeObject-trash')
-      .expect.element('@bottommost-codeObject').text.to.equal('jim');
+      .click('@topmost-codeObject-trash')
+      .expect.element('@topmost-codeObject').text.to.equal('jul');
     browser.page.programmer()
-      .click('@bottommost-codeObject-trash')
-      .expect.element('@bottommost-codeObject').to.not.be.present;
+      .click('@topmost-codeObject-trash')
+      .expect.element('@topmost-codeObject').text.to.equal('start a new code…');
   },
 
   'Renderer gets code objets at startup': function (browser) {
@@ -61,7 +61,7 @@ module.exports = {
       .navigate()
       .setCode("document.body.appendChild(document.createElement('test-marker'))")
       .click('@go-live')
-      .expect.element('@bottommost-codeObject').to.be.present;
+      .expect.element('@topmost-codeObject').to.be.present;
 
     renderer
       .navigate()

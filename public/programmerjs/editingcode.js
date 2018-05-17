@@ -40,6 +40,16 @@ var Paysage = window.Paysage || {};
       });
       return $('<li>').append($openLink).append(' - ').append($deleteLink);
     }));
+    var $startNewCodeLink = $('<li><a href="#">start a new code…</a></li>');
+    $startNewCodeLink.on('click', Paysage.openNewProject);
+    $objects.append($startNewCodeLink);
+  };
+
+  Paysage.openNewProject = function () {
+    $('#new-project-dialog').dialog({
+      title: 'Start a new code',
+      width: 600
+    });
   };
 
   // On load, generating a random name if no name is passed via the URL Fragmemt identifier
@@ -53,12 +63,7 @@ var Paysage = window.Paysage || {};
 
     setupDragAndDropListeners();
 
-    $('#open-gallery').on('click', function () {
-      $('#examples-dialog').dialog({
-        title: 'Choose an example :',
-        width: 600
-      });
-    });
+    Paysage.openNewProject();
 
     // Initialize ACE code editor
     $('#code').each(function () {
@@ -98,7 +103,7 @@ var Paysage = window.Paysage || {};
     $.get($(this).data('src'), function (data) {
       Paysage.setCode(data);
     });
-    $('#examples-dialog').dialog('close');
+    $('#new-project-dialog').dialog('close');
   });
 
   // Drag and dropping a text file and naming the code from the file name
