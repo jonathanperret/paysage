@@ -4,10 +4,12 @@ describe('The Paysage programmer', function () {
   beforeEach(function () {
     $(document.body).append('<div id="testcontainer">' +
       '<div><input id="codeid"></div>' +
+      '<div><input id="codeName"></div>' +
       '<div id="new-object-dialog" style="display:none;"></div>' +
       '<div id="objects"></div>' +
       '</div>'
     );
+    window.location.hash = '';
   });
 
   afterEach(function () {
@@ -15,9 +17,7 @@ describe('The Paysage programmer', function () {
     $('#new-object-dialog').remove();
   });
 
-  it('generates a random creature name on initialization', function () {
-    window.location.hash = '';
-
+  it('generates a random creature id on initialization', function () {
     Paysage.programmerInit();
 
     expect(window.location.hash).not.toBe('');
@@ -41,18 +41,24 @@ describe('The Paysage programmer', function () {
 
   it('can show the object list', function () {
     Paysage.setObjectList({
-      objectIds: ['object1', 'object2']
+      data: [
+        {codeObjectId: 'object1', name: 'name1'},
+        {codeObjectId: 'object2', name: 'name2'}
+      ]
     });
     var $list = $('#objects').html();
-    expect($list).toContain('<li><a href="#">object1</a><a class="glyphicon glyphicon-remove-circle" href="#"></a></li>');
-    expect($list).toContain('<li><a href="#">object2</a><a class="glyphicon glyphicon-remove-circle" href="#"></a></li>');
+    expect($list).toContain('<li><a href="#object1">name1</a><a class="glyphicon glyphicon-remove-circle" href="#"></a></li>');
+    expect($list).toContain('<li><a href="#object2">name2</a><a class="glyphicon glyphicon-remove-circle" href="#"></a></li>');
   });
 
   it('list objects in reverse order', function () {
     Paysage.setObjectList({
-      objectIds: ['object1', 'object2']
+      data: [
+        {codeObjectId: 'object1', name: 'name1'},
+        {codeObjectId: 'object2', name: 'name2'}
+      ]
     });
     var $list = $('#objects').html();
-    expect($list).toMatch(/object2.*object1/);
+    expect($list).toMatch(/name2.*name1/);
   });
 });

@@ -67,6 +67,10 @@ module.exports = function (maybeWorld) {
       programmerUp();
     }
 
+    function sendListOfAllObjects () {
+      socket.emit('objects list', {data: playground.getData('name')});
+    }
+
     function programmerUp () {
       debug('a new programmer is up for ' + playground.id);
 
@@ -79,15 +83,10 @@ module.exports = function (maybeWorld) {
       socket.emit('playground full update', playground.getData());
     }
 
-    function sendListOfAllObjects () {
-      socket.emit('objects list', {objectIds: playground.population()});
-    }
-
     socket.on('code update', function (data) {
       debug(data.codeObjectId + ' for ' + playground.id + ' from ' + client);
 
       var codeObject = playground.getOrCreateCodeObject(data.codeObjectId);
-
       codeObject.setData(data);
     });
 
@@ -109,6 +108,7 @@ module.exports = function (maybeWorld) {
       socket.emit('code update', codeObject.getData());
       sendListOfAllObjects();
     }
+
     playground.on('codeObjectUpdated', codeObjectUpdated);
 
     function codeObjectDeleted (codeObject) {

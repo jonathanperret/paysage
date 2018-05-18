@@ -13,14 +13,7 @@ describe('A playground', function () {
   });
 
   it(", when it's new, has no codeObject", function () {
-    expect(playground.population()).to.deep.equal([]);
-  });
-
-  it("can list its codeObject's ids", function () {
-    playground.getOrCreateCodeObject('bob');
-    playground.getOrCreateCodeObject('jack');
-    playground.getOrCreateCodeObject('0');
-    expect(playground.population()).to.deep.equal(['bob', 'jack', '0']);
+    expect(playground.getData()).to.deep.equal([]);
   });
 
   it('can tell if it is empty', function () {
@@ -55,17 +48,37 @@ describe('A playground', function () {
     playground.getOrCreateCodeObject('bob');
     playground.deleteCodeObject('bob');
 
-    expect(playground.population()).to.deep.equal([]);
+    expect(playground.getData()).to.deep.equal([]);
     expect(playground.contains('bob')).to.be.false;
   });
 
   it("'s data contains its code objects", function () {
     var bob = playground.getOrCreateCodeObject('bob');
     bob.setData({code: 'hello()'});
+    playground.getOrCreateCodeObject('alice');
     expect(playground.getData()).to.deep.equal([
       {
         codeObjectId: 'bob',
         code: 'hello()'
+      },
+      {
+        codeObjectId: 'alice',
+        code: ''
+      }
+    ]);
+  });
+
+  it("can return a single property from it's data", function () {
+    playground.getOrCreateCodeObject('id1').setData({name: 'bob', code: 'any code'});
+    playground.getOrCreateCodeObject('id2').setData({name: 'alice', code: 'any code'});
+    expect(playground.getData('name')).to.deep.equal([
+      {
+        codeObjectId: 'id1',
+        name: 'bob'
+      },
+      {
+        codeObjectId: 'id2',
+        name: 'alice'
       }
     ]);
   });

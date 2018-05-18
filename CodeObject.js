@@ -18,12 +18,13 @@ CodeObject.prototype.setData = function (data) {
   this._updated(this);
 };
 
-CodeObject.prototype.getData = function () {
+CodeObject.prototype.getData = function (propertyName) {
   var data = { codeObjectId: this.id };
-  var that = this;
-  Object.keys(this._data).forEach(function (key) {
-    data[key] = that._data[key];
-  });
+  for (var key of Object.keys(this._data)) {
+    if (!propertyName || propertyName === key) {
+      data[key] = this._data[key];
+    }
+  }
   return data;
 };
 
