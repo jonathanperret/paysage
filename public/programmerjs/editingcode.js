@@ -39,11 +39,8 @@ var Paysage = window.Paysage || {};
     });
 
     $('#codeid').on('change', function (event) {
-      // delete old code
-      Paysage.deleteCode(event.target.oldvalue);
-      // goLive current code
+      Paysage.renameCode(event.target.oldvalue, event.target.value);
       event.target.oldvalue = event.target.value;
-      Paysage.goLive();
     });
 
     // Initialize ACE code editor

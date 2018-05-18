@@ -96,6 +96,14 @@ module.exports = function (maybeWorld) {
       }
     });
 
+    socket.on('code rename', function (data) {
+      debug('renaming ' + data.oldCodeObjectId + ' to ' + data.newCodeObjectId + ' from playground ' + playground.id);
+
+      if (playground.contains(data.codeObjectId)) {
+        playground.renameCodeObject(data.oldCodeObjectId, data.newCodeObjectId);
+      }
+    });
+
     socket.on('request code', function (data) {
       debug(data.codeObjectId + ' for ' + playground.id + ' programmer');
 

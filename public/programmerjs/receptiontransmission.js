@@ -38,6 +38,14 @@ var Paysage = window.Paysage || {};
     io.emit('code delete', data);
   };
 
+  Paysage.renameCode = function (oldCodeObjectId, newCodeObjectId) {
+    var data = {
+      oldCodeObjectId: oldCodeObjectId,
+      newCodeObjectId: newCodeObjectId
+    };
+    io.emit('code rename', data);
+  };
+
   io.on('objects list', function (data) {
     var objectIds = data.objectIds;
     var $objects = $('#objects');

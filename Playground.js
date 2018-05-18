@@ -31,6 +31,13 @@ Playground.prototype.deleteCodeObject = function (codeObjectId) {
   return codeObject;
 };
 
+Playground.prototype.renameCodeObject = function (oldCodeObjectId, newCodeObjectId) {
+  const codeObject = this._codeObjects.get(oldCodeObjectId);
+  this._codeObjects.delete(oldCodeObjectId);
+  this._codeObjects.set(newCodeObjectId, codeObject);
+  this.emit('codeObjectUpdated', codeObject);
+};
+
 Playground.prototype.population = function () {
   return Array.from(this._codeObjects.keys());
 };
