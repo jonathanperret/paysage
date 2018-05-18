@@ -31,12 +31,12 @@ var Paysage = window.Paysage || {};
   };
   document.getElementById('go-live').addEventListener('click', Paysage.goLive);
 
-  function deleteCode (codeObjectId) {
+  Paysage.deleteCode = function (codeObjectId) {
     var data = {
       codeObjectId: codeObjectId
     };
     io.emit('code delete', data);
-  }
+  };
 
   io.on('objects list', function (data) {
     var objectIds = data.objectIds;
@@ -51,7 +51,7 @@ var Paysage = window.Paysage || {};
       var $deleteLink = $('<a class="glyphicon glyphicon-trash" href="#">');
       $deleteLink.click(function (event) {
         event.preventDefault();
-        deleteCode(objectId);
+        Paysage.deleteCode(objectId);
       });
       return $('<li>').append($openLink).append(' - ').append($deleteLink);
     }));

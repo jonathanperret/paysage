@@ -34,6 +34,18 @@ var Paysage = window.Paysage || {};
 
     setupDragAndDropListeners();
 
+    $('#codeid').on('focus', function (event) {
+      this.oldvalue = this.value;
+    });
+
+    $('#codeid').on('change', function (event) {
+      // delete old code
+      Paysage.deleteCode(event.target.oldvalue);
+      // goLive current code
+      event.target.oldvalue = event.target.value;
+      Paysage.goLive();
+    });
+
     // Initialize ACE code editor
     $('#code').each(function () {
       var editor = window.ace.edit(this);
