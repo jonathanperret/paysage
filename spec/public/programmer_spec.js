@@ -21,19 +21,17 @@ describe('The Paysage programmer', function () {
   });
 
   it('rename a code when codeid is changed', function () {
-    var goLiveCall = 0;
     var oldCodeId;
-    Paysage.deleteCode = function (codeId) {
-      oldCodeId = codeId;
-    };
-    Paysage.goLive = function () {
-      goLiveCall++;
+    var newCodeId;
+    Paysage.renameCode = function (oldId, newId) {
+      oldCodeId = oldId;
+      newCodeId = newId;
     };
     Paysage.programmerInit();
     document.getElementById('codeid').oldvalue = 'ancienNom';
     $('#codeid').val('nouveauNom');
     $('#codeid').trigger('change');
     expect(oldCodeId).toBe('ancienNom');
-    expect(goLiveCall).toBe(1);
+    expect(newCodeId).toBe('nouveauNom');
   });
 });

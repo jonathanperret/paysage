@@ -32,10 +32,16 @@ Playground.prototype.deleteCodeObject = function (codeObjectId) {
 };
 
 Playground.prototype.renameCodeObject = function (oldCodeObjectId, newCodeObjectId) {
-  const codeObject = this._codeObjects.get(oldCodeObjectId);
-  this._codeObjects.delete(oldCodeObjectId);
-  this._codeObjects.set(newCodeObjectId, codeObject);
-  this.emit('codeObjectUpdated', codeObject);
+  var newMap = new Map();
+  for (var [k, co] of this._codeObjects) {
+    var newKey = k;
+    if (k === oldCodeObjectId) {
+      newKey = newCodeObjectId;
+      co.setId(newCodeObjectId);
+    }
+    newMap.set(newKey, co);
+  }
+  this._codeObjects = newMap;
 };
 
 Playground.prototype.population = function () {

@@ -26,6 +26,10 @@ var Paysage = window.Paysage || {};
       deleteCanvas(id);
     });
 
+    socket.on('code rename', function (data) {
+
+    });
+
     socket.on('code update', function (data) {
       var id = data.codeObjectId;
       var code = data.code;

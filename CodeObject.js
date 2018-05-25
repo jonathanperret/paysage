@@ -7,6 +7,10 @@ function CodeObject (id, updated) {
   this._data.code = '';
 }
 
+CodeObject.prototype.setId = function (newId) {
+  this.id = newId;
+};
+
 CodeObject.prototype.setData = function (data) {
   if (data.codeObjectId && data.codeObjectId !== this.id) {
     throw new Error('Attempt to change id');

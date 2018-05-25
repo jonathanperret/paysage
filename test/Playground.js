@@ -86,6 +86,16 @@ describe('A playground', function () {
     });
     expect(playground.contains('alice')).to.be.false;
   });
+
+  it('can rename a code object without changing its place in the list', function () {
+    playground.getOrCreateCodeObject('bob');
+    playground.getOrCreateCodeObject('jack');
+    playground.getOrCreateCodeObject('lucie');
+
+    playground.renameCodeObject('jack', 'jo');
+    expect(playground.population()).to.deep.equal(['bob', 'jo', 'lucie']);
+    expect(playground.getOrCreateCodeObject('jo').id).to.equal('jo');
+  });
 });
 
 describe('Playground notifies', function () {
