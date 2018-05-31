@@ -5,7 +5,8 @@ var Paysage = window.Paysage || {};
   'use strict';
 
   // Requires a sourcebuilder script defining Paysage.getCompleteCodeObject()
-  // Requires a editingcode script defining Paysage.setCodeId() and Paysage.setCode()
+  // Requires a editingcode script defining Paysage.setCodeId(),
+  // Paysage.setCodeName() and Paysage.setCode()
 
   Paysage.requestCode = function (codeObjectId) {
     var data = {
@@ -38,28 +39,28 @@ var Paysage = window.Paysage || {};
     io.emit('code delete', data);
   };
 
-  Paysage.renameCode = function (oldCodeObjectId, newCodeObjectId) {
+  Paysage.renameCode = function (codeObjectId, newName) {
     var data = {
-      oldCodeObjectId: oldCodeObjectId,
-      newCodeObjectId: newCodeObjectId
+      codeObjectId: codeObjectId,
+      newName: newName
     };
     io.emit('code rename', data);
   };
 
   io.on('objects list', function (data) {
-    var objectIds = data.objectIds;
+    var objectIdsNames = data.objectIdsAndNames;
     var $objects = $('#objects');
     $objects.empty();
-    $objects.append(objectIds.reverse().map(function (objectId) {
-      var $openLink = $("<a href='#'>").text(objectId);
+    $objects.append(objectIdsNames.reverse().map(function (objectIdName) {
+      var $openLink = $("<a href='#'>").text(objectIdName.name);
       $openLink.click(function (event) {
         event.preventDefault();
-        Paysage.requestCode(objectId);
+        Paysage.requestCode(objectIdName.id);
       });
       var $deleteLink = $('<a class="glyphicon glyphicon-trash" href="#">');
       $deleteLink.click(function (event) {
         event.preventDefault();
-        Paysage.deleteCode(objectId);
+        Paysage.deleteCode(objectIdName.id);
       });
       return $('<li>').append($openLink).append(' - ').append($deleteLink);
     }));
@@ -67,6 +68,7 @@ var Paysage = window.Paysage || {};
 
   io.on('source code', function (data) {
     Paysage.setCodeId(data.codeObjectId);
+    Paysage.setCodeName(data.name ? data.name : data.codeObjectId);
     Paysage.setCode(data.code);
   });
 }());

@@ -45,7 +45,7 @@ describe('The Paysage server', function () {
 
       programmer.on('connect', function () {
         programmer.once('objects list', function (data) {
-          expect(data.objectIds).to.deep.equal([]);
+          expect(data.objectIdsAndNames).to.deep.equal([]);
           halfdone();
         });
       });
@@ -78,7 +78,7 @@ describe('The Paysage server', function () {
       var halfdone = callWhenCalledTimes(done, 2);
 
       programmer.on('objects list', function (data) {
-        expect(data.objectIds).to.deep.equal(['bob']);
+        expect(data.objectIdsAndNames).to.deep.equal([{id: 'bob', name: 'bob'}]);
         halfdone();
       });
 
@@ -100,7 +100,8 @@ describe('The Paysage server', function () {
       });
 
       programmer.once('objects list', function (data) {
-        expect(data.objectIds).to.deep.equal(['bill']);
+        expect(data.objectIdsAndNames).to.deep.equal([
+          {id: 'bill', name: 'bill'}]);
 
         programmer.emit('code update', {
           codeObjectId: 'bob',
@@ -108,12 +109,15 @@ describe('The Paysage server', function () {
         });
 
         programmer.once('objects list', function (data) {
-          expect(data.objectIds).to.deep.equal(['bill', 'bob']);
+          expect(data.objectIdsAndNames).to.deep.equal([
+            {id: 'bill', name: 'bill'},
+            {id: 'bob', name: 'bob'}]);
 
           var halfdone = callWhenCalledTimes(done, 2);
 
           programmer.on('objects list', function (data) {
-            expect(data.objectIds).to.deep.equal(['bill']);
+            expect(data.objectIdsAndNames).to.deep.equal([
+              {id: 'bill', name: 'bill'}]);
             halfdone();
           });
 

@@ -54,7 +54,6 @@ programmer     programmer browser          server                 preview/other 
 programmer          programmer browser            server                  preview/other clients
   |--- change input id ---->|                       |                               |
   |                         |---- code rename ----->|                               |
-  |                         |                       |------ code rename ----------->|
   |                         |<----------------------+------ objects list ---------->|
 ```
 

@@ -12,11 +12,13 @@ var Paysage = window.Paysage || {};
 
 Paysage.getCompleteCodeObject = function (callback) {
   var codeObjectId = document.getElementById('codeid').value || document.getElementById('codeid').textContent;
+  var codeObjectName = document.getElementById('codeName').value;
   var mediatype = 'text/processing';
   var code = Paysage.getCode();
 
   var data = {
     codeObjectId: codeObjectId,
+    name: codeObjectName,
     mediatype: mediatype,
     code: code
   };

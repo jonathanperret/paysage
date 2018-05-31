@@ -12,11 +12,18 @@ module.exports = {
     'bottommost-codeObject-trash': '#objects li:last-of-type a:last-of-type'
   },
   commands: [{
-    setCodeId: function (codeid) {
+    setCodeName: function (codeName) {
       this.api.execute(`
-        var codeid = document.querySelector("#codeid");
-        codeid.value = "${codeid}";
-        codeid.dispatchEvent(new Event("input"));
+        var codeNameElement = document.querySelector("#codeName");
+        codeNameElement.value = "${codeName}";
+        codeNameElement.dispatchEvent(new Event("input"));
+      `);
+      return this;
+    },
+    clickExample: function () {
+      this.api.execute(`
+        var example = document.querySelector(".example");
+        example.dispatchEvent(new Event("click"));
       `);
       return this;
     },

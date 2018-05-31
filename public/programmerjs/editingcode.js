@@ -11,8 +11,14 @@ var Paysage = window.Paysage || {};
     window.location.hash = codeId;
   };
 
+  Paysage.setCodeName = function (codeName) {
+    $('#codeName').val(codeName);
+  };
+
   Paysage.createCodeId = function () {
-    Paysage.setCodeId(window.chance.word());
+    var codeId = window.chance.word();
+    Paysage.setCodeName(codeId);
+    Paysage.setCodeId(codeId);
   };
 
   Paysage.getCode = function () {
@@ -34,13 +40,9 @@ var Paysage = window.Paysage || {};
 
     setupDragAndDropListeners();
 
-    $('#codeid').on('focus', function (event) {
-      this.oldvalue = this.value;
-    });
-
-    $('#codeid').on('change', function (event) {
-      Paysage.renameCode(event.target.oldvalue, event.target.value);
-      event.target.oldvalue = event.target.value;
+    $('#codeName').on('change', function (event) {
+      Paysage.renameCode(document.getElementById('codeid').value,
+        event.target.value);
     });
 
     // Initialize ACE code editor

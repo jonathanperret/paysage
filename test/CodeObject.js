@@ -16,9 +16,10 @@ describe('A code object', function () {
     expect(bob.id).to.equal('bob');
   });
 
-  it("'s data contains its id and code", function () {
+  it("'s data contains its id, name and code", function () {
     expect(bob.getData()).to.deep.equal({
       codeObjectId: 'bob',
+      name: 'bob',
       code: ''
     });
   });
@@ -28,6 +29,7 @@ describe('A code object', function () {
 
     expect(bob.getData()).to.deep.equal({
       codeObjectId: 'bob',
+      name: 'bob',
       someProperty: 'value',
       code: ''
     });

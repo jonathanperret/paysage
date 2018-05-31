@@ -31,21 +31,19 @@ Playground.prototype.deleteCodeObject = function (codeObjectId) {
   return codeObject;
 };
 
-Playground.prototype.renameCodeObject = function (oldCodeObjectId, newCodeObjectId) {
-  var newMap = new Map();
-  for (var [k, co] of this._codeObjects) {
-    var newKey = k;
-    if (k === oldCodeObjectId) {
-      newKey = newCodeObjectId;
-      co.setId(newCodeObjectId);
-    }
-    newMap.set(newKey, co);
+Playground.prototype.renameCodeObject = function (codeObjectId, newName) {
+  if (this._codeObjects.has(codeObjectId)) {
+    this._codeObjects.get(codeObjectId).setName(newName);
   }
-  this._codeObjects = newMap;
 };
 
 Playground.prototype.population = function () {
-  return Array.from(this._codeObjects.keys());
+  return Array.from(this._codeObjects.values()).map(function (co) {
+    return {
+      id: co.getId(),
+      name: co.getName()
+    };
+  });
 };
 
 Playground.prototype.isEmpty = function () {

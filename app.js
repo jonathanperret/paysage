@@ -65,7 +65,7 @@ module.exports = function (maybeWorld) {
     }
 
     function sendListOfAllObjects () {
-      socket.emit('objects list', {objectIds: playground.population()});
+      socket.emit('objects list', {objectIdsAndNames: playground.population()});
     }
 
     function programmerUp () {
@@ -97,10 +97,9 @@ module.exports = function (maybeWorld) {
     });
 
     socket.on('code rename', function (data) {
-      debug('renaming ' + data.oldCodeObjectId + ' to ' + data.newCodeObjectId + ' from playground ' + playground.id);
+      debug('renaming ' + data.codeObjectId + ' to ' + data.newName + ' from playground ' + playground.id);
 
-      playground.renameCodeObject(data.oldCodeObjectId, data.newCodeObjectId);
-      socket.emit('code rename', data);
+      playground.renameCodeObject(data.codeObjectId, data.newName);
       sendListOfAllObjects();
     });
 

@@ -20,7 +20,10 @@ describe('A playground', function () {
     playground.getOrCreateCodeObject('bob');
     playground.getOrCreateCodeObject('jack');
     playground.getOrCreateCodeObject('0');
-    expect(playground.population()).to.deep.equal(['bob', 'jack', '0']);
+    expect(playground.population()).to.deep.equal([
+      {id: 'bob', name: 'bob'},
+      {id: 'jack', name: 'jack'},
+      {id: '0', name: '0'}]);
   });
 
   it('can tell if it is empty', function () {
@@ -65,6 +68,7 @@ describe('A playground', function () {
     expect(playground.getData()).to.deep.equal([
       {
         codeObjectId: 'bob',
+        name: 'bob',
         code: 'hello()'
       }
     ]);
@@ -75,6 +79,7 @@ describe('A playground', function () {
     bob.setData({code: 'hello()'});
     expect(playground.getDataFor('bob')).to.deep.equal({
       codeObjectId: 'bob',
+      name: 'bob',
       code: 'hello()'
     });
   });
@@ -82,6 +87,7 @@ describe('A playground', function () {
   it('can create temporary data for a non-existing code object', function () {
     expect(playground.getDataFor('alice')).to.deep.equal({
       codeObjectId: 'alice',
+      name: 'alice',
       code: ''
     });
     expect(playground.contains('alice')).to.be.false;
@@ -93,8 +99,11 @@ describe('A playground', function () {
     playground.getOrCreateCodeObject('lucie');
 
     playground.renameCodeObject('jack', 'jo');
-    expect(playground.population()).to.deep.equal(['bob', 'jo', 'lucie']);
-    expect(playground.getOrCreateCodeObject('jo').id).to.equal('jo');
+    expect(playground.population()).to.deep.equal([
+      {id: 'bob', name: 'bob'},
+      {id: 'jack', name: 'jo'},
+      {id: 'lucie', name: 'lucie'}]);
+    expect(playground.getOrCreateCodeObject('jack').getName()).to.equal('jo');
   });
 });
 

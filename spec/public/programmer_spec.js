@@ -4,6 +4,7 @@ describe('The Paysage programmer', function () {
   beforeEach(function () {
     $(document.body).append('<div id="testcontainer">' +
       '<div><input id="codeid"></div>' +
+      '<div><input id="codeName"></div>' +
       '</div>'
     );
     window.location.hash = '';
@@ -18,20 +19,21 @@ describe('The Paysage programmer', function () {
 
     expect(window.location.hash).not.toBe('');
     expect($('#codeid').val()).toBe(window.location.hash.slice(1));
+    expect($('#codeName').val()).toBe(window.location.hash.slice(1));
   });
 
-  it('rename a code when codeid is changed', function () {
-    var oldCodeId;
-    var newCodeId;
-    Paysage.renameCode = function (oldId, newId) {
-      oldCodeId = oldId;
-      newCodeId = newId;
+  it('rename a code when codeName is changed', function () {
+    var codeId;
+    var newCodeName;
+    Paysage.renameCode = function (_codeId, newName) {
+      codeId = _codeId;
+      newCodeName = newName;
     };
     Paysage.programmerInit();
-    document.getElementById('codeid').oldvalue = 'ancienNom';
-    $('#codeid').val('nouveauNom');
-    $('#codeid').trigger('change');
-    expect(oldCodeId).toBe('ancienNom');
-    expect(newCodeId).toBe('nouveauNom');
+    document.getElementById('codeid').value = 'codeId';
+    $('#codeName').val('nouveauNom');
+    $('#codeName').trigger('change');
+    expect(codeId).toBe('codeId');
+    expect(newCodeName).toBe('nouveauNom');
   });
 });

@@ -4,11 +4,20 @@ function CodeObject (id, updated) {
   this._updated = updated || function () {};
   this.id = id;
   this._data = Object.create(null);
+  this._data.name = id;
   this._data.code = '';
 }
 
-CodeObject.prototype.setId = function (newId) {
-  this.id = newId;
+CodeObject.prototype.setName = function (newName) {
+  this._data.name = newName;
+};
+
+CodeObject.prototype.getName = function () {
+  return this._data.name;
+};
+
+CodeObject.prototype.getId = function () {
+  return this.id;
 };
 
 CodeObject.prototype.setData = function (data) {
