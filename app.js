@@ -64,6 +64,10 @@ module.exports = function (maybeWorld) {
       programmerUp();
     }
 
+    function sendListOfAllObjects () {
+      socket.emit('objects list', {data: playground.getData('name')});
+    }
+
     function programmerUp () {
       debug('a new programmer is up for ' + playground.id);
 
@@ -74,10 +78,6 @@ module.exports = function (maybeWorld) {
       debug('a new renderer is up for ' + playground.id);
 
       socket.emit('playground full update', playground.getData());
-    }
-
-    function sendListOfAllObjects () {
-      socket.emit('objects list', {objectIds: playground.population()});
     }
 
     socket.on('code update', function (data) {
@@ -94,6 +94,13 @@ module.exports = function (maybeWorld) {
       if (playground.contains(data.codeObjectId)) {
         playground.deleteCodeObject(data.codeObjectId);
       }
+    });
+
+    socket.on('code rename', function (data) {
+      debug('renaming ' + data.codeObjectId + ' to ' + data.newName + ' from playground ' + playground.id);
+
+      playground.renameCodeObject(data.codeObjectId, data.newName);
+      sendListOfAllObjects();
     });
 
     socket.on('request code', function (data) {

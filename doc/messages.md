@@ -48,3 +48,12 @@ programmer     programmer browser          server                 preview/other 
   |                  |<----------------------+----- objects list ---------->|
 ```
 
+# programmer rename a code
+
+```text
+programmer          programmer browser            server                  preview/other clients
+  |--- change input id ---->|                       |                               |
+  |                         |---- code rename ----->|                               |
+  |                         |<----------------------+------ objects list ---------->|
+```
+

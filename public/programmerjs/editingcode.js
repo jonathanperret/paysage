@@ -11,8 +11,14 @@ var Paysage = window.Paysage || {};
     window.location.hash = codeId;
   };
 
+  Paysage.setCodeName = function (codeName) {
+    $('#codeName').val(codeName);
+  };
+
   Paysage.createCodeId = function () {
-    Paysage.setCodeId(window.chance.word());
+    var codeId = window.chance.word();
+    Paysage.setCodeName(codeId);
+    Paysage.setCodeId(codeId);
   };
 
   Paysage.getCode = function () {
@@ -33,6 +39,11 @@ var Paysage = window.Paysage || {};
     }
 
     setupDragAndDropListeners();
+
+    $('#codeName').on('change', function (event) {
+      Paysage.renameCode(document.getElementById('codeid').value,
+        event.target.value);
+    });
 
     // Initialize ACE code editor
     $('#code').each(function () {

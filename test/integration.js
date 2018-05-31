@@ -44,8 +44,8 @@ describe('The Paysage server', function () {
       });
 
       programmer.on('connect', function () {
-        programmer.once('objects list', function (data) {
-          expect(data.objectIds).to.deep.equal([]);
+        programmer.once('objects list', function (population) {
+          expect(population.data).to.deep.equal([]);
           halfdone();
         });
       });
@@ -77,8 +77,8 @@ describe('The Paysage server', function () {
     it("sends programmer 'objects list' and renderer 'code update' when programmer updates code", function (done) {
       var halfdone = callWhenCalledTimes(done, 2);
 
-      programmer.on('objects list', function (data) {
-        expect(data.objectIds).to.deep.equal(['bob']);
+      programmer.on('objects list', function (population) {
+        expect(population.data).to.deep.equal([{codeObjectId: 'bob', name: 'bob'}]);
         halfdone();
       });
 
@@ -99,21 +99,25 @@ describe('The Paysage server', function () {
         source: 'dummy source'
       });
 
-      programmer.once('objects list', function (data) {
-        expect(data.objectIds).to.deep.equal(['bill']);
+      programmer.once('objects list', function (population) {
+        expect(population.data).to.deep.equal([
+          {codeObjectId: 'bill', name: 'bill'}]);
 
         programmer.emit('code update', {
           codeObjectId: 'bob',
           source: 'dummy source'
         });
 
-        programmer.once('objects list', function (data) {
-          expect(data.objectIds).to.deep.equal(['bill', 'bob']);
+        programmer.once('objects list', function (population) {
+          expect(population.data).to.deep.equal([
+            {codeObjectId: 'bill', name: 'bill'},
+            {codeObjectId: 'bob', name: 'bob'}]);
 
           var halfdone = callWhenCalledTimes(done, 2);
 
-          programmer.on('objects list', function (data) {
-            expect(data.objectIds).to.deep.equal(['bill']);
+          programmer.on('objects list', function (population) {
+            expect(population.data).to.deep.equal([
+              {codeObjectId: 'bill', name: 'bill'}]);
             halfdone();
           });
 
