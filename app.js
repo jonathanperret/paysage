@@ -65,7 +65,7 @@ module.exports = function (maybeWorld) {
     }
 
     function sendListOfAllObjects () {
-      socket.emit('objects list', {objectIdsAndNames: playground.population()});
+      socket.emit('objects list', {data: playground.getData('name')});
     }
 
     function programmerUp () {

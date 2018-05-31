@@ -16,7 +16,7 @@ describe('A code object', function () {
     expect(bob.id).to.equal('bob');
   });
 
-  it("'s data contains its id, name and code", function () {
+  it("'s data contains by default its id, name and code", function () {
     expect(bob.getData()).to.deep.equal({
       codeObjectId: 'bob',
       name: 'bob',
@@ -24,14 +24,19 @@ describe('A code object', function () {
     });
   });
 
-  it('can set and get its data', function () {
+  it('can set and get any property', function () {
     bob.setData({ someProperty: 'value' });
 
-    expect(bob.getData()).to.deep.equal({
+    expect(bob.getData().someProperty).to.equal('value');
+  });
+
+  it('can rename a code object', function () {
+    expect(bob.getName()).to.equal('bob');
+    bob.setName('marcel');
+    expect(bob.getName()).to.equal('marcel');
+    expect(bob.getData('name')).to.deep.equal({
       codeObjectId: 'bob',
-      name: 'bob',
-      someProperty: 'value',
-      code: ''
+      name: 'marcel'
     });
   });
 

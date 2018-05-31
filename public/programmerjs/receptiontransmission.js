@@ -47,20 +47,19 @@ var Paysage = window.Paysage || {};
     io.emit('code rename', data);
   };
 
-  io.on('objects list', function (data) {
-    var objectIdsNames = data.objectIdsAndNames;
+  io.on('objects list', function (population) {
     var $objects = $('#objects');
     $objects.empty();
-    $objects.append(objectIdsNames.reverse().map(function (objectIdName) {
-      var $openLink = $("<a href='#'>").text(objectIdName.name);
+    $objects.append(population.data.reverse().map(function (co) {
+      var $openLink = $("<a href='#'>").text(co.name);
       $openLink.click(function (event) {
         event.preventDefault();
-        Paysage.requestCode(objectIdName.id);
+        Paysage.requestCode(co.codeObjectId);
       });
       var $deleteLink = $('<a class="glyphicon glyphicon-trash" href="#">');
       $deleteLink.click(function (event) {
         event.preventDefault();
-        Paysage.deleteCode(objectIdName.id);
+        Paysage.deleteCode(co.codeObjectId);
       });
       return $('<li>').append($openLink).append(' - ').append($deleteLink);
     }));

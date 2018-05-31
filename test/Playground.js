@@ -13,17 +13,7 @@ describe('A playground', function () {
   });
 
   it(", when it's new, has no codeObject", function () {
-    expect(playground.population()).to.deep.equal([]);
-  });
-
-  it("can list its codeObject's ids", function () {
-    playground.getOrCreateCodeObject('bob');
-    playground.getOrCreateCodeObject('jack');
-    playground.getOrCreateCodeObject('0');
-    expect(playground.population()).to.deep.equal([
-      {id: 'bob', name: 'bob'},
-      {id: 'jack', name: 'jack'},
-      {id: '0', name: '0'}]);
+    expect(playground.getData()).to.deep.equal([]);
   });
 
   it('can tell if it is empty', function () {
@@ -58,18 +48,39 @@ describe('A playground', function () {
     playground.getOrCreateCodeObject('bob');
     playground.deleteCodeObject('bob');
 
-    expect(playground.population()).to.deep.equal([]);
+    expect(playground.getData()).to.deep.equal([]);
     expect(playground.contains('bob')).to.be.false;
   });
 
   it("'s data contains its code objects", function () {
     var bob = playground.getOrCreateCodeObject('bob');
     bob.setData({code: 'hello()'});
+    playground.getOrCreateCodeObject('alice');
     expect(playground.getData()).to.deep.equal([
       {
         codeObjectId: 'bob',
         name: 'bob',
         code: 'hello()'
+      },
+      {
+        codeObjectId: 'alice',
+        name: 'alice',
+        code: ''
+      }
+    ]);
+  });
+
+  it("can return only one property from it's data", function () {
+    playground.getOrCreateCodeObject('bob');
+    playground.getOrCreateCodeObject('alice');
+    expect(playground.getData('name')).to.deep.equal([
+      {
+        codeObjectId: 'bob',
+        name: 'bob'
+      },
+      {
+        codeObjectId: 'alice',
+        name: 'alice'
       }
     ]);
   });
@@ -99,10 +110,10 @@ describe('A playground', function () {
     playground.getOrCreateCodeObject('lucie');
 
     playground.renameCodeObject('jack', 'jo');
-    expect(playground.population()).to.deep.equal([
-      {id: 'bob', name: 'bob'},
-      {id: 'jack', name: 'jo'},
-      {id: 'lucie', name: 'lucie'}]);
+    expect(playground.getData('name')).to.deep.equal([
+      {codeObjectId: 'bob', name: 'bob'},
+      {codeObjectId: 'jack', name: 'jo'},
+      {codeObjectId: 'lucie', name: 'lucie'}]);
     expect(playground.getOrCreateCodeObject('jack').getName()).to.equal('jo');
   });
 });
