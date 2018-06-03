@@ -48,7 +48,8 @@ var Paysage = window.Paysage || {};
   Paysage.openNewCode = function () {
     $('#new-code-dialog').dialog({
       title: 'Start a new code',
-      width: 600
+      width: 600,
+      resizable: false
     });
   };
 
