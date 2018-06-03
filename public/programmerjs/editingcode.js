@@ -41,12 +41,12 @@ var Paysage = window.Paysage || {};
       return $('<li>').append($openLink).append(' - ').append($deleteLink);
     }));
     var $startNewCodeLink = $('<li><a href="#">start a new code…</a></li>');
-    $startNewCodeLink.on('click', Paysage.openNewProject);
+    $startNewCodeLink.on('click', Paysage.openNewCode);
     $objects.append($startNewCodeLink);
   };
 
-  Paysage.openNewProject = function () {
-    $('#new-project-dialog').dialog({
+  Paysage.openNewCode = function () {
+    $('#new-code-dialog').dialog({
       title: 'Start a new code',
       width: 600
     });
@@ -63,7 +63,7 @@ var Paysage = window.Paysage || {};
 
     setupDragAndDropListeners();
 
-    Paysage.openNewProject();
+    Paysage.openNewCode();
 
     // Initialize ACE code editor
     $('#code').each(function () {
@@ -103,7 +103,7 @@ var Paysage = window.Paysage || {};
     $.get($(this).data('src'), function (data) {
       Paysage.setCode(data);
     });
-    $('#new-project-dialog').dialog('close');
+    $('#new-code-dialog').dialog('close');
   });
 
   // Drag and dropping a text file and naming the code from the file name

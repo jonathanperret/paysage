@@ -4,7 +4,7 @@ describe('The Paysage programmer', function () {
   beforeEach(function () {
     $(document.body).append('<div id="testcontainer">' +
       '<div><input id="codeid"></div>' +
-      '<div id="new-project-dialog"></div>' +
+      '<div id="new-code-dialog"></div>' +
       '<div id="objects"></div>' +
       '</div>'
     );
@@ -40,7 +40,7 @@ describe('The Paysage programmer', function () {
     expect($list).toMatch(/object2.*object1/);
   });
 
-  it('ends the object list with a link to open a new project', function () {
+  it('ends the object list with a link to open a new code', function () {
     Paysage.setObjectList({
       objectIds: ['object1', 'object2']
     });
