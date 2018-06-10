@@ -44,8 +44,8 @@ describe('The Paysage programmer', function () {
       objectIds: ['object1', 'object2']
     });
     var $list = $('#objects').html();
-    expect($list).toContain('<li><a href="#">object1</a> - <a class="glyphicon glyphicon-trash" href="#"></a></li>');
-    expect($list).toContain('<li><a href="#">object2</a> - <a class="glyphicon glyphicon-trash" href="#"></a></li>');
+    expect($list).toContain('<a href="#"><li>object1 - <a class="glyphicon glyphicon-trash" href="#"></a></li></a>');
+    expect($list).toContain('<a href="#"><li>object2 - <a class="glyphicon glyphicon-trash" href="#"></a></li></a>');
   });
 
   it('list objects in reverse order', function () {
@@ -61,6 +61,6 @@ describe('The Paysage programmer', function () {
       objectIds: ['object1', 'object2']
     });
     var $list = $('#objects').html();
-    expect($list).toMatch(/^<li><a href="#">start a new creature…<\/a><\/li>/);
+    expect($list).toMatch(/^<ul><a href="#"><li>start a new creature…<\/li><\/a>/);
   });
 });

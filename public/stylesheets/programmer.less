@@ -77,12 +77,6 @@ body {
   height: 15em;
 }
 
-#objects {
-  margin: 0;
-  overflow: scroll;
-  height: 100%;
-}
-
 .controls button, .controls a {
   font-size: 1em;
   padding: 12.5px;
@@ -257,4 +251,55 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
+}
+
+#objects {
+  margin: 0;
+  overflow: scroll;
+  height: 100%;
+
+  h2 {
+    font: 400 16px/1.5 Helvetica, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+    a {
+      padding-left: 10px;
+      border-bottom: 1px solid #ccc;
+      text-decoration: none;
+      display:block;
+
+      li {
+        font: 200 14px/1.5 Helvetica, Verdana, sans-serif;
+        color: #000;
+        display: inline;
+
+        a {
+          display: inline;
+          padding: 0;
+          color: #A9A9A9;
+
+          .glyphicon-trash:hover {
+            color: #000;
+          }
+        }
+      }
+    }
+
+    a:last-child {
+      border: none;
+    }
+
+    a:hover {
+      background: #f6f6f6;
+      text-decoration: none;
+      color: #000;
+    }
+  }
 }
