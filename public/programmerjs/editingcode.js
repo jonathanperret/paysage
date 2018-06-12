@@ -27,6 +27,9 @@ var Paysage = window.Paysage || {};
     var objectIds = data.objectIds;
     var $objects = $('#objects');
     $objects.empty();
+    var $startNewCodeLink = $('<li><a href="#">start a new code…</a></li>');
+    $startNewCodeLink.on('click', Paysage.openNewCode);
+    $objects.append($startNewCodeLink);
     $objects.append(objectIds.reverse().map(function (objectId) {
       var $openLink = $("<a href='#'>").text(objectId);
       $openLink.click(function (event) {
@@ -40,9 +43,6 @@ var Paysage = window.Paysage || {};
       });
       return $('<li>').append($openLink).append(' - ').append($deleteLink);
     }));
-    var $startNewCodeLink = $('<li><a href="#">start a new code…</a></li>');
-    $startNewCodeLink.on('click', Paysage.openNewCode);
-    $objects.append($startNewCodeLink);
   };
 
   Paysage.openNewCode = function () {

@@ -8,8 +8,8 @@ module.exports = {
   },
   elements: {
     'go-live': '#go-live',
-    'topmost-codeObject': '#objects li:first-of-type a:first-of-type',
-    'topmost-codeObject-trash': '#objects li:first-of-type a:last-of-type'
+    'bottommost-codeObject': '#objects li:last-of-type a:first-of-type',
+    'bottommost-codeObject-trash': '#objects li:last-of-type a:last-of-type'
   },
   commands: [{
     setCodeId: function (codeid) {

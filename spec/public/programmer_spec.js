@@ -40,11 +40,11 @@ describe('The Paysage programmer', function () {
     expect($list).toMatch(/object2.*object1/);
   });
 
-  it('ends the object list with a link to open a new code', function () {
+  it('start the object list with a link to open a new code', function () {
     Paysage.setObjectList({
       objectIds: ['object1', 'object2']
     });
     var $list = $('#objects').html();
-    expect($list).toMatch(/<li><a href="#">start a new code…<\/a><\/li>$/);
+    expect($list).toMatch(/^<li><a href="#">start a new code…<\/a><\/li>/);
   });
 });
