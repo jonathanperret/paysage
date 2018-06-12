@@ -23,6 +23,36 @@ var Paysage = window.Paysage || {};
     $('#code').val(code);
   };
 
+  Paysage.setObjectList = function (data, deleteCodeCB) {
+    var objectIds = data.objectIds;
+    var $objects = $('#objects');
+    $objects.empty();
+    var $startNewShapeLink = $('<li><a href="#">start a new creature…</a></li>');
+    $startNewShapeLink.on('click', Paysage.startNewObject);
+    $objects.append($startNewShapeLink);
+    $objects.append(objectIds.reverse().map(function (objectId) {
+      var $openLink = $("<a href='#'>").text(objectId);
+      $openLink.click(function (event) {
+        event.preventDefault();
+        Paysage.requestCode(objectId);
+      });
+      var $deleteLink = $('<a class="glyphicon glyphicon-trash" href="#">');
+      $deleteLink.click(function (event) {
+        event.preventDefault();
+        deleteCodeCB(objectId);
+      });
+      return $('<li>').append($openLink).append(' - ').append($deleteLink);
+    }));
+  };
+
+  Paysage.startNewObject = function () {
+    $('#new-object-dialog').dialog({
+      title: 'Start a new creature',
+      width: 600,
+      resizable: false
+    });
+  };
+
   // On load, generating a random name if no name is passed via the URL Fragmemt identifier
 
   Paysage.programmerInit = function () {
@@ -33,6 +63,8 @@ var Paysage = window.Paysage || {};
     }
 
     setupDragAndDropListeners();
+
+    Paysage.startNewObject();
 
     // Initialize ACE code editor
     $('#code').each(function () {
@@ -72,6 +104,7 @@ var Paysage = window.Paysage || {};
     $.get($(this).data('src'), function (data) {
       Paysage.setCode(data);
     });
+    $('#new-object-dialog').dialog('close');
   });
 
   // Drag and dropping a text file and naming the code from the file name

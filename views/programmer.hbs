@@ -4,9 +4,11 @@
   <title>{{playgroundid}} Paysage Programmer</title>
   <link href="/stylesheets/programmer.css" rel="stylesheet">
   <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/bower_components/jquery-ui/themes/base/jquery-ui.min.css">
   {{> favicon}}
   <script src="{{socketioClient}}"></script>
   <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="/bower_components/jquery-ui/jquery-ui.min.js"></script>
   <script src="/bower_components/chance/chance.js"></script>
   <script src="/bower_components/ace-builds/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 
@@ -30,14 +32,6 @@
       <ul id="objects"></ul>
     </div>
   </div>
-  <div class="examples programmer-row">
-    <div class="example empty" data-src="/examples/empty.pde"></div>
-    <div class="example number-32" data-src="/examples/number32.pde"></div>
-    <div class="example eye" data-src="/examples/eye.pde"></div>
-    <div class="example serpent" data-src="/examples/serpent.pde"></div>
-    <div class="example creature" data-src="/examples/creature.pde"></div>
-    <div class="example horizon" data-src="/examples/horizon.pde"></div>
-  </div>
 </div>
 
 <div class="viewer-part">
@@ -56,6 +50,17 @@
         <iframe class="viewer" id="viewerframe" src="/playground/{{playgroundid}}"></iframe>
     </div>
 </div>
+
+<div id="new-object-dialog" class="examples">
+  <h3>Start a new creature ! Choose an example :</h3>
+  <div class="example empty" data-src="/examples/empty.pde"></div>
+  <div class="example number-32" data-src="/examples/number32.pde"></div>
+  <div class="example eye" data-src="/examples/eye.pde"></div>
+  <div class="example serpent" data-src="/examples/serpent.pde"></div>
+  <div class="example creature" data-src="/examples/creature.pde"></div>
+  <div class="example horizon" data-src="/examples/horizon.pde"></div>
+</div>
+
 <script src="/programmerjs/sourcebuilder.js"></script>
 <script src="/programmerjs/receptiontransmission.js"></script>
 <script src="/programmerjs/editingcode.js"></script>
