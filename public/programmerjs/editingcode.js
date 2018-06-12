@@ -59,12 +59,11 @@ var Paysage = window.Paysage || {};
     if (window.location.hash) {
       Paysage.requestCode(window.location.hash.substring(1));
     } else {
+      Paysage.startNewObject();
       Paysage.createCodeId();
     }
 
     setupDragAndDropListeners();
-
-    Paysage.startNewObject();
 
     // Initialize ACE code editor
     $('#code').each(function () {
