@@ -18,7 +18,7 @@ Paysage.setCode = function (code) {
 };
 
 Paysage.setObjectList = function (data, deleteCodeCb) {
-  // noting to do, objectList is not displayed.
+  // noting to do, the list is not displayed.
 };
 
 if (!creaturename) {

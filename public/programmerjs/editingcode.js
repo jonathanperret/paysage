@@ -27,9 +27,9 @@ var Paysage = window.Paysage || {};
     var objectIds = data.objectIds;
     var $objects = $('#objects');
     $objects.empty();
-    var $startNewCodeLink = $('<li><a href="#">start a new code…</a></li>');
-    $startNewCodeLink.on('click', Paysage.openNewCode);
-    $objects.append($startNewCodeLink);
+    var $startNewShapeLink = $('<li><a href="#">start a new creature…</a></li>');
+    $startNewShapeLink.on('click', Paysage.startNewObject);
+    $objects.append($startNewShapeLink);
     $objects.append(objectIds.reverse().map(function (objectId) {
       var $openLink = $("<a href='#'>").text(objectId);
       $openLink.click(function (event) {
@@ -45,9 +45,9 @@ var Paysage = window.Paysage || {};
     }));
   };
 
-  Paysage.openNewCode = function () {
-    $('#new-code-dialog').dialog({
-      title: 'Start a new code',
+  Paysage.startNewObject = function () {
+    $('#new-object-dialog').dialog({
+      title: 'Start a new creature',
       width: 600,
       resizable: false
     });
@@ -64,7 +64,7 @@ var Paysage = window.Paysage || {};
 
     setupDragAndDropListeners();
 
-    Paysage.openNewCode();
+    Paysage.startNewObject();
 
     // Initialize ACE code editor
     $('#code').each(function () {
@@ -104,7 +104,7 @@ var Paysage = window.Paysage || {};
     $.get($(this).data('src'), function (data) {
       Paysage.setCode(data);
     });
-    $('#new-code-dialog').dialog('close');
+    $('#new-object-dialog').dialog('close');
   });
 
   // Drag and dropping a text file and naming the code from the file name

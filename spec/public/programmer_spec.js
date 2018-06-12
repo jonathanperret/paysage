@@ -4,7 +4,7 @@ describe('The Paysage programmer', function () {
   beforeEach(function () {
     $(document.body).append('<div id="testcontainer">' +
       '<div><input id="codeid"></div>' +
-      '<div id="new-code-dialog"></div>' +
+      '<div id="new-object-dialog"></div>' +
       '<div id="objects"></div>' +
       '</div>'
     );
@@ -45,6 +45,6 @@ describe('The Paysage programmer', function () {
       objectIds: ['object1', 'object2']
     });
     var $list = $('#objects').html();
-    expect($list).toMatch(/^<li><a href="#">start a new code…<\/a><\/li>/);
+    expect($list).toMatch(/^<li><a href="#">start a new creature…<\/a><\/li>/);
   });
 });
