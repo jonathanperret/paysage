@@ -26,16 +26,13 @@ var Paysage = window.Paysage || {};
   Paysage.setObjectList = function (data, deleteCodeCB) {
     var objectIds = data.objectIds;
     var $ul = $('<ul>');
-    var $startNewShapeLink = $('<a href="#"><li>start a new creature…</li></a>');
-    $startNewShapeLink.on('click', Paysage.startNewObject);
-    $ul.append($startNewShapeLink);
     $ul.append(objectIds.reverse().map(function (objectId) {
-      var $deleteLink = $('<a class="glyphicon glyphicon-trash" href="#">');
+      var $deleteLink = $('<a class="glyphicon glyphicon-remove-circle" href="#">');
       $deleteLink.click(function (event) {
         event.preventDefault();
         deleteCodeCB(objectId);
       });
-      var $openLink = $("<a href='#'>").append($('<li>').text(objectId).append(' - ').append($deleteLink));
+      var $openLink = $("<a href='#'>").append($('<li>').text(objectId).append($deleteLink));
       $openLink.click(function (event) {
         event.preventDefault();
         Paysage.requestCode(objectId);
@@ -64,6 +61,7 @@ var Paysage = window.Paysage || {};
     }
 
     setupDragAndDropListeners();
+    $('#start-new-code').on('click', Paysage.startNewObject);
 
     // Initialize ACE code editor
     $('#code').each(function () {

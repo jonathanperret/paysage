@@ -48,7 +48,7 @@ module.exports = {
       .expect.element('@bottommost-codeObject').text.to.include('jim');
     browser.page.programmer()
       .click('@bottommost-codeObject-trash')
-      .expect.element('@bottommost-codeObject').text.to.equal('start a new creature…');
+      .expect.element('@bottommost-codeObject').to.not.be.present;
   },
 
   'Renderer gets code objets at startup': function (browser) {

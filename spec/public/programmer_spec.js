@@ -44,8 +44,8 @@ describe('The Paysage programmer', function () {
       objectIds: ['object1', 'object2']
     });
     var $list = $('#objects').html();
-    expect($list).toContain('<a href="#"><li>object1 - <a class="glyphicon glyphicon-trash" href="#"></a></li></a>');
-    expect($list).toContain('<a href="#"><li>object2 - <a class="glyphicon glyphicon-trash" href="#"></a></li></a>');
+    expect($list).toContain('<a href="#"><li>object1<a class="glyphicon glyphicon-remove-circle" href="#"></a></li></a>');
+    expect($list).toContain('<a href="#"><li>object2<a class="glyphicon glyphicon-remove-circle" href="#"></a></li></a>');
   });
 
   it('list objects in reverse order', function () {
@@ -54,13 +54,5 @@ describe('The Paysage programmer', function () {
     });
     var $list = $('#objects').html();
     expect($list).toMatch(/object2.*object1/);
-  });
-
-  it('start the object list with a link to open a new code', function () {
-    Paysage.setObjectList({
-      objectIds: ['object1', 'object2']
-    });
-    var $list = $('#objects').html();
-    expect($list).toMatch(/^<ul><a href="#"><li>start a new creature…<\/li><\/a>/);
   });
 });

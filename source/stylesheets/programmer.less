@@ -75,6 +75,8 @@ body {
 .programmercontrols {
   display: table-cell;
   height: 15em;
+  padding-bottom: 15px;
+  padding-top: 5px;
 }
 
 .controls button, .controls a {
@@ -257,6 +259,7 @@ input:checked + .slider:before {
   margin: 0;
   overflow: scroll;
   height: 100%;
+  max-width: 15em;
 
   h2 {
     font: 400 16px/1.5 Helvetica, Verdana, sans-serif;
@@ -282,18 +285,17 @@ input:checked + .slider:before {
 
         a {
           display: inline;
-          padding: 0;
           color: #A9A9A9;
+          float: right;
+          padding-right: 0.5rem;
+          padding-top: 0.5rem;
+          border: none;
 
           .glyphicon-trash:hover {
             color: #000;
           }
         }
       }
-    }
-
-    a:last-child {
-      border: none;
     }
 
     a:hover {
