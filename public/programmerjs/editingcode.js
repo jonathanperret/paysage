@@ -31,6 +31,7 @@ var Paysage = window.Paysage || {};
       $deleteLink.click(function (event) {
         event.preventDefault();
         deleteCodeCB(objectId);
+        event.stopPropagation();
       });
       var $openLink = $("<a href='#'>").append($('<li>').text(objectId).append($deleteLink));
       $openLink.click(function (event) {

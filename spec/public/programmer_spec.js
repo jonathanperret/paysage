@@ -55,4 +55,22 @@ describe('The Paysage programmer', function () {
     var $list = $('#objects').html();
     expect($list).toMatch(/object2.*object1/);
   });
+
+  it('do not propagate the delete event to the openlink', function () {
+    var wasDeleted = false;
+    Paysage.setObjectList({
+      objectIds: ['object1']
+    }, function () {
+      wasDeleted = true;
+    });
+
+    var openLinkWasCalled = false;
+    Paysage.requestCode = function (objectId) {
+      openLinkWasCalled = true;
+    };
+
+    $('#objects a li a').click();
+    expect(wasDeleted).toEqual(true, 'the object has not been deleted ?');
+    expect(openLinkWasCalled).toEqual(false, 'the open link event should not have been called');
+  });
 });
