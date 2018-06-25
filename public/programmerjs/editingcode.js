@@ -31,14 +31,13 @@ var Paysage = window.Paysage || {};
       $deleteLink.click(function (event) {
         event.preventDefault();
         deleteCodeCB(objectId);
-        event.stopPropagation();
       });
-      var $openLink = $("<a href='#'>").append($('<li>').text(objectId).append($deleteLink));
+      var $openLink = $("<a href='#'>").text(objectId);
       $openLink.click(function (event) {
         event.preventDefault();
         Paysage.requestCode(objectId);
       });
-      return $openLink;
+      return $('<li>').append($openLink).append($deleteLink);
     }));
     $('#objects').empty().append($ul);
   };

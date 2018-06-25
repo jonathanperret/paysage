@@ -44,8 +44,8 @@ describe('The Paysage programmer', function () {
       objectIds: ['object1', 'object2']
     });
     var $list = $('#objects').html();
-    expect($list).toContain('<a href="#"><li>object1<a class="glyphicon glyphicon-remove-circle" href="#"></a></li></a>');
-    expect($list).toContain('<a href="#"><li>object2<a class="glyphicon glyphicon-remove-circle" href="#"></a></li></a>');
+    expect($list).toContain('<li><a href="#">object1</a><a class="glyphicon glyphicon-remove-circle" href="#"></a></li>');
+    expect($list).toContain('<li><a href="#">object2</a><a class="glyphicon glyphicon-remove-circle" href="#"></a></li>');
   });
 
   it('list objects in reverse order', function () {
@@ -54,23 +54,5 @@ describe('The Paysage programmer', function () {
     });
     var $list = $('#objects').html();
     expect($list).toMatch(/object2.*object1/);
-  });
-
-  it('do not propagate the delete event to the openlink', function () {
-    var wasDeleted = false;
-    Paysage.setObjectList({
-      objectIds: ['object1']
-    }, function () {
-      wasDeleted = true;
-    });
-
-    var openLinkWasCalled = false;
-    Paysage.requestCode = function (objectId) {
-      openLinkWasCalled = true;
-    };
-
-    $('#objects a li a').click();
-    expect(wasDeleted).toEqual(true, 'the object has not been deleted ?');
-    expect(openLinkWasCalled).toEqual(false, 'the open link event should not have been called');
   });
 });

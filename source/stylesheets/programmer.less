@@ -259,49 +259,50 @@ input:checked + .slider:before {
   margin: 0;
   overflow: scroll;
   height: 100%;
-  max-width: 15em;
-
-  h2 {
-    font: 400 16px/1.5 Helvetica, Verdana, sans-serif;
-    margin: 0;
-    padding: 0;
-  }
+  max-width: 13em;
 
   ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
 
-    a {
-      padding-left: 10px;
+    li {
       border-bottom: 1px solid #ccc;
-      text-decoration: none;
       display:block;
+      font: 200 14px/1.5 Helvetica, Verdana, sans-serif;
+      height: 2.2rem;
 
-      li {
-        font: 200 14px/1.5 Helvetica, Verdana, sans-serif;
+      a {
+        text-decoration: none;
+        display: inline-block;
+        height:100%;
+      }
+
+      a:first-child {
         color: #000;
-        display: inline;
+        padding-left: 0.8rem;
+        width:90%;
+        overflow: hidden;
+      }
 
-        a {
-          display: inline;
-          color: #A9A9A9;
-          float: right;
-          padding-right: 0.5rem;
-          padding-top: 0.5rem;
-          border: none;
+      a:last-child {
+        float: right;
+        top: 0.5rem;
+        right: 0.5rem;
+        color: #A9A9A9;
 
-          .glyphicon-trash:hover {
-            color: #000;
-          }
+        .glyphicon-trash:hover {
+          color: #000;
         }
+      }
+
+      a:last-child:hover {
+        color: #000;
       }
     }
 
-    a:hover {
+    li:hover {
       background: #f6f6f6;
-      text-decoration: none;
-      color: #000;
     }
   }
 }
