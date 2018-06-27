@@ -19,6 +19,9 @@
     <input type="hidden" id="playgroundid" value="{{playgroundid}}">
     <input type="hidden" id="clientType" value="programmer">
     <input type="text" id="codeid"></input>
+    <div class="controls" style="display: inline">
+      <button id="start-new-code">start a new creature…</button>
+    </div>
   </div>
   <div class="codewrapper programmer-row">
     <div id="code" rows="20" cols="30"></div>
@@ -29,7 +32,7 @@
         <button id="go-live">go live!</button>
         <a target="_blank" href="{{reference_url}}" id="openreference">reference ➚</a>
       </div>
-      <ul id="objects"></ul>
+      <div id="objects"></div>
     </div>
   </div>
 </div>

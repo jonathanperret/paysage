@@ -8,6 +8,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var exphbs = require('express-handlebars');
+var lessMiddleware = require('less-middleware');
 
 module.exports = function (maybeWorld) {
   var app = express();
@@ -34,7 +35,9 @@ module.exports = function (maybeWorld) {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({extended: true}));
   app.use(cookieParser());
-  app.use(require('less-middleware')(path.join(__dirname, 'public')));
+  app.use(lessMiddleware(path.join(__dirname, 'source'), {
+    dest: path.join(__dirname, 'public')
+  }));
   app.use(express.static(path.join(__dirname, 'public')));
 
   app.locals.reference_url = process.env.REFERENCE_URL || 'http://processingjs.org/reference/';

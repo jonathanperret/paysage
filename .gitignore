@@ -25,3 +25,4 @@ build/Release
 node_modules
 public/bower_components
 reports
+public/stylesheets

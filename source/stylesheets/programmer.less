@@ -41,6 +41,7 @@ body {
 #codeid {
   font-size: 2em;
   width: 10em;
+  max-width: 50%;
   margin-bottom: 5px;
 }
 
@@ -75,12 +76,8 @@ body {
 .programmercontrols {
   display: table-cell;
   height: 15em;
-}
-
-#objects {
-  margin: 0;
-  overflow: scroll;
-  height: 100%;
+  padding-bottom: 15px;
+  padding-top: 5px;
 }
 
 .controls button, .controls a {
@@ -257,4 +254,56 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
+}
+
+#objects {
+  margin: 0;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  height: 100%;
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      border-bottom: 1px solid #ccc;
+      display:block;
+      font: 200 14px/1.5 Helvetica, Verdana, sans-serif;
+      height: 2.2rem;
+
+      a {
+        text-decoration: none;
+        display: inline-block;
+        height:100%;
+      }
+
+      a:first-child {
+        color: #000;
+        padding-left: 0.8rem;
+        width:85%;
+        overflow: hidden;
+      }
+
+      a:last-child {
+        float: right;
+        top: 0.5rem;
+        right: 1rem;
+        color: #A9A9A9;
+
+        .glyphicon-trash:hover {
+          color: #000;
+        }
+      }
+
+      a:last-child:hover {
+        color: #000;
+      }
+    }
+
+    li:hover {
+      background: #f0f0f0; // same grey as the ace editor
+    }
+  }
 }
