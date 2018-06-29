@@ -80,39 +80,50 @@ body {
   padding-top: 5px;
 }
 
-.controls button, .controls a {
-  font-size: 1em;
-  padding: 12.5px;
-  margin-left: 10px;
-  float: right;
-  text-decoration: none;
-  border: 1px solid #333;
-  color:#FFF;
-  background-color:#333;
-  display: inline-block;
+.controls {
+  button, a {
+    font-size: 1em;
+    padding: 12.5px;
+    margin-left: 10px;
+    float: right;
+    border: 1px solid;
+    color:#FFF;
+    display: inline-block;
 
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
 
-  -webkit-transition: all 300ms ease;
-  -moz-transition: all 300ms ease;
-  -o-transition: all 300ms ease;
-  transition: all 300ms ease;
+    -webkit-transition: all 300ms ease;
+    -moz-transition: all 300ms ease;
+    -o-transition: all 300ms ease;
+    transition: all 300ms ease;
 
-  user-select: none;
-}
+    user-select: none;
+  }
 
-.controls button:hover, .controls a:hover {
-  cursor: pointer;
-  color:#333;
-  background-color:#FFF;
-  text-decoration: none;
-}
+  button {
+    background-color:#333;
+    border-color: #333;
+  }
 
-.controls a {
-  background-color:#888;
-  border-color: #888;
+  a {
+    text-decoration: none;
+    background-color:#888;
+    border-color: #888;
+  }
+
+  button:hover, a:hover {
+    cursor: pointer;
+    color:#333;
+    background-color:#FFF;
+    text-decoration: none;
+  }
+
+  a:focus {
+    color:#FFF;
+    text-decoration: none;
+  }
 }
 
 .examples {
@@ -292,6 +303,7 @@ input:checked + .slider:before {
         top: 0.5rem;
         right: 1rem;
         color: #A9A9A9;
+        height: auto;
       }
 
       a:last-child:hover {
