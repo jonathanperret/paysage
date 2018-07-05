@@ -22,5 +22,33 @@
     }
   }
 
+  var solo = false;
+  function switchSoloEveryone (event) {
+    event.preventDefault();
+    if (solo) {
+      solo = false;
+
+      $('#solo').hide();
+      $('#everyOne').show();
+
+      $('canvas', $('#viewerframe').contents()).each(function () {
+        $(this).show(200);
+      });
+    } else {
+      solo = true;
+      var codeid = document.getElementById('codeid').value;
+
+      $('#everyOne').hide();
+      $('#solo').text(codeid).show();
+
+      $('canvas', $('#viewerframe').contents()).each(function () {
+        if (this.getAttribute('id') !== codeid) {
+          $(this).hide(200);
+        }
+      });
+    }
+  }
+
   $('#previewonoff').on('change', switchframe);
+  $('#showall').on('change', switchSoloEveryone);
 })();

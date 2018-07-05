@@ -89,6 +89,7 @@ var Paysage = window.Paysage || {};
 
   function createCanvas (id) {
     canvas[id] = document.createElement('canvas');
+    canvas[id].setAttribute('id', id);
     container.appendChild(canvas[id]);
   }
 
