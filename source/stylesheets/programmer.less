@@ -303,7 +303,7 @@ body {
         overflow: hidden;
       }
 
-      a:nth-child(2) {
+      a:nth-child(n+2)  {
         position: absolute;
         top: 0.5rem;
         right: 3rem;
@@ -311,16 +311,26 @@ body {
         height: auto;
       }
 
-      a:nth-child(3) {
-        position: absolute;
-        top: 0.5rem;
-        right: 1rem;
-        color: #A9A9A9;
-        height: auto;
+      a.selected {
+        color: #000;
+        font-weight: bold;
       }
 
-      a:nth-child(n+1):hover {
+      a:nth-child(n+2):hover {
         color: #000;
+      }
+
+      a.solo {
+        right: 5rem;
+        top: 0rem;
+      }
+
+      a.mute {
+        right: 3rem;
+      }
+
+      a.delete {
+        right: 1rem;
       }
     }
 

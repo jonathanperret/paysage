@@ -39,24 +39,48 @@ var Paysage = window.Paysage || {};
   Paysage.setObjectList = function (population, deleteCodeCB) {
     var $ul = $('<ul>');
     $ul.append(population.data.reverse().map(function (co) {
-      var $deleteLink = $('<a class="glyphicon glyphicon-remove-circle" href="#">');
+      var $deleteLink = $('<a class="glyphicon glyphicon-remove-circle delete" href="#">');
       $deleteLink.click(function (event) {
         event.preventDefault();
         deleteCodeCB(co.codeObjectId);
       });
-      var $mute = $('<a class="glyphicon glyphicon-eye-open" href="#">');
+      var $mute = $('<a class="glyphicon glyphicon-eye-open mute" href="#">');
       $mute.click(function (event) {
         event.preventDefault();
         $mute.toggleClass('glyphicon-eye-open');
         $mute.toggleClass('glyphicon-eye-close');
         $('#' + co.codeObjectId, $('#viewerframe').contents()).toggle(200);
       });
+      var $solo = $('<a class="solo" href="#">').append('solo');
+      $solo.click(function (event) {
+        event.preventDefault();
+        $('canvas', $('#viewerframe').contents()).each(function () {
+          $(this).show(200);
+        });
+        $('.solo').each(function () {
+          if (this !== $solo.get(0)) {
+            $(this).removeClass('selected');
+          }
+        });
+        $solo.toggleClass('selected');
+        if ($solo.hasClass('selected')) {
+          $('canvas', $('#viewerframe').contents()).each(function () {
+            if (this.getAttribute('id') !== co.codeObjectId) {
+              $(this).hide(200);
+            }
+          });
+        }
+      });
       var $openLink = $("<a href='#" + co.codeObjectId + "'>").text(co.name);
       $openLink.click(function (event) {
         event.preventDefault();
         Paysage.requestCode(co.codeObjectId);
       });
-      return $('<li>').append($openLink).append($mute).append($deleteLink);
+
+      return $('<li>').append($openLink)
+        .append($solo)
+        .append($mute)
+        .append($deleteLink);
     }));
     $('#objects').empty().append($ul);
   };
