@@ -44,12 +44,19 @@ var Paysage = window.Paysage || {};
         event.preventDefault();
         deleteCodeCB(co.codeObjectId);
       });
+      var $mute = $('<a class="glyphicon glyphicon-eye-open" href="#">');
+      $mute.click(function (event) {
+        event.preventDefault();
+        $mute.toggleClass('glyphicon-eye-open');
+        $mute.toggleClass('glyphicon-eye-close');
+        $('#' + co.codeObjectId, $('#viewerframe').contents()).toggle(200);
+      });
       var $openLink = $("<a href='#" + co.codeObjectId + "'>").text(co.name);
       $openLink.click(function (event) {
         event.preventDefault();
         Paysage.requestCode(co.codeObjectId);
       });
-      return $('<li>').append($openLink).append($deleteLink);
+      return $('<li>').append($openLink).append($mute).append($deleteLink);
     }));
     $('#objects').empty().append($ul);
   };

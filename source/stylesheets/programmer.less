@@ -303,7 +303,15 @@ body {
         overflow: hidden;
       }
 
-      a:last-child {
+      a:nth-child(2) {
+        position: absolute;
+        top: 0.5rem;
+        right: 3rem;
+        color: #A9A9A9;
+        height: auto;
+      }
+
+      a:nth-child(3) {
         position: absolute;
         top: 0.5rem;
         right: 1rem;
@@ -311,7 +319,7 @@ body {
         height: auto;
       }
 
-      a:last-child:hover {
+      a:nth-child(n+1):hover {
         color: #000;
       }
     }
