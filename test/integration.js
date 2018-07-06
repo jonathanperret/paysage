@@ -44,8 +44,8 @@ describe('The Paysage server', function () {
       });
 
       programmer.on('connect', function () {
-        programmer.once('objects list', function (data) {
-          expect(data.objectIds).to.deep.equal([]);
+        programmer.once('objects list', function (population) {
+          expect(population.data).to.deep.equal([]);
           halfdone();
         });
       });
@@ -77,52 +77,59 @@ describe('The Paysage server', function () {
     it("sends programmer 'objects list' and renderer 'code update' when programmer updates code", function (done) {
       var halfdone = callWhenCalledTimes(done, 2);
 
-      programmer.on('objects list', function (data) {
-        expect(data.objectIds).to.deep.equal(['bob']);
+      programmer.on('objects list', function (population) {
+        expect(population.data).to.deep.equal([{codeObjectId: 'id1', name: 'boby'}]);
         halfdone();
       });
 
       renderer.on('code update', function (data) {
-        expect(data.codeObjectId).to.equal('bob');
+        expect(data.codeObjectId).to.equal('id1');
         halfdone();
       });
 
       programmer.emit('code update', {
-        codeObjectId: 'bob',
+        codeObjectId: 'id1',
+        name: 'boby',
         source: 'dummy source'
       });
     });
 
     it("sends programmer 'objects list' and renderer 'code delete' when programmer deletes code", function (done) {
       programmer.emit('code update', {
-        codeObjectId: 'bill',
+        codeObjectId: 'id1',
+        name: 'bill',
         source: 'dummy source'
       });
 
-      programmer.once('objects list', function (data) {
-        expect(data.objectIds).to.deep.equal(['bill']);
+      programmer.once('objects list', function (population) {
+        expect(population.data).to.deep.equal([
+          {codeObjectId: 'id1', name: 'bill'}]);
 
         programmer.emit('code update', {
-          codeObjectId: 'bob',
+          codeObjectId: 'id2',
+          name: 'bob',
           source: 'dummy source'
         });
 
-        programmer.once('objects list', function (data) {
-          expect(data.objectIds).to.deep.equal(['bill', 'bob']);
+        programmer.once('objects list', function (population) {
+          expect(population.data).to.deep.equal([
+            {codeObjectId: 'id1', name: 'bill'},
+            {codeObjectId: 'id2', name: 'bob'}]);
 
           var halfdone = callWhenCalledTimes(done, 2);
 
-          programmer.on('objects list', function (data) {
-            expect(data.objectIds).to.deep.equal(['bill']);
+          programmer.on('objects list', function (population) {
+            expect(population.data).to.deep.equal([
+              {codeObjectId: 'id1', name: 'bill'}]);
             halfdone();
           });
 
           renderer.on('code delete', function (data) {
-            expect(data.codeObjectId).to.equal('bob');
+            expect(data.codeObjectId).to.equal('id2');
             halfdone();
           });
 
-          programmer.emit('code delete', { codeObjectId: 'bob' });
+          programmer.emit('code delete', { codeObjectId: 'id2' });
         });
       });
     });

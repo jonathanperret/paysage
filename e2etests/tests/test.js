@@ -32,7 +32,7 @@ module.exports = {
   'New code object is listed': function (browser) {
     browser.page.programmer()
       .navigate()
-      .setCodeId('jim')
+      .setCodeName('jim')
       .click('@go-live')
       .expect.element('@bottommost-codeObject').text.to.include('jim');
   },
@@ -40,9 +40,11 @@ module.exports = {
   'A listed code object can be deleted, supposing latest created object on top': function (browser) {
     browser.page.programmer()
       .navigate()
-      .setCodeId('jul')
+      .clickExample()
+      .setCodeName('jul')
       .click('@go-live')
-      .setCodeId('jim')
+      .clickExample()
+      .setCodeName('jim')
       .click('@go-live')
       .click('@bottommost-codeObject-trash')
       .expect.element('@bottommost-codeObject').text.to.include('jim');

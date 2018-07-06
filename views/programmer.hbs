@@ -16,12 +16,13 @@
 <body>
 <div class="programmer-part">
   <div class="programmertop programmer-row">
-    <input type="hidden" id="playgroundid" value="{{playgroundid}}">
-    <input type="hidden" id="clientType" value="programmer">
-    <input type="text" id="codeid"></input>
     <div class="controls" style="display: inline">
       <button id="start-new-code">start a new creature…</button>
     </div>
+    <input type="hidden" id="playgroundid" value="{{playgroundid}}">
+    <input type="hidden" id="clientType" value="programmer">
+    <input type="text" id="codeName" placeholder="enter a name…"></input>
+    <input type="hidden" id="codeid"></input>
   </div>
   <div class="codewrapper programmer-row">
     <div id="code" rows="20" cols="30"></div>

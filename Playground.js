@@ -31,10 +31,6 @@ Playground.prototype.deleteCodeObject = function (codeObjectId) {
   return codeObject;
 };
 
-Playground.prototype.population = function () {
-  return Array.from(this._codeObjects.keys());
-};
-
 Playground.prototype.isEmpty = function () {
   return this._codeObjects.size === 0;
 };
@@ -43,9 +39,9 @@ Playground.prototype.contains = function (id) {
   return this._codeObjects.has(id);
 };
 
-Playground.prototype.getData = function () {
+Playground.prototype.getData = function (property) {
   return Array.from(this._codeObjects.values())
-    .map((codeObject) => codeObject.getData());
+    .map((codeObject) => codeObject.getData(property));
 };
 
 Playground.prototype.getDataFor = function (codeObjectId) {

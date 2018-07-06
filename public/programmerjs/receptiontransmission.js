@@ -4,7 +4,8 @@ var Paysage = window.Paysage || {};
   'use strict';
 
   // Requires a sourcebuilder script defining Paysage.getCompleteCodeObject()
-  // Requires a editingcode script defining Paysage.setCodeId(), Paysage.setCode() and Paysage.setObjectList(data)
+  // Requires a editingcode script defining Paysage.setCodeId(),
+  // Paysage.setObjectList(data), Paysage.setCodeName() and Paysage.setCode()
 
   Paysage.requestCode = function (codeObjectId) {
     var data = {
@@ -30,18 +31,20 @@ var Paysage = window.Paysage || {};
   };
   document.getElementById('go-live').addEventListener('click', Paysage.goLive);
 
-  io.on('objects list', function (data) {
-    var deleteCode = function (codeObjectId) {
-      var deleteData = {
-        codeObjectId: codeObjectId
-      };
-      io.emit('code delete', deleteData);
+  Paysage.deleteCode = function (codeObjectId) {
+    var data = {
+      codeObjectId: codeObjectId
     };
-    Paysage.setObjectList(data, deleteCode);
+    io.emit('code delete', data);
+  };
+
+  io.on('objects list', function (population) {
+    Paysage.setObjectList(population, Paysage.deleteCode);
   });
 
   io.on('source code', function (data) {
     Paysage.setCodeId(data.codeObjectId);
+    Paysage.setCodeName(data.name);
     Paysage.setCode(data.code);
   });
 }());
