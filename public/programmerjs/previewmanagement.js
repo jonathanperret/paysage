@@ -37,9 +37,10 @@
     } else {
       solo = true;
       var codeid = document.getElementById('codeid').value;
+      var codeName = document.getElementById('codeName').value;
 
       $('#everyOne').hide();
-      $('#solo').text(codeid).show();
+      $('#solo').text(codeName).show();
 
       $('canvas', $('#viewerframe').contents()).each(function () {
         if (this.getAttribute('id') !== codeid) {
