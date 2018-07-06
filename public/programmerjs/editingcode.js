@@ -103,6 +103,11 @@ var Paysage = window.Paysage || {};
     Paysage.createCodeId();
     $.get($(this).data('src'), function (data) {
       Paysage.setCode(data);
+      setTimeout(function () {
+        var codeNameField = document.getElementById('codeName');
+        codeNameField.value = '';
+        codeNameField.focus();
+      }, 10);
     });
     $('#new-object-dialog').dialog('close');
   });
