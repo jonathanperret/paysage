@@ -44,23 +44,49 @@ var Paysage = window.Paysage || {};
       });
   }
 
-  function mute(codeObjectId) {
+  function showCodeObjects(muttedCodeObjects, soloCodeObject) {
+    $('canvas', $('#viewerframe').contents()).each(function () {
+      var currentCodeObjectId = this.getAttribute('id');
+      if(soloCodeObject.size === 1) {
+        if (soloCodeObject.has(currentCodeObjectId)) {
+          $(this).show(200);
+        }
+        else {
+          $(this).hide(200);
+        }
+      }
+      else {
+        if (muttedCodeObjects.has(currentCodeObjectId)) {
+          $(this).hide(200);
+        }
+        else {
+          $(this).show(200);
+        }
+      }
+    });
+  }
+
+  function mute(codeObjectId, muttedCodeObjects, soloCodeObject) {
     return $('<a class="glyphicon glyphicon-eye-open mute" href="#">')
       .click(function (event) {
         event.preventDefault();
         $(this).toggleClass('glyphicon-eye-open');
         $(this).toggleClass('glyphicon-eye-close');
-        $('#' + codeObjectId, $('#viewerframe').contents()).toggle(200);
+        if($(this).hasClass('glyphicon-eye-open')) {
+          muttedCodeObjects.delete(codeObjectId);
+        }
+        else {
+          muttedCodeObjects.add(codeObjectId);
+        }
+        showCodeObjects(muttedCodeObjects, soloCodeObject);
       });
   }
 
-  function solo(codeObjectId) {
+  function solo(codeObjectId, muttedCodeObjects, soloCodeObject) {
     var $solo = $('<a class="solo" href="#">').append('solo');
     $solo.click(function (event) {
       event.preventDefault();
-      $('canvas', $('#viewerframe').contents()).each(function () {
-        $(this).show(200);
-      });
+      soloCodeObject.clear();
       $('.solo').each(function () {
         if (this !== $solo.get(0)) {
           $(this).removeClass('selected');
@@ -68,12 +94,9 @@ var Paysage = window.Paysage || {};
       });
       $solo.toggleClass('selected');
       if ($solo.hasClass('selected')) {
-        $('canvas', $('#viewerframe').contents()).each(function () {
-          if (this.getAttribute('id') !== codeObjectId) {
-            $(this).hide(200);
-          }
-        });
+        soloCodeObject.add(codeObjectId);
       }
+      showCodeObjects(muttedCodeObjects, soloCodeObject);
     });
     return $solo;
   }
@@ -88,11 +111,13 @@ var Paysage = window.Paysage || {};
 
   Paysage.setObjectList = function (population, deleteCodeCB) {
     var $ul = $('<ul>');
+    var muttedCodeObjects = new Set();
+    var soloCodeObject = new Set();
     $ul.append(population.data.reverse().map(function (co) {
       return $('<li>')
         .append(openLink(co))
-        .append(solo(co.codeObjectId))
-        .append(mute(co.codeObjectId))
+        .append(solo(co.codeObjectId, muttedCodeObjects, soloCodeObject))
+        .append(mute(co.codeObjectId, muttedCodeObjects, soloCodeObject))
         .append(deleteLink(co.codeObjectId, deleteCodeCB));
     }));
     $('#objects').empty().append($ul);
