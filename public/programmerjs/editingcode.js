@@ -36,51 +36,64 @@ var Paysage = window.Paysage || {};
     $('#code').val(code);
   };
 
-  Paysage.setObjectList = function (population, deleteCodeCB) {
-    var $ul = $('<ul>');
-    $ul.append(population.data.reverse().map(function (co) {
-      var $deleteLink = $('<a class="glyphicon glyphicon-remove-circle delete" href="#">');
-      $deleteLink.click(function (event) {
+  function deleteLink(codeObjectId, deleteCodeCB) {
+    return $('<a class="glyphicon glyphicon-remove-circle delete" href="#">')
+      .click(function (event) {
         event.preventDefault();
-        deleteCodeCB(co.codeObjectId);
+        deleteCodeCB(codeObjectId);
       });
-      var $mute = $('<a class="glyphicon glyphicon-eye-open mute" href="#">');
-      $mute.click(function (event) {
+  }
+
+  function mute(codeObjectId) {
+    return $('<a class="glyphicon glyphicon-eye-open mute" href="#">')
+      .click(function (event) {
         event.preventDefault();
-        $mute.toggleClass('glyphicon-eye-open');
-        $mute.toggleClass('glyphicon-eye-close');
-        $('#' + co.codeObjectId, $('#viewerframe').contents()).toggle(200);
+        $(this).toggleClass('glyphicon-eye-open');
+        $(this).toggleClass('glyphicon-eye-close');
+        $('#' + codeObjectId, $('#viewerframe').contents()).toggle(200);
       });
-      var $solo = $('<a class="solo" href="#">').append('solo');
-      $solo.click(function (event) {
-        event.preventDefault();
-        $('canvas', $('#viewerframe').contents()).each(function () {
-          $(this).show(200);
-        });
-        $('.solo').each(function () {
-          if (this !== $solo.get(0)) {
-            $(this).removeClass('selected');
-          }
-        });
-        $solo.toggleClass('selected');
-        if ($solo.hasClass('selected')) {
-          $('canvas', $('#viewerframe').contents()).each(function () {
-            if (this.getAttribute('id') !== co.codeObjectId) {
-              $(this).hide(200);
-            }
-          });
+  }
+
+  function solo(codeObjectId) {
+    var $solo = $('<a class="solo" href="#">').append('solo');
+    $solo.click(function (event) {
+      event.preventDefault();
+      $('canvas', $('#viewerframe').contents()).each(function () {
+        $(this).show(200);
+      });
+      $('.solo').each(function () {
+        if (this !== $solo.get(0)) {
+          $(this).removeClass('selected');
         }
       });
-      var $openLink = $("<a href='#" + co.codeObjectId + "'>").text(co.name);
-      $openLink.click(function (event) {
+      $solo.toggleClass('selected');
+      if ($solo.hasClass('selected')) {
+        $('canvas', $('#viewerframe').contents()).each(function () {
+          if (this.getAttribute('id') !== codeObjectId) {
+            $(this).hide(200);
+          }
+        });
+      }
+    });
+    return $solo;
+  }
+
+  function openLink(co) {
+    return $("<a href='#" + co.codeObjectId + "'>").text(co.name)
+      .click(function (event) {
         event.preventDefault();
         Paysage.requestCode(co.codeObjectId);
       });
+  }
 
-      return $('<li>').append($openLink)
-        .append($solo)
-        .append($mute)
-        .append($deleteLink);
+  Paysage.setObjectList = function (population, deleteCodeCB) {
+    var $ul = $('<ul>');
+    $ul.append(population.data.reverse().map(function (co) {
+      return $('<li>')
+        .append(openLink(co))
+        .append(solo(co.codeObjectId))
+        .append(mute(co.codeObjectId))
+        .append(deleteLink(co.codeObjectId, deleteCodeCB));
     }));
     $('#objects').empty().append($ul);
   };
