@@ -10,8 +10,7 @@ var Paysage = window.Paysage || {};
   // Requires a sourcebuilder script defining
   // - Paysage.getCompleteCodeObject()
   // Requires a previewmanagement script defining
-  // - Paysage.solo()
-  // - Paysage.mute()
+  // - Paysage.previewManagement
 
   function goLive () {
     Paysage.emitCodeUpdate(Paysage.getCompleteCodeObject());
@@ -39,7 +38,7 @@ var Paysage = window.Paysage || {};
     $('#code').val(code);
   };
 
-  function deleteLink(codeObjectId, deleteCodeCB) {
+  function deleteLink (codeObjectId, deleteCodeCB) {
     return $('<a class="glyphicon glyphicon-remove-circle delete" href="#">')
       .click(function (event) {
         event.preventDefault();
@@ -47,7 +46,7 @@ var Paysage = window.Paysage || {};
       });
   }
 
-  function openLink(co) {
+  function openLink (co) {
     return $("<a href='#" + co.codeObjectId + "'>").text(co.name)
       .click(function (event) {
         event.preventDefault();
@@ -55,15 +54,40 @@ var Paysage = window.Paysage || {};
       });
   }
 
+  function muteLink (codeObjectId) {
+    return $('<a class="glyphicon glyphicon-eye-open mute" href="#">')
+      .click(function (event) {
+        event.preventDefault();
+        $(this).toggleClass('glyphicon-eye-open');
+        $(this).toggleClass('glyphicon-eye-close');
+        Paysage.previewManagement.mute(codeObjectId,
+          $(this).hasClass('glyphicon-eye-open'));
+      });
+  }
+
+  function soloLink (codeObjectId) {
+    var $solo = $('<a class="solo" href="#">').append('solo');
+    $solo.click(function (event) {
+      event.preventDefault();
+      $('.solo').each(function () {
+        if (this !== $solo.get(0)) {
+          $(this).removeClass('selected');
+        }
+      });
+      $solo.toggleClass('selected');
+      Paysage.previewManagement.solo(codeObjectId, $solo.hasClass('selected'));
+    });
+    return $solo;
+  }
+
   Paysage.setObjectList = function (population, deleteCodeCB) {
     var $ul = $('<ul>');
-    var muttedCodeObjects = new Set();
-    var soloCodeObject = new Set();
+    Paysage.previewManagement.initCodeObjectList();
     $ul.append(population.data.reverse().map(function (co) {
       return $('<li>')
         .append(openLink(co))
-        .append(Paysage.solo(co.codeObjectId, muttedCodeObjects, soloCodeObject))
-        .append(Paysage.mute(co.codeObjectId, muttedCodeObjects, soloCodeObject))
+        .append(soloLink(co.codeObjectId))
+        .append(muteLink(co.codeObjectId))
         .append(deleteLink(co.codeObjectId, deleteCodeCB));
     }));
     $('#objects').empty().append($ul);
