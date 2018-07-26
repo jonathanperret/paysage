@@ -11,6 +11,11 @@ describe('The Paysage programmer', function () {
       '</div>'
     );
     window.location.hash = '';
+
+    // mock previewManagement
+    Paysage.previewManagement = {
+      initCodeObjectList: function () {}
+    };
   });
 
   afterEach(function () {

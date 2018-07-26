@@ -9,6 +9,9 @@ var Paysage = window.Paysage || {};
   // - Paysage.emitCodeUpdate()
   // Requires a sourcebuilder script defining
   // - Paysage.getCompleteCodeObject()
+  // Requires a previewmanagement script defining
+  // - Paysage.solo()
+  // - Paysage.mute()
 
   function goLive () {
     Paysage.emitCodeUpdate(Paysage.getCompleteCodeObject());
@@ -44,63 +47,6 @@ var Paysage = window.Paysage || {};
       });
   }
 
-  function showCodeObjects(muttedCodeObjects, soloCodeObject) {
-    $('canvas', $('#viewerframe').contents()).each(function () {
-      var currentCodeObjectId = this.getAttribute('id');
-      if(soloCodeObject.size === 1) {
-        if (soloCodeObject.has(currentCodeObjectId)) {
-          $(this).show(200);
-        }
-        else {
-          $(this).hide(200);
-        }
-      }
-      else {
-        if (muttedCodeObjects.has(currentCodeObjectId)) {
-          $(this).hide(200);
-        }
-        else {
-          $(this).show(200);
-        }
-      }
-    });
-  }
-
-  function mute(codeObjectId, muttedCodeObjects, soloCodeObject) {
-    return $('<a class="glyphicon glyphicon-eye-open mute" href="#">')
-      .click(function (event) {
-        event.preventDefault();
-        $(this).toggleClass('glyphicon-eye-open');
-        $(this).toggleClass('glyphicon-eye-close');
-        if($(this).hasClass('glyphicon-eye-open')) {
-          muttedCodeObjects.delete(codeObjectId);
-        }
-        else {
-          muttedCodeObjects.add(codeObjectId);
-        }
-        showCodeObjects(muttedCodeObjects, soloCodeObject);
-      });
-  }
-
-  function solo(codeObjectId, muttedCodeObjects, soloCodeObject) {
-    var $solo = $('<a class="solo" href="#">').append('solo');
-    $solo.click(function (event) {
-      event.preventDefault();
-      soloCodeObject.clear();
-      $('.solo').each(function () {
-        if (this !== $solo.get(0)) {
-          $(this).removeClass('selected');
-        }
-      });
-      $solo.toggleClass('selected');
-      if ($solo.hasClass('selected')) {
-        soloCodeObject.add(codeObjectId);
-      }
-      showCodeObjects(muttedCodeObjects, soloCodeObject);
-    });
-    return $solo;
-  }
-
   function openLink(co) {
     return $("<a href='#" + co.codeObjectId + "'>").text(co.name)
       .click(function (event) {
@@ -116,8 +62,8 @@ var Paysage = window.Paysage || {};
     $ul.append(population.data.reverse().map(function (co) {
       return $('<li>')
         .append(openLink(co))
-        .append(solo(co.codeObjectId, muttedCodeObjects, soloCodeObject))
-        .append(mute(co.codeObjectId, muttedCodeObjects, soloCodeObject))
+        .append(Paysage.solo(co.codeObjectId, muttedCodeObjects, soloCodeObject))
+        .append(Paysage.mute(co.codeObjectId, muttedCodeObjects, soloCodeObject))
         .append(deleteLink(co.codeObjectId, deleteCodeCB));
     }));
     $('#objects').empty().append($ul);
