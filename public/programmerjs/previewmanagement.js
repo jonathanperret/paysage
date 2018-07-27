@@ -9,11 +9,6 @@ function PreviewManagement () {
 
 Paysage.previewManagement = new PreviewManagement();
 
-PreviewManagement.prototype.initCodeObjectList = function () {
-  this.muttedCodeObjects.clear();
-  this.soloCodeObject.clear();
-};
-
 PreviewManagement.prototype.showCodeObjects = function () {
   var me = this;
   $('canvas', $('#viewerframe').contents()).each(function () {
@@ -36,6 +31,14 @@ PreviewManagement.prototype.showCodeObjects = function () {
       }
     }
   });
+};
+
+PreviewManagement.prototype.isSolo = function (codeObjectId) {
+  return this.soloCodeObject.has(codeObjectId);
+};
+
+PreviewManagement.prototype.isMute = function (codeObjectId) {
+  return this.muttedCodeObjects.has(codeObjectId);
 };
 
 PreviewManagement.prototype.mute = function (codeObjectId, mute) {

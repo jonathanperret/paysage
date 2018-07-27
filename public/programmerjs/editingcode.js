@@ -55,7 +55,10 @@ var Paysage = window.Paysage || {};
   }
 
   function muteLink (codeObjectId) {
-    return $('<a class="glyphicon glyphicon-eye-open mute" href="#">')
+    var eyeClass = Paysage.previewManagement.isMute(codeObjectId)
+      ? 'glyphicon-eye-close' : 'glyphicon-eye-open';
+    return $('<a class="glyphicon mute" href="#">')
+      .addClass(eyeClass)
       .click(function (event) {
         event.preventDefault();
         $(this).toggleClass('glyphicon-eye-open');
@@ -67,6 +70,9 @@ var Paysage = window.Paysage || {};
 
   function soloLink (codeObjectId) {
     var $solo = $('<a class="solo" href="#">').append('solo');
+    if (Paysage.previewManagement.isSolo(codeObjectId)) {
+      $solo.addClass('selected');
+    }
     $solo.click(function (event) {
       event.preventDefault();
       $('.solo').each(function () {
@@ -82,7 +88,6 @@ var Paysage = window.Paysage || {};
 
   Paysage.setObjectList = function (population, deleteCodeCB) {
     var $ul = $('<ul>');
-    Paysage.previewManagement.initCodeObjectList();
     $ul.append(population.data.reverse().map(function (co) {
       return $('<li>')
         .append(openLink(co))

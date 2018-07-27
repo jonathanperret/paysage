@@ -14,7 +14,8 @@ describe('The Paysage programmer', function () {
 
     // mock previewManagement
     Paysage.previewManagement = {
-      initCodeObjectList: function () {}
+      isMute: function () { return false; },
+      isSolo: function () { return false; }
     };
   });
 
@@ -69,7 +70,7 @@ describe('The Paysage programmer', function () {
       ]
     });
     var $list = $('#objects').html();
-    var buttons = '<a class="solo" href="#">solo</a><a class="glyphicon glyphicon-eye-open mute" href="#"></a><a class="glyphicon glyphicon-remove-circle delete" href="#"></a>';
+    var buttons = '<a class="solo" href="#">solo</a><a class="glyphicon mute glyphicon-eye-open" href="#"></a><a class="glyphicon glyphicon-remove-circle delete" href="#"></a>';
     expect($list).toContain('<li><a href="#object1">name 1</a>' + buttons + '</li>');
     expect($list).toContain('<li><a href="#object2">name2</a>' + buttons + '</li>');
   });
