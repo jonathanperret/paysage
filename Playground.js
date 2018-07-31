@@ -44,10 +44,11 @@ Playground.prototype.getData = function (property) {
     .map((codeObject) => codeObject.getData(property));
 };
 
-Playground.prototype.getDataFor = function (codeObjectId) {
-  var codeObject =
-    this._codeObjects.get(codeObjectId) ||
-    new CodeObject(codeObjectId);
+Playground.prototype.getDataByName = function (codeObjectName) {
+  var codeObject = Array.from(this._codeObjects.values())
+    .find((codeObject) => codeObject.getData().name === codeObjectName) ||
+    new CodeObject(codeObjectName);
+  codeObject.setData({ name: codeObjectName });
   return codeObject.getData();
 };
 

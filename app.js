@@ -99,9 +99,8 @@ module.exports = function (maybeWorld) {
     });
 
     socket.on('request code', function (data) {
-      debug(data.codeObjectId + ' for ' + playground.id + ' programmer');
-
-      socket.emit('source code', playground.getDataFor(data.codeObjectId));
+      debug(data.codeObjectName + ' for ' + playground.id + ' programmer');
+      socket.emit('source code', playground.getDataByName(data.codeObjectName));
     });
 
     function codeObjectUpdated (codeObject) {

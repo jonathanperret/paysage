@@ -7,11 +7,10 @@ var Paysage = window.Paysage || {};
   // Requires a editingcode script defining Paysage.setCodeId(),
   // Paysage.setObjectList(data), Paysage.setCodeName() and Paysage.setCode()
 
-  Paysage.requestCode = function (codeObjectId) {
-    var data = {
-      codeObjectId: codeObjectId
-    };
-    io.emit('request code', data);
+  Paysage.requestCode = function (codeObjectName) {
+    io.emit('request code', {
+      codeObjectName: codeObjectName
+    });
   };
 
   var playgroundid = document.getElementById('playgroundid').value;
@@ -26,6 +25,7 @@ var Paysage = window.Paysage || {};
     function emitData (data) {
       console.log(data);
       io.emit('code update', data);
+      window.location.hash = data.name;
     }
     Paysage.getCompleteCodeObject(emitData);
   };

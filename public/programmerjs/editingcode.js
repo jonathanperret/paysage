@@ -8,15 +8,17 @@ var Paysage = window.Paysage || {};
 
   Paysage.setCodeId = function (codeId) {
     $('#codeid').val(codeId);
-    window.location.hash = codeId;
   };
 
   Paysage.setCodeName = function (codeName) {
     $('#codeName').val(codeName);
+    window.location.hash = codeName;
   };
 
   Paysage.createCodeId = function () {
-    Paysage.setCodeId(window.chance.word());
+    var name = window.chance.word();
+    Paysage.setCodeId(name);
+    Paysage.setCodeName(name);
   };
 
   Paysage.getCode = function () {
@@ -35,10 +37,10 @@ var Paysage = window.Paysage || {};
         event.preventDefault();
         deleteCodeCB(co.codeObjectId);
       });
-      var $openLink = $("<a href='#" + co.codeObjectId + "'>").text(co.name);
+      var $openLink = $("<a href='#" + co.name + "'>").text(co.name);
       $openLink.click(function (event) {
         event.preventDefault();
-        Paysage.requestCode(co.codeObjectId);
+        Paysage.requestCode(co.name);
       });
       return $('<li>').append($openLink).append($deleteLink);
     }));
@@ -103,11 +105,6 @@ var Paysage = window.Paysage || {};
     Paysage.createCodeId();
     $.get($(this).data('src'), function (data) {
       Paysage.setCode(data);
-      setTimeout(function () {
-        var codeNameField = document.getElementById('codeName');
-        codeNameField.value = '';
-        codeNameField.focus();
-      }, 10);
     });
     $('#new-object-dialog').dialog('close');
   });

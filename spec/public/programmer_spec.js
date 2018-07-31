@@ -25,17 +25,17 @@ describe('The Paysage programmer', function () {
     expect($('#new-object-dialog').parent().css('display')).toBe('block');
   });
 
-  it('request the code when codeId is present on the url', function () {
-    window.location.hash = 'toto';
+  it('request the code when codeName is present on the url', function () {
+    window.location.hash = 'myName';
 
-    var requestedCodeId;
-    Paysage.requestCode = function (codeObjectId) {
-      requestedCodeId = codeObjectId;
+    var requestedCodeName;
+    Paysage.requestCode = function (codeObjectName) {
+      requestedCodeName = codeObjectName;
     };
 
     Paysage.programmerInit();
 
-    expect(requestedCodeId).toBe('toto');
+    expect(requestedCodeName).toBe('myName');
     expect($('#new-object-dialog').css('display')).toBe('none');
   });
 
@@ -47,8 +47,8 @@ describe('The Paysage programmer', function () {
       ]
     });
     var $list = $('#objects').html();
-    expect($list).toContain('<li><a href="#object1">name1</a><a class="glyphicon glyphicon-remove-circle" href="#"></a></li>');
-    expect($list).toContain('<li><a href="#object2">name2</a><a class="glyphicon glyphicon-remove-circle" href="#"></a></li>');
+    expect($list).toContain('<li><a href="#name1">name1</a><a class="glyphicon glyphicon-remove-circle" href="#"></a></li>');
+    expect($list).toContain('<li><a href="#name2">name2</a><a class="glyphicon glyphicon-remove-circle" href="#"></a></li>');
   });
 
   it('list objects in reverse order', function () {
