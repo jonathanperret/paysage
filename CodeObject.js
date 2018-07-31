@@ -16,6 +16,7 @@ CodeObject.prototype.setData = function (data) {
     if (key !== 'codeObjectId') { that._data[key] = data[key]; }
   });
   this._updated(this);
+  return this;
 };
 
 CodeObject.prototype.getData = function () {

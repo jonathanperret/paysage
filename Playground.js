@@ -47,8 +47,7 @@ Playground.prototype.getData = function () {
 Playground.prototype.getDataByName = function (codeObjectName) {
   var codeObject = Array.from(this._codeObjects.values())
     .find((codeObject) => codeObject.getData().name === codeObjectName) ||
-    new CodeObject(codeObjectName);
-  codeObject.setData({ name: codeObjectName });
+    new CodeObject(codeObjectName).setData({ name: codeObjectName });
   return codeObject.getData();
 };
 
