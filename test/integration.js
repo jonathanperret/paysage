@@ -78,7 +78,8 @@ describe('The Paysage server', function () {
       var halfdone = callWhenCalledTimes(done, 2);
 
       programmer.on('objects list', function (population) {
-        expect(population.data).to.deep.equal([{codeObjectId: 'id1', name: 'boby'}]);
+        expect(population.data.length).to.equal(1);
+        expect(population.data[0].codeObjectId).to.equal('id1');
         halfdone();
       });
 
@@ -102,8 +103,8 @@ describe('The Paysage server', function () {
       });
 
       programmer.once('objects list', function (population) {
-        expect(population.data).to.deep.equal([
-          {codeObjectId: 'id1', name: 'bill'}]);
+        expect(population.data.length).to.equal(1);
+        expect(population.data[0].codeObjectId).to.equal('id1');
 
         programmer.emit('code update', {
           codeObjectId: 'id2',
@@ -112,15 +113,15 @@ describe('The Paysage server', function () {
         });
 
         programmer.once('objects list', function (population) {
-          expect(population.data).to.deep.equal([
-            {codeObjectId: 'id1', name: 'bill'},
-            {codeObjectId: 'id2', name: 'bob'}]);
+          expect(population.data.length).to.equal(2);
+          expect(population.data[0].codeObjectId).to.equal('id1');
+          expect(population.data[1].codeObjectId).to.equal('id2');
 
           var halfdone = callWhenCalledTimes(done, 2);
 
           programmer.on('objects list', function (population) {
-            expect(population.data).to.deep.equal([
-              {codeObjectId: 'id1', name: 'bill'}]);
+            expect(population.data.length).to.equal(1);
+            expect(population.data[0].codeObjectId).to.equal('id1');
             halfdone();
           });
 

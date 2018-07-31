@@ -39,9 +39,9 @@ Playground.prototype.contains = function (id) {
   return this._codeObjects.has(id);
 };
 
-Playground.prototype.getData = function (property) {
+Playground.prototype.getData = function () {
   return Array.from(this._codeObjects.values())
-    .map((codeObject) => codeObject.getData(property));
+    .map((codeObject) => codeObject.getData());
 };
 
 Playground.prototype.getDataByName = function (codeObjectName) {
