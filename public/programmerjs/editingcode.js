@@ -43,6 +43,7 @@ var Paysage = window.Paysage || {};
       .click(function (event) {
         event.preventDefault();
         deleteCodeCB(codeObjectId);
+        Paysage.previewManagement.delete(codeObjectId);
       });
   }
 

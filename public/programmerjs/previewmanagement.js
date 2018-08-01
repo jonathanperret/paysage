@@ -41,6 +41,11 @@ PreviewManagement.prototype.isMute = function (codeObjectId) {
   return this.muttedCodeObjects.has(codeObjectId);
 };
 
+PreviewManagement.prototype.delete = function (codeObjectId) {
+  this.soloCodeObject.delete(codeObjectId);
+  this.showCodeObjects();
+};
+
 PreviewManagement.prototype.mute = function (codeObjectId, mute) {
   if (mute) {
     this.muttedCodeObjects.delete(codeObjectId);
