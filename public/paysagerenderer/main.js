@@ -4,11 +4,12 @@ var Paysage = window.Paysage || {};
 (function () {
   'use strict';
 
-  var canvas, layers, container, playgroundId;
+  var canvas, layers, codes, container, playgroundId;
 
   Paysage.rendererInit = function () {
     canvas = Object.create(null);
     layers = Object.create(null);
+    codes = Object.create(null);
 
     container = document.getElementById('container');
     playgroundId = container.getAttribute('data-playgroundid');
@@ -44,11 +45,36 @@ var Paysage = window.Paysage || {};
     });
 
     installResizeHandler();
+
+    var urlHash = '';
+    setInterval(function () {
+      var newHash = window.location.hash;
+      if (urlHash === newHash) {
+        return;
+      }
+      urlHash = newHash;
+
+      Paysage.showCodeObjects(
+        Object.keys(canvas),
+        Paysage.readIdsFromUrlHash(urlHash),
+        function (id) {
+          console.log('show: ' + id);
+          deleteLayer(id);
+          canvas[id].style.display = '';
+          layers[id] = createLayer(canvas[id], codes[id], id);
+        },
+        function (id) {
+          console.log('hide: ' + id);
+          deleteLayer(id);
+          canvas[id].style.display = 'none';
+        });
+    }, 100);
   };
 
   function clearLayersAndCanvas () {
     Object.keys(layers).forEach(deleteLayer);
     Object.keys(canvas).forEach(deleteCanvas);
+    codes = Object.create(null);
   }
 
   function resizeToWindow (layer) {
@@ -90,8 +116,13 @@ var Paysage = window.Paysage || {};
   }
 
   function createCanvas (id) {
-    canvas[id] = document.createElement('canvas');
-    container.appendChild(canvas[id]);
+    if (!canvas[id]) {
+      canvas[id] = document.createElement('canvas');
+      container.appendChild(canvas[id]);
+      console.log('canvas created for ' + id);
+    } else {
+      console.log('canvas reused for ' + id);
+    }
   }
 
   function deleteCanvas (id) {
@@ -111,13 +142,9 @@ var Paysage = window.Paysage || {};
   function updateObject (id, code) {
     try {
       deleteLayer(id);
-      if (!canvas[id]) {
-        createCanvas(id);
-        console.log('canvas created for ' + id);
-      } else {
-        console.log('canvas reused for ' + id);
-      }
+      createCanvas(id);
       layers[id] = createLayer(canvas[id], code, id);
+      codes[id] = code;
     } catch (e) {
       console.error('Error in code object "' + id + '". Code not rendered.', e);
     }
