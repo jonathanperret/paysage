@@ -44,37 +44,44 @@ var Paysage = window.Paysage || {};
 
     installResizeHandler();
 
-    var urlHash = "";
-    setInterval(function() {
+    var urlHash = '';
+    setInterval(function () {
       var newHash = window.location.hash;
-      if(urlHash !== newHash) {
+      if (urlHash !== newHash) {
         urlHash = newHash;
-        var idList = parseUrl(urlHash);
-        showOnlyLayers(idList);
+        var showIds = Paysage.readIdsFromUrlHash(urlHash);
+        Paysage.showOnlyCodeObjects(Object.keys(canvas), showIds,
+          function (id) {
+            deleteLayer(id);
+            console.log('afficher : ' + id);
+            canvas[id].style.display = '';
+            layers[id] = createLayer(canvas[id], codes[id], id);
+          },
+          function (id) {
+            console.log('cacher : ' + id);
+            deleteLayer(id);
+            canvas[id].style.display = 'none';
+          });
       }
     }, 100);
   };
 
-  function parseUrl(hash) {
-    return hash.substring("#only=".length);
-  }
+  Paysage.readIdsFromUrlHash = function (urlHash) {
+    if (urlHash.length <= 1) {
+      return [];
+    }
+    return urlHash.substring(1).split(',');
+  };
 
-  function showOnlyLayers(idList) {
-    console.log("t'as demandé : " + idList);
-    Object.keys(canvas).forEach(function (id) {
-      if(idList && id === idList) {
-        deleteLayer(id);
-        console.log("afficher : " + id);
-        canvas[id].style.display='';
-        layers[id] = createLayer(canvas[id], codes[id], id);
-      }
-      else {
-        console.log("cacher : " + id);
-        deleteLayer(id);
-        canvas[id].style.display='none';
+  Paysage.showOnlyCodeObjects = function (allIds, showIds, show, hide) {
+    allIds.forEach(function (id) {
+      if (showIds.length === 0 || showIds.includes(id)) {
+        show(id);
+      } else {
+        hide(id);
       }
     });
-  }
+  };
 
   function clearLayersAndCanvas () {
     Object.keys(layers).forEach(deleteLayer);
