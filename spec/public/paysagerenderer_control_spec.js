@@ -1,14 +1,14 @@
 /* global describe, beforeEach, it, expect */
 /* global Paysage */
-describe('The Paysage renderer', function () {
+describe('The Paysage renderer controls', function () {
   it('parse Url hash for code objects ids to display', function () {
-    expect(Paysage.readIdsFromUrlHash('')).toEqual([]);
-    expect(Paysage.readIdsFromUrlHash('#')).toEqual([]);
+    expect(Paysage.readIdsFromUrlHash('')).toEqual(undefined);
+    expect(Paysage.readIdsFromUrlHash('#')).toEqual(undefined);
     expect(Paysage.readIdsFromUrlHash('#toto')).toEqual(['toto']);
     expect(Paysage.readIdsFromUrlHash('#toto,titi')).toEqual(['toto', 'titi']);
   });
 
-  describe('show only', function () {
+  describe('layer filtering', function () {
     var shownIds;
     var hiddenIds;
 
@@ -25,15 +25,15 @@ describe('The Paysage renderer', function () {
       hiddenIds = [];
     });
 
-    it('requested objects', function () {
-      Paysage.showOnlyCodeObjects(['toto', 'titi'], ['toto'], show, hide);
+    it('show requeted code objects', function () {
+      Paysage.showCodeObjects(['toto', 'titi'], ['toto'], show, hide);
 
       expect(shownIds).toEqual(['toto']);
       expect(hiddenIds).toEqual(['titi']);
     });
 
     it('show all code objects if none is requested', function () {
-      Paysage.showOnlyCodeObjects(['toto', 'titi'], [], show, hide);
+      Paysage.showCodeObjects(['toto', 'titi'], undefined, show, hide);
 
       expect(shownIds).toEqual(['toto', 'titi']);
       expect(hiddenIds).toEqual([]);

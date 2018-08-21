@@ -47,40 +47,26 @@ var Paysage = window.Paysage || {};
     var urlHash = '';
     setInterval(function () {
       var newHash = window.location.hash;
-      if (urlHash !== newHash) {
-        urlHash = newHash;
-        var showIds = Paysage.readIdsFromUrlHash(urlHash);
-        Paysage.showOnlyCodeObjects(Object.keys(canvas), showIds,
-          function (id) {
-            deleteLayer(id);
-            console.log('afficher : ' + id);
-            canvas[id].style.display = '';
-            layers[id] = createLayer(canvas[id], codes[id], id);
-          },
-          function (id) {
-            console.log('cacher : ' + id);
-            deleteLayer(id);
-            canvas[id].style.display = 'none';
-          });
+      if (urlHash === newHash) {
+        return;
       }
+      urlHash = newHash;
+
+      Paysage.showCodeObjects(
+        Object.keys(canvas),
+        Paysage.readIdsFromUrlHash(urlHash),
+        function (id) {
+          deleteLayer(id);
+          console.log('afficher : ' + id);
+          canvas[id].style.display = '';
+          layers[id] = createLayer(canvas[id], codes[id], id);
+        },
+        function (id) {
+          console.log('cacher : ' + id);
+          deleteLayer(id);
+          canvas[id].style.display = 'none';
+        });
     }, 100);
-  };
-
-  Paysage.readIdsFromUrlHash = function (urlHash) {
-    if (urlHash.length <= 1) {
-      return [];
-    }
-    return urlHash.substring(1).split(',');
-  };
-
-  Paysage.showOnlyCodeObjects = function (allIds, showIds, show, hide) {
-    allIds.forEach(function (id) {
-      if (showIds.length === 0 || showIds.includes(id)) {
-        show(id);
-      } else {
-        hide(id);
-      }
-    });
   };
 
   function clearLayersAndCanvas () {
