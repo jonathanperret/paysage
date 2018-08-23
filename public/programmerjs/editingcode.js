@@ -4,7 +4,17 @@ var Paysage = window.Paysage || {};
 (function () {
   'use strict';
 
-  // Requires a receptiontransmission script defining Paysage.requestCode()
+  // Requires a receptiontransmission script defining
+  // - Paysage.requestCode()
+  // - Paysage.emitCodeUpdate()
+  // Requires a sourcebuilder script defining
+  // - Paysage.getCompleteCodeObject()
+
+  function goLive () {
+    Paysage.getCompleteCodeObject(Paysage.emitCodeUpdate);
+    window.location.hash = $('#codeName').val();
+  }
+  $('#go-live').on('click', goLive);
 
   Paysage.setCodeId = function (codeId) {
     $('#codeid').val(codeId);
@@ -77,7 +87,7 @@ var Paysage = window.Paysage || {};
       editor.commands.addCommand({
         name: 'go-liveShortcuts',
         bindKey: {win: 'Ctrl-Enter', mac: 'Command-Enter'},
-        exec: Paysage.goLive
+        exec: goLive
       });
       editor.$blockScrolling = Infinity; // to avoid the warning about deprecated scrolling https://github.com/ajaxorg/ace/issues/2499
 

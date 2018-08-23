@@ -7,6 +7,7 @@ describe('The Paysage programmer', function () {
       '<div><input id="codeName"></div>' +
       '<div id="new-object-dialog" style="display:none;"></div>' +
       '<div id="objects"></div>' +
+      '<button id="go-live"></button>' +
       '</div>'
     );
     window.location.hash = '';

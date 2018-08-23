@@ -4,6 +4,11 @@ var Paysage = window.Paysage || {};
 // thanks https://gist.github.com/jlong/2428561
 var creaturename = window.location.hash.slice(1);
 
+function goLive () {
+  Paysage.getCompleteCodeObject(Paysage.emitCodeUpdate);
+}
+$('#go-live').on('click', goLive);
+
 Paysage.setCodeId = function (codeId) {
   window.location.hash = codeId;
   $('#codeid').html(creaturename);

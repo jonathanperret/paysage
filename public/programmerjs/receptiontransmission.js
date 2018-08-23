@@ -3,16 +3,6 @@ var Paysage = window.Paysage || {};
 (function () {
   'use strict';
 
-  // Requires a sourcebuilder script defining Paysage.getCompleteCodeObject()
-  // Requires a editingcode script defining Paysage.setCodeId(),
-  // Paysage.setObjectList(data), Paysage.setCodeName() and Paysage.setCode()
-
-  Paysage.requestCode = function (codeObjectName) {
-    io.emit('request code', {
-      codeObjectName: codeObjectName
-    });
-  };
-
   var playgroundid = document.getElementById('playgroundid').value;
   var clientType = document.getElementById('clientType').value;
 
@@ -21,15 +11,18 @@ var Paysage = window.Paysage || {};
     client: clientType
   }}).connect();
 
-  Paysage.goLive = function () {
-    function emitData (data) {
-      console.log(data);
-      io.emit('code update', data);
-      window.location.hash = data.name;
-    }
-    Paysage.getCompleteCodeObject(emitData);
+  // Transmission
+
+  Paysage.requestCode = function (codeObjectName) {
+    io.emit('request code', {
+      codeObjectName: codeObjectName
+    });
   };
-  document.getElementById('go-live').addEventListener('click', Paysage.goLive);
+
+  Paysage.emitCodeUpdate = function (data) {
+    console.log(data);
+    io.emit('code update', data);
+  };
 
   Paysage.deleteCode = function (codeObjectId) {
     var data = {
@@ -37,6 +30,11 @@ var Paysage = window.Paysage || {};
     };
     io.emit('code delete', data);
   };
+
+  // Reception
+
+  // Requires a editingcode script defining Paysage.setCodeId(),
+  // Paysage.setObjectList(data), Paysage.setCodeName() and Paysage.setCode()
 
   io.on('objects list', function (population) {
     Paysage.setObjectList(population, Paysage.deleteCode);
