@@ -1,11 +1,18 @@
 framework: jasmine2
 src_files:
-- "public/bower_components/jquery/dist/jquery.js"
-- "public/bower_components/jquery-ui/jquery-ui.js"
-- "public/bower_components/chance/chance.js"
-- "public/bower_components/eventEmitter/EventEmitter.js"
-- "public/bower_components/Processing.js/processing.js"
-- "public/bower_components/jasmine-jquery/lib/jasmine-jquery.js"
-- "public/paysagerenderer.js"
-- "public/programmerjs/editingcode.js"
-- "spec/public/**/*.js"
+  - "public/bower_components/jquery/dist/jquery.js"
+  - "public/bower_components/jquery-ui/jquery-ui.js"
+  - "public/bower_components/chance/chance.js"
+  - "public/bower_components/eventEmitter/EventEmitter.js"
+  - "public/bower_components/Processing.js/processing.js"
+  - "public/bower_components/jasmine-jquery/lib/jasmine-jquery.js"
+  - "public/paysagerenderer.js"
+  - "public/programmerjs/editingcode.js"
+  - "spec/public/**/*.js"
+browser_args:
+  Chrome:
+    - "--headless"
+    - "--disable-gpu"
+    - "--no-sandbox"
+    - "--disable-setuid-sandbox"
+    - "--remote-debugging-port=9222"
