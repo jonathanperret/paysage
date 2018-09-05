@@ -11,26 +11,20 @@ Paysage.previewManagement = new PreviewManagement();
 
 PreviewManagement.prototype.showCodeObjects = function () {
   var me = this;
-  $('canvas', $('#viewerframe').contents()).each(function () {
-    if (!me.previewIsOn) {
-      $(this).hide(200);
-      return;
-    }
-    var currentCodeObjectId = this.getAttribute('id');
+  var codeObjectsIds = [];
+  if(me.previewIsOn) {
     if (me.soloCodeObject.size === 1) {
-      if (me.soloCodeObject.has(currentCodeObjectId)) {
-        $(this).show(200);
-      } else {
-        $(this).hide(200);
-      }
-    } else {
-      if (me.muttedCodeObjects.has(currentCodeObjectId)) {
-        $(this).hide(200);
-      } else {
-        $(this).show(200);
-      }
+      codeObjectsIds.push(me.soloCodeObject[0]);
     }
-  });
+    else {
+      allCodeObjectsIds.each(function(id) {
+        if (!me.muttedCodeObjects.has(id)) {
+          codeObjectsIds.push(id);
+        }
+      });
+    }
+  }
+  $('#viewerframe').attr('src', '/playground/afmofva#' + codeObjectsIds.join(','));
 };
 
 PreviewManagement.prototype.isSolo = function (codeObjectId) {
