@@ -8,8 +8,8 @@
   "scripts": {
     "start": "node ./bin/www",
     "postinstall": "bower install",
-    "test": "npm run --silent lint && testem ci -p 0 -l phantomjs && mocha && nightwatch",
-    "testem": "testem -l phantomjs",
+    "test": "npm run --silent lint && testem ci -p 0 -l chrome && mocha && nightwatch",
+    "testem": "testem -l chrome",
     "testServer": "mocha",
     "test-e2e": "nightwatch",
     "lint": "semistandard",
@@ -33,7 +33,6 @@
     "cli-real-favicon": "0.0.6",
     "mocha": "^3.5.0",
     "nightwatch": "^0.9.16",
-    "phantomjs-prebuilt": "^2.1.7",
     "semistandard": "^11.0.0",
     "sinon": "^4.0.0",
     "sinon-chai": "^2.14.0",
