@@ -11,24 +11,21 @@ var Paysage = window.Paysage || {};
   // - Paysage.getCompleteCodeObject()
 
   function goLive () {
-    Paysage.getCompleteCodeObject(Paysage.emitCodeUpdate);
-    window.location.hash = $('#codeName').val();
+    Paysage.emitCodeUpdate(Paysage.getCompleteCodeObject());
   }
-  $('#go-live').on('click', goLive);
 
   Paysage.setCodeId = function (codeId) {
     $('#codeid').val(codeId);
+    window.location.hash = codeId;
   };
 
   Paysage.setCodeName = function (codeName) {
     $('#codeName').val(codeName);
-    window.location.hash = codeName;
   };
 
   Paysage.createCodeId = function () {
-    var name = window.chance.word();
-    Paysage.setCodeId(name);
-    Paysage.setCodeName(name);
+    Paysage.setCodeId(window.chance.word({syllables: 3}));
+    Paysage.setCodeName(window.chance.animal());
   };
 
   Paysage.getCode = function () {
@@ -47,10 +44,10 @@ var Paysage = window.Paysage || {};
         event.preventDefault();
         deleteCodeCB(co.codeObjectId);
       });
-      var $openLink = $("<a href='#" + co.name + "'>").text(co.name);
+      var $openLink = $("<a href='#" + co.codeObjectId + "'>").text(co.name);
       $openLink.click(function (event) {
         event.preventDefault();
-        Paysage.requestCode(co.name);
+        Paysage.requestCode(co.codeObjectId);
       });
       return $('<li>').append($openLink).append($deleteLink);
     }));
@@ -74,6 +71,8 @@ var Paysage = window.Paysage || {};
       Paysage.startNewObject();
       Paysage.createCodeId();
     }
+
+    $('#go-live').on('click', goLive);
 
     setupDragAndDropListeners();
     $('#start-new-code').on('click', Paysage.startNewObject);

@@ -13,9 +13,9 @@ var Paysage = window.Paysage || {};
 
   // Transmission
 
-  Paysage.requestCode = function (codeObjectName) {
+  Paysage.requestCode = function (codeObjectId) {
     io.emit('request code', {
-      codeObjectName: codeObjectName
+      codeObjectId: codeObjectId
     });
   };
 

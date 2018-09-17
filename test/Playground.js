@@ -70,22 +70,21 @@ describe('A playground', function () {
     ]);
   });
 
-  it('can return data by name for an existing code object', function () {
-    playground.getOrCreateCodeObject('bob')
-      .setData({name: 'bobName', code: 'any code'});
-    expect(playground.getDataByName('bobName')).to.deep.equal({
+  it('can return data for an existing code object', function () {
+    var bob = playground.getOrCreateCodeObject('bob');
+    bob.setData({code: 'hello()'});
+    expect(playground.getDataFor('bob')).to.deep.equal({
       codeObjectId: 'bob',
-      name: 'bobName',
-      code: 'any code'
+      code: 'hello()'
     });
   });
 
-  it('can return data by name for a non-existing code object', function () {
-    expect(playground.getDataByName('bob')).to.deep.equal({
-      codeObjectId: 'bob',
-      name: 'bob',
+  it('can create temporary data for a non-existing code object', function () {
+    expect(playground.getDataFor('alice')).to.deep.equal({
+      codeObjectId: 'alice',
       code: ''
     });
+    expect(playground.contains('alice')).to.be.false;
   });
 });
 

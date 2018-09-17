@@ -10,7 +10,7 @@
 
 var Paysage = window.Paysage || {};
 
-Paysage.getCompleteCodeObject = function (callback) {
+Paysage.getCompleteCodeObject = function () {
   var codeObjectId = document.getElementById('codeid').value || document.getElementById('codeid').textContent;
   var codeObjectName = document.getElementById('codeName').value;
   var mediatype = 'text/processing';
@@ -22,5 +22,5 @@ Paysage.getCompleteCodeObject = function (callback) {
     mediatype: mediatype,
     code: code
   };
-  callback(data);
+  return data;
 };

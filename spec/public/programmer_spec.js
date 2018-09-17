@@ -26,30 +26,46 @@ describe('The Paysage programmer', function () {
     expect($('#new-object-dialog').parent().css('display')).toBe('block');
   });
 
-  it('request the code when codeName is present on the url', function () {
-    window.location.hash = 'myName';
+  it('request the code when codeId is present on the url', function () {
+    window.location.hash = 'toto';
 
-    var requestedCodeName;
-    Paysage.requestCode = function (codeObjectName) {
-      requestedCodeName = codeObjectName;
+    var requestedCodeId;
+    Paysage.requestCode = function (codeObjectId) {
+      requestedCodeId = codeObjectId;
     };
 
     Paysage.programmerInit();
 
-    expect(requestedCodeName).toBe('myName');
+    expect(requestedCodeId).toBe('toto');
     expect($('#new-object-dialog').css('display')).toBe('none');
+  });
+
+  it('emit code object when clicking the go-live button', function () {
+    var completeCodeObjectData = {};
+    var dataToEmit = null;
+    Paysage.emitCodeUpdate = function (data) {
+      dataToEmit = data;
+    };
+    Paysage.getCompleteCodeObject = function () {
+      return completeCodeObjectData;
+    };
+    Paysage.programmerInit();
+
+    $('#go-live').trigger('click');
+
+    expect(dataToEmit).toBe(completeCodeObjectData);
   });
 
   it('can show the object list', function () {
     Paysage.setObjectList({
       data: [
-        {codeObjectId: 'object1', name: 'name1'},
+        {codeObjectId: 'object1', name: 'name 1'},
         {codeObjectId: 'object2', name: 'name2'}
       ]
     });
     var $list = $('#objects').html();
-    expect($list).toContain('<li><a href="#name1">name1</a><a class="glyphicon glyphicon-remove-circle" href="#"></a></li>');
-    expect($list).toContain('<li><a href="#name2">name2</a><a class="glyphicon glyphicon-remove-circle" href="#"></a></li>');
+    expect($list).toContain('<li><a href="#object1">name 1</a><a class="glyphicon glyphicon-remove-circle" href="#"></a></li>');
+    expect($list).toContain('<li><a href="#object2">name2</a><a class="glyphicon glyphicon-remove-circle" href="#"></a></li>');
   });
 
   it('list objects in reverse order', function () {
