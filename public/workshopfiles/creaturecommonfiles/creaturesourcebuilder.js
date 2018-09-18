@@ -9,7 +9,7 @@ var Paysage = window.Paysage || {};
 
 // the sourcebuilder only concern is to build and give a code object ready to be sent to the paysage server
 
-Paysage.getCompleteCodeObject = function (callback) {
+Paysage.getCompleteCodeObjectAsync = function (callback) {
   var playgroundid = document.getElementById('playgroundid').value;
   var codeObjectId = document.getElementById('codeid').value || document.getElementById('codeid').textContent;
   var mediatype = 'text/processing';

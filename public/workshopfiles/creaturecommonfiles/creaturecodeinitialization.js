@@ -5,7 +5,7 @@ var Paysage = window.Paysage || {};
 var creaturename = window.location.hash.slice(1);
 
 function goLive () {
-  Paysage.getCompleteCodeObject(Paysage.emitCodeUpdate);
+  Paysage.getCompleteCodeObjectAsync(Paysage.emitCodeUpdate);
 }
 $('#go-live').on('click', goLive);
 
