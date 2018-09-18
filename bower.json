@@ -16,7 +16,7 @@
     "tests"
   ],
   "dependencies": {
-    "chance": "~0.8.0",
+    "chance": "~1.0.16",
     "Processing.js": "~1.6.6",
     "jquery": "~2.2.4",
     "jquery-ui": "~1.12",
