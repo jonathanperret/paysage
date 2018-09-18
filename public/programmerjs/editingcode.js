@@ -9,6 +9,8 @@ var Paysage = window.Paysage || {};
   // - Paysage.emitCodeUpdate()
   // Requires a sourcebuilder script defining
   // - Paysage.getCompleteCodeObject()
+  // Requires a previewmanagement script defining
+  // - Paysage.previewManagement
 
   function goLive () {
     Paysage.emitCodeUpdate(Paysage.getCompleteCodeObject());
@@ -36,20 +38,63 @@ var Paysage = window.Paysage || {};
     $('#code').val(code);
   };
 
-  Paysage.setObjectList = function (population, deleteCodeCB) {
-    var $ul = $('<ul>');
-    $ul.append(population.data.reverse().map(function (co) {
-      var $deleteLink = $('<a class="glyphicon glyphicon-remove-circle" href="#">');
-      $deleteLink.click(function (event) {
+  function deleteLink (codeObjectId, deleteCodeCB) {
+    return $('<a class="glyphicon glyphicon-remove-circle delete" href="#">')
+      .click(function (event) {
         event.preventDefault();
-        deleteCodeCB(co.codeObjectId);
+        deleteCodeCB(codeObjectId);
+        Paysage.previewManagement.delete(codeObjectId);
       });
-      var $openLink = $("<a href='#" + co.codeObjectId + "'>").text(co.name);
-      $openLink.click(function (event) {
+  }
+
+  function openLink (co) {
+    return $("<a href='#" + co.codeObjectId + "'>").text(co.name)
+      .click(function (event) {
         event.preventDefault();
         Paysage.requestCode(co.codeObjectId);
       });
-      return $('<li>').append($openLink).append($deleteLink);
+  }
+
+  function muteLink (codeObjectId) {
+    var eyeClass = Paysage.previewManagement.isMute(codeObjectId)
+      ? 'glyphicon-eye-close' : 'glyphicon-eye-open';
+    return $('<a class="glyphicon mute" href="#">')
+      .addClass(eyeClass)
+      .click(function (event) {
+        event.preventDefault();
+        $(this).toggleClass('glyphicon-eye-open');
+        $(this).toggleClass('glyphicon-eye-close');
+        Paysage.previewManagement.mute(codeObjectId,
+          $(this).hasClass('glyphicon-eye-open'));
+      });
+  }
+
+  function soloLink (codeObjectId) {
+    var $solo = $('<a class="solo" href="#">').append('solo');
+    if (Paysage.previewManagement.isSolo(codeObjectId)) {
+      $solo.addClass('selected');
+    }
+    $solo.click(function (event) {
+      event.preventDefault();
+      $('.solo').each(function () {
+        if (this !== $solo.get(0)) {
+          $(this).removeClass('selected');
+        }
+      });
+      $solo.toggleClass('selected');
+      Paysage.previewManagement.solo(codeObjectId, $solo.hasClass('selected'));
+    });
+    return $solo;
+  }
+
+  Paysage.setObjectList = function (population, deleteCodeCB) {
+    var $ul = $('<ul>');
+    $ul.append(population.data.reverse().map(function (co) {
+      return $('<li>')
+        .append(openLink(co))
+        .append(soloLink(co.codeObjectId))
+        .append(muteLink(co.codeObjectId))
+        .append(deleteLink(co.codeObjectId, deleteCodeCB));
     }));
     $('#objects').empty().append($ul);
   };

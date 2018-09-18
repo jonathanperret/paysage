@@ -6,8 +6,10 @@ src_files:
   - "public/bower_components/eventEmitter/EventEmitter.js"
   - "public/bower_components/Processing.js/processing.js"
   - "public/bower_components/jasmine-jquery/lib/jasmine-jquery.js"
-  - "public/paysagerenderer.js"
+  - "public/paysagerenderer/paysagerenderer.js"
+  - "public/paysagerenderer/paysagerenderer_control.js"
   - "public/programmerjs/editingcode.js"
+  - "public/programmerjs/previewmanagement.js"
   - "spec/public/**/*.js"
 browser_args:
   Chrome:

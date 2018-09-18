@@ -11,6 +11,12 @@ describe('The Paysage programmer', function () {
       '</div>'
     );
     window.location.hash = '';
+
+    // mock previewManagement
+    Paysage.previewManagement = {
+      isMute: function () { return false; },
+      isSolo: function () { return false; }
+    };
   });
 
   afterEach(function () {
@@ -64,8 +70,9 @@ describe('The Paysage programmer', function () {
       ]
     });
     var $list = $('#objects').html();
-    expect($list).toContain('<li><a href="#object1">name 1</a><a class="glyphicon glyphicon-remove-circle" href="#"></a></li>');
-    expect($list).toContain('<li><a href="#object2">name2</a><a class="glyphicon glyphicon-remove-circle" href="#"></a></li>');
+    var buttons = '<a class="solo" href="#">solo</a><a class="glyphicon mute glyphicon-eye-open" href="#"></a><a class="glyphicon glyphicon-remove-circle delete" href="#"></a>';
+    expect($list).toContain('<li><a href="#object1">name 1</a>' + buttons + '</li>');
+    expect($list).toContain('<li><a href="#object2">name2</a>' + buttons + '</li>');
   });
 
   it('list objects in reverse order', function () {
