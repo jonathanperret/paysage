@@ -1,11 +1,16 @@
 /* eslint no-eval: "off" */
 var Paysage = window.Paysage || {};
 
+const ONLY_COMMAND = '#only=';
+
 Paysage.readIdsFromUrlHash = function (urlHash) {
-  if (urlHash.length <= 1) {
-    return undefined;
+  if (urlHash.startsWith(ONLY_COMMAND)) {
+    return urlHash.substring(ONLY_COMMAND.length).split(',');
   }
-  return urlHash.substring(1).split(',');
+  if (urlHash === '#none') {
+    return [];
+  }
+  return undefined;
 };
 
 Paysage.showCodeObjects = function (allIds, idsToShow, show, hide) {
