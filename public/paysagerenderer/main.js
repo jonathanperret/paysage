@@ -29,10 +29,9 @@ var Paysage = window.Paysage || {};
 
     socket.on('code update', function (data) {
       var id = data.codeObjectId;
-      var code = data.code;
       console.log('code received for ' + id, data);
 
-      updateObject(id, code);
+      updateObject(id, data.code);
     });
 
     socket.on('playground full update', function (data) {
@@ -52,22 +51,30 @@ var Paysage = window.Paysage || {};
       }
       urlHash = newHash;
 
-      Paysage.showCodeObjects(
-        Object.keys(canvas),
-        Paysage.readIdsFromUrlHash(urlHash),
-        function (id) {
-          console.log('show: ' + id);
-          deleteLayer(id);
-          canvas[id].style.display = '';
-          layers[id] = createLayer(canvas[id], codes[id], id);
-        },
-        function (id) {
-          console.log('hide: ' + id);
-          deleteLayer(id);
-          canvas[id].style.display = 'none';
-        });
-    }, 100);
+      Paysage.readIdsFromUrlHash(urlHash);
+      Paysage.filterCodeObjects(Object.keys(canvas), show, hide);
+    }, 200);
   };
+
+  function show (id) {
+    if (canvas[id].style.display === '') {
+      return;
+    }
+    console.log('show: ' + id);
+    deleteLayer(id);
+    try {
+      layers[id] = createLayer(canvas[id], codes[id], id);
+      canvas[id].style.display = '';
+    } catch (e) {
+      console.error('Error in code object "' + id + '". Code not rendered.', e);
+    }
+  }
+
+  function hide (id) {
+    console.log('hide: ' + id);
+    canvas[id].style.display = 'none';
+    deleteLayer(id);
+  }
 
   function clearLayersAndCanvas () {
     Object.keys(layers).forEach(deleteLayer);
@@ -121,6 +128,7 @@ var Paysage = window.Paysage || {};
     } else {
       console.log('canvas reused for ' + id);
     }
+    canvas[id].style.display = 'none';
   }
 
   function deleteCanvas (id) {
@@ -138,13 +146,10 @@ var Paysage = window.Paysage || {};
   }
 
   function updateObject (id, code) {
-    try {
-      deleteLayer(id);
-      createCanvas(id);
-      layers[id] = createLayer(canvas[id], code, id);
-      codes[id] = code;
-    } catch (e) {
-      console.error('Error in code object "' + id + '". Code not rendered.', e);
+    codes[id] = code;
+    createCanvas(id);
+    if (Paysage.isCodeObjectVisible(id)) {
+      show(id);
     }
   }
 
