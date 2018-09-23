@@ -3,20 +3,26 @@ var Paysage = window.Paysage || {};
 
 const ONLY_COMMAND = '#only=';
 
+Paysage.idsToShow = undefined;
+
 Paysage.readIdsFromUrlHash = function (urlHash) {
+  Paysage.idsToShow = undefined;
   if (urlHash.startsWith(ONLY_COMMAND)) {
     var idsList = urlHash.substring(ONLY_COMMAND.length);
-    return idsList === '' ? [] : idsList.split(',');
+    Paysage.idsToShow = idsList === '' ? [] : idsList.split(',');
   }
-  return undefined;
 };
 
-Paysage.showCodeObjects = function (allIds, idsToShow, show, hide) {
+Paysage.filterCodeObjects = function (allIds, show, hide) {
   allIds.forEach(function (id) {
-    if (!idsToShow || idsToShow.includes(id)) {
+    if (Paysage.isCodeObjectVisible(id)) {
       show(id);
     } else {
       hide(id);
     }
   });
+};
+
+Paysage.isCodeObjectVisible = function (id) {
+  return !Paysage.idsToShow || Paysage.idsToShow.includes(id);
 };
