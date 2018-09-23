@@ -6,7 +6,7 @@ describe('The Paysage renderer visibility management', function () {
     expect(Paysage.readIdsFromUrlHash('#')).toEqual(undefined);
     expect(Paysage.readIdsFromUrlHash('#only=toto')).toEqual(['toto']);
     expect(Paysage.readIdsFromUrlHash('#only=toto,titi')).toEqual(['toto', 'titi']);
-    expect(Paysage.readIdsFromUrlHash('#none')).toEqual([]);
+    expect(Paysage.readIdsFromUrlHash('#only=')).toEqual([]);
   });
 
   describe('has code object filtering', function () {
