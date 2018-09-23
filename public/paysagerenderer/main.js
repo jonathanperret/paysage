@@ -56,13 +56,13 @@ var Paysage = window.Paysage || {};
         Object.keys(canvas),
         Paysage.readIdsFromUrlHash(urlHash),
         function (id) {
-          console.log('afficher : ' + id);
+          console.log('show : ' + id);
           deleteLayer(id);
           canvas[id].style.display = '';
           layers[id] = createLayer(canvas[id], codes[id], id);
         },
         function (id) {
-          console.log('cacher : ' + id);
+          console.log('hide : ' + id);
           deleteLayer(id);
           canvas[id].style.display = 'none';
         });
