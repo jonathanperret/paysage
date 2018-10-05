@@ -3,22 +3,24 @@
 (function () {
   'use strict';
 
-  var previewIsOn = true;
-
-  function switchframe (event) {
-    event.preventDefault();
-    if (previewIsOn) {
-      previewIsOn = false;
-      $('#previewisoff').hide();
-      $('#previewison').show();
-      $('#viewerframe').attr('src', '/playground/' + $('#playgroundid').val() + '#only=');
-    } else {
-      previewIsOn = true;
-      $('#viewerframe').attr('src', '/playground/' + $('#playgroundid').val() + '#');
-      $('#previewison').hide();
+  function switchPreviewState (event) {
+    $('#previewisoff').hide();
+    $('#previewissolo').hide();
+    $('#previewison').hide();
+    var urlViewer = '/playground/' + $('#playgroundid').val();
+    if (this.value === 'previewoff') {
       $('#previewisoff').show();
+      urlViewer += '#only=';
+    } else if (this.value === 'previewsolo') {
+      $('#previewissolo').text($('#codeName').val() + ' in solo');
+      $('#previewissolo').show();
+      urlViewer += '#only=' + $('#codeid').val();
+    } else if (this.value === 'previewon') {
+      $('#previewison').show();
+      urlViewer += '#';
     }
+    $('#viewerframe').attr('src', urlViewer);
   }
 
-  $('#previewonoff').on('change', switchframe);
+  $('input[type=radio][name=previewstate]').on('click', switchPreviewState);
 })();
