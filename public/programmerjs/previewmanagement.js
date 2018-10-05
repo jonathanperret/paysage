@@ -4,7 +4,6 @@
   'use strict';
 
   function switchPreviewState (event) {
-    event.preventDefault();
     $('#previewisoff').hide();
     $('#previewissolo').hide();
     $('#previewison').hide();
@@ -23,5 +22,5 @@
     $('#viewerframe').attr('src', urlViewer);
   }
 
-  $('input[type=radio][name=previewstate]').on('change', switchPreviewState);
+  $('input[type=radio][name=previewstate]').on('click', switchPreviewState);
 })();
