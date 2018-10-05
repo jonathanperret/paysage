@@ -38,16 +38,26 @@
   </div>
 </div>
 
+
 <div class="viewer-part">
     <div class="controls">
-        <label class="switch">
-          <input id="previewonoff" type="checkbox" autocomplete="off" checked>
-          <span class="slider round"></span>
-        <span class="switch-label" id="previewison">preview is on</span>
-        <span class="switch-label" id="previewisoff">preview is off</span>
 
-        </label>
+      <div class="previewstate-controls">
+        <div class="previewstate">
+          <div class="previewstate-radio">
+            <input type="radio" name="previewstate" value="previewoff" id="previewoff"/>
+            <label for="previewoff" class="isoff icon glyphicon glyphicon-remove-circle"></label>
+            <input type="radio" name="previewstate" value="previewsolo" id="solo" />
+            <label for="solo" class="solo icon glyphicon glyphicon-headphones"></label>
+            <input type="radio" name="previewstate" value="previewon" id="previewon" checked="checked" />
+            <label for="previewon" class="ison icon glyphicon glyphicon-ok-circle"></label>
+          </div>
+          <span class="preview-label" id="previewison">preview is on</span>
+          <span class="preview-label" id="previewissolo" style="display:none">solo</span>
+          <span class="preview-label" id="previewisoff" style="display:none">preview is off</span>
+        </div>
         <a href="/playground/{{playgroundid}}" target="_blank" id="openinnewwindow">open {{playgroundid}} in new window &#x279a;</a>
+      </div>
     </div>
 
     <div id="viewercontainer">
