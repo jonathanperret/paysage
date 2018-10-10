@@ -20,7 +20,7 @@ fill (255, 255, 255);
 
 //CHEEKS
 
-var teinteDeRouge = abs ( sin ( millis() / 1000 ) )* 255;
+float teinteDeRouge = abs ( sin ( millis() / 1000.0 ) )* 255;
 fill(teinteDeRouge, 90, 90, 127);
   ellipse (220, 240, 26, 25);
   ellipse (380, 240, 26, 25);
@@ -36,7 +36,7 @@ fill (255, 255, 255);
 // The pupils move is based on a function of the time with the millis() function.
 // Check the following link to visualise this function with geogebra.org
 // https://www.geogebra.org/graphing/bvjubxha
-translate (0, abs( sin ( millis() / 2000 ) ) *40);
+translate (0, abs( sin ( millis() / 2000.0 ) ) *40);
 fill (0,0,0);
   ellipse (250, 170, 20, 20);
   ellipse (350, 170, 20, 20);
