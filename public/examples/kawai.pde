@@ -1,3 +1,6 @@
+// Thank you to Charlotte Maucherat (https://github.com/CharlotteMaucherat) for this code
+// Feel free to edit and build from this example.
+
 void draw() {
   background(0);
   noStroke();
