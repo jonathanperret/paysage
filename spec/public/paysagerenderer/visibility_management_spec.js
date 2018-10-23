@@ -1,20 +1,22 @@
 /* global describe, beforeEach, it, expect */
 /* global Paysage */
 describe('The Paysage renderer visibility management', function () {
-  it('can parse Url hash for code objects ids to display', function () {
+  it('can parse URL hash for code objects queries', function () {
     Paysage.readIdsFromUrlHash('');
     expect(Paysage.idsToShow).toEqual(undefined);
 
     Paysage.readIdsFromUrlHash('#');
     expect(Paysage.idsToShow).toEqual(undefined);
 
-    Paysage.readIdsFromUrlHash('#only=toto');
+    Paysage.readIdsFromUrlHash('#code=toto');
     expect(Paysage.idsToShow).toEqual(['toto']);
 
-    Paysage.readIdsFromUrlHash('#only=toto,titi');
+    Paysage.readIdsFromUrlHash('#code=toto,titi');
     expect(Paysage.idsToShow).toEqual(['toto', 'titi']);
+  });
 
-    Paysage.readIdsFromUrlHash('#only=');
+  it('can parse URL hash for "no code object" query', function () {
+    Paysage.readIdsFromUrlHash('#code=');
     expect(Paysage.idsToShow).toEqual([]);
   });
 

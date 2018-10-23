@@ -1,4 +1,5 @@
 /* global $ */
+/* global Paysage */
 
 (function () {
   'use strict';
@@ -11,7 +12,7 @@
       previewIsOn = false;
       $('#previewisoff').hide();
       $('#previewison').show();
-      $('#viewerframe').attr('src', '/playground/' + $('#playgroundid').val() + '#only=');
+      $('#viewerframe').attr('src', '/playground/' + $('#playgroundid').val() + Paysage.CODE_FRAGMENT_IDENTIFIER);
     } else {
       previewIsOn = true;
       $('#viewerframe').attr('src', '/playground/' + $('#playgroundid').val() + '#');
