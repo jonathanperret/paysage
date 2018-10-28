@@ -1,15 +1,15 @@
 /* eslint no-eval: "off" */
 var Paysage = window.Paysage || {};
 
-Paysage.CODE_FRAGMENT_IDENTIFIER = '#code=';
+const CODE_FRAGMENT_IDENTIFIER = '#code=';
 
 Paysage.idsToShow = undefined;
 
 Paysage.readIdsFromUrlHash = function (urlHash) {
   Paysage.idsToShow = undefined;
-  if (urlHash.startsWith(Paysage.CODE_FRAGMENT_IDENTIFIER)) {
-    var idsList = urlHash.substring(Paysage.CODE_FRAGMENT_IDENTIFIER.length);
-    Paysage.idsToShow = idsList === '' ? [] : idsList.split(',');
+  if (urlHash.startsWith(CODE_FRAGMENT_IDENTIFIER)) {
+    var idsList = urlHash.substring(CODE_FRAGMENT_IDENTIFIER.length);
+    Paysage.idsToShow = idsList === '' ? undefined : idsList.split(',');
   }
 };
 

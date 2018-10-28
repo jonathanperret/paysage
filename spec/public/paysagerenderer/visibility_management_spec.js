@@ -13,11 +13,9 @@ describe('The Paysage renderer visibility management', function () {
 
     Paysage.readIdsFromUrlHash('#code=toto,titi');
     expect(Paysage.idsToShow).toEqual(['toto', 'titi']);
-  });
 
-  it('can parse URL hash for "no code object" query', function () {
     Paysage.readIdsFromUrlHash('#code=');
-    expect(Paysage.idsToShow).toEqual([]);
+    expect(Paysage.idsToShow).toEqual(undefined);
   });
 
   describe('has code object filtering', function () {
