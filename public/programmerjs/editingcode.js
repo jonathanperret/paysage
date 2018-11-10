@@ -23,9 +23,22 @@ var Paysage = window.Paysage || {};
     $('#codeName').val(codeName);
   };
 
+  function pickId () {
+    return window.chance.word({syllables: 3});
+  }
+
+  function pickName () {
+    return window.chance.animal(
+      window.chance.pick(['desert', 'forest', 'ocean', 'zoo', 'grassland'])
+    )
+      .toLowerCase()
+      .replace(/[^a-z]+/g, '-')
+      .replace(/[^a-z-]/g, '');
+  }
+
   Paysage.createCodeId = function () {
-    Paysage.setCodeId(window.chance.word({syllables: 3}));
-    Paysage.setCodeName(window.chance.animal());
+    Paysage.setCodeId(pickId());
+    Paysage.setCodeName(pickName());
   };
 
   Paysage.getCode = function () {
