@@ -13,7 +13,7 @@
     "testServer": "mocha",
     "test-e2e": "nightwatch",
     "lint": "semistandard",
-    "update-favicon": "real-favicon generate faviconDescription.json faviconData.json public && node -e \"require('fs').writeFileSync('./views/partials/favicon.hbs', require('./faviconData.json').favicon.html_code)\""
+    "update-favicon": "npx cli-real-favicon generate faviconDescription.json faviconData.json public && node -e \"require('fs').writeFileSync('./views/partials/favicon.hbs', require('./faviconData.json').favicon.html_code)\""
   },
   "dependencies": {
     "body-parser": "^1.18.3",
@@ -30,7 +30,6 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "chromedriver": "^2.43.1",
-    "cli-real-favicon": "0.0.6",
     "mocha": "^5.2.0",
     "nightwatch": "^1.0.11",
     "semistandard": "^13.0.1",
