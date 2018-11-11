@@ -11,4 +11,4 @@ src_files:
   - "spec/public/**/*.js"
 browser_args:
   Headless Chrome:
-    - "--no-sandbox"
+    - "--no-sandbox" # avoid https://github.com/travis-ci/travis-ci/issues/8836
