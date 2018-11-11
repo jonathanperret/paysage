@@ -10,9 +10,5 @@ src_files:
   - "public/programmerjs/editingcode.js"
   - "spec/public/**/*.js"
 browser_args:
-  Chrome:
-    - "--headless"
-    - "--disable-gpu"
+  Headless Chrome:
     - "--no-sandbox"
-    - "--disable-setuid-sandbox"
-    - "--remote-debugging-port=9222"

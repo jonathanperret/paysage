@@ -2,13 +2,13 @@
   "name": "paysage",
   "version": "0.0.1",
   "engines": {
-    "node": "~10.1.0"
+    "node": "^10.11.0"
   },
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
     "postinstall": "bower install",
-    "test": "npm run --silent lint && testem ci -p 0 -l chrome && mocha && nightwatch",
+    "test": "npm run --silent lint && testem ci -p 0 -l 'headless chrome' && mocha && nightwatch",
     "testem": "testem -l chrome",
     "testServer": "mocha",
     "test-e2e": "nightwatch",
@@ -38,7 +38,7 @@
     "sinon-chai": "^2.14.0",
     "socket.io-client": "^2.0.3",
     "supertest": "^3.0.0",
-    "testem": "^1.7.1"
+    "testem": "^2.14.0"
   },
   "semistandard": {}
 }
