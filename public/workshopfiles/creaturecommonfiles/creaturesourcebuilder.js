@@ -19,21 +19,21 @@ Paysage.getCompleteCodeObjectAsync = function (callback) {
 
   $.get(
 
-        originalsourceURL,
+    originalsourceURL,
 
-        function (originalsource) {
-          var template = originalsource;
-          var match = /\/\/kids code here/;
+    function (originalsource) {
+      var template = originalsource;
+      var match = /\/\/kids code here/;
 
-          var completecode = template.replace(match, code);
+      var completecode = template.replace(match, code);
 
-          var data = {
-            codeObjectId: codeObjectId,
-            mediatype: mediatype,
-            code: completecode
-          };
-          callback(data);
-        },
+      var data = {
+        codeObjectId: codeObjectId,
+        mediatype: mediatype,
+        code: completecode
+      };
+      callback(data);
+    },
 
-        'text');
+    'text');
 };

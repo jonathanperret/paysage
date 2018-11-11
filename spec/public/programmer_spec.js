@@ -59,8 +59,8 @@ describe('The Paysage programmer', function () {
   it('can show the object list', function () {
     Paysage.setObjectList({
       data: [
-        {codeObjectId: 'object1', name: 'name 1'},
-        {codeObjectId: 'object2', name: 'name2'}
+        { codeObjectId: 'object1', name: 'name 1' },
+        { codeObjectId: 'object2', name: 'name2' }
       ]
     });
     var $list = $('#objects').html();
@@ -71,8 +71,8 @@ describe('The Paysage programmer', function () {
   it('list objects in reverse order', function () {
     Paysage.setObjectList({
       data: [
-        {codeObjectId: 'object1', name: 'name1'},
-        {codeObjectId: 'object2', name: 'name2'}
+        { codeObjectId: 'object1', name: 'name1' },
+        { codeObjectId: 'object2', name: 'name2' }
       ]
     });
     var $list = $('#objects').html();

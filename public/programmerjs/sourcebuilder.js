@@ -6,7 +6,7 @@
 
 // the sourcebuilder only concern is to build and give a code object ready to be sent to the paysage server
 
- // Requires a editingcode script defining Paysage.getCode()
+// Requires a editingcode script defining Paysage.getCode()
 
 var Paysage = window.Paysage || {};
 

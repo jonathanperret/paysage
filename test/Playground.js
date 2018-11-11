@@ -54,9 +54,9 @@ describe('A playground', function () {
 
   it("'s data contains its code objects", function () {
     playground.getOrCreateCodeObject('bob')
-      .setData({code: 'hello()'});
+      .setData({ code: 'hello()' });
     playground.getOrCreateCodeObject('alice')
-      .setData({name: 'AliceName'});
+      .setData({ name: 'AliceName' });
     expect(playground.getData()).to.deep.equal([
       {
         codeObjectId: 'bob',
@@ -72,7 +72,7 @@ describe('A playground', function () {
 
   it('can return data for an existing code object', function () {
     var bob = playground.getOrCreateCodeObject('bob');
-    bob.setData({code: 'hello()'});
+    bob.setData({ code: 'hello()' });
     expect(playground.getDataFor('bob')).to.deep.equal({
       codeObjectId: 'bob',
       code: 'hello()'
@@ -95,7 +95,7 @@ describe('Playground notifies', function () {
     var codeObject = playground.getOrCreateCodeObject('ugly');
     playground.on('codeObjectUpdated', spy);
 
-    codeObject.setData({code: '// hello'});
+    codeObject.setData({ code: '// hello' });
 
     expect(spy).to.have.been.calledWith(codeObject);
   });

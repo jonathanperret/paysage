@@ -24,7 +24,7 @@ var Paysage = window.Paysage || {};
   };
 
   function pickId () {
-    return window.chance.word({syllables: 3});
+    return window.chance.word({ syllables: 3 });
   }
 
   function pickName () {
@@ -98,7 +98,7 @@ var Paysage = window.Paysage || {};
       editor.setOption('tabSize', 2);
       editor.commands.addCommand({
         name: 'go-liveShortcuts',
-        bindKey: {win: 'Ctrl-Enter', mac: 'Command-Enter'},
+        bindKey: { win: 'Ctrl-Enter', mac: 'Command-Enter' },
         exec: goLive
       });
       editor.$blockScrolling = Infinity; // to avoid the warning about deprecated scrolling https://github.com/ajaxorg/ace/issues/2499

@@ -6,10 +6,12 @@ var Paysage = window.Paysage || {};
   var playgroundid = document.getElementById('playgroundid').value;
   var clientType = document.getElementById('clientType').value;
 
-  var io = window.io({ query: {
-    playgroundId: playgroundid,
-    client: clientType
-  }}).connect();
+  var io = window.io({
+    query: {
+      playgroundId: playgroundid,
+      client: clientType
+    }
+  }).connect();
 
   // Transmission
 

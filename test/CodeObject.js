@@ -31,13 +31,13 @@ describe('A code object', function () {
 
   it('cannot change its id', function () {
     function changeBobId () {
-      bob.setData({codeObjectId: 'ga'});
+      bob.setData({ codeObjectId: 'ga' });
     }
     expect(changeBobId).to.throw();
   });
 
   it('notifies when data is set', function () {
-    bob.setData({code: '// hello'});
+    bob.setData({ code: '// hello' });
 
     expect(updated).to.have.been.calledWith(bob);
   });

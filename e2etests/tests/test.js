@@ -17,8 +17,8 @@ module.exports = {
       .setCode('// whatever')
       .click('@go-live');
     browser.page.list()
-        .navigate()
-        .expect.element('ul').text.to.contain('here');
+      .navigate()
+      .expect.element('ul').text.to.contain('here');
   },
 
   'New code object is rendered': function (browser) {

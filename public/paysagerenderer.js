@@ -13,10 +13,12 @@ var Paysage = window.Paysage || {};
     container = document.getElementById('container');
     playgroundId = container.getAttribute('data-playgroundid');
 
-    var socket = window.io({query: {
-      playgroundId: playgroundId,
-      client: 'renderer'
-    }}).connect();
+    var socket = window.io({
+      query: {
+        playgroundId: playgroundId,
+        client: 'renderer'
+      }
+    }).connect();
 
     socket.on('code delete', function (data) {
       var id = data.codeObjectId;

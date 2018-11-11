@@ -18,7 +18,7 @@ Playground.prototype.getOrCreateCodeObject = function (codeObjectId) {
   }
 
   var codeObject = new CodeObject(codeObjectId,
-                                  (co) => this.emit('codeObjectUpdated', co));
+    (co) => this.emit('codeObjectUpdated', co));
   this._codeObjects.set(codeObjectId, codeObject);
   return codeObject;
 };

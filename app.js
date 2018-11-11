@@ -33,7 +33,7 @@ module.exports = function (maybeWorld) {
 
   if (!process.env.TESTING) app.use(logger('dev'));
   app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({extended: true}));
+  app.use(bodyParser.urlencoded({ extended: true }));
   app.use(cookieParser());
   app.use(lessMiddleware(path.join(__dirname, 'source'), {
     dest: path.join(__dirname, 'public')
@@ -68,7 +68,7 @@ module.exports = function (maybeWorld) {
     }
 
     function sendListOfAllObjects () {
-      socket.emit('objects list', {data: playground.getData()});
+      socket.emit('objects list', { data: playground.getData() });
     }
 
     function programmerUp () {

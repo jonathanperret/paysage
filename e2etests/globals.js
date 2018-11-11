@@ -11,11 +11,11 @@ module.exports = {
       console.log('starting chromedriver');
       const driverChild = chromedriver.start();
       driverChild.on('error',
-                     (err) => console.log('chromedriver start error', err));
+        (err) => console.log('chromedriver start error', err));
       driverChild.on('exit',
-                     (exitCode, signal) =>
-                      console.log('chromedriver exited with',
-                                  signal ? ('signal ' + signal) : ('code ' + exitCode)));
+        (exitCode, signal) =>
+          console.log('chromedriver exited with',
+            signal ? ('signal ' + signal) : ('code ' + exitCode)));
       console.log('chromedriver started, pid', driverChild.pid);
 
       setTimeout(() => {
