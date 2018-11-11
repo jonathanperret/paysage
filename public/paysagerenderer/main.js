@@ -46,7 +46,7 @@ var Paysage = window.Paysage || {};
     installResizeHandler();
 
     var urlHash = '';
-    setInterval(function () {
+    window.addEventListener('hashchange', function () {
       var newHash = window.location.hash;
       if (urlHash === newHash) {
         return;
@@ -55,7 +55,7 @@ var Paysage = window.Paysage || {};
 
       Paysage.readIdsFromUrlHash(urlHash);
       Paysage.filterCodeObjects(Object.keys(canvas), show, hide);
-    }, 200);
+    });
   };
 
   function show (id) {
