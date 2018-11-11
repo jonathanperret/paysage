@@ -78,7 +78,7 @@ module.exports = {
       .click('@open-in-new-window');
 
     browser
-      .window_handles(function (result) {
+      .windowHandles(function (result) {
         this.assert.equal(result.value.length, 2, 'There should be two open windows.');
         var handle = result.value[1];
         this.switchWindow(handle);

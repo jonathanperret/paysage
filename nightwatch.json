@@ -6,14 +6,13 @@
   "page_objects_path" : "e2etests/page_objects",
   "globals_path" : "e2etests/globals.js",
 
-  "selenium" : {
-    "start_process" : false
+  "webdriver" : {
+    "start_process" : false,
+    "port": 9515
   },
 
   "test_settings" : {
     "default" : {
-      "selenium_port"  : 9515,
-      "selenium_host"  : "localhost",
       "default_path_prefix" : "",
       "screenshots" : {
         "enabled" : true,
