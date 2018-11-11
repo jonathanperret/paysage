@@ -6,18 +6,16 @@ const server = require('../app')();
 module.exports = {
   before: function (done) {
     console.log('starting chromedriver');
-    const driverChild = chromedriver.start();
-    driverChild.on('error',
-      (err) => console.log('chromedriver start error', err));
-    driverChild.on('exit',
-      (exitCode, signal) =>
-        console.log('chromedriver exited with',
-          signal ? ('signal ' + signal) : ('code ' + exitCode)));
-    console.log('chromedriver started, pid', driverChild.pid);
+    chromedriver.start([], /* returnPromise */ true).then((driverChild) => {
+      driverChild.on('exit',
+        (exitCode, signal) =>
+          console.log('chromedriver exited with',
+            signal ? ('signal ' + signal) : ('code ' + exitCode)));
 
-    setTimeout(() => {
-      done(driverChild.pid ? null : new Error('could not start chromedriver'));
-    }, 2000);
+      console.log('chromedriver started, pid', driverChild.pid);
+
+      done();
+    }, done);
   },
 
   beforeEach: function (api, done) {
