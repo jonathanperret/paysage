@@ -135,6 +135,13 @@ describe('The Paysage server', function () {
       });
     });
   });
+
+  it('redirects users to the programmer page when they use the shortcut', function () {
+    return request
+      .get('/my-playground')
+      .expect(302)
+      .expect('Location', '/playground/my-playground/programmer');
+  });
 });
 
 function callWhenCalledTimes (callback, times) {

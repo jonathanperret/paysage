@@ -43,15 +43,11 @@ module.exports = function (maybeWorld) {
   app.locals.reference_url = process.env.REFERENCE_URL || 'http://processingjs.org/reference/';
 
   // routes setup
-  var list = require('./routes/list')(world);
-  var playground = require('./routes/playground');
-  var create = require('./routes/create');
-  var workshop = require('./routes/workshop');
-
-  app.use('/', create);
-  app.use('/playground/', playground);
-  app.use('/list', list);
-  app.use('/workshop', workshop);
+  app.use('/', require('./routes/create'));
+  app.use('/playground/', require('./routes/playground'));
+  app.use('/list', require('./routes/list')(world));
+  app.use('/workshop', require('./routes/workshop'));
+  app.use('/:playground', require('./routes/playground-shortcut'));
 
   var server = require('http').createServer(app);
   var io = require('socket.io')(server);
