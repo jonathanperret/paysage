@@ -6,14 +6,29 @@
         "pictureAspect": "backgroundAndMargin",
         "backgroundColor": "#ffffff",
         "margin": "14%",
-        "appName": "Paysage"
+        "appName": "Paysage",
+        "assets": {
+          "ios6AndPriorIcons": false,
+          "ios7AndLaterIcons": false,
+          "precomposedIcons": false,
+          "declareOnlyDefaultIcon": true
+        }
       },
       "desktopBrowser": {},
       "windows": {
         "pictureAspect": "whiteSilhouette",
         "backgroundColor": "#da532c",
         "onConflict": "override",
-        "appName": "Paysage"
+        "appName": "Paysage",
+        "assets":{
+          "windows_80_ie_10_tile": false,
+          "windows_10_ie_11_edge_tiles": {
+            "small": false,
+            "medium": true,
+            "big": false,
+            "rectangle": false
+          }
+        }
       },
       "androidChrome": {
         "pictureAspect": "backgroundAndMargin",
@@ -22,11 +37,15 @@
         "themeColor": "#ffffff",
         "manifest": {
           "name": "Paysage",
-          "startUrl": "http://paysage.xyz",
+          "startUrl": "https://paysage.xyz",
           "display": "standalone",
           "orientation": "notSet",
           "onConflict": "override",
           "declared": true
+        },
+        "assets": {
+          "legacyIcon": false,
+          "lowResolutionIcons": false
         }
       },
       "safariPinnedTab": {
@@ -36,6 +55,9 @@
     },
     "settings": {
       "scalingAlgorithm": "Mitchell",
-      "errorOnImageTooSmall": false
+      "errorOnImageTooSmall": false,
+      "readmeFile": false,
+      "htmlCodeFile": false,
+      "usePathAsIs": false
     }
 }
