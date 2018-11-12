@@ -1,6 +1,7 @@
 'use strict';
 
 const Playground = require('./Playground');
+const persistence = require('./persistence');
 
 function World () {
   this._playgrounds = new Map();
@@ -23,6 +24,8 @@ World.prototype.getOrCreatePlayground = function (id) {
     playground = new Playground(id);
     this._playgrounds.set(id, playground);
     playground.refCount = 1;
+
+    persistence.setup(playground);
   }
   return playground;
 };

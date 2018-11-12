@@ -16,6 +16,7 @@
     "update-favicon": "npx cli-real-favicon generate faviconDescription.json faviconData.json public && node -e \"require('fs').writeFileSync('./views/partials/favicon.hbs', require('./faviconData.json').favicon.html_code)\""
   },
   "dependencies": {
+    "aws-sdk": "^2.353.0",
     "body-parser": "^1.18.3",
     "bower": "^1.5.3",
     "chance": "^1.0.3",
