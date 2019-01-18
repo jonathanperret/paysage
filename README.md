@@ -2,15 +2,15 @@ Paysage
 =======
 ### ***Paysage*** *is a visual shared playground for code.* 
 
-![image](readme-pictures/paysage-mood-sketch.jpg)
+![image](readme-pictures/head-composition-4-pictures.png)
 
-With Paysage kids, beginners and creative coders can live code from their own computer, laptop, tablet, or phone using a variety of IDEs and editors. 
-Pieces of code that we call 'code objects' are sent and rendered live on a visual playground accessible via an URL.
+With Paysage several creative coders can live-code together on the same visual playground, using only web browsers. Snippets of code that we call 'code objects' or 'creatures' are sent and all rendered live, together on a visual playground accessible via an URL.
 
-The Paysage project does not try to invent a new IDE or code editor for creative coding or beginners, nor a new programming language. There are already many editors and languages, with more launching everyday.
+Paysage allows a very special coding experience: a dozen people, be it kids, beginners, artists or professionals, coding together in the same room… with maybe even a few more remote, creating a collective, collaborative, and evolving creation.
 
-Paysage is about making possible a very specific coding experience: 
-**Let 10 people of any level or age code together in the same room –with a few more online– on the same visual playground.**
+Paysage is a sandbox with no fixed social rules. Everyone can see, edit, copy and even delete others' code. As in a real sandbox, the users themselves have to invent and reinvent the rules to play well together. Paysage in this sense is also a way to put front and center how ***programming at its core is a social activity***.
+
+Paysage is an open source platform, and has been used as the platform for the Code Créatures workshop at Pompidou Center and at La Gaité Lyrique. It has been tested as a collective code-sketching tool in a museum room, replacing the traditional paper and pencil. It is also used to teach an introductory creative coding class to students at communication and web marketing (!) schools, with sometimes up to 25 beginner students all coding on the same playground. Creative chaos guaranteed ;-)
 
 ### Try it! 
 
