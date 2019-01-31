@@ -17,11 +17,11 @@ Paysage is an open source platform, and has been used as the platform for the Co
 ![image](readme-pictures/paysage-mini-2017.gif)
 
 [http://paysage.xyz/playground/boumsplash/](http://paysage.xyz/playground/boumsplash/) is a playground named "boumsplash", because it's a fun name! (You can choose any name).  
-Open the Playground page **full-screen on a computer connected to a videoprojector** or on tablet in the middle of a big table. **It's a collective visual space for creative code.**
+ - Open the Playground page **full-screen on a computer connected to a videoprojector** or on tablet in the middle of a big table. **It's a collective visual space for creative code.**
 
-[http://paysage.xyz/playground/boumsplash/programmer](http://paysage.xyz/playground/boumsplash/programmer) is the default online code editor for the boumsplash playground. (The plan is to allow any other editor to contribute to a Playground, including desktop editors or apps).  **Open the Programmer page on your computer** or tablet (keyboard preferred).
+ - [http://paysage.xyz/playground/boumsplash/programmer](http://paysage.xyz/playground/boumsplash/programmer) is the default online code editor for the boumsplash playground. (The plan is to allow any other editor to contribute to a Playground, including desktop editors or apps).  **Open the Programmer page on your computer** or tablet (keyboard preferred).
 
-- **Ask a friend** to open another [programmer page for boumsplash](http://paysage.xyz/playground/boumsplash/programmer) to code together on the same [playground](http://paysage.xyz/playground/boumsplash/)
+ - **Ask a friend** to open another [programmer page for boumsplash](http://paysage.xyz/playground/boumsplash/programmer) to code together on the same [playground](http://paysage.xyz/playground/boumsplash/)
 
 The more people and the more computers that open the Programmer, the more fun it is (the record as of october 2017 is 22 students :-)
 
