@@ -26,3 +26,6 @@ node_modules
 public/bower_components
 reports
 public/stylesheets
+
+# Configuration
+.env

@@ -1,4 +1,7 @@
 #!/usr/bin/env node
+
+require('dotenv').config();
+
 var server = require('../app')();
 
 server.listen(process.env.PORT || 3000, function() {
