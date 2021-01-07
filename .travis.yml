@@ -4,11 +4,4 @@ node_js:
 - '10.13'
 addons:
   chrome: stable
-deploy:
-  provider: heroku
-  api_key:
-    secure: VwpBHe0uSJzWRWl2e68KtTAInPrSCqZmH5gjrLC4pzO6f7DCgnufocy7slb/T0klsF0Q/MWyDKwWmLUPCzaBPnuqeozcGC7vDhGWuOqzbNY1FlE25N/Wi2p1f6yeHTyiQJxOF0K9oweGoGez7IfFii9qz2/0jzmeiftg8Dt3jSo=
-  app: paysage
-  on:
-    repo: jonathanperret/paysage
 sudo: false
