@@ -4,11 +4,12 @@ var Paysage = window.Paysage || {};
 (function () {
   'use strict';
 
-  var canvas, layers, container, playgroundId;
+  var canvas, layers, codes, container, playgroundId;
 
   Paysage.rendererInit = function () {
     canvas = Object.create(null);
     layers = Object.create(null);
+    codes = Object.create(null);
 
     container = document.getElementById('container');
     playgroundId = container.getAttribute('data-playgroundid');
@@ -30,10 +31,9 @@ var Paysage = window.Paysage || {};
 
     socket.on('code update', function (data) {
       var id = data.codeObjectId;
-      var code = data.code;
       console.log('code received for ' + id, data);
 
-      updateObject(id, code);
+      updateObject(id, data.code);
     });
 
     socket.on('playground full update', function (data) {
@@ -44,11 +44,44 @@ var Paysage = window.Paysage || {};
     });
 
     installResizeHandler();
+
+    var urlHash = '';
+    window.addEventListener('hashchange', function () {
+      var newHash = window.location.hash;
+      if (urlHash === newHash) {
+        return;
+      }
+      urlHash = newHash;
+
+      Paysage.readIdsFromUrlHash(urlHash);
+      Paysage.filterCodeObjects(Object.keys(canvas), show, hide);
+    });
   };
+
+  function show (id) {
+    if (canvas[id].style.display === '') {
+      return;
+    }
+    console.log('show: ' + id);
+    deleteLayer(id);
+    try {
+      layers[id] = createLayer(canvas[id], codes[id], id);
+      canvas[id].style.display = '';
+    } catch (e) {
+      console.error('Error in code object "' + id + '". Code not rendered.', e);
+    }
+  }
+
+  function hide (id) {
+    console.log('hide: ' + id);
+    canvas[id].style.display = 'none';
+    deleteLayer(id);
+  }
 
   function clearLayersAndCanvas () {
     Object.keys(layers).forEach(deleteLayer);
     Object.keys(canvas).forEach(deleteCanvas);
+    codes = Object.create(null);
   }
 
   function resizeToWindow (layer) {
@@ -90,8 +123,14 @@ var Paysage = window.Paysage || {};
   }
 
   function createCanvas (id) {
-    canvas[id] = document.createElement('canvas');
-    container.appendChild(canvas[id]);
+    if (!canvas[id]) {
+      canvas[id] = document.createElement('canvas');
+      container.appendChild(canvas[id]);
+      console.log('canvas created for ' + id);
+    } else {
+      console.log('canvas reused for ' + id);
+    }
+    canvas[id].style.display = 'none';
   }
 
   function deleteCanvas (id) {
@@ -109,17 +148,10 @@ var Paysage = window.Paysage || {};
   }
 
   function updateObject (id, code) {
-    try {
-      deleteLayer(id);
-      if (!canvas[id]) {
-        createCanvas(id);
-        console.log('canvas created for ' + id);
-      } else {
-        console.log('canvas reused for ' + id);
-      }
-      layers[id] = createLayer(canvas[id], code, id);
-    } catch (e) {
-      console.error('Error in code object "' + id + '". Code not rendered.', e);
+    codes[id] = code;
+    createCanvas(id);
+    if (Paysage.isCodeObjectVisible(id)) {
+      show(id);
     }
   }
 
