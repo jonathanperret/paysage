@@ -29,6 +29,7 @@ Paysage.getCompleteCodeObjectAsync = function (callback) {
 
       var data = {
         codeObjectId: codeObjectId,
+        name: codeObjectId,
         mediatype: mediatype,
         code: completecode
       };
