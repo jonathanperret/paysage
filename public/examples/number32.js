@@ -1,7 +1,7 @@
 let c;
 
 function setup() {
-    createCanvas(600, 400);
+    createCanvas(windowWidth, windowHeight);
     noStroke();
 
     c = new Type1(int(random(255)), 0x55);

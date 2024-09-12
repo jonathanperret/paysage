@@ -61,7 +61,7 @@ class Serpent {
 let monSerpent;
 
 function setup() {
-    createCanvas(600, 400);
+    createCanvas(windowWidth, windowHeight);
     stroke(0);
     strokeWeight(4);
 
