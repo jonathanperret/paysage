@@ -13,7 +13,7 @@ var Paysage = window.Paysage || {};
 Paysage.getCompleteCodeObject = function () {
   var codeObjectId = document.getElementById('codeid').value || document.getElementById('codeid').textContent;
   var codeObjectName = document.getElementById('codeName').value;
-  var mediatype = 'text/processing';
+  var mediatype = 'text/javascript';
   var code = Paysage.getCode();
 
   var data = {
