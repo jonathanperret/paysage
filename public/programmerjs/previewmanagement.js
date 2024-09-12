@@ -3,20 +3,18 @@
 (function () {
   'use strict';
 
-  var frozenpreview = null;
+  var previewIsOn = true;
 
   function switchframe (event) {
     event.preventDefault();
-    if (frozenpreview) {
-      frozenpreview.appendTo('#viewercontainer');
-      frozenpreview = null;
-      $('#viewercontainer').show();
+    if (previewIsOn) {
+      previewIsOn = false;
       $('#previewisoff').hide();
       $('#previewison').show();
+      $('#viewerframe').attr('src', 'about:blank');
     } else {
-      $('#viewercontainer').hide(1, function () {
-        frozenpreview = $('#viewerframe').detach();
-      });
+      previewIsOn = true;
+      $('#viewerframe').attr('src', '/playground/' + $('#playgroundid').val() + '#');
       $('#previewison').hide();
       $('#previewisoff').show();
     }
