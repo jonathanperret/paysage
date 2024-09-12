@@ -1,15 +1,12 @@
-/* eslint no-eval: "off" */
 var Paysage = window.Paysage || {};
 
 (function () {
   'use strict';
 
-  var canvas, layers, container, playgroundId;
+  var container, playgroundId;
+  var iframes = {};
 
   Paysage.rendererInit = function () {
-    canvas = Object.create(null);
-    layers = Object.create(null);
-
     container = document.getElementById('container');
     playgroundId = container.getAttribute('data-playgroundid');
 
@@ -22,22 +19,19 @@ var Paysage = window.Paysage || {};
 
     socket.on('code delete', function (data) {
       var id = data.codeObjectId;
-      console.log('canvas deleted for ' + id);
-
-      deleteLayer(id);
-      deleteCanvas(id);
+      console.log('iframe deleted for ' + id);
+      deleteIframe(id);
     });
 
     socket.on('code update', function (data) {
       var id = data.codeObjectId;
       var code = data.code;
       console.log('code received for ' + id, data);
-
       updateObject(id, code);
     });
 
     socket.on('playground full update', function (data) {
-      clearLayersAndCanvas();
+      clearIframes();
       data.forEach(function (codeObject) {
         updateObject(codeObject.codeObjectId, codeObject.code);
       });
@@ -46,121 +40,112 @@ var Paysage = window.Paysage || {};
     installResizeHandler();
   };
 
-  function clearLayersAndCanvas () {
-    Object.keys(layers).forEach(deleteLayer);
-    Object.keys(canvas).forEach(deleteCanvas);
+  function clearIframes() {
+    Object.keys(iframes).forEach(deleteIframe);
   }
 
-  function resizeToWindow (layer) {
-    layer.size(window.innerWidth, window.innerHeight);
+  function createIframe(id) {
+    var iframe = document.createElement('iframe');
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    iframe.style.border = 'none';
+    iframe.style.position = 'absolute';
+    iframe.style.top = '0';
+    iframe.style.left = '0';
+    iframe.src = 'about:blank';
+    container.appendChild(iframe);
+    iframes[id] = iframe;
+    return iframe;
   }
 
-  function setDefaultBackgroundToTransparent (layer) {
-    layer.background(0, 0);
-  }
-
-  function patchBackgroundFunctionToBeTransparentByDefault (layer) {
-    var originalBackground = layer.background;
-
-    // This is a replacement for the background() function
-    // that defaults the alpha component to zero (fully transparent).
-    function zeroAlphaDefaultBackground () {
-      var args = [].slice.call(arguments);
-      // If no alpha component was specified, add a zero value
-      // to force a transparent background
-      if (args.length === 1 || args.length === 3) {
-        args.push(0);
-      }
-      return originalBackground.apply(this, args);
-    }
-
-    layer.background = zeroAlphaDefaultBackground;
-  }
-
-  function wrapDrawToCatchExceptions (layer, id) {
-    var realDraw = layer.draw;
-    layer.draw = function () {
-      try {
-        realDraw.call(this);
-      } catch (e) {
-        console.error('Error in code object "' + id + '". Rendering stopped.', e);
-        this.exit();
-      }
-    };
-  }
-
-  function createCanvas (id) {
-    canvas[id] = document.createElement('canvas');
-    container.appendChild(canvas[id]);
-  }
-
-  function deleteCanvas (id) {
-    canvas[id].parentNode.removeChild(canvas[id]);
-    delete canvas[id];
-  }
-
-  function deleteLayer (id) {
-    if (layers[id]) {
-      try {
-        layers[id].exit();
-      } catch (e) { }
-      delete layers[id];
+  function deleteIframe(id) {
+    if (iframes[id]) {
+      iframes[id].parentNode.removeChild(iframes[id]);
+      delete iframes[id];
     }
   }
 
-  function updateObject (id, code) {
-    try {
-      deleteLayer(id);
-      if (!canvas[id]) {
-        createCanvas(id);
-        console.log('canvas created for ' + id);
-      } else {
-        console.log('canvas reused for ' + id);
-      }
-      layers[id] = createLayer(canvas[id], code, id);
-    } catch (e) {
-      console.error('Error in code object "' + id + '". Code not rendered.', e);
+  function updateObject(id, code) {
+    var iframe = iframes[id] || createIframe(id);
+    var iframeContent = generateIframeContent(id, code);
+    iframe.srcdoc = iframeContent;
+  }
+
+  function generateIframeContent(id, code) {
+    return `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+        <style>
+          body { margin: 0; padding: 0; overflow: hidden; }
+          canvas { display: block;}
+        </style>
+      </head>
+      <body>
+        <script>
+          ${code}
+                                  
+          // Listen for resize events
+          window.addEventListener('resize', resizeAllCanvas);
+
+          function resizeAllCanvas() {
+            // Get the device pixel ratio
+            const pixelRatio = window.devicePixelRatio || 1;
+
+            // Select all canvas elements on the page
+            const canvases = document.querySelectorAll('canvas');
+
+            console.log("Resizing canvas", canvases);
+
+            canvases.forEach(canvas => {
+              const container = canvas.parentElement;
+              if (container) {
+                // Get the document's width and height
+                const documentWidth = document.documentElement.clientWidth;
+                const documentHeight = document.documentElement.clientHeight;
+
+                // Set the canvas width and height according to pixel ratio
+                canvas.width = documentWidth * pixelRatio;
+                canvas.height = documentHeight * pixelRatio;
+
+                // Set the canvas style dimensions to match container's CSS size
+                canvas.style.width = documentWidth + "px";
+                canvas.style.height = documentHeight + "px";
+
+                // If necessary, you can set the canvas context's scaling
+                const context = canvas.getContext('2d');
+                if (context) {
+                  context.scale(pixelRatio, pixelRatio);
+                }
+              }
+            });
+          }          
+        </script>
+      </body>
+      </html>
+    `;
+  }
+
+  function resizeToWindow(iframe) {
+
+    if (iframe) {
+      iframe.style.width = window.innerWidth + "px";
+      iframe.style.height = window.innerHeight + "px";
     }
   }
 
-  function evaluateCompiledCode (sketch, id) {
-    // The sourceURL annotation is necessary to get a proper stack trace
-    // inside the eval'd code
-    sketch.sourceCode += '//# sourceURL=' + encodeURIComponent(id) + '-compiled.js';
-
-    // And we have to bypass the bit of code in Processing.js that uses
-    // a Function constructor instead of eval() for this to work
-    sketch.attachFunction = eval(sketch.sourceCode);
-  }
-
-  function createLayer (targetCanvas, code, id) {
-    // The compilation step is split from the creation of the Processing object
-    // so that we can hook the onLoad event to set width, height, and background
-    // correctly before setup() runs.
-    var sketch = window.Processing.compile(code);
-
-    evaluateCompiledCode(sketch, id);
-
-    sketch.onLoad = function (layer) {
-      wrapDrawToCatchExceptions(layer, id);
-      setDefaultBackgroundToTransparent(layer);
-      patchBackgroundFunctionToBeTransparentByDefault(layer);
-      resizeToWindow(layer);
-    };
-
-    return new window.Processing(targetCanvas, sketch);
-  }
-
-  function installResizeHandler () {
+  function installResizeHandler() {
     var resizeTimeout;
 
     window.addEventListener('resize', function () {
       clearTimeout(resizeTimeout);
       resizeTimeout = setTimeout(function () {
-        Object.keys(layers).forEach(function (id) {
-          resizeToWindow(layers[id]);
+        Object.keys(iframes).forEach(function (id) {
+          var iframe = iframes[id];
+          resizeToWindow(iframe);
         });
-      }, 1000);
+      }, 250);
     });
   }
 })();

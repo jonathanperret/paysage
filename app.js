@@ -40,7 +40,7 @@ module.exports = function (maybeWorld) {
   }));
   app.use(express.static(path.join(__dirname, 'public')));
 
-  app.locals.reference_url = process.env.REFERENCE_URL || 'http://processing.org/reference/';
+  app.locals.reference_url = process.env.REFERENCE_URL || 'https://p5js.org/reference/';
 
   // routes setup
   app.use('/', require('./routes/create'));
